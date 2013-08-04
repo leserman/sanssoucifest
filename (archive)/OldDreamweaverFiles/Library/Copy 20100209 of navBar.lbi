@@ -1,0 +1,26 @@
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <div class="narBarMainSection">
+    <div class="navBar"><a href="../index.php">Home</a></div>
+    <div class="navBar"><a href="../press/index.php">Press Reports</a></div>
+    <div class="navBar"><a href="../links.php">Links</a></div>
+	  <div class="navBar"><a href="../aboutUs.php">About Us</a></div>
+    <div class="navBar"><a href="../contactUs.php">Contact Us</a><br><a href="../contactUs.php">Join Email List</a></div>
+  </div>
+  <div class="narBarArchiveSection"><div style="height:1px;"></div>
+    <div><div class="navBarTitle1">Program Archive</div>
+      <div class="navBar"><a href="../programPages/programDairy2009.php">Boulder 2009</a></div>
+      <div class="navBarTight"><a href="../programPages/programBMoCA2008.php">Boulder 2008</a></div>
+      <div class="navBarTight"><a href="../programPages/programBMoCA2007.php">Boulder 2007</a></div>
+      <div class="navBarTight"><a href="../programPages/programBMoCA2006.php">Boulder 2006</a></div>
+    </div>
+    <div><div class="navBarTitle2">Event Summary</div>
+      <div class="navBarTight"><a href="../programPages/priorEventsSummary.php">2004/2005</a></div>
+    </div>
+    <div><div class="navBarTitle2">Tour Archive</div>
+      <div class="navBarTight"><a href="../programPages/programGiessen2009.php">Giessen 2009</a></div>
+      <div class="navBarTight"><a href="../programPages/programTXState2008.php">TX State 2008</a></div>
+      <div class="navBarTight"><a href="../programPages/programHighways2008.php">LA 2008</a></div>
+      <div class="navBarTight"><a href="../press/GiessenServer2007.php">Germany 2007</a></div>
+      <div class="navBarTight"><a href="../press/MichoacanPress2006.php">Mexico 2006</a></div>
+    </div>
+  </div>

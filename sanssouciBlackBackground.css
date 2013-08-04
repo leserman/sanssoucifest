@@ -1,0 +1,19 @@
+/* sanssouciBlackBackground.css */
+
+a:link { color : #CCBD99; text-decoration: underline; } /* 99CCFF, b0e0e6, B3AC98 */
+a:visited { color : #CCBD99; text-decoration: underline; }
+a:hover { color : #990000; text-decoration: none; }
+
+.navbar a:link { color : #CCBD99; text-decoration: none; } /* 99CCFF, b0e0e6, B3AC98 */
+.navbar a:visited { color : #CCBD99; text-decoration: none; }
+.navbar a:hover { color : #990000; text-decoration: underline; }
+
+.navbarTight a:link { color : #CCBD99; text-decoration: none; } /* 99CCFF, b0e0e6, B3AC98 */
+.navbarTight a:visited { color : #CCBD99; text-decoration: none; }
+.navbarTight a:hover { color : #990000; text-decoration: underline; }
+
+body { 
+  background-color: #000000;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+} 

@@ -1,0 +1,2436 @@
+<html>
+
+<head>
+<meta name=Title content="Sans Souci Database Schema - v2 12/1/07">
+<meta name=Keywords content="">
+<meta http-equiv=Content-Type content="text/html; charset=macintosh">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 10">
+<title>Sans Souci Database Schema - v2 12/1/07</title>
+<style>
+<!--table {}
+.font0
+	{color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Verdana;}
+.font1
+	{color:windowtext;
+	font-size:10.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Verdana;}
+.font2
+	{color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:italic;
+	text-decoration:none;
+	font-family:Verdana;}
+.font5
+	{color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Verdana;}
+.style0
+	{text-align:general;
+	vertical-align:bottom;
+	white-space:nowrap;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Verdana;
+	border:none;}
+td
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Verdana;
+	text-align:general;
+	vertical-align:bottom;
+	border:none;
+	white-space:nowrap;}
+.xl24
+	{font-weight:700;}
+.xl25
+	{font-weight:700;
+	text-decoration:underline;
+	text-underline-style:single;}
+.xl26
+	{font-style:italic;}
+.xl27
+	{font-weight:700;
+	font-style:italic;}
+.xl28
+	{font-weight:700;
+	border-top:.5pt solid windowtext;
+	border-right:none;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;}
+.xl29
+	{border-top:.5pt solid windowtext;
+	border-right:none;
+	border-bottom:none;
+	border-left:none;}
+.xl30
+	{border-top:.5pt solid windowtext;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:none;}
+.xl31
+	{border-top:none;
+	border-right:none;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;}
+.xl32
+	{border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:none;}
+.xl33
+	{border-top:none;
+	border-right:none;
+	border-bottom:.5pt solid windowtext;
+	border-left:.5pt solid windowtext;}
+.xl34
+	{font-style:italic;
+	border-top:none;
+	border-right:none;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;}
+.xl35
+	{border-top:none;
+	border-right:none;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;}
+.xl36
+	{border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;}
+.xl37
+	{font-weight:700;
+	text-decoration:underline;
+	text-underline-style:single;
+	border-top:.5pt solid windowtext;
+	border-right:none;
+	border-bottom:none;
+	border-left:none;}
+-->
+</style>
+</head>
+
+<body link="#0000d4" vlink=purple>
+
+<table border=0 cellpadding=0 cellspacing=0 width=2127 style='border-collapse:
+ collapse;table-layout:fixed'>
+ <col width=19>
+ <col width=206>
+ <col width=19 span=2>
+ <col width=203>
+ <col width=19 span=2>
+ <col width=192>
+ <col width=19 span=2>
+ <col width=214>
+ <col width=19 span=2>
+ <col width=213>
+ <col width=19 span=2>
+ <col width=96>
+ <col width=19 span=2>
+ <col width=75>
+ <col width=19 span=2>
+ <col width=111>
+ <col width=19 span=2>
+ <col width=75>
+ <col width=19 span=2>
+ <col width=101>
+ <col width=19 span=2>
+ <col width=91>
+ <col width=19 span=2>
+ <col width=75>
+ <col width=19 span=2>
+ <tr height=13>
+  <td height=13 class=xl24 colspan=5 width=466>Sans Souci Strawman Database
+  Schema v2, 12/1/07</td>
+  <td width=19></td>
+  <td width=19></td>
+  <td width=192></td>
+  <td width=19></td>
+  <td width=19></td>
+  <td width=214></td>
+  <td width=19></td>
+  <td width=19></td>
+  <td width=213></td>
+  <td width=19></td>
+  <td width=19></td>
+  <td width=96></td>
+  <td width=19></td>
+  <td width=19></td>
+  <td width=75></td>
+  <td width=19></td>
+  <td width=19></td>
+  <td width=111></td>
+  <td width=19></td>
+  <td width=19></td>
+  <td width=75></td>
+  <td width=19></td>
+  <td width=19></td>
+  <td width=101></td>
+  <td width=19></td>
+  <td width=19></td>
+  <td width=91></td>
+  <td width=19></td>
+  <td width=19></td>
+  <td width=75></td>
+  <td width=19></td>
+  <td width=19></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13 class=xl25 colspan=2>work</td>
+  <td></td>
+  <td class=xl25 colspan=2>person</td>
+  <td></td>
+  <td class=xl25 colspan=2>callsForEntries</td>
+  <td></td>
+  <td class=xl25 colspan=2>submission</td>
+  <td></td>
+  <td class=xl25 colspan=2>images</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl24>workId<font class=font5> [auto]</font><font class=font1> ®</font></td>
+  <td></td>
+  <td></td>
+  <td class=xl24>personId<font class=font5> [auto] </font><font class=font1>®</font></td>
+  <td></td>
+  <td></td>
+  <td class=xl24>callId<font class=font5> [auto]</font><font class=font1> ®</font></td>
+  <td></td>
+  <td></td>
+  <td class=xl24>submissionId<font class=font5> [auto] </font><font
+  class=font1>®</font></td>
+  <td></td>
+  <td></td>
+  <td class=xl24>imageId<font class=font5> [auto]</font><font class=font1> ®</font></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>title®</td>
+  <td></td>
+  <td></td>
+  <td class=xl26>name [t]</td>
+  <td></td>
+  <td></td>
+  <td>name [t]</td>
+  <td></td>
+  <td>FK</td>
+  <td>submitter [personId] ®</td>
+  <td></td>
+  <td></td>
+  <td>name [t]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>yearProduced [t]</td>
+  <td></td>
+  <td></td>
+  <td>lastName [t]</td>
+  <td></td>
+  <td></td>
+  <td>dateOfCall [d]</td>
+  <td></td>
+  <td>FK</td>
+  <td>call [callId] ®</td>
+  <td></td>
+  <td></td>
+  <td>description [t]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>runtimeHours [n]</td>
+  <td></td>
+  <td></td>
+  <td>nickName [t]</td>
+  <td></td>
+  <td></td>
+  <td>earlyDeadline [d]</td>
+  <td></td>
+  <td></td>
+  <td>dateMediaReceived [d]</td>
+  <td></td>
+  <td></td>
+  <td>imageData [blob]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>runtimeMinutes [n]</td>
+  <td></td>
+  <td></td>
+  <td>loginName [t]</td>
+  <td></td>
+  <td></td>
+  <td>earlyDeadlineFee [t]</td>
+  <td></td>
+  <td></td>
+  <td>datePaid [d]</td>
+  <td></td>
+  <td></td>
+  <td class=xl26>fileName [t]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>runtimeSeconds [n]</td>
+  <td></td>
+  <td></td>
+  <td>password [t]</td>
+  <td></td>
+  <td></td>
+  <td>finalDeadline [d]</td>
+  <td></td>
+  <td></td>
+  <td>amtPaid [t]</td>
+  <td></td>
+  <td></td>
+  <td class=xl26>url [t]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>submissionFormat [t]</td>
+  <td></td>
+  <td></td>
+  <td class=xl26>phoneVoice [t]</td>
+  <td></td>
+  <td></td>
+  <td>finalDeadlineFee [t]</td>
+  <td></td>
+  <td></td>
+  <td>howPaid [t]</td>
+  <td></td>
+  <td></td>
+  <td>size [t]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>originalFormat [t]</td>
+  <td></td>
+  <td></td>
+  <td>phoneFax [t]</td>
+  <td></td>
+  <td></td>
+  <td>notes [medT]</td>
+  <td></td>
+  <td></td>
+  <td class=xl26>howHeardAboutUs [t]</td>
+  <td></td>
+  <td></td>
+  <td>dpi [n]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>choreographer [t]</td>
+  <td></td>
+  <td></td>
+  <td class=xl26>phoneMobile [t]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>notes [medT]</td>
+  <td></td>
+  <td></td>
+  <td class=xl26>credit [t]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>danceCompany [t]</td>
+  <td></td>
+  <td></td>
+  <td class=xl26>email [t]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>screenCapOrProdPhoto [e]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>principalDancers [t]</td>
+  <td></td>
+  <td></td>
+  <td class=xl26>orgainzation [t]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>physicalOrElectronic [e]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>musicComposition [t]</td>
+  <td></td>
+  <td></td>
+  <td class=xl26>streetAddr1 [t]</td>
+  <td></td>
+  <td class=xl25 colspan=2>entryContributors</td>
+  <td></td>
+  <td class=xl25 colspan=2>submissionEntries</td>
+  <td></td>
+  <td></td>
+  <td>caption [t]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>musicPerformance [t]</td>
+  <td></td>
+  <td></td>
+  <td class=xl26>streetAddr2 [t]</td>
+  <td></td>
+  <td>FK</td>
+  <td class=xl24>entry<font class=font5> [workId] ®</font></td>
+  <td></td>
+  <td>FK</td>
+  <td class=xl24>submission<font class=font5> [submissionId] ®</font></td>
+  <td></td>
+  <td></td>
+  <td>altText [t]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>producer [t]</td>
+  <td></td>
+  <td></td>
+  <td class=xl26>city [t]</td>
+  <td></td>
+  <td></td>
+  <td class=xl24>contributorIndex<font class=font5> [n, auto]  ®</font></td>
+  <td></td>
+  <td>FK</td>
+  <td class=xl24>entry<font class=font5> [workId]  ®</font></td>
+  <td></td>
+  <td>FK</td>
+  <td>derivedFrom [photoId]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>director [t]</td>
+  <td></td>
+  <td></td>
+  <td class=xl26>stateProvRegion [t]</td>
+  <td></td>
+  <td></td>
+  <td>listingIndex [n]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>notes [medT]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>synopsis [medT]</td>
+  <td></td>
+  <td></td>
+  <td class=xl26>zipPostalCode [t]</td>
+  <td></td>
+  <td></td>
+  <td>name [t] ®</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>webSite [t]</td>
+  <td></td>
+  <td></td>
+  <td class=xl26>country [t]</td>
+  <td></td>
+  <td></td>
+  <td>role [t] ®</td>
+  <td></td>
+  <td class=xl25 colspan=2>media</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>includesLivePerformance [b] ®</td>
+  <td></td>
+  <td></td>
+  <td class=xl26>urls [t]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td class=xl24>mediaId<font class=font5> [auto] ®</font></td>
+  <td></td>
+  <td class=xl25 colspan=2>entryImages</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl26>originalSpreadsheetIndex [n]</td>
+  <td></td>
+  <td></td>
+  <td>relationship [relationshipType]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>dateReceived</td>
+  <td></td>
+  <td>FK</td>
+  <td class=xl24>entry<font class=font5> [workId]  ®</font></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13>FK</td>
+  <td>submissionMedia [mediaId]</td>
+  <td></td>
+  <td></td>
+  <td>notes [medT]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>format [mediaFormat] ®</td>
+  <td></td>
+  <td>FK</td>
+  <td class=xl24>image<font class=font5> [imageId] ®</font></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td>accepted [b] ®</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>FK</td>
+  <td>entry [workId] ®</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td>rejected [b] ®</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>notes [medT]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td>notes [medT]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl27 colspan=4>(Note: There may be distinguished entries entitled
+  Intermission)</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13 class=xl25 colspan=2>venues</td>
+  <td></td>
+  <td class=xl25 colspan=2>permissionsByVenue</td>
+  <td></td>
+  <td class=xl25 colspan=2>location</td>
+  <td></td>
+  <td class=xl25 colspan=2>curation</td>
+  <td></td>
+  <td class=xl27 colspan=2>relationshipTypes<font class=font2> (set)</font></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl24>venueId<font class=font5> ®</font></td>
+  <td></td>
+  <td>FK</td>
+  <td class=xl24>venue<font class=font5> [venueId] ®</font></td>
+  <td></td>
+  <td></td>
+  <td class=xl24>locationId ®</td>
+  <td></td>
+  <td>FK</td>
+  <td class=xl24>entry<font class=font5> [workId] ®</font></td>
+  <td></td>
+  <td align=right>0</td>
+  <td>Submitter</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td>dates [t]</td>
+  <td></td>
+  <td>FK</td>
+  <td class=xl24>entry<font class=font5> [workId] ®</font></td>
+  <td></td>
+  <td></td>
+  <td>name [t]</td>
+  <td></td>
+  <td>FK</td>
+  <td class=xl24>curator<font class=font5> [personId] ®</font></td>
+  <td></td>
+  <td align=right>1</td>
+  <td>Dance on Camera Festival Organizer</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td>location [locationId]</td>
+  <td></td>
+  <td></td>
+  <td>requested [b] ®</td>
+  <td></td>
+  <td></td>
+  <td>streetAddr1 [t]</td>
+  <td></td>
+  <td></td>
+  <td>score [t]</td>
+  <td></td>
+  <td align=right>2</td>
+  <td>Dance Festival</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td>didOccur [b] ®</td>
+  <td></td>
+  <td>FK</td>
+  <td>request [communicationId]</td>
+  <td></td>
+  <td></td>
+  <td>streetAddr2 [t]</td>
+  <td></td>
+  <td></td>
+  <td>notes [medT]</td>
+  <td></td>
+  <td align=right>3</td>
+  <td>Dance Administrator</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td>cancelled [b] ®</td>
+  <td></td>
+  <td></td>
+  <td>granted [b] ®</td>
+  <td></td>
+  <td></td>
+  <td>city [t]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td align=right>4</td>
+  <td>Dance Faculty</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td>contactPerson [personId]</td>
+  <td></td>
+  <td></td>
+  <td>dateGranted [d]</td>
+  <td></td>
+  <td></td>
+  <td>stateProvRegion [t]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td align=right>5</td>
+  <td>Film Festival</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td>notes [medT]</td>
+  <td></td>
+  <td>FK</td>
+  <td>grantedBy [personId]</td>
+  <td></td>
+  <td></td>
+  <td>zipPostalCode [t]</td>
+  <td></td>
+  <td class=xl25 colspan=2>communication</td>
+  <td></td>
+  <td align=right>6</td>
+  <td>Film Administrator</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>country [t]</td>
+  <td></td>
+  <td></td>
+  <td class=xl24>communicationId ®</td>
+  <td></td>
+  <td align=right>7</td>
+  <td>Film Faculty</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>phoneVoice [t]</td>
+  <td></td>
+  <td>FK</td>
+  <td>recipient [personId] ®</td>
+  <td></td>
+  <td align=right>8</td>
+  <td>Arts Administrator</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13 class=xl25 colspan=2>show</td>
+  <td></td>
+  <td class=xl25 colspan=2>runOfShow</td>
+  <td></td>
+  <td></td>
+  <td>phoneFax [t]</td>
+  <td></td>
+  <td>FK</td>
+  <td>template [letterTemplateId] ® ??</td>
+  <td></td>
+  <td align=right>9</td>
+  <td>Arts Faculty</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td class=xl24>showId ®</td>
+  <td></td>
+  <td>FK</td>
+  <td class=xl24>show<font class=font5> [showId] ®</font></td>
+  <td></td>
+  <td></td>
+  <td>url [t]</td>
+  <td></td>
+  <td></td>
+  <td>dateSent [d]</td>
+  <td></td>
+  <td align=right>10</td>
+  <td>One of Us</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td>venue [venueId] ®</td>
+  <td></td>
+  <td>FK</td>
+  <td class=xl24>entry<font class=font5> [workId] ®</font></td>
+  <td></td>
+  <td></td>
+  <td>email [t]</td>
+  <td></td>
+  <td></td>
+  <td>sender [personId] ®</td>
+  <td></td>
+  <td align=right>11</td>
+  <td>Good Deed Doer</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td>date [d] ®</td>
+  <td></td>
+  <td></td>
+  <td>index [n]</td>
+  <td></td>
+  <td></td>
+  <td>contactPerson [personId]</td>
+  <td></td>
+  <td></td>
+  <td>entry [workId]</td>
+  <td></td>
+  <td align=right>12</td>
+  <td>Entry Contributor</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td>startTime [t]</td>
+  <td></td>
+  <td></td>
+  <td>media [mediaId]</td>
+  <td></td>
+  <td></td>
+  <td>notes [medT]</td>
+  <td></td>
+  <td></td>
+  <td>letterText [medT] (computed) </td>
+  <td></td>
+  <td align=right>13</td>
+  <td>Subscriber</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td>contactPerson [personId]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>formattedText [blob]</td>
+  <td></td>
+  <td align=right>14</td>
+  <td>Audience</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td>notes [medT]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>physicalOrEmailOrVoice [e] ®</td>
+  <td></td>
+  <td align=right>15</td>
+  <td>CallForEntries Press</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>FK</td>
+  <td>inResponseTo [communicationId]</td>
+  <td></td>
+  <td align=right>16</td>
+  <td>Performance Press</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13 class=xl25></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>notes [medT]</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13 class=xl28 colspan=2>Legend</td>
+  <td class=xl29>&nbsp;</td>
+  <td class=xl29>&nbsp;</td>
+  <td class=xl29>&nbsp;</td>
+  <td class=xl29>&nbsp;</td>
+  <td class=xl29>&nbsp;</td>
+  <td class=xl30>&nbsp;</td>
+  <td></td>
+  <td></td>
+  <td class=xl24></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13 class=xl31>&nbsp;</td>
+  <td class=xl25>bold underline<font class=font5> is table name</font></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td class=xl32>&nbsp;</td>
+  <td></td>
+  <td></td>
+  <td class=xl24></td>
+  <td></td>
+  <td class=xl27 colspan=2>communicationTypes<font class=font2> (enum)</font></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13 class=xl31>&nbsp;</td>
+  <td class=xl24>bold<font class=font5> is table key</font></td>
+  <td></td>
+  <td class=xl26 colspan=5 style='border-right:.5pt solid black'>Can one add
+  set element values after a table has been created?</td>
+  <td></td>
+  <td class=xl27 colspan=2>mediaFormats<font class=font2> (enum)</font></td>
+  <td></td>
+  <td align=right>1</td>
+  <td>acceptance</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13 class=xl31>&nbsp;</td>
+  <td class=xl27>bold italic<font class=font5> is enumeration title</font></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td class=xl32>&nbsp;</td>
+  <td></td>
+  <td></td>
+  <td>DVD-NTSC</td>
+  <td></td>
+  <td align=right>2</td>
+  <td>rejection</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13 class=xl31>&nbsp;</td>
+  <td>® means required</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td class=xl32>&nbsp;</td>
+  <td></td>
+  <td></td>
+  <td>miniDV</td>
+  <td></td>
+  <td align=right>3</td>
+  <td>acceptAndReject</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13 class=xl31>&nbsp;</td>
+  <td>[] indicate datatype: </td>
+  <td class=xl28 colspan=2>Note</td>
+  <td class=xl29>&nbsp;</td>
+  <td class=xl29>&nbsp;</td>
+  <td class=xl30>&nbsp;</td>
+  <td class=xl32>&nbsp;</td>
+  <td></td>
+  <td></td>
+  <td>16mmFilm</td>
+  <td></td>
+  <td align=right>4</td>
+  <td>permissionRequest</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13 class=xl31>&nbsp;</td>
+  <td>    [t] short text string,</td>
+  <td class=xl31>&nbsp;</td>
+  <td colspan=2>Every row will additionally include</td>
+  <td></td>
+  <td class=xl32>&nbsp;</td>
+  <td class=xl32>&nbsp;</td>
+  <td></td>
+  <td></td>
+  <td>other</td>
+  <td></td>
+  <td align=right>5</td>
+  <td>callForEntries</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13 class=xl31>&nbsp;</td>
+  <td>    [medT] medium text string,</td>
+  <td class=xl31>&nbsp;</td>
+  <td></td>
+  <td>lastModificationDate [dateTime]</td>
+  <td></td>
+  <td class=xl32>&nbsp;</td>
+  <td class=xl32>&nbsp;</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td align=right>6</td>
+  <td>entryForm</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13 class=xl31>&nbsp;</td>
+  <td>    [n] number, </td>
+  <td class=xl33>&nbsp;</td>
+  <td class=xl35>FK</td>
+  <td class=xl35>lastModifiedBy [personId]</td>
+  <td class=xl35>&nbsp;</td>
+  <td class=xl36>&nbsp;</td>
+  <td class=xl32>&nbsp;</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td align=right>7</td>
+  <td>other</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13 class=xl31>&nbsp;</td>
+  <td>    [b] boolean, </td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td class=xl32>&nbsp;</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13 class=xl31>&nbsp;</td>
+  <td>    [e] enumeration</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td class=xl32>&nbsp;</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr height=13>
+  <td height=13 class=xl33>&nbsp;</td>
+  <td class=xl34 colspan=7 style='border-right:.5pt solid black'>field names in
+  italics<font class=font5> are those that I need to implement first because
+  they are on the entry form</font></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+ </tr>
+</table>
+
+</body>
+
+</html>

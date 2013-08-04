@@ -1,0 +1,4 @@
+<?php
+  include_once "../bin/utilities/autoloadClasses.php";
+  SSFWebPageAssets::displayNavBar();
+?>

@@ -1,0 +1,1007 @@
+/* sansouci.css */
+
+/*
+a:link{color:#039;text-decoration: none;}
+a:hover{color:#0353a5;}
+a:visited{color:#800080;text-decoration:none;}
+a:hover{text-decoration:underline;}
+*/
+a:link { color : #0033FF; text-decoration: none; }
+a:visited { color : #0033FF; text-decoration: none; }  /* was #9900CC */
+a:hover { color : #990000; text-decoration: underline; }
+/* a:active { background : black; } */
+
+a.acceptEntryOperator:link { color: #EEEECC; text-decoration: none; }
+a.acceptEntryOperator:visited { color: #EEEECC; text-decoration: none; } 
+a.acceptEntryOperator:hover { color: #00FF00; text-decoration: none; }
+/* a.acceptEntryOperator:active { background : black; } */
+a.rejectEntryOperator:link { color: #EEEECC; text-decoration: none; }
+a.rejectEntryOperator:visited { color: #EEEECC; text-decoration: none; } 
+a.rejectEntryOperator:hover { color: #FF0000; text-decoration: none; }
+/* a.rejectEntryOperator:active { background : black; } */
+a.clearEntryStatusOperator:link { color: #EEEECC; text-decoration: none; }
+a.clearEntryStatusOperator:visited { color: #EEEECC; text-decoration: none; } 
+a.clearEntryStatusOperator:hover { color: #FFA500; text-decoration: none; }
+/* a.clearEntryStatusOperator:active { background : black; } */
+a.badVimeoVideoURL:link { color: #DF7416; text-decoration: underline; }
+a.badVimeoVideoURL:visited { color: #DF7416; text-decoration: underline; } 
+a.badVimeoVideoURL:hover { color: #FFA500; text-decoration: none; }
+/* a.clearEntryStatusOperator:active { background : black; } */
+
+#dek {POSITION:absolute;VISIBILITY:hidden;Z-INDEX:200;} /* for flyover popup */
+
+body { 
+  /* background-color: #ebe1df; */
+  background-color: #FFFFFF;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  text-align: left;
+} 
+
+/* textarea { margin: 1px 0; padding: 0; color: #333333; border: none pink 2px; } */
+
+.idDisplayText { color: #d25ec6; font-size: 11px; }
+.idDisplayTextDark { color: #6b008e; font-size: 11px; font-weight: bold; } /* 6e00a7 380055 2f0265 400b7f 4a0d93 5b10b5 5B1998 7834CA 7E578E */
+.designatedIdDisplayText { color: #B7E5F7; }
+.submissionFormatDisplayText { color: #94b328; }
+.originalFormatDisplayText { color: #b39428; }
+.runTimeDisplayText { color: #FFFF66; }
+.scoreDisplayText { color: #DF7416; }
+.orangishHighlightDisplayColor { color: #DF7416; }
+.acceptedDisplayColor { color: #07EB01; }
+.rejectedDisplayColor { color: #CE181F; }
+.darkOrangishHighlightDisplayColor { color: #c45f05; }  /* cc6306 BE3D05 AA470F D28830 */
+.darkAcceptedDisplayColor { color: #3c812d; } /* 347837 */
+.darkRejectedDisplayColor { color: #CE181F; }
+.liveDisplayText, .noMediaDisplayColor { color: #B22222; /* firebrick */ }
+.offWhite { color: #FFFFCC; /* firebrick */ } 
+
+
+.floatleft, .floatLeft {
+	float: left;
+}
+
+.floatright, .floatRight {
+	float: right;
+}
+
+.etchedIn {
+  padding-right: 4px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  max-width: 430px;
+  border-right: inset 1px #FFFF66;
+  border-bottom: inset 1px #FFFF66;
+}
+
+.datumValue, .datumDescription {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13.75px;
+  line-height: 17.5px;
+  padding-top: 1px;
+  padding-bottom: 3px;
+  text-align: left;
+	/* float: left; */
+}
+
+.datumValue {
+  font-weight: normal;
+/*	color: Ivory; */
+/*	color: #F8F8F0; */
+/*  color: #EEEED5; */
+  color: #F9F9CC;
+}
+
+.datumDescription {
+  font-weight: 500;
+  font-style: normal;
+  color: #CCBD99; /* Khaki */  /* #F0E68C; */
+}
+
+/*
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+	padding-top: 4px;
+  color: #CCCCCC;
+*/
+
+.formRowContainer {
+  float: none;  /* WAS float: left prior to 3/2/10 but that caused seemingly unrelated formatting problems with background color. */
+  margin-top: 1px;
+  margin-bottom: 2px; /* changed from 1 to 2 on 3/29/12 */
+  /* border: dashed 1px red; */
+}
+
+.rowTitleText, .rowTitleTextWide, .rowTitleTextNarrow { 
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+	line-height: 17px;
+	padding-top: 1px;
+	padding-bottom: 2px;
+  font-weight: normal;
+  color: #F9F9CC; /* FFFFCC; */
+  float: left;
+  text-align: right; 
+  margin-right: 6px;
+  margin-top: 2px;
+  width: 110px; 
+  /* border: dashed 1px yellow; */
+}
+
+.rowTitleTextWide { 
+  width: 142px; 
+  /* border: dashed 1px yellow; */
+  /* min-width: 142px; */
+}
+
+.rowTitleTextNarrow { 
+  width: 80px;
+  /* border: dashed 1px yellow; */
+  /* min-width: 80px; */
+}
+
+.entryFormFieldContainer {
+  margin: 0;
+  padding: 1px 0 2px 0; 
+  float: left;
+  /* border: dashed 1px #66FF00; */
+}
+
+.navBar, .navBarTight {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.navBarTight {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+.navBarEmphasis {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: normal;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-style: normal;
+}
+
+.navBarSurpressed {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	color: #808080;
+}
+
+.narBarMainSection {
+	border-left: 1px outset #333333;
+	border-top: 1px outset #333333;
+	padding-top: 3px;
+	padding-bottom: 5px;
+	margin-top: 0px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.narBarArchiveSection {
+	border-right: 1px inset #333333; /* #FFFFA6 */
+	border-bottom: 1px inset #333333;
+	padding-top: 0px;
+	padding-bottom: 5px;
+	margin-top: 0px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.navBarTitle, .navBarTitle1, .navBarTitle2 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  color: #999999; /* #FFFF99 */
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.navBarTitle1 {
+	padding-top: 5px;
+	padding-bottom: 1px;
+}
+
+.navBarTitle2 {
+	padding-top: 12px;
+	padding-bottom: 1px;
+}
+
+.borderPic {
+  border-color: #000000;
+	margin-top: 3px;
+}
+
+.borderPic06 {
+  border-color: #FD94B2;
+	margin-top: 3px;
+}
+
+.borderPic07 {
+  border-color: #FFFF66;
+	margin-top: 3px;
+}
+
+.borderPic08H {
+  border-color: #660000;
+	margin-top: 3px;
+}
+
+.borderPic08B {
+  border-color: #000099;
+	margin-top: 2px;
+}
+
+.borderPic08TX {
+  border-color: #D1C28B;
+	margin-top: 4px;
+}
+
+.borderPic09D {
+  border-color: #CC3333;
+	margin-top: 4px;
+}
+
+.programPic {
+  padding-top: 4px;
+}
+
+li.noIndent {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  margin: 0 20px 10px -10px;
+  color: #FFFFCC;
+}
+
+li.noIndentOnDarkGray {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+  margin: 0 20px 8px -10px;
+  color: #F6F6F0;
+}
+
+table.almostEndBackground { 
+  background-image: url("http://sanssoucifest.org/images/almostEndBackground2.jpg");
+  background-color: #CCCCCC;
+}
+
+table.almostEndBackground0 { 
+  background-image: url("http://sanssoucifest.org/images/almostEndBackground1.jpg");
+  background-color: #CCCCCC;
+}
+
+table.programPageBackground { 
+  background-color: black;
+}
+
+td.filmFigure {
+  padding-top: 4px;
+}
+
+.programTablePageBackground { 
+  background-color: #333333;
+}
+
+ul {
+  margin-top: 4px;
+  margin-left: -20px;
+}
+
+.ulBulletText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  /* padding-left: -1.5em; */
+}
+
+.homeHeading1 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  font-style:italic;
+  text-align:center;
+	color: #E49548; /* #FFFF99; */
+  margin: 40px 0 2px 0;
+}
+
+.homeHeading2 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  text-align:center;
+  color: #FCFC7E;  /* FCFC4C, FFFF33 */
+  margin: 24px 0 2px 0;
+}
+
+.homeHeading3 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  color: #FCFC7E;  /* FCFC4C, FFFF33 */
+  margin: 4px 0 4px 0;
+}
+
+.sotHeading1 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #663333;
+}
+
+.sotHeading2 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: #663333;
+}
+
+img.boxed { 
+  border-width: thin;
+  border-color: #663333;
+} 
+	
+.largeBodyText { 
+  font-family: Arial, Helvetica, sans-serif;
+/*  font-family: Times New Roman, Times, serif; */
+  font-size: 16px;
+  font-weight: normal;
+  color: black;
+}
+	
+.smallBodyText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+}
+	
+.smallBodyTextOnBlack {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 15px;
+  font-weight: normal;
+  color: #F9F9CC; /* FFFFCC */
+}
+	
+.smallBodyTextLeadedGrayLight {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+	color: #CCCCCC;
+}
+
+.smallBodyTextLeaded {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 18px;
+}
+	
+.smallBodyTextLeadedOnBlack {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 18px;
+  color: #FFFFCC;
+}
+	
+.medSmallBodyTextLeaded {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 17px;
+}
+	
+.medSmallBodyTextLeadedOnBlack {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 17px;
+	color: #FFFFCC;
+}
+	
+.bodyTextWithEmphasis {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 125%;
+}
+
+.bodyTextWithEmphasisOnBlack {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 125%;
+	color: #CCCCCC;
+}
+
+.pdfEntryFormSpecial {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 125%;
+	padding-bottom:30px;
+}
+
+.bodyTextWithEmphasisGreenDark {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+	color: #003300;
+  line-height: 125%;
+}
+
+.bodyTextWithEmphasisGreenLight {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+	color: #00CC00;
+  line-height: 125%;
+}
+
+.bodyTextWithEmphasisYellow {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+	color: #FFFF99;
+  line-height: 125%;
+}
+
+.bodyTextWithEmphasisBrightYellow {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+	color: #FFFF66;
+  line-height: 125%;
+}
+
+.sprocketHoles {
+	background-image: url("http://sanssoucifest.org/images/sprocketHolesOnDarkGray.jpg");
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.bodyText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13.75px; /* 14 */
+	line-height: 17.5px; /* 17 */
+  font-weight: normal;
+}
+
+.bodyTextOnBlack {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+	line-height: 17px;
+  font-weight: normal;
+  color: #F9F9CC; /* EEEECC */
+}
+
+.curationTitle {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+	line-height: 20px;
+  font-weight: normal;
+  color: #FFFF66;
+}
+
+.bodyTextOnDarkGray {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13.75px;  /* 14 */
+	line-height: 20px;
+  font-weight: normal;
+  color: #EEEECC;
+}
+
+.bodyTextOriginal {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  padding: 3px 0 3px 5px;
+	background-color: #FFFF99;
+}
+
+.entryRequirementsText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+	line-height: 17px;
+  font-weight: normal;
+  color: #FFFFCC;
+	padding: 8px 6px 6px 6px;
+}
+
+.entryRequirementsParagraph {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+	line-height: 17px;
+  font-weight: normal;
+  color: #FFFFCC;
+  margin: 8px 6px 6px 6px;
+	padding: 0;
+}
+
+.entryFormSectionHeading { /* NOTE: 3 versions of this rule. This one is the base. */
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+	line-height: 14px;
+  font-weight: normal;
+  color: #FFFF66;
+}
+
+.entryFormSectionHeading { /* IE will use this rule because it cannot understand 
+                              the parent>clild html>body prefix to the second one */
+	padding: 24px 0 0 0;
+	margin: 0px 0 0 0;
+/*  height: 1%; / This is a hack to make things look right in Internet Explorer */
+}
+
+html>body .entryFormSectionHeading { /* All other browsers will apply 
+                                       this rule which overrides the first */
+	padding: 0px 0 0 0;
+	margin: 24px 0 0 0;
+  height: inherit;
+}
+
+.sectionHeading {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+	line-height: 14px;
+  font-weight: normal;
+  color: #FFFF66;
+	margin: 18px 0 0 0;
+}
+
+.entryFormDescription, .entryFormDescriptionSub, .entryFormDescriptionTA {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  color: #FFFFCC;
+  text-align: right;
+  padding: 0px 6px 0px 0;
+}
+
+.entryFormDescriptionSub { padding: 0px 4px 2px 0; }
+.entryFormDescriptionTA { padding: 6px 6px 0 0; }
+
+.entryFormNotation, .entryFormSubheading, .adminEntryFormSubheading {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  color: #FFFF99; /* F9F966; */
+  padding: 8px 0px 2px 20px;  /* 4px 10px 0px 0; */
+  text-align: left;
+}
+
+.entryFormSubheading {
+  padding: 8px 0px 0px 4px;  /* 4px 10px 0px 0; */
+}
+
+.adminEntryFormSubheading {
+  padding: 0;
+  margin: 8px 2px 0px 4px;
+}
+
+.entryFormSection {
+  background-color: #333333;
+  border: dashed 1px #333333; /* This border is a hack to force background color
+                                 into the very bottom of the entry form area. */
+}
+
+.entryFormField {
+  padding: 2px 0 2px 0; /* 4px 0 2px 0; */
+}
+
+.entryFormFieldTA {
+  padding: 3px 0 4px 0;  /* 4px 0 0 0; */
+}
+
+.entryFormInputField, .entryFormInputFieldWide, .entryFormInputFieldShort, 
+.entryFormInputFieldShorter, .entryFormInputFieldShorterYet, .entryFormInputFieldVeryShort,
+.entryFormInputFieldShortMed {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+	height: 22px;
+  color: #000000;
+  width: 320px;
+}
+
+.entryFormInputFieldWide { width: 420px; }
+.entryFormInputFieldShort {	width: 200px; }
+.entryFormInputFieldShortMed {	width: 160px; }
+.entryFormInputFieldShorter { width: 80px; }
+.entryFormInputFieldShorterYet { width: 60px; }
+.entryFormInputFieldVeryShort { width: 45px; }
+
+.entryFormTextAreaField, .entryFormTextAreaFieldWide {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  color: #000000;
+	width: 340px;
+}
+
+.entryFormTextAreaFieldWide { width: 420px; }
+
+.curationFormTextArea {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+	width: 100%;
+  color: #121212;
+}
+
+.entryFormRadioButton {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+	line-height: 17px;
+  font-weight: normal;
+  color: #FFFFCC;
+	padding-top: 2px;
+}
+
+.entryFormRadioButtonLabel {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+	line-height: 17px;
+  font-weight: normal;
+  color: #FFFFCC;
+	padding-top: 1px;
+}
+
+.loginPrompt {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  color: #FFFFCC;
+  text-align: center;
+}
+
+.bodyTextOnBlackRowPadded {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+	padding: 2px 0 4px 0;
+  color: #FFFFCC;
+}
+
+.bodyTextOnDarkGrayRowPadded {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+	padding: 2px 0 4px 0;
+  color: #EEEECC;
+}
+
+.bodyTextGrayLight {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+	line-height: 17px;
+  font-weight: normal;
+	color: #CCCCCC;
+}
+
+.bodyTextGreenDark {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+	color: #003300;
+}
+
+.boldBodyText {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.filmTitleText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  font-weight: normal; /* changed from bold 8/25/10 */
+  font-style: italic;
+  color: #FFFF99; /* #FCFC7E; FFFF58, 00C640; #00A651; #00A739; #04A44B; #009933; */
+	line-height: 20px;
+}
+
+.filmInfoText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+	line-height: 130%;
+	padding-top: 4px;
+  color: #FFFFCC;
+}
+
+.pressReportItemText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+	padding: 6px 40px 6px 40px;
+  color: #FFFFCC;
+}
+
+.linkListTitle {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: normal;
+  font-style: italic;
+  color: #FFFF99; /* #FCFC7E; FFFF58, 00C640; #00A651; #00A739; #04A44B; #009933; */
+	line-height: 20px;
+	padding-top: 14px;
+	padding-left: 20px;
+}
+
+.linkListText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+	padding: 8px 20px 8px 40px;
+  color: #FFFFCC;
+}
+
+.filmInfoSubtitleText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+	padding-top: 4px;
+  color: #CCCCCC;
+}
+
+.filmCityStateCountryText
+{
+  font-size: 12px;
+  font-style: italic;
+}
+
+.filmYearText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: normal; /* changed from bold 8/25/10 */
+  font-style: normal;
+	padding-top: 3px;
+  color: #FFFF99; /* #FCFC7E; #FFFF58, #00C640; */
+}
+
+.filmLiveText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  font-style: italic;
+	padding-top: 3px;
+  color: #FFFF99; /* #FCFC7E; #FFFF58, #00C640; */
+}
+
+.filmRunTimeText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+  font-style: normal;
+	padding-top: 3px;
+	color: #FFFF99; 
+  /* color: #00C640; */
+}
+
+.filmFormatText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+  font-style: normal;
+	padding-top: 3px;
+	color: #FFFFAF; 
+  /* color: #229922; */
+}
+
+.captionText {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 14px;
+  font-weight: normal;
+  color: #663333;
+}
+
+.bodyTextOriginal {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+}
+
+.bodyTextLeaded {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+}
+
+.bodyTextLeadedOnBlack {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 18px;
+	color: #FFFFCC;
+}
+
+.callForEntriesText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 19px;
+	color: #FFFFCC;
+  padding: 10px 45px 0 45px;
+  text-align: left;
+}
+
+table.inset {
+  border-color: #663333;
+}
+
+.titleText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333333;
+  /* padding-left: 3px; */
+}
+
+.titleTextOnBlack {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: #FFFFCC;
+  /* padding-left: 3px; */
+}
+
+.smallTitleTextOnBlack {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: #FFFFCC;
+  /* padding-left: 3px; */
+}
+
+.blackTitleText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: #000000;
+}
+
+.titleTextGreenDark {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: #003300;
+}
+
+.programPageTitleText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+	line-height: 24px;
+  font-weight: bold;
+  color: #FCFC7E;  /* FCFC4C, FFFF33 */
+}
+
+div.programPageTitleText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+	line-height: 24px;
+  font-weight: bold;
+  color: #FCFC7E;
+  float: left;
+  padding-top: 8px;
+  padding-left: 8px;
+  text-align: left
+}
+
+.homePageTitleText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  color: #FCFC7E; /* was FFFF33 */
+}
+
+.programInfoText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+	line-height: 22px;
+  font-weight: bold;
+  color: #FFFF99;
+}
+
+.programInfoTextSmall {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+	line-height: 20px;
+  font-weight: bold;
+  color: #FFFF99;
+}
+
+.programInfoTextTiny {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+	line-height: 18px;
+  font-weight: normal;
+  color: #FFFF99;
+}
+
+.filmFigureCaption {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+	text-align: left;
+	padding-left: 8px;
+	padding-right: 8px;
+  color: #CCCCCC;
+}
+
+.smallTitleText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  color: #663333;
+}
+
+.smallNavText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.darkGreenBorder {
+  border-color: #003300;
+}
+
+.lightYellowBorder {
+  border-color: #FFFFCC;
+}
+
+.code {
+  font-family: Courier, mono;
+  font-size: 12px;
+}
+
+.horizontalSeparator1 {
+  border: 0;
+  color: #FFFF58;
+  background-color: #FFFF58;
+  height: 1px;
+  width: 80%;
+  text-align: center;
+}
+
+.horizontalSeparator2 {
+  border: 0;
+  color: #CCBD99;
+  background-color: #CCBD99;
+  height: 1px;
+  width: 80%;
+  text-align: center;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+.horizontalSeparatorFull {
+  border: 0;
+  color: #FFFFCC;
+  background-color: #FFFF66;
+  height: 1px;
+  width: 100%;
+  text-align: center;
+}
+
+

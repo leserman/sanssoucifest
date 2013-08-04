@@ -1,0 +1,49 @@
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <div style='font-family:Helvetica,Arial,sans-serif;font-size:13px;color#500050;'>
+    Dear |name|,<br>
+    <br>
+    Sans Souci Festival of Dance Cinema is a niche film festival specializing in dance cinema and incorporating live performance. We invite you to respond to our calls for entries. |more1|<br>
+    <br>
+    <div style='font-family:Helvetica,Arial,sans-serif;margin-top:20px;margin-bottom:20px;margin-left:20px;margin-right:40px;padding-top:30px;padding-bottom:30px;padding-left:30px;padding-right:30px;background-color:#FFFF99;'>
+      <div style="text-align:center;margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">
+        <div style="font-size:15px;font-weight:bold;margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">Seventh Annual<br>Sans Souci Festival of Dance Cinema</div>
+        Boulder, Colorado, USA, September 10 &amp; 11, 2010<br>http://www.sanssoucifest.org/</div>
+      <br>
+      Sans Souci, an international festival of dance cinema, screens short works that integrate dance with cinematic elements. We have an expansive definition of dance and an appreciation for highly experimental and interdisciplinary forms, including mixed-media works that incorporate live performance.<br>
+      <br>
+      This year, for the first time, Sans Souci Festival of Dance Cinema is making two Calls for Entries. Our first Scholarly Gathering will be co-located with our 7th Annual Festival of Dance Cinema on September 10 &amp; 11, 2010 in Boulder, Colorado USA. We invite you to respond to our calls for entries.<br>
+      <br>
+      <br>
+      <div style="text-align:center;margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">
+        <div style="font-size:15px;font-weight:bold;margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">CALL FOR ENTRIES &bull; DANCE CINEMA</div>Deadlines: April 30 and May 28, 2010
+      </div>
+      <br>
+      We invite submissions from all artists regardless of credentials and affiliations. Literally meaning &quot;no worries&quot; in French, Sans Souci hopes to attract both emerging and established dance-video and dance-film artists. We maintain reasonable entry fees of $25 or $40 for the early and final deadlines respectively.<br>
+      <br>
+      For more information and access to the online entry form, visit http://www.sanssoucifest.org/danceCinemaCall2010.php.<br>
+      <br>
+      <br>
+      <div style="text-align:center;margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">
+        <div style="font-size:15px;font-weight:bold;margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">CALL FOR ENTRIES &bull; SCHOLARLY PROPOSALS</div>Deadline: April 14, 2010
+      </div>
+      <br>
+      This year Sans Souci Festival is proud to announce its first call for scholarly proposals on the topic of &quot;Dance Cinema / Media.&quot; We're interested in a broad range of topics that investigate dance cinema and/or the intersection of dance and cinema. There is no fee for submitting a proposal.<br>
+      <br>
+      For more information and access to the downloadable proposal form, visit http://www.sanssoucifest.org/scholarlyCall2010.php.<br>
+      <br>
+      <br>
+      <div style="text-align:center;margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">
+        <div style="font-size:15px;font-weight:bold;margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">SUMMARY</div>Sans Souci Festival of Dance Cinema<br>Boulder, Colorado, USA<br>Friday and Saturday, September 10 and 11, 2010
+      </div>
+      <br>
+      <div style="text-align:center;margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">
+        <div style="font-size:13px;font-weight:bold;margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">CALLS FOR ENTRIES</div>Dance Cinema Deadlines: April 30 and May 28, 2010<br>Scholarly Proposals Deadline: April 14, 2010<br>Visit http://www.sanssoucifest.org/ for more details and entry forms.</div>
+    </div>
+    <span style="font-size:10px;">The Sans Souci Festival of Dance Cinema is supported by the Boulder County Arts Alliance, the City of Boulder Arts Commission, and the Dance Department of University of Colorado at Boulder. To remove yourself from this mailing list, send email to removeMe@sanssoucifest.org. Be sure to send from the email address that you want removed from our list.<br></span>
+  </div>
+</body>
+</html>

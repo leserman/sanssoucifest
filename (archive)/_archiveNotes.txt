@@ -1,0 +1,3 @@
+_archiveNotes.txt
+
+- 4/20/12 - advajax.js is used by detectConnectionSpeedTest.html
