@@ -437,6 +437,7 @@ class SSFQuery {
   public static function updateDBForWorkContributors($newValueArray, $workId) {
     $belchAlot = -1;
     $debugContribChanges = -1;
+    $debugContribChanges2 = -1; // added 3/19/14
     SSFDebug::globalDebugger()->belch('$newValueArray in SSFQuery::updateDBForWorkContributors', $newValueArray, $belchAlot);
     $dbValueArrayRaw = SSFQuery::selectContributorsFor($workId);
     SSFDebug::globalDebugger()->belch('$dbValueArrayRaw in SSFQuery::updateDBForWorkContributors', $dbValueArrayRaw, $belchAlot);
@@ -482,6 +483,12 @@ class SSFQuery {
                       : (isset($newValueArray['loginUserId']) ? $newValueArray['loginUserId']
                       : (isset($newValueArray['works_submitter']) ? $newValueArray['works_submitter'] : 0));
       if ($valueChanged) {
+        SSFDebug::globalDebugger()->becho('roleKey in SSFQuery::updateDBForWorkContributors()', $roleKey, $debugContribChanges2);
+        SSFDebug::globalDebugger()->becho('valueChanged in SSFQuery::updateDBForWorkContributors()', ($valueChanged) ? 'TRUE' : 'FALSE', $debugContribChanges2);
+        SSFDebug::globalDebugger()->becho('otherRole in SSFQuery::updateDBForWorkContributors()', ($otherRole) ? 'TRUE' : 'FALSE', $debugContribChanges2);
+        SSFDebug::globalDebugger()->becho('dbValueExists in SSFQuery::updateDBForWorkContributors()', ($dbValueExists) ? 'TRUE' : 'FALSE', $debugContribChanges2);
+        SSFDebug::globalDebugger()->becho('dbNameExists in SSFQuery::updateDBForWorkContributors()', ($dbNameExists) ? 'TRUE' : 'FALSE', $debugContribChanges2);
+        SSFDebug::globalDebugger()->becho('dbRoleDescriptionExists in SSFQuery::updateDBForWorkContributors()', ($dbRoleDescriptionExists) ? 'TRUE' : 'FALSE', $debugContribChanges2);
         $notes ='';
         $dataItemKey = DatumProperties::getItemKeyFor('workContributors', $roleKey);
         self::$lastUpdateFields[] = $dataItemKey;
@@ -572,11 +579,16 @@ class SSFQuery {
       }
     }
     if (count($updateArray) > 0) { // there are updates
-      $updatesString = '';
       // 6/11/11: Got rid of $newValueArray['adminSelector'] as a global state variable all over the place.
-//      $updatingUserId = isset($newValueArray['adminSelector']) ? $newValueArray['adminSelector'] 
       $updatingUserId = (self::$useAdministratorAsCreatorModifier) ? SSFAdmin::userIndex()
                       : (isset($newValueArray['loginUserId']) ? $newValueArray['loginUserId'] : 1);
+      // Kludge for setting works_lastModifiedBy when DB update is initiated by the PayPal IPN Listener, 5/5/14
+      if (isset($newValueArray['works_lastModifiedBy']) && ($newValueArray['works_lastModifiedBy'] != 0) && ($newValueArray['works_lastModifiedBy'] != '')) {
+        $updatingUserIdUpdateText = '';  // Let this be handled by the $newValueArray
+      } else {
+        $updatingUserIdUpdateText = ", lastModifiedBy=" . $updatingUserId; // 5/5/14
+      }
+      $updatesString = '';
       foreach ($updateArray as $updateCol => $updateValue) {
         $separator = ($updatesString == '') ? '' : ', ';
         $updatesString .= $separator . $updateCol . '='. $updateValue;
@@ -586,7 +598,7 @@ class SSFQuery {
       SSFDebug::globalDebugger()->becho("SSFQuery::updateDBFor() updatesString", $updatesString, -1);
       SSFDebug::globalDebugger()->belch("SSFQuery::updateDBFor() lastUpdateFields", self::$lastUpdateFields, -1);
       $updateString = "UPDATE " . $tableName . " SET " . $updatesString 
-                    . ", lastModificationDate='" . SSFRunTimeValues::nowForDB() . "', lastModifiedBy=" . $updatingUserId
+                    . ", lastModificationDate='" . SSFRunTimeValues::nowForDB() . "'" . $updatingUserIdUpdateText 
                     . " WHERE " . $whereKeyName . " = " . $whereKeyValue;
 //      SSFDB::debugNextQuery();
       $success = SSFDB::getDB()->saveData($updateString);
@@ -832,7 +844,7 @@ class SSFQuery {
         }
         // Since we just changed the DB, we need to reinitialize from the curation table if that data is needed again later.
         $curatorsAreInitialized = false; 
-        if (SendLog::$message != '') SendLog::sendItNow();
+        if (FALSE && SendLog::$message != '') SendLog::sendItNow(); // 3/19/14 Stop sending the Curation Log email message 
       }
     }
   }
@@ -883,7 +895,8 @@ class SSFQuery {
                       . "((SELECT communicationId, `type`, dateSent, `work`, (dateSent is not null AND dateSent != '' AND dateSent != '0000-00-00' AND dateSent != '0000-00-00 00:00:00') as sent "
                         . "FROM works "
                           . "LEFT JOIN communicationWork ON communicationWork.work = workId "
-                          . "LEFT JOIN communications ON communications.communicationId=communicationWork.communication AND communications.type='AcceptReject' "
+//                          . "LEFT JOIN communications ON communications.communicationId=communicationWork.communication AND communications.type='AcceptReject' " changed 7/31/14
+                          . "LEFT JOIN communications ON communications.communicationId=communicationWork.communication "
 //                        . "WHERE (communications.type='AcceptReject' OR communications.type ='' OR communications.type is null) AND (sent=0 OR sent is null OR true)) AS commsSelected) "
                         . "WHERE communications.type='AcceptReject' OR communications.type ='' OR communications.type is null) AS commsSelected) "
                     . "ON commsSelected.work=worksSelected.workId "
