@@ -26,6 +26,7 @@
   SSF-PosterDairy2009.pdf            -> SSF2009PromotionalPoster.pdf
   SSFCallForEntriesPoster2008-2.pdf  -> SSF2008CallForEntriesPoster.pdf
   SSFCallForEntriesPoster2007-1.pdf  -> SSF2007CallForEntriesPoster.pdf
+  2012InstallationsPosterLandscape-2.pdf -> SSF2012InstallationsPoster.pdf
 
   Postcards  
   SansSouciFest2010PostcardFront.pdf -> SSF2010PostcardFront.pdf
@@ -82,6 +83,35 @@
                   <th class="bodyTextOnDarkGray" align="center" valign="middle" scope="col">Postcards</th>
                   <th class="bodyTextOnDarkGray"align="center" valign="middle" scope="col">Programs</th>
                 </tr>
+
+                <tr> <!-- 2013 -->
+                  <th align="center" valign="middle" class="bodyTextOnDarkGray" scope="row" style="margin:6px 0;padding-top:0px;"><div style="padding-top:0px;margin-top:10px;margin-bottom:10px;vertical-align:middle;border-right:solid #666 1px;height:80%;"><div style="padding:130% 0;">2013</div></div></th>
+                  <td align="center" valign="middle"><div class="smallBodyTextOnBlack" style="padding:0px;margin:8px 0;">
+                    <!-- Promo Poster -->
+                    <a href="../PDF/Posters/SSF2013AtlasPromoPoster.pdf"><img src="thumbnails/2013AtlasPromoPoster.jpg" height="101" width="155" alt="" style="padding:10px 0 6px;border:0"></a><br><a href="../PDF/Posters/SSF2013AtlasPromoPoster.pdf">Atlas Promo</a> <span style="color:#999;padding-top:1px;">Poster (3 MB)</span><br>
+                   </div>
+                  </td>
+                  <!-- Postcard -->
+                  <td align="center" valign="middle"><div class="smallBodyTextOnBlack" style="padding:0px;margin:8px 0;"><a href="../PDF/Postcards/SSF2013PostcardFront.pdf"><img src="thumbnails/2013PostcardFront.jpg" height="57" width="74" alt="" style="padding:10px 0 6px;border:0"></a><br><a href="../PDF/Postcards/SSF2013PostcardFront.pdf">Front</a> <span style="color:#999;padding-top:1px;">(3.4 MB)</span><br><a href="../PDF/Postcards/SSF2013PostcardBack.pdf"><img src="thumbnails/2013PostcardBack.jpg" height="57" width="74" alt="" style="padding:10px 0 6px;border:0"></a><br><a href="../PDF/Postcards/SSF2013PostcardBack.pdf">Back</a> <span style="color:#999;padding-top:1px;">(3.4 MB)</span></div></td>
+                  <!-- Program -->
+                  <td align="center" valign="middle"><div class="smallBodyTextOnBlack" style="padding:0px;margin:8px 0;"><a href="../PDF/ProgramSpreads/SSF2013ProgramSpreads.pdf"><img src="thumbnails/2013ProgramThumb.jpg" height="126" width="82" alt="" style="padding:10px 0 6px;border:0"></a><br><a href="../PDF/ProgramSpreads/SSF2013ProgramSpreads.pdf">12 pp</a> <span style="color:#999;padding-top:1px;">(3 MB)</span></div></td> 
+                </tr>
+
+                <tr> <!-- 2012 -->
+                  <th align="center" valign="middle" class="bodyTextOnDarkGray" scope="row" style="margin:6px 0;padding-top:0px;"><div style="padding-top:-20px;margin-top:10px;margin-bottom:20px;vertical-align:middle;border-right:solid #666 1px;height:100%;"><div style="padding:180% 0;">2012</div></div></th>
+                  <td align="center" valign="middle"><div class="smallBodyTextOnBlack" style="padding:0px;margin:8px 0;">
+                    <!-- Promo Poster -->
+                    <a href="../PDF/Posters/SSF2012AtlasPromoPoster.pdf"><img src="thumbnails/2012AtlasPromoPoster.jpg" height="100" width="155" alt="" style="padding:10px 0 6px;border:0"></a><br><a href="../PDF/Posters/SSF2012AtlasPromoPoster.pdf">Atlas Promo</a> <span style="color:#999;padding-top:1px;">Poster (3.4 MB)</span><br>
+                    <!-- Installations Poster -->
+                    <a href="../PDF/Posters/SSF2012InstallationsPoster.pdf"><img src="thumbnails/2012InstallationsPoster.jpg" height="93" width="120" alt="" style="padding:10px 0 6px;border:0"></a><br><a href="../PDF/Posters/SSF2012InstallationsPoster.pdf">Installations Program</a><br><span style="color:#999;padding-top:1px;">Poster (1 MB)</span><br>
+                   </div>
+                  </td>
+                  <!-- Postcard -->
+                  <td align="center" valign="middle"><div class="smallBodyTextOnBlack" style="padding:0px;margin:8px 0;"><a href="../PDF/Postcards/SSF2012PostcardFront.pdf"><img src="thumbnails/2012PostcardFront.jpg" height="57" width="74" alt="" style="padding:10px 0 6px;border:0"></a><br><a href="../PDF/Postcards/SSF2012PostcardFront.pdf">Front</a> <span style="color:#999;padding-top:1px;">(0.9 MB)</span><br><a href="../PDF/Postcards/SSF2012PostcardBack.pdf"><img src="thumbnails/2012PostcardBack.jpg" height="57" width="74" alt="" style="padding:10px 0 6px;border:0"></a><br><a href="../PDF/Postcards/SSF2012PostcardBack.pdf">Back</a> <span style="color:#999;padding-top:1px;">(0.4 MB)</span></div></td>
+                  <!-- Program -->
+                  <td align="center" valign="middle"><div class="smallBodyTextOnBlack" style="padding:0px;margin:8px 0;"><a href="../PDF/ProgramSpreads/SSF2012ProgramSpreads.pdf"><img src="thumbnails/2012ProgramThumb.jpg" height="127" width="82" alt="" style="padding:10px 0 6px;border:0"></a><br><a href="../PDF/ProgramSpreads/SSF2012ProgramSpreads.pdf">12 pp</a> <span style="color:#999;padding-top:1px;">(1.8 MB)</span></div></td> 
+                </tr>
+
                 <tr> <!-- 2011 -->
                   <th align="center" valign="middle" class="bodyTextOnDarkGray" scope="row" style="margin:6px 0;padding-top:0px;"><div style="padding-top:-20px;margin-top:10px;margin-bottom:20px;vertical-align:middle;border-right:solid #666 1px;height:100%;"><div style="padding:380% 0;">2011</div></div></th>
                   <td align="center" valign="middle"><div class="smallBodyTextOnBlack" style="padding:0px;margin:8px 0;">
@@ -106,7 +136,7 @@
                 <tr> <!-- 2009 -->
 <!--                  <th align="center" valign="middle" class="bodyTextOnDarkGray" scope="row" style="margin:6px 0;">2009</th> -->
                   <th align="center" valign="middle" class="bodyTextOnDarkGray" scope="row" style="margin:6px 0;padding-top:0px;"><div style="padding-top:-20px;margin-top:10px;margin-bottom:20px;vertical-align:middle;border-right:solid #666 1px;height:100%;"><div style="padding:90% 0;">2009</div></div></th>
-                  <td align="center" valign="middle"><div class="smallBodyTextOnBlack" style="padding:0px;margin:8px 0;"><a href="../PDF/Posters/SSF2009PromotionalPoster.pdf"><img src="thumbnails/2009PromotionalPoster.jpg" height="155" width="120" alt="" style="padding:10px 0 6px;border:0"></a><br><a href="../PDF/Posters/SSF2009PromotionalPoster.pdf">Promotional</a> <span style="color:#999;padding-top:1px;">(0.4 MB)</span><br></div></td> 
+                  <td align="center" valign="middle"><div class="smallBodyTextOnBlack" style="padding:0px;margin:8px 0;"><a href="../PDF/Posters/SSF2009PromotionalPoster.pdf"><img src="thumbnails/2009PromotionalPosterThumb.jpg" height="155" width="120" alt="" style="padding:10px 0 6px;border:0"></a><br><a href="../PDF/Posters/SSF2009PromotionalPoster.pdf">Promotional</a> <span style="color:#999;padding-top:1px;">(0.4 MB)</span><br></div></td> 
                   <td align="center" valign="middle"><div class="smallBodyTextOnBlack" style="padding:0px;margin:8px 0;"><a href="../PDF/Postcards/SSF2009PostcardFront.pdf"><img src="thumbnails/2009PostcardFront.jpg" height="57" width="74" alt="" style="padding:10px 0 6px;border:0"></a><br><a href="../PDF/Postcards/SSF2009PostcardFront.pdf">Front</a> <span style="color:#999;padding-top:1px;">(1.5 MB)</span><br><a href="../PDF/Postcards/SSF2009PostcardBack.pdf"><img src="thumbnails/2009PostcardBack.jpg" height="57" width="74" alt="" style="padding:10px 0 6px;border:0"></a><br><a href="../PDF/Postcards/SSF2009PostcardBack.pdf">Back</a> <span style="color:#999;padding-top:1px;">(0.2 MB)</span></div></td>
                   <td align="center" valign="middle"><div class="smallBodyTextOnBlack" style="padding:0px;margin:8px 0;"><a href="../PDF/ProgramSpreads/SSF2009ProgramSpreads.pdf"><img src="thumbnails/2009Program.png" height="124" width="82" alt="" style="padding:10px 0 6px;border:0"></a><br><a href="../PDF/ProgramSpreads/SSF2009ProgramSpreads.pdf">16 pp</a> <span style="color:#999;padding-top:1px;">(4.8 MB)</span></div></td>
                 </tr>
