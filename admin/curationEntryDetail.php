@@ -160,7 +160,7 @@
 
     function displaySubmissionNotes($workRow, $alwaysShow) {
       if ($alwaysShow || (isset($workRow['submissionNotes']) && ($workRow['submissionNotes'] != ''))) 
-        echo '<div style="margin-top:1px;">' . HTMLGen::getSimpleDataWithDescriptionLine('Submission notes', $workRow['submissionNotes']) . '</div>';
+        echo '<div style="margin-top:1px;">' . HTMLGen::getSimpleDataWithDescriptionLine('<span class="orangishHighlightDisplayColor">Submission notes</span>', $workRow['submissionNotes']) . '</div>'; // 5/25/14
     }
     
     function displaySubmitterInfo($workRow) {
