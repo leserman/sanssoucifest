@@ -53,6 +53,9 @@
   $debugger->enableBelch(false);
   $debugger->enableBecho(false);
   
+  // For some reason, the file SSFWebPageAssets is not found where $copyrightString is used.
+  $copyrightString = SSFWebPageAssets::getCopyrightLine();
+  
   $debugger->belch("_GET[commId]", (isset($_GET['commId']) ? $_GET['commId'] : 'not set'), 0);
   $debugger->belch("_GET[personId]", (isset($_GET['personId']) ? $_GET['personId'] : 'not set'), 0);
   $debugger->belch("_POST[commId]", (isset($_POST['commId']) ? $_POST['commId'] : 'not set'), 0);
@@ -229,7 +232,7 @@ $communiqueWasSent = $communique->wasSent();
 <tr align="center" valign="top">
     <td colspan="2">&nbsp;</td>
     <td align="center" valign="bottom" class="smallBodyTextLeadedGrayLight"><br>
-    <?php SSFWebPageAssets::displayCopyrightLine();?></td>
+    <?php echo $copyrightString; ?></td>
     <td width="10">&nbsp;</td>
   </tr>
 <tr align="center" valign="top"><td colspan="4">&nbsp;</td></tr></table>
