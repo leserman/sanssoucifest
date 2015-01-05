@@ -675,7 +675,8 @@ class SSFVimeoVideoInfo {
   
   public function webAddressIsForVimeo() {
     $vimeoWebAddressExists = ($this->vimeoWebAddress != '');
-    $vimeoWebAddressIsVimeo = ($vimeoWebAddressExists && (stripos($this->vimeoWebAddress, 'vimeo.com') !== false));
+    $vimeoWebAddressIsVimeo = ($vimeoWebAddressExists 
+                            && ((stripos($this->vimeoWebAddress, 'vimeo.com') !== false) || (stripos($this->vimeoWebAddress, 'vimeopro.com') !== false)));
     return $vimeoWebAddressIsVimeo;
   }
 
