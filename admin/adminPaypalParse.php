@@ -285,8 +285,13 @@
         if (isset($paypalValuesArray[0])) SSFDebug::globalDebugger()->belch('115. $paypalValuesArray[0]', $paypalValuesArray[0], $paypalDebug);
         if (isset($currentValuesArray[0])) SSFDebug::globalDebugger()->belch('115. $currentValuesArray[0]', $currentValuesArray[0], $paypalDebug);
 //        SSFDB::debugOn();
-        if ($uniqueWorkFound) $updateCount = SSFQuery::updateDBFor('works', $paypalValuesArray[0], $editorState, 'workId', $workId);
-        else if ($userSelectedAWork) $updateCount = SSFQuery::updateDBFor('works', $currentValuesArray[0], $editorState, 'workId', $workId);
+        if ($uniqueWorkFound) {
+          $updateCount = SSFQuery::updateDBFor('works', $paypalValuesArray[0], $editorState, 'workId', $workId);
+          // TODO: Also update or insert into paypalReceipts table
+        } else if ($userSelectedAWork) {
+          $updateCount = SSFQuery::updateDBFor('works', $currentValuesArray[0], $editorState, 'workId', $workId);
+          // TODO: Also update or insert into paypalReceipts table
+        }
       }
       SSFDB::debugOff();
       if ($updateCount >= 1) {
@@ -441,15 +446,15 @@
 <!--  <input type="hidden" id="workSelector" name="workSelector" value="<?php if (isset($editorState['workSelector'])) echo $editorState['workSelector']?>"> -->
   <input type="hidden" id="justBlurredPasteAreaFlag" name="justBlurredPasteAreaFlag" value="<?php if (isset($editorState['justBlurredPasteAreaFlag'])) echo $editorState['justBlurredPasteAreaFlag']?>">
   <input type="hidden" id="pmtDate" name="pmtDate" value="<?php if (isset($editorState['pmtDate'])) echo $editorState['pmtDate']?>">
-  <input type="hidden" id="transId" name="transId" value="<?php if (isset($editorState['pmtDate'])) echo $editorState['transId']?>">
-  <input type="hidden" id="pmtAmt1" name="pmtAmt1" value="<?php if (isset($editorState['pmtDate'])) echo $editorState['pmtAmt1']?>">
-  <input type="hidden" id="pmtAmt2" name="pmtAmt2" value="<?php if (isset($editorState['pmtDate'])) echo $editorState['pmtAmt2']?>">
-  <input type="hidden" id="buyerName1" name="buyerName1" value="<?php if (isset($editorState['pmtDate'])) echo $editorState['buyerName1']?>">
-  <input type="hidden" id="buyerName2" name="buyerName2" value="<?php if (isset($editorState['pmtDate'])) echo $editorState['buyerName2']?>">
-  <input type="hidden" id="buyerEmail1" name="buyerEmail1" value="<?php if (isset($editorState['pmtDate'])) echo $editorState['buyerEmail1']?>">
-  <input type="hidden" id="buyerEmail2" name="buyerEmail2" value="<?php if (isset($editorState['pmtDate'])) echo $editorState['buyerEmail2']?>">
-  <input type="hidden" id="filmTitle" name="filmTitle" value="<?php if (isset($editorState['pmtDate'])) echo $editorState['filmTitle']?>">
-  <input type="hidden" id="submitterEmail" name="submitterEmail" value="<?php if (isset($editorState['pmtDate'])) echo $editorState['submitterEmail']?>">
+  <input type="hidden" id="transId" name="transId" value="<?php if (isset($editorState['transId'])) echo $editorState['transId']?>">
+  <input type="hidden" id="pmtAmt1" name="pmtAmt1" value="<?php if (isset($editorState['pmtAmt1'])) echo $editorState['pmtAmt1']?>">
+  <input type="hidden" id="pmtAmt2" name="pmtAmt2" value="<?php if (isset($editorState['pmtAmt2'])) echo $editorState['pmtAmt2']?>">
+  <input type="hidden" id="buyerName1" name="buyerName1" value="<?php if (isset($editorState['buyerName1'])) echo $editorState['buyerName1']?>">
+  <input type="hidden" id="buyerName2" name="buyerName2" value="<?php if (isset($editorState['buyerName2'])) echo $editorState['buyerName2']?>">
+  <input type="hidden" id="buyerEmail1" name="buyerEmail1" value="<?php if (isset($editorState['buyerEmail1'])) echo $editorState['buyerEmail1']?>">
+  <input type="hidden" id="buyerEmail2" name="buyerEmail2" value="<?php if (isset($editorState['buyerEmail2'])) echo $editorState['buyerEmail2']?>">
+  <input type="hidden" id="filmTitle" name="filmTitle" value="<?php if (isset($editorState['filmTitle'])) echo $editorState['filmTitle']?>">
+  <input type="hidden" id="submitterEmail" name="submitterEmail" value="<?php if (isset($editorState['submitterEmail'])) echo $editorState['submitterEmail']?>">
 
 </form>
 
