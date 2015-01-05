@@ -2,8 +2,9 @@
 
 class SSFRunTimeValues {
   private static $valuesAreInitialized = false;
-  private static $copyrightYearsString = "2004-2012";
-  private static $contactEmailAddress = "contact@sanssoucifest.org";
+  private static $copyrightYearsString;
+  private static $contactEmailAddress;
+  private static $listManagementEmailAddress;
   private static $currentYearString = "";
   private static $initialCallForEntriesId = 0;
   private static $callForEntriesId = 0;
@@ -26,6 +27,8 @@ class SSFRunTimeValues {
   // Venue/Date arrays
   private static $eventDatesDescriptionStringLong = array();
   private static $eventDatesDescriptionStringShort = array();
+  private static $eventDescriptionStringLong = array();
+  private static $eventDescriptionStringShort = array();
   private static $venueDescriptionString = array();
   
   // curation message phrases
@@ -63,12 +66,13 @@ class SSFRunTimeValues {
       $rtvRows = SSFDB::getDB()->getArrayFromQuery($selectString);
       foreach ($rtvRows as $rtvRow) { // item in db
         switch ($rtvRow['parameterName']) {
-          case 'defaultCallId': self::$callForEntriesId = self::$initialCallForEntriesId = $rtvRow['parameterValue']; break;
-          case 'defaultAdministratorId': self::$administratorId = self::$defaultAdministratorId = $rtvRow['parameterValue']; break; // overall beginning 3/9/11
-          case 'defaultWorkId': self::$defaultWorkId = self::$defaultWorkId = $rtvRow['parameterValue']; break;
-          case 'copyrightYearsString': self::$copyrightYearsString = $rtvRow['parameterValueString']; break;
           case 'contactEmailAddress': self::$contactEmailAddress = $rtvRow['parameterValueString']; break;
+          case 'copyrightYearsString': self::$copyrightYearsString = $rtvRow['parameterValueString']; break;
           case 'currentYearString': self::$currentYearString = $rtvRow['parameterValueString']; break;
+          case 'defaultAdministratorId': self::$administratorId = self::$defaultAdministratorId = $rtvRow['parameterValue']; break; // overall beginning 3/9/11
+          case 'defaultCallId': self::$callForEntriesId = self::$initialCallForEntriesId = $rtvRow['parameterValue']; break;
+          case 'defaultWorkId': self::$defaultWorkId = self::$defaultWorkId = $rtvRow['parameterValue']; break;
+          case 'listManagementEmailAddress': self::$listManagementEmailAddress = $rtvRow['parameterValueString']; break;
         }
       }
       self::initializeCallsAttributes();
@@ -86,16 +90,20 @@ class SSFRunTimeValues {
   }
 
   private static function initializeVenueDateDescription() {
-    $venueDescriptionQuery = 'SELECT eventId, eventDatesDescription1, eventDatesDescription2, venueDescription1 FROM venues join events on venueId = venue ';
+    $venueDescriptionQuery = 'SELECT eventId, eventDescriptionShort, eventDescriptionLong, eventDatesDescription1, eventDatesDescription2, venueDescription1 FROM venues join events on venueId = venue ';
     $rows = SSFDB::getDB()->getArrayFromQuery($venueDescriptionQuery);
     foreach ($rows as $row) {
       self::$eventDatesDescriptionStringLong[$row['eventId']] = $row['eventDatesDescription2'];
       self::$eventDatesDescriptionStringShort[$row['eventId']] = $row['eventDatesDescription1'];
+      self::$eventDescriptionStringLong[$row['eventId']] = $row['eventDescriptionLong'];
+      self::$eventDescriptionStringShort[$row['eventId']] = $row['eventDescriptionShort'];
       self::$venueDescriptionString[$row['eventId']] = $row['venueDescription1'];
     }
   $debug = new SSFDebug;
   $debug->belch('$eventDatesDescriptionStringLong', self::$eventDatesDescriptionStringLong, -1);
   $debug->belch('$eventDatesDescriptionStringShort', self::$eventDatesDescriptionStringShort, -1);
+  $debug->belch('$eventDescriptionStringLong', self::$eventDescriptionStringLong, -1);
+  $debug->belch('$eventDescriptionStringShort', self::$eventDescriptionStringShort, -1);
   $debug->belch('$venueDescriptionString', self::$venueDescriptionString, -1);
   }
 
@@ -120,7 +128,7 @@ class SSFRunTimeValues {
     if (isset($column['arMsgImageDetailPart'])) self::$arMsgImageDetailPart = $column['arMsgImageDetailPart'];
     if (isset($column['arMsgInstallationExplanationPart'])) self::$arMsgInstallationExplanation = $column['arMsgInstallationExplanationPart'];
     if (isset($column['arMsgInviteFeedbackRequestPart'])) self::$arMsgInviteFeedbackRequest = $column['arMsgInviteFeedbackRequestPart'];
-    if (isset($column['arMsgPlugTheShowPart ='])) self::$arMsgPlugTheShow = $column['arMsgPlugTheShowPart'];
+    if (isset($column['arMsgPlugTheShowPart'])) self::$arMsgPlugTheShow = $column['arMsgPlugTheShowPart'];
     if (isset($column['arMsgRejectionMessagePart2'])) self::$arMsgRejectionMessagePart2 = $column['arMsgRejectionMessagePart2'];
     if (isset($column['arMsgRejectionWithinAcceptanceMessage'])) self::$arMsgRejectionWithinAcceptanceMessage = $column['arMsgRejectionWithinAcceptanceMessage'];
     if (isset($column['arMsgVenueDirectionsPart'])) self::$arMsgVenueDirections = $column['arMsgVenueDirectionsPart'];
@@ -171,8 +179,9 @@ class SSFRunTimeValues {
   
   // general functions
     public static function getCopyrightYearsString() { self::checkInit(); return self::$copyrightYearsString; }
-    public static function getContactEmailAddress() { self::checkInit(); return self::$contactEmailAddress; }
     public static function getCurrentYearString() { self::checkInit(); return self::$currentYearString; }
+    public static function getContactEmailAddress() { self::checkInit(); return self::$contactEmailAddress; }
+    public static function getListManagementEmailAddress() { self::checkInit(); return self::$listManagementEmailAddress; }
   
   // callForEntriesId functions
   public static function getInitialCallForEntriesId() { self::checkInit(); return self::$initialCallForEntriesId; }
@@ -259,6 +268,14 @@ class SSFRunTimeValues {
   public static function getEventDatesDescriptionStringShort($eventId) {
     self::checkInit(); 
     return (isset(self::$eventDatesDescriptionStringShort[$eventId])) ? self::$eventDatesDescriptionStringShort[$eventId] : "";
+  }
+  public static function getEventDescriptionStringLong($eventId) {
+    self::checkInit(); 
+    return (isset(self::$eventDescriptionStringLong[$eventId])) ? self::$eventDescriptionStringLong[$eventId] : "";
+  }
+  public static function getEventDescriptionStringShort($eventId) {
+    self::checkInit(); 
+    return (isset(self::$eventDescriptionStringShort[$eventId])) ? self::$eventDescriptionStringShort[$eventId] : "";
   }
   public static function getVenueDescriptionString($eventId) {
     self::checkInit(); 
