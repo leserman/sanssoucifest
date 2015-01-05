@@ -27,14 +27,14 @@
   // submitEnter is called when the user presses the Return or Enter key as set up in HTMLGen.
   // Based on http://www.htmlcodetutorial.com/forms/index_famsupp_157.html
   function submitEnter(thisField, e) {
-    if (thisField.form.name != "entryForm") { return true; } // escape if this in not the user Entry Form
+    if ((thisField.form.name != "entryForm") && (thisField.form.name != "adeSelectorsForm")) { return true; } // escape if this in not the user Entry Form
     var keycode = '';
     if (window.event) { keycode = window.event.keyCode; }
     else if (e) { keycode = e.which; }
     if (keycode == 13) {
       return false; // ****** Shortcut this so that nothing happens when the user presses Return or Enter
-//      if (preSubmitValidation(missingValueString, missingValueString)) { thisField.form.submit(); }
-      if (preSubmitValidation()) { thisField.form.submit(); }
+//      if (preSubmitValidation()) { thisField.form.submit(); }                                       // 2/10/14 - It appears that this line is unreachable.
+      if (thisField.form.name == "entryForm" && preSubmitValidation()) { thisField.form.submit(); } // 2/10/14 - It appears that this line is unreachable. Add test on form name.
       return false;
     } else { return true; }
   }
