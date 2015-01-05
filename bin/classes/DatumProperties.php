@@ -147,6 +147,8 @@ class DatumProperties {
         // exmaple: enum('individual','several','organization')
         $this->setPossibleValues();
         break;
+      case 'float': // added 5/5/14
+        break;
       case 'int':
       case 'bigint':
       case 'smallint':
