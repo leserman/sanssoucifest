@@ -13,7 +13,11 @@ class SSFCodeBase {
 
   public static function string($filePath) { $me = SSFCodeBase::getInstance($filePath); return $me->codeBaseString; }
   
-  public static function autoloadClasses($filePath) { $me = SSFCodeBase::getInstance($filePath); return $me->autoloadClassesPath; }
+  public static function autoloadClasses($filePath) { 
+    if (self::$debug) { echo 'filePath '; print_r($filePath); echo "<br>\r\n"; }
+    $me = SSFCodeBase::getInstance($filePath); 
+    return $me->autoloadClassesPath; 
+  }
   
   // Sample use:  echo SSFCodeBase::relPathFor(images/titleBarGrayLight.gif);
   public static function relPathFor($pathFromBase) { return SSFCodeBase::string() . $pathFromBase; }
