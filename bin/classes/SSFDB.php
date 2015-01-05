@@ -7,7 +7,7 @@ class SSFDB {
   // This group of const vars should be private but PHP does not support private or protected const.
   const url = 'mysql.sanssoucifest.org';
   const username = 'sanssouci';
-  const pw = 'ssfdcmad4';  // previously 'minniekitty'
+  const pw = '4DAMcdfss';  // previously 'minniekitty', 'ssfdcmad4'
   
   private static $schemaNamePaths = array('../bin/database/', './bin/database/', '../../bin/database/', './') ;
   private static $schemaNameFile = 'emanamemchs.txt';
@@ -65,7 +65,7 @@ class SSFDB {
     // $this->queryResult = mysql_query($queryString, $this->link);
 	  $this->queryResult = mysql_query($queryString);
 		$this->queryResultArray = array();
-	  if (!$this->queryResult) {
+	  if ($this->queryResult === false) {
   	  self::setErrorState('QUERY = ' . $queryString);
 	  } else {
 	    $this->querySuccess = true;
@@ -81,7 +81,7 @@ class SSFDB {
 	public function saveData($queryString) {
 	  self::debug($queryString);
 	  $this->querySuccess = true;
-	  if (!mysql_query($queryString, $this->link)) {
+	  if (mysql_query($queryString, $this->link) === false) {
       $this->querySuccess = false;
 	    self::setErrorState('QUERY = ' . $queryString);
 	  }
@@ -156,7 +156,8 @@ class SSFDB {
     $this->querySuccess = false;
     $this->queryResultArray = null;
     $this->queryResultArrays = null;
-    $this->connectNow();
+    $connected = $this->connectNow();
+    if ($connected) mysql_set_charset("utf8"); // Added 11/19/14 - TODO This function is deprecated as of PHP 5.5.
   }
   
 	private function setErrorState($errorString) {
