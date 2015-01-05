@@ -60,6 +60,7 @@ function markArListItemSent(DOMid, markup) {
     public static $emailCommunique = null; // Singleton pattern support
     private static $adminUserId = 0;
     private static $debugger = null;
+    private static $mediaReceiptEmailNeededRows = array();
     private $commId = 0;
     private $recipientId = 0;
     private $recipientName = '';
@@ -68,24 +69,28 @@ function markArListItemSent(DOMid, markup) {
     private $sender = null;
     private $senderId = 0;
     private $to = '';
+    private $toEmailAddr = '';
     private $from = '';
+    private $fromName = '';
     private $subject = '';
     private $message = '';
     private $requestClipPermission;
     private $dbMessageCache = '';
     private $inResponseTo = 0;
     private $mrEmailWidgetId = '';
-    private $potentiallyReferencedWorks = array();
+    private $potentiallyReferencedWorks = array();  
     private $bcc = '';
     private $suppress;
 //    private $saved = false;
     private $undecided = false;
+    private $showsForWorks = array();
+    private $descriptionsForSelectedShows = array();  
     private $debug20120708 = -1;
     private $debug20120709 = -1;
     private static $debugStatuc20120708 = -1;
-    // 7/26/13 - TODO If $worksForAltVenueButNotSoIndicatedOtherwise is ever used again, it should not me hard-coded.
+    // 7/26/13 - TODO If $worksForAltVenueButNotSoIndicatedOtherwise is ever used again, it should not be hard-coded.
     private static $worksForAltVenueButNotSoIndicatedOtherwise = array('13-011', '13-037', '13-046', '13-083');     
-    private static $worksForWhichToRequestClipPermiission = array('13-046', '13-005', '13-037');     
+    private static $worksForWhichToRequestClipPermission = array('13-046', '13-005', '13-037');     
      
     // Utility functions
     public function belch($idString, $doIt=0) { self::$debugger->belch('Communique::belch() ' . $idString, $this, $doIt); }
@@ -102,7 +107,11 @@ function markArListItemSent(DOMid, markup) {
 
     // Get the rows for the works where media has been received but not acknowledged by an email.
     public static function getMediaReceiptEmailNeededRows() {
-      $query = " SELECT name, personId, email, title, workId, designatedId, dateMediaPostmarked, dateMediaReceived,"
+      $query = " SELECT name, personId, email, title, workId, designatedId, dateMediaPostmarked, dateMediaReceived, works.creationDate,"
+//             . " datePaid, amtPaid, howPaid, checkOrPaypalNumber, photoLocation, photoURL,"
+//             . " ((photoLocation IS NOT NULL AND photoLocation != '') OR (photoURL IS NOT NULL AND photoURL != '')) AS stills,"
+//             . " (datePaid IS NOT NULL AND datePaid != '0000-00-00') AS paid, howPaid,"
+//             . " (dateMediaReceived != '0000-00-00' and dateMediaReceived is not null and dateMediaReceived != '') AS mediaReceived,"
              . " communicationId, communications.type, dateSent"
              . " FROM people JOIN works ON submitter=personId"
              . " LEFT JOIN communicationWork ON workId=work"
@@ -115,12 +124,13 @@ function markArListItemSent(DOMid, markup) {
              . "     (SELECT work FROM communicationWork JOIN communications on communication=communicationId"
              . "      WHERE communications.type = 'MediaReceipt'" 
              . "         AND (dateSent is not null AND dateSent != '' AND dateSent != '0000-00-00' AND dateSent != '0000-00-00 00:00:00'))"
-             . " ORDER BY dateMediaPostmarked, designatedId, personId, workId";
-      //SSFDB::debugOn();
-      $resultRows = SSFDB::getDB()->getArrayFromQuery($query);
+//             . " ORDER BY dateMediaPostmarked, designatedId, personId, workId";
+             . " ORDER BY SUBSTR(works.creationDate,1,10), personId";
+//      SSFDB::debugOn();
+      self::$mediaReceiptEmailNeededRows = SSFDB::getDB()->getArrayFromQuery($query);
       SSFDB::debugOff();
-      SSFDebug::globalDebugger()->belch('getMediaReceiptEmailNeededRows() resultRows', $resultRows, -1);
-      return $resultRows;
+      SSFDebug::globalDebugger()->belchTrace('getMediaReceiptEmailNeededRows() self::mediaReceiptEmailNeededRows', self::$mediaReceiptEmailNeededRows, -1);
+      return self::$mediaReceiptEmailNeededRows;
     }
 
    // Initialization functions
@@ -130,7 +140,7 @@ function markArListItemSent(DOMid, markup) {
       self::$debugger->bechoTrace('initializeFromDatabase commId', $commId, -1); // $this->debug20120708
       //SSFDB::debugNextQuery();
       $commQueryString = "SELECT communicationId, recipient, dateSent, type, sender, emailTo, emailFrom, emailSubject, contentText, inResponseTo,"
-                       . " personId, name, nickName, lastName "
+                       . " personId, name, nickName, lastName, email " // 6/18/14
                        . " FROM communications JOIN people on recipient=personId"
                        . " WHERE communicationId = " . $commId;
       $dataRecord = SSFDB::getDB()->getArrayFromQuery($commQueryString);
@@ -191,10 +201,18 @@ function markArListItemSent(DOMid, markup) {
       $this->initialize('AcceptReject', $personId, $widgetId);
     }
     
-    private static $worksSelectString = "SELECT title, workId, designatedId, submitter, accepted, rejected, acceptFor, dateMediaReceived, photoLocation, photoURL, includesLivePerformance"; // 7/10/13
+    private static function worksSelectString() {
+    $worksSelectString = "SELECT title, workId, designatedId, submitter,"
+                       . " accepted, rejected, acceptFor, dateMediaReceived, photoLocation, photoURL, includesLivePerformance," // 7/10/13
+                       . " datePaid, amtPaid, howPaid, checkOrPaypalNumber," 
+                       . " ((photoLocation IS NOT NULL AND photoLocation != '') OR (photoURL IS NOT NULL AND photoURL != '')) AS stills,"
+                       . " (datePaid IS NOT NULL AND datePaid != '0000-00-00') AS paid, howPaid,"
+                       . " (dateMediaReceived != '0000-00-00' and dateMediaReceived is not null and dateMediaReceived != '') AS mediaReceived"; // 4/25/14
+    return $worksSelectString;
+    }
     
     private function getPotentiallyReferencedWorksFromDB() {
-      $query = self::$worksSelectString
+      $query = self::worksSelectString()
              . " FROM communicationWork JOIN works on work=workId "
              . " WHERE communication=" . $this->commId;
       //SSFDB::getDB()->debugOn();
@@ -205,7 +223,7 @@ function markArListItemSent(DOMid, markup) {
     }
     
     private function findPotentiallyReferencedWorks() {
-      $query = self::$worksSelectString
+      $query = self::worksSelectString()
              . " FROM people JOIN works on submitter=personId"
              . " WHERE submitter = " . $this->recipientId . " AND callForEntries = " . SSFRunTimeValues::getCallForEntriesId()
              . " AND withdrawn=0" // added 7/5/12
@@ -369,6 +387,7 @@ function markArListItemSent(DOMid, markup) {
       echo '<input type="hidden" id="type" name="type" value="' . $this->commType . '">' . "\r\n";
       echo '<input type="hidden" id="senderId" name="senderId" value=' . $this->sender->id() . '>' . "\r\n";
       echo '<input type="hidden" id="to" name="to" value="' . $this->to() . '">' . "\r\n";
+      echo '<input type="hidden" id="toEmailAddr" name="toEmailAddr" value="' . $this->toEmailAddr() . '">' . "\r\n";
       echo '<input type="hidden" id="from" name="from" value="' . $this->from . '">' . "\r\n";
       echo '<input type="hidden" id="emailSubject" name="emailSubject" value="' . $this->subject() . '">' . "\r\n";
       echo '<input type="hidden" id="inResponseTo" name="inResponseTo" value=' . $this->inResponseTo . '>' . "\r\n";
@@ -395,6 +414,7 @@ function markArListItemSent(DOMid, markup) {
 
     // One-line "getters"
     public function to() { return $this->to; }
+    public function toEmailAddr() { return $this->toEmailAddr; }
     public function from() { return $this->from; }
     public function nominalDateSent() { return ($this->sent()) ? $this->dateSent : 'Nowish'; }
     public function message() { return $this->message; }
@@ -413,6 +433,7 @@ function markArListItemSent(DOMid, markup) {
     // One line "setters"
     public function setFrom($from) { $this->from = $from; }
     public function setTo($to) { $this->to = $to; }
+    public function setToEmailAddr($toEmailAddr) { $this->toEmailAddr = $toEmailAddr; }
     public function setMessage($message) { $this->message = $message; }
     public function setDbMessageCache() { $this->dbMessageCache = $this->message; }
 
@@ -426,7 +447,7 @@ function markArListItemSent(DOMid, markup) {
     
     public function setValuesFromDataArray($dataArray) {
       // This function handles a data array from a query or from the hidden input cache.
-      self::$debugger->belch("48 setValuesFromDataArray() dataArray", $dataArray, -1);
+      self::$debugger->belch("48 setValuesFromDataArray() dataArray", $dataArray, -1); // turned on for SMTP debug 6/18/14 & 7/24/14
       self::$debugger->belchTrace('49 from setValuesFromDataArray() dataArray', $dataArray, -1);
       $this->commId = (isset($dataArray['commId']) ? $dataArray['commId'] 
                     : (isset($dataArray['communicationId']) ? $dataArray['communicationId'] : 0));
@@ -439,10 +460,13 @@ function markArListItemSent(DOMid, markup) {
       $this->senderId = (isset($dataArray['sender']) ? $dataArray['sender'] : 0);
       $this->to = (isset($dataArray['emailTo']) ? $dataArray['emailTo'] 
                 : ((isset($dataArray['to'])) ? $dataArray['to'] : ''));
-      if ($this->to =='') {
+      $this->toEmailAddr = (isset($dataArray['email']) ? $dataArray['email'] 
+                : ((isset($dataArray['toEmailAddr'])) ? $dataArray['toEmailAddr'] : ''));
+      if ($this->to == '') {
         $name = (isset($dataArray['name']) && $dataArray['name'] !='') ? $dataArray['name'] : '';
         $email = (isset($dataArray['email']) && $dataArray['email'] !='') ? $dataArray['email'] : '';
         $this->setToFieldFromNameAndEmail($name, $email);
+        $this->toEmailAddr = $email;
       }
       $this->message =(isset($dataArray['contentText']) ? $dataArray['contentText'] : '');
       $this->inResponseTo = (isset($dataArray['inResponseTo']) ? $dataArray['inResponseTo'] : 0);
@@ -524,7 +548,72 @@ function markArListItemSent(DOMid, markup) {
     }
 
     // Send this communique as an email. The communique will be saved or updated in the database appropriately.
+    // Use SMTP mail with PHPMailer.
     public function send($userId_Parameter_DO_NOT_USE=0) { 
+      $userId = SSFAdmin::user()->id();
+      // Save the communique.
+      $this->save($userId);
+      // Send the mail.
+      if (!isset($this->bcc) || $this->bcc == '') $this->bcc = $this->from;
+
+      $mail = new PHPMailer;
+      
+      $mail->isSMTP();                                      // Set mailer to use SMTP
+      $mail->Host = 'mail.sanssoucifest.org';               // Specify main and backup SMTP servers
+      $mail->SMTPAuth = true;                               // Enable SMTP authentication
+      $mail->Username = 'hiddenhamel@sanssoucifest.org';    // SMTP username
+      $mail->Password = 'ssfdcmad4';                        // SMTP password
+      $mail->SMTPSecure = 'tls';                            // Enable encryption, 'ssl' also accepted
+      $mail->Port = 587;                                    // CHANGED TO 587 9/11/14. The default seems to be 25. Switching to 587 may have solved the problem. See Dreamhost tracking # is 6425581.
+      
+      $mail->From = $this->from;
+      $mail->FromName = $this->fromName;
+      $mail->addAddress($this->toEmailAddr, $this->recipientName);   // Add a recipient
+      $mail->addReplyTo($this->from);                       // Name is optional
+      $mail->addBCC($this->bcc);
+//    $mail->addAddress('ellen@example.com');             // Name is optional
+//    $mail->addCC('cc@example.com');
+      
+//    $mail->WordWrap = 120;                                 // Set word wrap to 50 characters [Affects plain text version only.]
+//    $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+//    $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+      $mail->isHTML(false);                                  // Set email format to HTML
+      
+      $mail->Subject = $this->subject();
+      $mail->Body    = $this->message;
+//      $mail->AltBody = $this->message;
+  
+//      echo "<div style='color:green;margin-left:20px;'>"; 
+//      echo "to: " . $to . "<br>";
+//      echo "subject: " . $subject . "<br>";
+//      echo "message: " . $message . "<br>";
+
+      self::$debugger->belch('send() this', $this, -1); // turned on for SMTP debug 6/18/14 & 7/24/14
+      self::$debugger->belch('send() mail', $mail, -1); // turned on for SMTP debug 6/18/14 & 7/24/14
+  
+      $mailSuccess = $mail->send();
+  
+      if ($mailSuccess) {
+        self::$debugger->belch('send() Message has been sent to ', $this->toEmailAddr, -1);
+        // Update the object and database sent and dateSent fields.
+        $updateQuery = 'UPDATE communications set sent=1, dateSent="' . SSFRunTimeValues::nowForDB() . '" where communicationId=' . $this->commId;
+        SSFDB::getDB()->saveData($updateQuery);
+        $this->setDbMessageCache();
+        //SSFDB::debugNextQuery();
+        $getDateQuery = 'SELECT dateSent from communications where communicationId=' . $this->commId;
+        $dateResult = SSFDB::getDB()->getArrayFromQuery($getDateQuery); 
+        self::$debugger->belch('send() dateResult', $dateResult, -1);
+        $this->dateSent =  (count($dateResult) > 0) ? $dateResult[0]['dateSent'] : date("Y-m-d H:i:s");
+        // Assume that the curation acceptance email requests clip-for-demoreel permissions for every accepted work.
+        if ($this->commType == 'AcceptReject') $this->storePermissionRequests($userId);
+      } else {
+        self::$debugger->belch('Message could not be sent. Mailer Error', $mail->ErrorInfo, 1);
+      }
+  }
+
+    // This was function send() prior to 6/18/14
+    // Send this communique as an email. The communique will be saved or updated in the database appropriately.
+    public function sendUsingPHPMail($userId_Parameter_DO_NOT_USE=0) { 
       $userId = SSFAdmin::user()->id();
       // Save the communique.
       $this->save($userId);
@@ -569,6 +658,7 @@ function markArListItemSent(DOMid, markup) {
       $this->sender = SSFAdmin::user();
       $this->senderId = SSFAdmin::user()->id();
       $this->to = '';
+      $this->toEmailAddr = '';
       $this->from = '';
       $this->subject = '';
       $this->message = '';
@@ -615,7 +705,7 @@ function markArListItemSent(DOMid, markup) {
     public function messageClosing() {
       $closing = '';
       $user = SSFAdmin::user();
-      self::$debugger->belch('SSFCommunique::messageClosing userId', $user, -1); // line added 7/20/13
+      self::$debugger->belchtrace('SSFCommunique::messageClosing userId', $user, -1); // line added 7/20/13
       $closing .= $user->valediction() . "\r\n\r\n";
       $closing .= $user->name() . "\r\n";
       $closing .= $user->title() . "\r\n";
@@ -646,18 +736,43 @@ function markArListItemSent(DOMid, markup) {
     private function newMediaReceivedMessageBody() {
       $worksReceived = array();
       $worksNotYetReceived = array();
+      // Note that either dateMediaReceived or dateMediaPostmarked must be defined to be in potentiallyReferencedWorks. 4/25/14
       foreach ($this->potentiallyReferencedWorks as $referencedWork) {
+//      foreach (self::$mediaReceiptEmailNeededRows as $referencedWork) {
         if (self::mediaReceivedFor($referencedWork)) $worksReceived[] = $referencedWork;
         else $worksNotYetReceived[] = $referencedWork;
       }      
+      SSFDebug::globalDebugger()->belchTrace('newMediaReceivedMessageBody() worksReceived', $worksReceived, -1);
       $remainingWorksCount = $worksCount = count($worksReceived);
       $entryString = 'NOTHING';
       if ($worksCount > 0) {
         $message = $this->messageSalutation();
         $message .= 'Thank you very much for your submission';
         $message .= ($worksCount > 1) ? 's ' : ' ';
-        $year = SSFRunTimeValues::getCurrentYearString();                                         // 5/21/13 added ", still images, and entry fee"
-        $message .= 'to the ' . $year . ' Sans Souci Festival of Dance Cinema. We have received the media, EDITMEHERE still images, and entry fee' . (($worksCount > 1) ? 's' : '') . ' for '; 
+        $year = SSFRunTimeValues::getCurrentYearString();
+                                                                                                  // 5/21/13 added ", still images, and entry fee"
+// TODO: Utilize columns datePaid, amtPaid, howPaid, and checkOrPaypalNumber to provide more accurate info on payment
+//       and use, photoLocation, and photoURL to provide more accurate info on stills. This is hard when count > 1. 4/25/14
+        $allPaid = true;
+        $allStillsReceived = true;
+        $allDownloaded = true;
+        foreach ($worksReceived as $referencedWork) {
+          $allPaid = ($allPaid && $referencedWork['paid']);
+          $allStillsReceived = ($allStillsReceived && $referencedWork['stills']);
+          $allDownloaded = ($allDownloaded && $referencedWork['mediaReceived']);
+        }
+/*
+        $mediaReceivedText = ($allDownloaded) ? 'media' : '';
+        $allPaidText = ($allPaid) ? 'entry fee' : '';
+        $allStillsReceivedText = ($allPaid) ? 'still images' : '';
+*/
+        $message .= 'to the ' . $year . ' Sans Souci Festival of Dance Cinema. We have received the ';
+        if ($allDownloaded && $allPaid && $allStillsReceived)        { $message .= 'media, ' . 'still images' . ', and ' . 'entry fee'; }
+        else if ($allDownloaded && !$allPaid && $allStillsReceived)  { $message .= 'media and ' . 'still images'; }
+        else if ($allDownloaded && $allPaid && !$allStillsReceived)  { $message .= 'media and ' . 'entry fee'; }
+        else if ($allDownloaded && !$allPaid && !$allStillsReceived) { $message .= 'media'; }
+        else { $message .= 'DO NOT SEND THIS. CHECK WHAT WE\'VE RECEIVED. FILL IN THIS PART OF THE EMAIL. '; }
+        $message .= (($worksCount > 1) ? 's' : '') . ' for '; 
         foreach ($worksReceived as $referencedWork) {
           $remainingWorksCount--;
 //          $terminator = ($remainingWorksCount == 0  && $worksCount > 1) ? '.' : ''; 5/31/13
@@ -706,6 +821,7 @@ function markArListItemSent(DOMid, markup) {
     private function beMediaReceived($widgetId) {
       $this->commType = 'MediaReceipt';
       $this->from = SSFAdmin::user()->email();  // 'hamelb@sanssoucifest.org';  // 'info@sanssoucifest.org';
+      $this->fromName = SSFAdmin::user()->name();  // 'hamelb@sanssoucifest.org';  // 'info@sanssoucifest.org';
       $this->bcc = SSFAdmin::user()->email();  // 'hamelb@sanssoucifest.org';  // 'info@sanssoucifest.org';
       $this->subject = 'Sans Souci Festival of Dance Cinema - Media received';
       $this->setMrEmailWidgetId($widgetId);
@@ -775,6 +891,11 @@ function markArListItemSent(DOMid, markup) {
       return $part;
       }
     
+    public function acceptanceMessagePart1c() {
+      $part = " <title> will screen at <showDescription>.<br><br>";
+      return $part;
+      }
+    
     private function rejectionWithinAcceptanceMessage() { return SSFRunTimeValues::getRejectionWithinAcceptanceMessage(); }
     /*
       $part = "Regrettably, we will be not presenting <title> as part of our festival this year. We had a large number of excellent"
@@ -783,8 +904,11 @@ function markArListItemSent(DOMid, markup) {
     }
     */
     
-    public function plugTheShow() { return SSFRunTimeValues::getPlugTheShowPart(); }
-    /*
+    public function plugTheShow() {
+      SSFDebug::globalDebugger()->becho('SSFRunTimeValues getPlugTheShowPart()', SSFRunTimeValues::getPlugTheShowPart(), -1);
+      return SSFRunTimeValues::getPlugTheShowPart(); 
+    }
+    /* Sample plug:
       $plug = "<We'll> be presenting works from all over the world"
             . " and we're excited to offer our most substantive program to date."
             . " We'll have two evenings of dance cinema shorts, including a live multi-media dance performance,"
@@ -825,6 +949,7 @@ function markArListItemSent(DOMid, markup) {
                . " from pieces that we present."
                . " For an example, see our demo reel at http://sanssoucifest.org/demoreel."
                . " Please reply to this email to permit or deny us use of <clip> from <title> for this purpose.<br><br>";
+      $request .= "IMAGE REQUEST: Please also respond to permit or deny us use of <frame> from <title> as <a still image> (with credits) in our publicity materials.<br><br>";
       return $request;
     }
     
@@ -919,7 +1044,7 @@ function markArListItemSent(DOMid, markup) {
       if ($workAccepted) {
         $requestClipPermission = true;
         if (SSFRunTimeValues::getCallForEntriesId() == 13) { // 2013 call
-          if (!in_array($work['designatedId'], self::$worksForWhichToRequestClipPermiission) &&
+          if (!in_array($work['designatedId'], self::$worksForWhichToRequestClipPermission) &&
               ($work['acceptFor'] != 'screening')) $requestClipPermission = false;
         }
       }
@@ -950,10 +1075,12 @@ function markArListItemSent(DOMid, markup) {
     // based on generateAccRejEmail() in curationAccRejEmailText.php
     private function newAcceptRejectMessageBody($inviteFeedbackRequest=false) {    
       SSFDebug::globalDebugger()->belch('this->potentiallyReferencedWorks', $this->potentiallyReferencedWorks, -1); // 7/20/13
-      // Count the referenced works by category and form a list of titles for each category.
+      // Initialization
       $totalNumberOfWorks = 0;                  $allWorksTitles = array();
       $numberOfWorksToScreen = 0;               $screenWorkTitles = array();
       $numberOfAcceptedWorks = 0;               $acceptedWorkTitles = array();
+      $listOfAcceptedWorkIds = array();         $acceptedWorkTitlesByWorkId = array();
+      $arrayOfAcceptedWorks = array();
       $numberOfAccWorksForInstall = 0;          $installWorkTitles = array();
       $numberOfAccWorksForAltVenue = 0;         $altVenueWorkTitles = array();
       $numberOfWorksNeedingImages = 0;          $worksNeedingImagesTitles = array();
@@ -968,7 +1095,9 @@ function markArListItemSent(DOMid, markup) {
       $includesLivePerfRejected = false; // set to true if any of the accepted referenced works include live performance
       $requestClipPermission = false;
       // TODO: When the user has an option to omit some works, use only those works, not $this->potentiallyReferencedWorks.
+      // Count the referenced works by category and form a list and arrays of elements (e.g., titles) for each category.
       foreach($this->potentiallyReferencedWorks as $work) {
+        $workId = $work['workId'];
         $workAccepted = ($work['accepted'] == 1);
         $stillImagesNeeded = SSFRuntimeValues::requestImages() && HTMLGen::stillImagesNeeded($work['photoLocation'], $work['photoURL']);
         $thisOneForInstallation = $workAccepted && stripos($work['acceptFor'], 'installation') !== false;
@@ -979,17 +1108,21 @@ function markArListItemSent(DOMid, markup) {
         SSFDebug::globalDebugger()->becho('newAcceptRejectMessageBody thisWorkForAltVenueButNotSoIndicatedOtherwise', ($thisWorkForAltVenueButNotSoIndicatedOtherwise) ? 1 : 0, -1); // 7/26/13
         SSFDebug::globalDebugger()->becho('newAcceptRejectMessageBody work[acceptFor] contains alternateVenue', (stripos($work['acceptFor'], 'alternateVenue') !== false) ? 1 : 0, -1); // 7/26/13
         $thisOneForAltVenue = ((stripos($work['acceptFor'], 'alternateVenue') !== false) || $thisWorkForAltVenueButNotSoIndicatedOtherwise);
-        $forAltVenue |= $thisOneForAltVenue;
+        $forAltVenue |= $thisOneForAltVenue && (SSFRunTimeValues::getCallForEntriesId() != 14); // KLUDGE for 2014
         SSFDebug::globalDebugger()->becho('newAcceptRejectMessageBody forAltVenue', ($forAltVenue) ? 1 : 0, -1); // 7/26/13
         if (true)                                   { $totalNumberOfWorks++;          $allWorksTitles[] = $work['title']; }
         if ($work['accepted'] == $work['rejected']) { $numberOfUndecidedWorks++;      $undecidedWorkTitles[] = $work['title']; }
         else if ($work['rejected'] == 1)            { $numberOfRejectedWorks++;       $rejectedWorkTitles[] = $work['title']; }
         else if ($workAccepted) { 
                                                       $numberOfAcceptedWorks++;       $acceptedWorkTitles[] = $work['title'];
+                                                                                      $acceptedWorkTitlesByWorkId[$workId] = $work['title'];
+                                                                                      $listOfAcceptedWorkIds[] = $workId;
+                                                                                      $arrayOfAcceptedWorks[$workId] = $work;
           if ($stillImagesNeeded)                   { $numberOfWorksNeedingImages++;  $worksNeedingImagesTitles[] = $work['title']; }
           if ($thisOneForInstallation)              { $numberOfAccWorksForInstall++;  $installWorkTitles[] = $work['title']; }
           if ($thisOneForAltVenue)                  { $numberOfAccWorksForAltVenue++; $altVenueWorkTitles[] = $work['title']; }
-          else if (!$thisOneForInstallation & !$thisOneForAltVenue)
+//          else if (!$thisOneForInstallation & !$thisOneForAltVenue)
+          if (!$thisOneForInstallation) // KLUDGE for 2014
                                                     { $numberOfWorksToScreen++;       $screenWorkTitles[] = $work['title']; }
           if ($requestClipPermissionForThisWork)    { $numberOfClipRequests++;        $clipRequestTitles[] = $work['title']; }
           }
@@ -1023,11 +1156,16 @@ function markArListItemSent(DOMid, markup) {
         $message = $this->messageSalutation();
         $dataArray = $this->potentiallyReferencedWorks[0];
         // Generate the email based on the categories of the referenced works.
+        
+        // Handle accepted works.
         if ($numberOfAcceptedWorks > 0) { // If any works at all were accepted
           // ACCEPTED
           self::$debugger->belchTrace('newAcceptRejectMessageBody this->potentiallyReferencedWorks[0]', $this->potentiallyReferencedWorks[0], -1);
           // TODO Mention documentary vs installation or screening
-          $msgPartA = str_replace('<title>', self::generateTitleString($acceptedWorkTitles, 'and', ','), $this->acceptanceMessagePart1a());
+          
+          // $msgPartA - Letter opening for accepted work: "Congratulations! It will be our pleasure to <screen> your <film>, <title>, ..."
+//          $msgPartA = str_replace('<title>', self::generateTitleString($acceptedWorkTitles, 'and', ','), $this->acceptanceMessagePart1a());
+          $msgPartA = str_replace('<title>', self::generateTitleString($acceptedWorkTitles, 'and', ''), $this->acceptanceMessagePart1a());
           $filmReplacementWord = $this->replaceTheWordFilm($includesLivePerfAccepted, $numberOfAcceptedWorks);
           $msgPartA = str_replace('<film>', $filmReplacementWord, $msgPartA);
           $msgPartA = str_replace('<screen>', ($forInstallation || $includesLivePerfAccepted) ? 'present' : 'screen', $msgPartA);
@@ -1036,12 +1174,37 @@ function markArListItemSent(DOMid, markup) {
           else $msgPartA = str_replace('<at our>', 'at our', $msgPartA);
 //          $msgPartA = str_replace('<at our>', ($forInstallation && $numberOfWorksToScreen == 0) ? 'as part of our installation exhibit (see below) at the' : 'at our', $msgPartA);
 //          $msgPartA = str_replace('<at our>', ($forAltVenue && $numberOfWorksToScreen == 0) ? 'at one of the alternate venues (see below) associated with' : 'at our', $msgPartA);
+
+          // $msgPartB - Thanks for your submission[s]
           $msgPartB = str_replace('<submission>', ($numberOfAcceptedWorks == 1) ? 'submission' : 'submissions', $this->acceptanceMessagePart1b());
-          $msgPartC = '';
+          self::$debugger->belch('$listOfAcceptedWorkIds', $listOfAcceptedWorkIds, -1);
+
+          // $msgPartD enumerates the venue for each work to be presented.
+          $msgPartD = '';
+          foreach($listOfAcceptedWorkIds as $acceptedWorkId) {
+            $workTitle = '"' . $acceptedWorkTitlesByWorkId[$acceptedWorkId] . '"';
+            $showCountForThisWork = 0;
+            $showDesc = '';
+            $thereAreShowsForThisWork = (isset($this->showsForWorks[$acceptedWorkId]));
+            if ($thereAreShowsForThisWork) {
+              foreach($this->showsForWorks[$acceptedWorkId] as $showsForWork) {
+                $showCountForThisWork++;
+                if ($showCountForThisWork == 1) $showDesc = $this->descriptionsForSelectedShows[$showsForWork];
+                else $showDesc .= ', and at ' . $this->descriptionsForSelectedShows[$showsForWork];
+                $thisIsAnInstallation = (stripos($arrayOfAcceptedWorks[$acceptedWorkId]['acceptFor'], 'installation') !== false);
+                $modeOfPresentation = $thisIsAnInstallation ? 'be exhibited' : 'screen';
+                self::$debugger->becho('work & venues', $workTitle . ' will ' . $modeOfPresentation . ' at ' . $showDesc, -1);
+              }
+              $workTitleText = ' ' . (($numberOfAcceptedWorks == 1) ? 'It' : $workTitle);
+              // TODO: Handle the case where there are no shows for the work in question. Suppress generation of email & inform operator.
+              $msgPartD .= $workTitleText . ' will ' . $modeOfPresentation . ' at ' . $showDesc . '.';
+            }
+          }
           
+          // $msgPartC addresses works for Installation and also for Alternate Venues (which applies to 2013 and earlier).
+          $msgPartC = '';
           if ($forInstallation) $explainInstallation = true;
           if ($forAltVenue) $explainAltVenue = true;
-
           if ($forInstallation) { 
             if ($numberOfWorksToScreen != 0) {
               $msgPartC = ' ' . self::generateTitleString($screenWorkTitles, 'and') . ' will be screened while '
@@ -1052,7 +1215,6 @@ function markArListItemSent(DOMid, markup) {
               $msgPartC = ' Additionally, ' . self::generateTitleString($altVenueWorkTitles, 'and') . ' will be screened at one of the alternate venues (see below).';
             }
           }
-
           SSFDebug::globalDebugger()->becho('newAcceptRejectMessageBody forAltVenue B', ($forAltVenue) ? 1 : 0, -1); // 7/26/13
           if (!$forInstallation && $forAltVenue && $numberOfWorksToScreen != 0) { 
             $msgPartC = ' ' . self::generateTitleString($screenWorkTitles, 'and') . ' will be screened at our primary event while '
@@ -1060,61 +1222,84 @@ function markArListItemSent(DOMid, markup) {
           }
           // TODO: Not handled is the case of one for installation or screening in addition to another for an alternate venue 
           
-          $message .= $msgPartA . $msgPartC . $msgPartB;
+          // Concatenate the message parts.
+          $message .= $msgPartA . '' . $msgPartD . $msgPartC . $msgPartB;
           if ($numberOfRejectedWorks > 0) {
             // and also REJECTED
             $message .= str_replace('<title>', self::generateTitleString($rejectedWorkTitles, 'or'), $this->rejectionWithinAcceptanceMessage());
           }
-          $plugTheShow = str_replace("<if you're able to come>", (($includesLivePerfAccepted) ? '' : " if you're able to come"), $this->plugTheShow()); // _if_you_are_able_to_come
+          SSFDebug::globalDebugger()->becho('this->plugTheShow()', $this->plugTheShow(), -1);
+          $plugTheShow = str_replace("<if you're able to come>", (($includesLivePerfAccepted) ? '' : " if you're able to come"), $this->plugTheShow()); // _if_you_are_able_to_come      
+          SSFDebug::globalDebugger()->becho('plugTheShow', $plugTheShow, -1);          
           $part2 = str_replace('<title>', self::generateTitleString($rejectedWorkTitles, 'nor'), $plugTheShow . $this->acceptanceMessagePart2());
-          $message .= str_replace("<We'll>", ($numberOfRejectedWorks > 0) ? 'We will' : "We'll", $part2);
+//          if (SSFRunTimeValues::getCallForEntriesId() != 14) $message .= str_replace("<We'll>", ($numberOfRejectedWorks > 0) ? 'We will' : "We'll", $part2); // KLUDGE for 2014
+          $message .= str_replace("<We'll>", ($numberOfRejectedWorks > 0) ? 'We will' : "We'll", $part2); // KLUDGE for 2014
           $stillImagesNeeded = SSFRuntimeValues::requestImages() && HTMLGen::stillImagesNeeded($dataArray['photoLocation'], $dataArray['photoURL']);
           if ($stillImagesNeeded) {
             $message .= str_replace('<title>', self::generateTitleString($acceptedWorkTitles, 'and', '.'), $this->imageRequest());
           }
 
+          // Request clip permissions as appropriate.
           if ($requestClipPermission) {
             $msgPart = str_replace('<title>', self::generateTitleString($clipRequestTitles, 'and'), $this->clipRequest());
             $msgPart = str_replace('<clip>', ($numberOfClipRequests == 1) ? 'a clip' : 'clips', $msgPart);
+            $msgPart = str_replace('<frame>', ($numberOfClipRequests == 1) ? 'a frame' : 'frames', $msgPart);
+            $msgPart = str_replace('<a still image>', ($numberOfClipRequests == 1) ? 'a still image' : 'still images', $msgPart);
             $message .= $msgPart;
           }
           $message .= $this->acceptanceMessageClosing();
-        } else if ($numberOfRejectedWorks > 0) {
+        } // End Handle accepted works.
+        
+        // Handle rejected works if none were accepted.
+        else if ($numberOfRejectedWorks > 0) {
           // REJECTED only
           $msgPart1 = str_replace('<title>', self::generateTitleString($rejectedWorkTitles, 'and', ','), $this->rejectionMessagePart1());
           $msgPart2 = str_replace('<title>', self::generateTitleString($rejectedWorkTitles, 'nor'), $this->rejectionMessagePart2());
           $filmReplacementWord = $this->replaceTheWordFilm($includesLivePerfRejected, $numberOfRejectedWorks);
           $message .= str_replace('<film>', $filmReplacementWord, $msgPart1 . $msgPart2);
-          $plugTheShow = str_replace("<We'll>", 'This year we will', $this->plugTheShow());
-          $message .= str_replace("<if you're able to come>", (($includesLivePerfAccepted) ? '' : " if you're able to come"), $plugTheShow);
+//          $plugTheShow = str_replace("<We'll>", 'This year we will', $this->plugTheShow());                                                   // for prior to 2014
+//          $message .= str_replace("<if you're able to come>", (($includesLivePerfAccepted) ? '' : " if you're able to come"), $plugTheShow);  // for prior to 2014
           if ($inviteFeedbackRequest) $message .= $this->InviteFeedbackRequest(); 
           $message .= str_replace("<submission>", ($numberOfRejectedWorks == 1) ? 'submission' : 'submissions', $this->rejectionMessageClosing());
-        }
-        // Close the message.
+        } // End Handle rejected works if none were accepted
+        
+        // Close the message with signature and detail blurbs explaining installations, alternate venues, directions, schedule, ...
         $message .= $this->messageClosing() . "<br>";
         // Add conditional notes below the signature.
         //if ($numberOfAcceptedWorks > 0) 
+        self::$debugger->becho('numberOfWorksToScreen', $numberOfWorksToScreen, -1);
         if ($explainInstallation && ($this->installationExplanation() != '')) 
           $message .= "<br><br>" . str_replace('<title>', self::generateTitleString($installWorkTitles, 'and', ','), $this->installationExplanation()); // 7/16/11
         if ($explainAltVenue && ($this->altVenueExplanation() != '')) 
           $message .= "<br><br>" . str_replace('<title>', self::generateTitleString($altVenueWorkTitles, 'and', ','), $this->altVenueExplanation()); // 7/26/11
-        if (($numberOfAcceptedWorks > 0) && ($this->venueDirections() != '') 
-                                         && (($numberOfWorksToScreen + $numberOfAccWorksForInstall) >= 1) 
-                                         && ($this->venueDirections() != '')) 
+        if (($numberOfAcceptedWorks > 0) && ($this->venueDirections() != '') && (($numberOfWorksToScreen + $numberOfAccWorksForInstall) >= 1)) 
           $message .= "<br><br>" . $this->venueDirections();
         if (($numberOfWorksNeedingImages > 0) && ($this->imageDetailPart() != '')) $message .= "<br><br>" . $this->imageDetailPart();
       }
-//      $messageWithCRs = str_replace("<br>", "\r\n", $message . "<br>");
-      $messageWithCRs = str_replace("<br>", "\r\n", $message);
+      $messageWithCRs = str_replace("<br>", "\r\n", $message); // . "<br>");
       self::$debugger->belchTrace('newAcceptRejectMessageBody messageWithCRs', $messageWithCRs, -1);
       return $messageWithCRs;
     }
 
     private function beAcceptReject() {
+      self::$debugger->belch('beAcceptReject()', '', -1);
       $this->commType = 'AcceptReject';
       $this->from = 'Curators@sanssoucifest.org';
       $this->bcc = 'Curators@sanssoucifest.org';
       $this->subject = 'Sans Souci Festival of Dance Cinema';
+      $workShowsTableQuery = "SELECT DISTINCT submitter, workId, `show`, showDesc FROM"
+                           . " (SELECT workId, designatedId, submitter, `show`, `shows`.anotherDescription AS showDesc, shows.date as showDate, shows.startTime as showTime"
+                           . " FROM works LEFT JOIN runOfShow ON workId = work LEFT JOIN shows ON showId = `show`"
+                           . " WHERE callForEntries=14 AND accepted=1) AS dataSetOfInterest"
+                           . " ORDER BY submitter, workId, showDate, showTime";
+      $resultRows = SSFDB::getDB()->getArrayFromQuery($workShowsTableQuery);
+      foreach($resultRows as $resultRow) {
+        $workId = $resultRow['workId'];
+        $this->showsForWorks[$workId][] = $resultRow['show'];
+        $this->descriptionsForSelectedShows[$resultRow['show']] = $resultRow['showDesc']; 
+      }
+      self::$debugger->belch('beAcceptReject() showsForWorks', $this->showsForWorks, -1);                                // 7/23/14
+      self::$debugger->belch('beAcceptReject() descriptionsForSelectedShows', $this->descriptionsForSelectedShows, -1);  // 7/23/14
       return $this;
     }
 
