@@ -44,9 +44,11 @@
   $debugger->enableBelch(false);
   $debugger->enableBecho(false);
 
+//  SSFQuery::debugOn();
   $emailRows = SSFCommunique::getMediaReceiptEmailNeededRows();
   $debugger->belch('SSFCommunique::getMediaReceiptEmailNeededRows emailRows', $emailRows, -1);
   $debugger->belch('_POST', $_POST, -1);
+  SSFQuery::debugOff();
 
 //  $currentEntryIdCache = HTMLGen::$currentEntryIdCacheNameForCuration;
 
@@ -67,11 +69,12 @@
   echo tdTag($bgnd, $align) . "</td>\r\n";
   echo tdTag($bgnd, $align) . "Prsn Id</td>\r\n";
   echo tdTag($bgnd, $align) . "Name</td>\r\n";
-  echo tdTag($bgnd, $align) . "Wrk Id</td>\r\n";
+//  echo tdTag($bgnd, $align) . "Wrk Id</td>\r\n"; // 4/25/14
   echo tdTag($bgnd, $align) . "Des. Id</td>\r\n";
   echo tdTag($bgnd, $align) . "Title</td>\r\n";
-  echo tdTag($bgnd, $align) . "Postmarked</td>\r\n";
-  echo tdTag($bgnd, $align) . "Picked Up</td>\r\n";
+  echo tdTag($bgnd, $align) . "Postmarked</td>\r\n"; // 4/25/14
+//  echo tdTag($bgnd, $align) . "Picked Up</td>\r\n";
+  echo tdTag($bgnd, $align) . "Date Entrd</td>\r\n"; // 4/25/14
   echo "</tr>\r\n";
   $priorPersonId = 0;
   $priorWorkId = 0;
@@ -102,11 +105,12 @@
         echo tdTag($bgnd, 'center') . "</td>\r\n";
         echo tdTag($bgnd, 'left') . "</td>\r\n";
       }
-      echo tdTag($bgnd, 'center') . $workId . "</td>\r\n";
+//      echo tdTag($bgnd, 'center') . $workId . "</td>\r\n"; // 4/25/14
       echo tdTag($bgnd, 'center') . $resultRow['designatedId'] . "</td>\r\n";
       echo tdTag($bgnd, 'left') . $resultRow['title'] . "</td>\r\n";
       echo tdTag($bgnd, 'center') . $resultRow['dateMediaPostmarked'] . "</td>\r\n";
-      echo tdTag($bgnd, 'center') . $resultRow['dateMediaReceived'] . "</td>\r\n";
+//      echo tdTag($bgnd, 'center') . $resultRow['dateMediaReceived'] . "</td>\r\n";  // 4/25/14
+      echo tdTag($bgnd, 'center') . substr($resultRow['creationDate'],0,10) . "</td>\r\n"; // 4/25/14
       $priorPersonId = $personId;
     }
       $priorWorkId = $workId;
