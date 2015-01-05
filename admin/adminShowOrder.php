@@ -20,6 +20,7 @@
 // - Shows are not editable if the corresponding event "didOccur" or was "cancelled".
 
 TODO:
+  - Incorporate jQuery Sortable, http://api.jqueryui.com/sortable/
   - Gracefully handle a duplicate workId in a show. 
     Now it causes ERROR # 1062: Duplicate entry '31-704' for key 'PRIMARY'
 -->
