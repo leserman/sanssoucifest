@@ -8,6 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> TEST 11/15/14 -->
 <META http-equiv="Pragma" content="no-cache">
 <META http-equiv="Expires" content="-1"> 
 <META NAME="description" CONTENT="A niche film festival specializing in dance cinema, incorporating live performance, and including museum installations.">
@@ -222,6 +223,7 @@
       if ($personInDB != false) {
         echo '<script type="text/javascript">alert("The new person\'s email address, ' . $email 
             . ', duplicates one already in the database. Therefore, this person you just created will not be saved. '
+//            . ', duplicates one already in the database. Therefore, this person you are creating cannot be saved.  ' 1/26/14
             . '");</script>';
       }
     }
