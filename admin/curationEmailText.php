@@ -1,3 +1,8 @@
+<?php
+  include_once '../bin/classes/SSFCodeBase.php'; 
+  include_once SSFCodeBase::autoloadClasses(__FILE__);
+  include_once '../bin/classes/HTMLGen.php';    // For some reason, HTMLGen was not being loaded without this explicit include.
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -118,8 +123,6 @@
 
 
 <?php // --- PHP ---------------------------------------------------------------------------------------
-  include_once '../bin/classes/SSFCodeBase.php'; 
-  include_once SSFCodeBase::autoloadClasses(__FILE__);
   
 // --- constants -------------------------------------------------------------------------------------
 
@@ -285,6 +288,7 @@
   $padding = (!$commmmuniqueWasSent) ? 'padding:4px 10px 8px 8px' : 'padding:0';
   echo '              <td align="center" valign="middle" class="bodyTextOnDarkGray" style="' . $padding . '">';
   echo '                <div style="border:solid thin #999;padding:0 0 2px 0; margin-bottom:8px;">';
+  $debugger->belchTrace('_POST', $_POST, -1);  // used 7/24/14
   $communique->displayPotentiallyReferencedWorks();
   echo '                </div>';
   if (!$commmmuniqueWasSent) {
