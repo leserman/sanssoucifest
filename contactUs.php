@@ -51,11 +51,12 @@
       <tr><td align="center" valign="top">
 			  <img src="images/TubBabe.jpg" alt="Tub Babe" width="300" height="199"><br><img src="images/dotClear.gif" alt="" width="1" height="24" hspace="0" vspace="0" border="0" align="middle"><br>
 <?php 
+  $listManagementEmailAddress = SSFRunTimeValues::getListManagementEmailAddress();
   $emailAddr = SSFRunTimeValues::getContactEmailAddress();
   echo '        <a href="mailto:' . $emailAddr . '">' . $emailAddr . '</a><br>' . "\r\n"; 
 ?>
         <br>
-        <span class="bodyTextLeadedOnBlack">Please <a href="mailto:mailme@sanssoucifest.org?subject=Add me to your email list&body=Edit below as appropriate.%0A%0AAdd me to your email list for Events.%0A%0AAdd me to your email list for Calls for Entries.%0A%0ARemove me from your email list.%0A%0A">click here</a> to be
+        <span class="bodyTextLeadedOnBlack">Please <a href="mailto:<?php echo $listManagementEmailAddress ?>?subject=Add me to your email list&body=Edit below as appropriate.%0A%0AAdd me to your email list for Events.%0AAdd me to your email list for Calls for Entries.%0ARemove me from your email list.%0A%0AFirst name: %0ALast name: %0ACountry of residence: %0AAnything else you'd like us to know: %0A">click here</a> to be
         added to<br>
         or removed from our email mailing list.</span><br>
         <img src="images/dotClear.gif" alt="" width="1" height="24" hspace="0" vspace="0" border="0" align="middle">
