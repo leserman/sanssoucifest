@@ -8,7 +8,7 @@
   <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="-1">
-  <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+  <!-- <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"> -->
   <title>Vimeo Downloadability</title>
   <link rel="stylesheet" href="../sanssouci.css" type="text/css">
   <link rel="stylesheet" href="../sanssouciBlackBackground.css" type="text/css">
