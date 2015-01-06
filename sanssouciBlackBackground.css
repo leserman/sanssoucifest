@@ -1,16 +1,20 @@
 /* sanssouciBlackBackground.css */
 
-a:link { color : #CCBD99; text-decoration: underline; } /* 99CCFF, b0e0e6, B3AC98 */
+a:link { color : #CCBD99; text-decoration: underline; }
 a:visited { color : #CCBD99; text-decoration: underline; }
 a:hover { color : #990000; text-decoration: none; }
 
-.navbar a:link { color : #CCBD99; text-decoration: none; } /* 99CCFF, b0e0e6, B3AC98 */
-.navbar a:visited { color : #CCBD99; text-decoration: none; }
-.navbar a:hover { color : #990000; text-decoration: underline; }
+.narBarMainSection a:link, .narBarArchiveSection a:link { color : #CCBD99; text-decoration: none; }        /* was .navbar prior to 11/5/14 */
+.narBarMainSection a:visited, .narBarArchiveSection a:visited { color : #CCBD99; text-decoration: none; }  /* was .navbar prior to 11/5/14 */
+.narBarMainSection a:hover, .narBarArchiveSection a:hover { color : #990000; text-decoration: underline; } /* was .navbar prior to 11/5/14 */
 
-.navbarTight a:link { color : #CCBD99; text-decoration: none; } /* 99CCFF, b0e0e6, B3AC98 */
+.navbarTight a:link { color : #CCBD99; text-decoration: none; }
 .navbarTight a:visited { color : #CCBD99; text-decoration: none; }
 .navbarTight a:hover { color : #990000; text-decoration: underline; }
+
+.hideLinkUnderline a:link { color : #CCBD99; text-decoration: none; }
+.hideLinkUnderline a:visited { color : #CCBD99; text-decoration: none; }
+.hideLinkUnderline a:hover { color : #990000; text-decoration: underline; }
 
 body { 
   background-color: #000000;

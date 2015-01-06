@@ -61,7 +61,7 @@
     <div class="callForEntriesText">
       We're interested in a broad range of topics that investigates dance cinema and/or the intersection 
       of dance and cinema.  Examples of this intersection could include: discussion of the history of dance cinema and how it is changing, 
-      <img src="./images/daisycrunchgraphic.gif" align="right" alt="dance for camera" style="text-align:right;height:148px;width:150px;border:none;padding:10px 18px 10px;"> the 
+      <img src="images/daisycrunchgraphic.gif" align="right" alt="dance for camera" style="text-align:right;height:148px;width:150px;border:none;padding:10px 18px 10px;"> the 
       ever-evolving technology behind the scenes, the
       advancement of YouTube and its relation to dance for the camera, the interplay of 
       reality TV dance competitions and proscenium stage expectations, dance for camera audiences, the use of animation and special effects, 

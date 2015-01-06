@@ -56,6 +56,10 @@ body {
 .liveDisplayText, .noMediaDisplayColor { color: #B22222; /* firebrick */ }
 .offWhite { color: #FFFFCC; /* firebrick */ } 
 
+.yearsAtVenue {
+  font-weight: bold;
+  color: #c45f05;
+}
 
 .floatleft, .floatLeft {
 	float: left;
@@ -63,6 +67,16 @@ body {
 
 .floatright, .floatRight {
 	float: right;
+}
+
+.topCenter {
+  text-align: center;
+  vertical-align: top;
+}
+
+.topLeft {
+  text-align: left;
+  vertical-align: top;
 }
 
 .etchedIn {
@@ -183,8 +197,8 @@ body {
 }
 
 .narBarMainSection {
-	border-left: 1px outset #333333;
-	border-top: 1px outset #333333;
+	border-left: 1px outset #222222;
+	border-top: 1px outset #222222;
 	padding-top: 3px;
 	padding-bottom: 5px;
 	margin-top: 0px;
@@ -193,10 +207,10 @@ body {
 }
 
 .narBarArchiveSection {
-	border-right: 1px inset #333333; /* #FFFFA6 */
-	border-bottom: 1px inset #333333;
+	border-right: 1px inset #222222; /* #FFFFA6 */
+	border-bottom: 1px inset #222222;
 	padding-top: 0px;
-	padding-bottom: 5px;
+	padding-bottom: 6px;
 	margin-top: 0px;
 	margin-left: 5px;
 	margin-right: 5px;
@@ -276,6 +290,10 @@ li.noIndentOnDarkGray {
   color: #F6F6F0;
 }
 
+table {
+  border-collapse: collapse;
+}
+
 table.almostEndBackground { 
   background-image: url("http://sanssoucifest.org/images/almostEndBackground2.jpg");
   background-color: #CCCCCC;
@@ -288,6 +306,10 @@ table.almostEndBackground0 {
 
 table.programPageBackground { 
   background-color: black;
+}
+
+td {
+  padding: 0;
 }
 
 td.filmFigure {
@@ -517,23 +539,28 @@ img.boxed {
 	background-color: #FFFF99;
 }
 
-.entryRequirementsText {
+.entryRequirementsText { /* DEPRECATED but maintained here for backward compatability */
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
-	line-height: 17px;
+	line-height: 1.3;
   font-weight: normal;
   color: #FFFFCC;
-	padding: 8px 6px 6px 6px;
+	padding: 16px 6px 6px 6px;
+	margin: 0;
 }
 
-.entryRequirementsParagraph {
+.entryRequirementsParagraph {  /* DEPRECATED but maintained here for backward compatability */
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
-	line-height: 17px;
+	line-height: 1.3;
   font-weight: normal;
   color: #FFFFCC;
-  margin: 8px 6px 6px 6px;
+  margin: 10px 20px 6px 0px;
 	padding: 0;
+}
+
+.entryRequirementsParagraph:first-of-type {  /* DEPRECATED but maintained here for backward compatability */
+  margin-top: 16px;
 }
 
 .entryFormSectionHeading { /* NOTE: 3 versions of this rule. This one is the base. */
@@ -737,7 +764,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
   color: #FFFFCC;
 }
 
-.linkListTitle {
+.sectionTitle, .linkListTitle {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 18px;
   font-weight: normal;
@@ -748,13 +775,38 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 	padding-left: 20px;
 }
 
-.linkListText {
+.sectionTitle {
+	padding-top: 20px;
+}
+
+h3 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: normal;
+  font-style: italic;
+  color: #FFFF99;
+	line-height: 1.2;
+	margin-top: 14px;
+	margin-left: 20px;
+}
+
+.sectionText, .linkListText {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: normal;
 	padding: 8px 20px 8px 40px;
   color: #FFFFCC;
 }
+
+p {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  margin: 10px 20px 0px 40px;
+  color: #FFFFCC;
+}
+
+p:first-of-type { margin-top:4px; }
 
 .filmInfoSubtitleText {
   font-family: Arial, Helvetica, sans-serif;
