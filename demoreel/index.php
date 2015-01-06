@@ -7,7 +7,7 @@
   <meta name="description" content="A niche film festival specializing in dance cinema, incorporating live performance, and including museum installations.">
   <meta name="keywords" content="dance film festival, dance video festival, video dance festival, dance cinema festival, live performance, dance performance, live dance performance, dance festival, video dance, dance video, dance film, dance cinema, dance, film, video, cinema, festival, art, arts, artists, projection, projected, tour, touring"><!-- InstanceBeginEditable name="doctitle" -->
 <title>Sans Souci Festival of Dance Cinema - Demo Reel</title>
-<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<!--<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">-->
 <script language="JavaScript" type="text/JavaScript" src="../scripts/plugins.js"></script>
 <!-- InstanceEndEditable --><!-- <base href="http://www.sansoucifest.org/"> -->
   <link rel="stylesheet" href="../sanssouci.css" type="text/css">
@@ -48,20 +48,38 @@
       
    <table width="100%"  border="0" cellpadding="0" cellspacing="0" bgcolor="#333333">
       <tr>
-        <td align="left" valign="top" class="programPageTitleText" style="padding-top:12px;color:#999999">Demo Reel <span style="font-size:15px;">(2011)</span></td>
+<!--        <td align="left" valign="top" class="programPageTitleText" style="padding-top:12px;color:#999999">Sample Reel <span style="font-size:15px;">(2014)</span></td> -->
+        <td align="left" valign="top" class="programPageTitleText" style="padding-top:12px;color:#999999">Sample Reel</td>
       </tr>
       <tr>
         <td align="center" valign="top">
+
+
+
           <div style="width:480px;background-color:#000000;margin:45px auto 70px auto;padding-right:10px;border:solid #333333 1px;">
             <div style="margin:30px auto 30px auto;padding:0 0 0 0;">
-<!--              <iframe width="425" height="349" src="http://www.youtube.com/embed/RNh8YZpQDI0?hl=en&fs=1" frameborder="0" allowfullscreen></iframe> -->
-              <iframe width="420" height="284" src="http://www.youtube.com/embed/RNh8YZpQDI0?hl=en&fs=1&autohide=1" frameborder="0" allowfullscreen></iframe>
-<!--              <iframe width="420" height="280" src="http://www.youtube.com/embed/5txpUBSE20o" frameborder="0" allowfullscreen></iframe> -->
-<!--              <iframe width="560" height="345" src="http://www.youtube.com/embed/5txpUBSE20o" frameborder="0" allowfullscreen></iframe> -->
+<!--              <iframe src="//player.vimeo.com/video/89757884" width="420" height="236" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> - original embed size: 500x281  -->
+              <iframe src="//player.vimeo.com/video/115611799" width="420" height="236" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<!--              <p class="bodyTextOnBlack" style="margin-top:20px;"><a href="http://vimeo.com/115611799" style="color:#5e6a18;text-decoration:none;font-size:15px;font-weight:normal;line-height:19px;">2014 Sample Reel</a></p> -->
              </div>
           </div>
-<!--          <div style="margin:0px 22px 20px 0;text-align:right;font-size:smaller;"><a href="index.php">play again</a></div> -->
-          <div style="margin:0px 22px 20px 0;text-align:right;font-size:smaller;"> </div>
+<!--
+          <div style="width:480px;background-color:#000000;margin:45px auto 70px auto;padding-right:10px;border:solid #333333 1px;">
+            <div style="margin:30px auto 30px auto;padding:0 0 0 0;">
+              <iframe width="420" height="284" src="http://www.youtube.com/embed/RNh8YZpQDI0?hl=en&fs=1&autohide=1" frameborder="0" allowfullscreen></iframe>
+             </div>
+          </div>
+          <div style="width:480px;background-color:#000000;margin:45px auto 70px auto;padding-right:10px;border:solid #333333 1px;">
+            <div style="margin:30px auto 30px auto;padding:0 0 0 0;">
+              <iframe src="//player.vimeo.com/video/39229862" width="420" height="310" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> < original embed size: 500x369  >
+             </div>
+          </div>
+          <div style="width:480px;background-color:#000000;margin:45px auto 70px auto;padding-right:10px;border:solid #333333 1px;">
+            <div style="margin:30px auto 30px auto;padding:0 0 0 0;">
+              <iframe width="420" height="315" src="//www.youtube.com/embed/WWSliiylOss" frameborder="0" allowfullscreen></iframe>
+             </div>
+          </div>
+-->
         </td>
       </tr>
     </table>      
