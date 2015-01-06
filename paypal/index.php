@@ -36,8 +36,7 @@
                     <td width="530" align="center" valign="top" class="bodyTextGrayLight"><!-- InstanceBeginEditable name="ProgramRegion" -->
                       <table border="0" align="center" cellpadding="0" cellspacing="0" width="100%" bgcolor="#333333">
                         <tr><td align="left" valign="top" class="programPageTitleText" style="padding-top:12px;">Pay 
-                            Entry Fee&nbsp;<img src="../images/logos/PayPal_mark_37x23.gif" border="0" vspace="0" hspace="0" style="vertical-align:bottom;"></td></tr>
-                        <!-- TODO To Do: validate this entry form -->
+                            Entry Fee&nbsp;<img src="../images/logos/PayPal_mark_37x23.gif" alt="Pay" border="0" vspace="0" hspace="0" style="vertical-align:bottom;"></td></tr>
                         <tr><td align="center" valign="top" class="bodyTextOnBlack">
                           <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
                             <!-- See documentation at https://www.x.com/docs/DOC-1331#id08A6HH00W2J -->
@@ -73,18 +72,20 @@
                                 <input type="hidden" name="rm" value="2"> <!-- return to SSF Success page with a POST -->
                                 <input type="hidden" name="return" value="http://sanssoucifest.org/paypal/successfulEntryFeePayment.php">
                                 <input type="hidden" name="cancel_return" value="http://sanssoucifest.org/paypal/cancelEntryFeePayment.php">
-                                <!-- <input type="hidden" name="cn" value="Film Title, Submitter Name, Submitter Email"> -->
-                                <!-- <input type="hidden" name="lc" value="US"> -->
-                                <input type="hidden" name="bn" value="PP-BuyNowBF">
+                                <input type="hidden" name="lc" value="US">
+                                <input type="hidden" name="bn" value="PP-BuyNowBF"> <!-- value="PP-BuyNowBF:btn_paynow_LG.gif:NonHosted" -->
                                 <input type="hidden" id="first_name" name="first_name" value="">
                                 <input type="hidden" id="last_name" name="last_name" value="">
                                 <input type="hidden" name="on0" value="Film Title">
                                 <input type="hidden" name="on1" value="Submitter Email Address">
+                                <input type="hidden" name="notify_url" value="http://sanssoucifest.org/paypal/listener.php">
+                                <!-- <input type="hidden" name="button_subtype" value="services"> TODO: This was used in the sandbox. Is it needed now? -->
+                                <!-- <input type="hidden" name="cn" value="Film Title, Submitter Name, Submitter Email"> TODO: This was in old code. Is it needed now? -->
                               </td></tr>
                               <tr><td colspan="2"><table width="90%" align="center" cellpadding="0" cellspacing="0" style="padding:6px 0 24px 0;">  
                                 <tr>
                                   <td width="43%" align="right" valign="middle" class="bodyTextOnBlack" style="padding:20px 0 3px 0;">Film Title:&nbsp;</td>
-                                  <td width="57%" align="left" valign="middle" style="padding:20px 0 3px 0;""><input type="text" id="os0" name="os0" maxlength="250" value="<?php echo $workTitle; ?>">
+                                  <td width="57%" align="left" valign="middle" style="padding:20px 0 3px 0;"><input type="text" id="os0" name="os0" maxlength="250" value="<?php echo $workTitle; ?>">
                                   <script type="text/javascript">document.getElementById("os0").focus();</script>
                                   </td>
                                 </tr>
@@ -96,7 +97,7 @@
                                 </tr>
 <?php
   $submitButtonAdjective = (!SSFRunTimeValues::earlyDeadlineHasPassed()) ? 'Early ' : '';
-  $submitButtonString = '&nbsp;Use PayPal to Pay the $' . $entryFeeString . ' USD ' . $submitButtonAdjective . 'Entry Fee Now&nbsp;';
+  $submitButtonString = '&nbsp;Use PayPal to pay the $' . $entryFeeString . ' USD ' . $submitButtonAdjective . 'Entry Fee now.&nbsp;';
   echo '                                <tr>' . "\r\n";
   echo '                                  <td colspan="2" align="center" valign="middle"><input type="submit" id="submit"' . "\r\n";
   echo '                                    name="submit" value="' . $submitButtonString . '" style="margin:20px 0 20px 0;font-size:12px;">' . "\r\n";

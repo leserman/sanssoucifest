@@ -94,21 +94,10 @@ Belch _POST: Array (
                         <td align="left" valign="top" class="programPageTitleText" style="padding:20px 0 40px 0;">Paypal Entry Fee Payment Confirmation</td>
                       </tr>
                       <tr>
-<!--
                         <td align="left" valign="top" class="bodyTextOnBlack" style="padding-bottom:50px;"><blockquote style="padding-right:14px;">
-                          Thank you for paying your entry fee to the Sans Souci Festival of Dance Cinema via Paypal. You will receive an email
-                          receipt from PayPal shortly. Please print the receipt and include a copy with your entry submission. Also, please
-                          make sure that your materials arrive with us by the 
-<p echo ((!SSFRunTimeValues::earlyDeadlineHasPassed()) ? 'early' : 'final') . ' submission deadline, 5 PM, ' . HTMLGen::displayDateFromDBDate($deadlineDateString) . '.'; ?>
-                          <br><br>
-                          Please send your media to
-                          <div style="padding:8px 0 22px 26px;"><?php echo SSFRunTimeValues::getMailEntryToAddress(); ?></div>
-                          Thanks for your submission. We look forward to viewing your film.</blockquote>
-                        </td>
--->
-                        <td align="left" valign="top" class="bodyTextOnBlack" style="padding-bottom:50px;"><blockquote style="padding-right:14px;">
-                          Thank you for paying your entry fee to the Sans Souci Festival of Dance Cinema via Paypal. You will receive an email
-                          receipt from PayPal shortly. 
+                          Thank you for paying your entry fee to the Sans Souci Festival of Dance Cinema via PayPal. You will receive a detailed
+                          receipt via email from PayPal shortly. 
+                          <!-- Or you may log into your account at <a href="https://www.paypal.com/us">PayPal.com</a> to view details of this transaction. -->
                           <br><br>
                           Thanks for your submission. We look forward to viewing your film.</blockquote>
                         </td>

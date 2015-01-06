@@ -43,9 +43,9 @@
 		  <td align="left" valign="top" class="bodyTextOnBlack">
 		    <div>
   		    <blockquote><br>You have elected not to pay your Entry Fee via PayPal at this time.<br><br>
-            If you prefer to pay by check or (international) money order, make it payable to Sans Souci Festival of Dance Cinema and mail it to 
+            If you prefer to pay by check or money order, make it payable to Sans Souci Festival of Dance Cinema and mail it to 
             <blockquote style="margin:10 0 6 40"><?php echo SSFRunTimeValues::getMailEntryToAddress();?></blockquote>
-            Such payment must be made in US Dollars and postmarked by the deadline date. 
+            Such payment must be made in US Dollars, drawn on a US bank, and postmarked by the deadline date. 
             <?php echo HTMLGen::getFormattedDeadlineTable(); ?><br clear='all'>
             <div style="margin-top:8px;margin-bottom:16px;">Please include your email address and film title so that the payment gets credited for your entry.</div>
   				  If you change your mind, you can still <a href="index.php">pay via PayPal</a>.&nbsp;&nbsp;&nbsp;
