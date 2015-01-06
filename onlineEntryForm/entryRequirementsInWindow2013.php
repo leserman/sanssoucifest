@@ -2,13 +2,12 @@
 <?php 
   include_once '../bin/classes/SSFCodeBase.php'; 
   include_once SSFCodeBase::autoloadClasses(__FILE__);
-  $currentYearString = SSFRunTimeValues::getCurrentYearString();
-  $callForEntriesId = SSFRunTimeValues::getCallForEntriesId();
-  $associatedEventId = SSFRunTimeValues::getAssociatedEventId();
+  $currentYearString = "2013"; // SSFRunTimeValues::getCurrentYearString();
+  $callForEntriesId = 13; // SSFRunTimeValues::getCallForEntriesId();
+  $associatedEventId = 22; // ??  SSFRunTimeValues::getAssociatedEventId();
                       // date('l, M j, Y', strtotime(SSFRunTimeValues::getFinalDeadlineDateString())); 'l' is weekday, e.g.,, Friday
   $finalDeadlineString = date('M j, Y', strtotime(SSFRunTimeValues::getFinalDeadlineDateString()));
   $earlyDeadlineString = date('M j, Y', strtotime(SSFRunTimeValues::getEarlyDeadlineDateString()));
-  $associatedEventId = SSFRunTimeValues::getAssociatedEventId();
   $eventDatesDescriptionString = SSFRunTimeValues::getEventDatesDescriptionStringShort($associatedEventId);
   $venueDescriptionString = SSFRunTimeValues::getVenueDescriptionString($associatedEventId);
 ?>
