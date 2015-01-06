@@ -18,8 +18,8 @@
 <?php
   $showDiagnostics = false;
   // TODO: Grab this info from an ssf.ini file that does not yet exist.
-  $rootForMovies = '/Volumes/Drobo/Sans Souci Movie Files/SSF 2012 onward Videos/SSF 2013 Vimeo Download/';
-  $rootForStills = '/Users/david/Projects/SansSouciDataFiles/_Sans Souci 2013/_PR Photos + Screen Shots 2013/';
+  $rootForMovies = '/Volumes/Drobo/Sans Souci Movie Files/SSF 2012 onward Videos/SSF 2014 Vimeo Download/';
+  $rootForStills = '/Users/david/Projects/SansSouciDataFiles/_Sans Souci 2014/_PR Photos + Screen Shots 2014/';
 
   $tracebackColor = 'pink';
   $echoColor = '#CCFFFF';
