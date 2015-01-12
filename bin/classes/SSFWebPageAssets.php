@@ -62,7 +62,7 @@ class SSFWebPageAssets {
     $navBarString = '';
     $navBarString .= self::$indent . '<div class="narBarMainSection">' . PHP_EOL;
     $navBarString .= self::$indent . '  <div class="navBar"><a class="navBarLink" target="_top" href="' . $moveUpString . 'index.php">Home</a></div>' . PHP_EOL;
-    $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="' . $moveUpString . 'demoreel/">Demo Reel</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="' . $moveUpString . 'demoreel/">Sample Reel</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="' . $moveUpString . 'aboutUs.php">About Us</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="' . $moveUpString . 'memorabilia/">Memorabilia</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="' . $moveUpString . 'press/">Press Reports</a></div>' . PHP_EOL;
