@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <?php 
-  include_once '../bin/classes/SSFCodeBase.php'; 
-  include_once SSFCodeBase::autoloadClasses(__FILE__);
+//  include_once '../bin/classes/SSFCodeBase.php'; 
+//  SSFCodeBase::autoloadClasses(__FILE__);
+  function my_autoloader($class) { 
+    include '../bin/classes/' . $class . '.php';
+  }
+  spl_autoload_register('my_autoloader');
 	SSFDebug::globalDebugger()->belch('_FILE_', __FILE__, -1);
 //  SSFProgramPageParts::initializePage(__FILE__, $doCache = false); 
 ?>
@@ -34,7 +38,7 @@
 <html lang="en">
   <head>
 <?php 
-  $pageTitle = 'Sans Souci in Boulder, CO, USA, 2014';
+  $pageTitle = 'Boulder, CO, USA, 2014';
   $allowRobotIndexing = false;
   echo SSFProgramPageParts::htmlHeadContent($pageTitle, $allowRobotIndexing); 
 ?>
@@ -55,16 +59,12 @@
       SSFProgramPageParts::setContentColumnCount(1);
       echo SSFProgramPageParts::beginContentHeader();
      ?>
-
-                  <!-- Boulder, 2014 -->
-                  <table style='margin:0 auto 0 auto;'>
-                    <tr>
-                      <td class="programInfoText" style="text-align:center;vertical-align:middle;padding-top:0px;">
+                  <div style='margin:0 auto 0 auto;'>
+                      <div class="programInfoText" style="text-align:center;vertical-align:middle;padding-top:0px;">
                         <div class="hideLinkUnderline">
 
                           <!-- 2014 Festivities Section -->
-<!--                          <div style="margin:22px 0 0px 0;text-align:center;"> -->
-                          <div style="margin:0;text-align:center;">
+                          <div style="text-align:center;">
                                                     
                             <!-- 2014 Festivities Headline -->
                             <div class="homeHeading1" style="margin:7px 0 0px 0;">11th Annual Festivities</div>
@@ -111,7 +111,7 @@
                             <div class="atVenue" id="boe">
                               <div class="homeHeading1" style="margin:0px 0 0px 0;color:#FFFF99;font-weight:bold;font-size:18px;line-height:22px;"><span style="font-weight:normal;">at the Boe</span><br>
                                 Sundays, September 21 &amp; October 19&nbsp;&bull;&nbsp;<span style="font-size:14px;font-weight:normal;">1 PM</span><br>
-                        	      <span style="font-size:15px;font-weight:normal;">Different <a href="./programBoe2014.php">programs</a> on each date</span>
+                        	      <span style="font-size:15px;font-weight:normal;">Different <a href="./programPages/programBoe2014.php">programs</a> on each date</span>
                               </div>
                         	    <div style="font-size:18px;margin-top:0px;margin-bottom:0px;color:#FFFF99;font-weight:bold;">Boedecker Theater, <span style="font-weight:normal;">Dairy Center for the Arts</span>
                         	    </div>
@@ -151,18 +151,11 @@
                     		
                         </div> <!-- END div class hideLinkUnderline -->
                             
-                      </td>
-                    </tr>
-                      
-<!-- BEGIN Artificial Vertical Spacer SECTION -->
-                      <tr>
-                        <td>
-                          <div style="margin-bottom:26px;"></div>
-                        </td>
-                      </tr>
-                    </table>
-<!-- END Artificial Vertical Spacer SECTION -->
+                      </div>
 
+                      <div title='verticalSpace' style="margin:26px 0 0 0;"></div>
+
+                  </div>
 
 <?php
   echo SSFProgramPageParts::endContentHeader();

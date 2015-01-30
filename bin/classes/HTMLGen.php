@@ -860,7 +860,7 @@ class HTMLGen {
     $decoration = ($disable)  ? '' : self::requiredFieldString(); // 5/5/14
     echo '                 <div class="entryFormSubheading" style="padding-top:15px;padding-bottom:4px;">Payment Information' . $decoration . '</div>';
     if ($dataArray["howPaid"]=="waived") {
-    echo'                  <div class="medSmallBodyTextLeadedOnBlack" style="text-align:left;padding-left:4px;padding-right:4px;">Entry Fee Waived</div>' . "\r\n";
+    echo'                  <div class="widgetText1">Entry Fee Waived</div>' . "\r\n";
     } else {
       echo'                  <div class="entryFormField" style="text-align:left;margin-left:50px;"><input type="radio" name="works_howPaid" id="' . $paypalId . '" value="paypal"';
             if (isset($dataArray["howPaid"]) && ($dataArray["howPaid"]=="paypal")) echo " checked='checked'";
@@ -900,7 +900,7 @@ class HTMLGen {
     if (self::$showFunctionMarkers) echo "<!-- addReleaseInfoWidgetsSection -->\r\n";
     $releaseInfoWidgetIntroString = str_replace('<saveButtonName>', $saveButtonName, SSFRunTimeValues::getReleaseInfoWidgetIntroString());
     echo '                 <div class="entryFormSubheading" style="padding-top:15px;padding-bottom:4px;">Release Information' . self::requiredFieldString() . '</div>';
-    echo'                  <div class="medSmallBodyTextLeadedOnBlack" style="text-align:left;padding-left:4px;padding-right:4px;">' . $releaseInfoWidgetIntroString;
+    echo'                  <div class="widgetText1">' . $releaseInfoWidgetIntroString;
     echo'                  </div>' . "\r\n";
     echo'                  <div class="entryFormField">' . "\r\n";
     echo'                    <table width="98%"  border="0" align="left" cellpadding="2" cellspacing="0"> ' . "\r\n";

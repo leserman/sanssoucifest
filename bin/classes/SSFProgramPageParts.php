@@ -1,25 +1,56 @@
 <?php
 
+  spl_autoload_register('SSFProgramPageParts::my_autoloader');
+
   class SSFProgramPageParts {
-    public static $hostName = 'http://sanssoucifest.org/';
+    
+    /* Modify the next two values depending on whether the site is live */
+    private static $siteIsLive = false;
+    
+    private static $hostName = 'http://dev.sanssoucifest.org/';
+    public static function getHostName() { return self::$hostName; }
+    
+    private static $rootPath = '/home/hamelbloom/dev.sanssoucifest.org';
+    public static function getRootPath() { return self::$rootPath; }
+    
     private static $columnCount = 3; // Most program pages render content in 3 table columns.
 
-    public static $pageHeaderTitleText = '';
-    public static $pageContentTitleText = '';
+    private static $headerTitleText = '';
+    public static function setHeaderTitleText($text) { self::$headerTitleText = $text; }
+    
+    private static $contentTitleText = '';
+    public static function setContentTitleText($text) { self::$contentTitleText = $text; }
+    
+    private static $allowRobotIndexing = false;
+    // If this method is not called or if $siteIsLive == false, robots will be directed to suppress indexing of this page.
+    // Otherwise, if this method is called omitting the parameter value or if the parameter value is true, robots will be directed to index this page.
+    // Otherwise, if the parameter value is false, robots will be directed to suppress indexing this page.
+    public static function allowRobotIndexing($allowRobotIndexing = true) { self::$allowRobotIndexing = (self::$siteIsLive) ? $allowRobotIndexing : false; }
 
-    public static $pageHeaderTitleTextAlignment = 'topLeft';
-    public static $programPicBorderWidthInPixels = '';
-    public static $programHighlightColor = '';
+
+    private static $pageHeaderTitleTextAlignment = 'topLeft';
+    
+    
+    private static $programPicBorderWidthInPixels = 0;
+    public static function setProgramPicBorderWidthInPixels($widthInPixels = 1) { self::$programPicBorderWidthInPixels = $widthInPixels; }
+
+    private static $programHighlightColor = 'black';
+    public static function getProgramHighlightColor() { return self::$programHighlightColor; }
+    public static function setProgramHighlightColor($color) { $programHighlightColor = $color; }
     
     private static $showsEvent = 0;
     private static $showCount = 0;
-    private static $cacheString =  '';
+
+    private static $manifestString =  '';
+    public static function manifestString() { return self::$manifestString; }
+
     private static $emptyImageDefaultHeightInPixels = '101';
     private static $emptyImageDefaultWidthInPixels = '180';
 
 
-    public static function cacheString() { return self::$cacheString; }
-    
+    public static function my_autoloader($class) { include '../bin/classes/' . $class . '.php'; }
+
+        
     public static function showsEvent() { return self::$showsEvent; }
 
     public static function setShowsEvent($eventId) { 
@@ -34,25 +65,37 @@
     
     public static function showCount() { return self::$showCount; }
 
-/*
-      public static function initializePage($location = "", $doCache = false) { 
-//      global $hostName; // changed from $globalBase 10/29/14
+    public static function cachePage($doCache = true) { 
       SSFDebug::globalDebugger()->belch('_FILE_', __FILE__, -1);
       // From http://www.massfxmedia.com/work.php, http://www.w3schools.com/html/html5_app_cache.asp and
       //      http://stackoverflow.com/questions/15228697/prevent-html5-page-from-caching-what-replaces-cache-control-pragmano-cache
       // Don't worry about this caching stuff. The default is the equivalent of the old pragma nocache.
       // Presumably this means that the page contents will not be cached as long as $doCache = false.
-      SSFProgramPageParts::$cacheString = ($doCache) ? ' manifest="' . self::$hostName . 'components/coopVillage.appcache"' : '';
+      SSFProgramPageParts::$manifestString = ($doCache) ? ' manifest="./bin/data/sanssouci.appcache"' : '';
     }
-*/
-    public static function htmlHeadContent($pageTitle, $allowRobotIndexing = true) {
+
+    public static function getHeader() {
+      $pageHeader = '';
+      $pageHeader .= '<head>' . PHP_EOL;
+      $pageHeader .= self::getHeaderContent();
+      $pageHeader .= '    <style type="text/css">' . PHP_EOL;
+      $pageHeader .= '          /* CSS inline style definitions go here. */' . PHP_EOL;
+      $pageHeader .= '          table { padding:0;margin:0;border-collapse:collapse; }' . PHP_EOL;
+      $pageHeader .= '    </style>' . PHP_EOL;
+      $pageHeader .= self::getCSSMediaQueries() . PHP_EOL;
+      $pageHeader .= '</head>' . PHP_EOL;
+      return $pageHeader;
+    }
+    
+    public static function getHeaderContent() { return self::htmlHeadContent(); }
+    
+    public static function htmlHeadContent() {
+      $robotsDirectiveMetaTag = (!self::$allowRobotIndexing) ? '    <meta name="robots" content="noindex, nofollow">' . PHP_EOL : ''; // TODO: Should noarchive be in this list as it was prior to 1/29/15.
       $headContent = '';
-      $headContent .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">' . PHP_EOL; // replaced '<meta charset="utf-8">' 11/17/14
-      
-      
+      $headContent .= '    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">' . PHP_EOL;
       $headContent .= '    <base href="' . self::$hostName . '">' . PHP_EOL;
-      $headContent .= '    <title>' . $pageTitle . '</title>' . PHP_EOL;
-      $headContent .= ($allowRobotIndexing) ? '' : ('    <meta name="robots" content="noarchive, noindex, nofollow">' . PHP_EOL);
+      $headContent .= '    <title>' . self::$headerTitleText . '</title>' . PHP_EOL;
+      $headContent .= ($robotsDirectiveMetaTag === '') ? '' : $robotsDirectiveMetaTag; 
       $headContent .= '    <meta name="description" content="A niche film festival specializing in dance cinema, incorporating live performance, and including museum installations.">' . PHP_EOL;
       $headContent .= '    <meta name="keywords" content="dance film festival, dance video festival, video dance festival, dance cinema festival, live performance, dance performance, '
                    .  'live dance performance, dance festival, video dance, dance video, dance film, dance cinema, dance, film, video, cinema, festival, art, arts, artists, projection, '
@@ -69,12 +112,12 @@
       $headContent .= '    </style>' . PHP_EOL;
       $headContent .= '    <script src="bin/scripts/ssfDisplay.js" type="text/javascript"></script>' . PHP_EOL;
       $headContent .= '    <link rel="stylesheet" href="sanssouci.css" type="text/css">' . PHP_EOL;
-      $headContent .= '    <link rel="stylesheet" href="sanssouciBlackBackground.css" type="text/css">' . PHP_EOL;
+//      $headContent .= '    <link rel="stylesheet" href="sanssouciBlackBackground.css" type="text/css">' . PHP_EOL;
       $headContent .= "    <link rel=icon href=favicon.png sizes='16x16' type='image/png'>" . PHP_EOL;
       return $headContent;
     }  
 
-    public static function cssMediaQueries() {  
+    public static function getCSSMediaQueries() {  
       return ''; // Narrow screen settings are shorted out for now.
       return '<link rel="stylesheet" media="only screen and (max-width: 677px) and (min-width: 250px)" href="' . self::$hostName . 'cvNarrowScreen.css" />' . PHP_EOL;
     }
@@ -92,7 +135,7 @@
       $pageContent .= '            <tr>' . PHP_EOL;
       $pageContent .= '              <td  class="topCenter" style="width:10px;">&nbsp;</td>' . PHP_EOL;
       $pageContent .= '              <td  class="topCenter" style="width:125px;">' . PHP_EOL;
-      $pageContent .= SSFWebPageAssets::getNavBar(SSFCodeBase::string(__FILE__));
+      $pageContent .= SSFWebPageAssets::getNavBar();
       $pageContent .= '              </td>' . PHP_EOL;
       $pageContent .= '              <td  class="topCenter" style="width:600px;">' . PHP_EOL;
       $pageContent .= '                <table style="width:100%;text-align:center;margin:0;padding:0;background-color:black;">' . PHP_EOL;
@@ -142,7 +185,7 @@
       $contentHeader = '<!-- BEGIN beginContentHeader() -->' . PHP_EOL;
       $contentHeader .= '                        <tr>' . PHP_EOL;
       $contentHeader .= '                          <td colspan="' . self::$columnCount . '" class="programPageTitleText ' . self::$pageHeaderTitleTextAlignment . '" style="padding-top:14px;">' . PHP_EOL;
-      if (self::$pageContentTitleText !== '') $contentHeader .= '                          <div>' . self::$pageContentTitleText . '</div>' . PHP_EOL;
+      if (self::$contentTitleText !== '') $contentHeader .= '                          <div>' . self::$contentTitleText . '</div>' . PHP_EOL;
       $contentHeader .= '<!-- END beginContentHeader() -->' . PHP_EOL;
       return $contentHeader;
     }
@@ -217,4 +260,30 @@
   
   }
 
+class SSFInit {
+  
+  private static $iniData = null;
+  
+  public static function getDbName() { if (self::initialized()) return self::$iniData['database']['dbname']; else return 'Initialization failed.'; }
+  public static function getDbUsername() { if (self::initialized()) return self::$iniData['database']['dbusername']; else return 'Initialization failed.'; }
+  public static function getDbPW() { if (self::initialized()) return self::$iniData['database']['4DAMcdfss']; else return 'Initialization failed.'; }
+  public static function getDbSchemaName() { if (self::initialized()) return self::$iniData['database']['sanssouci']; else return 'Initialization failed.'; }
+
+  private static function initialized() {
+    if (is_null(self::$iniData)) {
+      $debug = new SSFDebug; 
+      self::$iniData = parse_ini_file(SSFProgramPageParts::getRootPath() . '/bin/data/sanssouci.ini', true);
+//      self::$iniData = parse_ini_file(SSFProgramPageParts::getHostName() . '/bin/daata/sanssouci.ini', true);
+//      self::$iniData = parse_ini_file('./bin/data/sanssouci.ini', true);
+      if (self::$iniData !== false) {
+        $debug->belch('initialization data', self::$iniData, -1);
+        return true;
+      } else {
+//        $debug->belch('initialization failed', '', 1);
+        return false;
+      }
+    }
+    return true;
+  }
+}
 ?>

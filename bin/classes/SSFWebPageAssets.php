@@ -28,37 +28,17 @@ class SSFWebPageAssets {
     return $copyrightString;
   }
 
-/*
- public static function displayCopyrightLineX($onWhite = false) {
-    $spanClass = "smallBodyTextLeadedGrayLight";
-    if ($onWhite) $spanClass = "smallBodyTextLeaded";
-    echo '<span class="' . $spanClass . '">Copyright ' . self::copyrightYears() 
-        . ' Sans Souci Festival of Dance Cinema </span>'
-        . '<span class="smallBodyTextLeaded">&#8226; <a href="mailto:' . self::contactEmailAddress() . '">email us</a></span>'
-        .  "\r\n";
-  }
-
-  public static function getCopyrightLineX($onWhite = false) {
-    $spanClass = "smallBodyTextLeadedGrayLight";
-    if ($onWhite) $spanClass = "smallBodyTextLeaded";
-    return '<span class="' . $spanClass . '">Copyright ' . self::copyrightYears() 
-         . ' Sans Souci Festival of Dance Cinema </span>'
-         . '<span class="smallBodyTextLeaded">&#8226; <a href="mailto:' . self::contactEmailAddress() . '">email us</a></span>'
-         .  "\r\n";
-  }
-*/
-
   private static function copyrightYears() { 
     $copyrightYearString = "2004-" . date('Y'); // 3/19/14
     return $copyrightYearString;
-//    return SSFRunTimeValues::getCopyrightYearsString(); /* e.g., "2004-2011" */ 
+    // prior to 3/19/14:  return SSFRunTimeValues::getCopyrightYearsString(); /* e.g., "2004-2011" */ 
   }
   
   private static function contactEmailAddress() { 
     return SSFRunTimeValues::getContactEmailAddress();
   }
 
-  public static function getNavBar($moveUpString = '../') {
+  public static function getNavBarX($moveUpString = '../') {
     $navBarString = '';
     $navBarString .= self::$indent . '<div class="narBarMainSection">' . PHP_EOL;
     $navBarString .= self::$indent . '  <div class="navBar"><a class="navBarLink" target="_top" href="' . $moveUpString . 'index.php">Home</a></div>' . PHP_EOL;
@@ -127,6 +107,81 @@ class SSFWebPageAssets {
 /*
     $navBarString .= self::$indent . '  <div><div class="navBarTitle2" style="color:#e49548;">Event Summary</div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="' . $moveUpString . 'programPages/priorEventsSummary.php">2004/2005</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  </div>' . PHP_EOL;
+*/
+    $navBarString .= self::$indent . '</div>' . PHP_EOL;
+    return $navBarString;
+  }
+
+  public static function getNavBar() {
+    $navBarString = '';
+    $navBarString .= self::$indent . '<div class="narBarMainSection">' . PHP_EOL;
+    $navBarString .= self::$indent . '  <div class="navBar"><a class="navBarLink" target="_top" href="./index.php">Home</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="./demoreel/">Sample Reel</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="./aboutUs.php">About Us</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="./memorabilia/">Memorabilia</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="./press/">Press Reports</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="./links.php">Links</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="./contactUs.php">Contact Us</a><br><a target="_top" href="./contactUs.php">Join Email List</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  <div class="navBar" style="margin:4px 6px 0 0;"><a target="_top" title="find us on Facebook" href="http://www.facebook.com/sanssoucifest/"><img alt="follow me on facebook" src="//login.create.net/images/icons/user/facebook_30x30.png" style="border:0;"></a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  <div class="navBar" style="margin:4px 6px 0 0;"><a href="https://www.fracturedatlas.org/site/fiscal/profile?id=8028" target="_top"><img src=".//images/donateNowAtFracturedAtlas3.png" style="width:88px;height:70px;border:0;" alt="Donate now!"></a></div>' . PHP_EOL;
+
+    $navBarString .=  self::$indent . '</div>' . PHP_EOL;
+    
+    $navBarString .= self::$indent . '<div class="narBarArchiveSection">' . PHP_EOL;
+
+/*
+    $navBarString .= self::$indent . '  <div><div class="navBarTitle1" style="color:#e49548;">Current Events</div> <!--  style="color:#FFACAC;" -->' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programRoxy2014-12.php">The Roxy</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  </div>' . PHP_EOL;
+*/
+
+    $navBarString .= self::$indent . '  <div><div class="navBarTitle2" style="color:#e49548;">Recent Events</div> <!--  style="color:#FFACAC;" -->' . PHP_EOL;
+//    $navBarString .= self::$indent . '    <div class="bodyTextOnBlack navBarTight" style="font-size:13px;padding-bottom:1px;">Boulder 2014</a></div>' . PHP_EOL;
+//    $navBarString .= self::$indent . '    <div style="border-bottom:gray 1px solid;line-height:2px;width:75%;margin-bottom:4px;"></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programRoxy2014-12.php">The Roxy</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programCU_DAM2014.php">CU D.A.M.</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programBoe2014.php">The Boe</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programBPL2014.php">Canyon Theater</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programAtlas2014.php">Atlas Black Box</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programUrsinus2014.php">Ursinus College</a></div>' . PHP_EOL;
+//    $navBarString .= self::$indent . '    <div style="border-bottom:gray 1px solid;line-height:2px;width:75%;margin-bottom:4px;"></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  </div>' . PHP_EOL;
+
+    $navBarString .= self::$indent . '  <div><div class="navBarTitle2" style="color:#e49548;">Festival Archive</div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programOverview2014.php">Boulder 2014</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programOverview2013.php">Boulder 2013</a></div>' . PHP_EOL;
+//    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/program2013FallDates.php">Boulder Fall \'13</a></div>' . PHP_EOL;
+//    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programAtlas2013.php">Atlas 2013</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programAtlas2012.php">Boulder 2012</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programAtlas2011.php">Boulder 2011</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programAtlas2010.php">Boulder 2010</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programDairy2009.php">Boulder 2009</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programBMoCA2008.php">Boulder 2008</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programBMoCA2007.php">Boulder 2007</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programBMoCA2006.php">Boulder 2006</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/priorEventsSummary.php">2004/2005</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  </div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  <div><div class="navBarTitle2" style="color:#e49548;">Tour Archive</div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programGuatemala2014.php">Guatemala \'14</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programAtticRep2014.php">San Antonio \'14</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programRoxy2014.php">Missoula 2014</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="' . '' . 'http://atticrep.org/site/sans-souci/">San Antonio \'13</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programMorelia2012.php">Mexico 2012</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./press/SanAntonio2012.php">San Antonio \'12</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programACC2011.php">Austin 2011</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programSanAntonio2011.php">San Antonio \'11</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/barcelona2010.php">Barcelona 2010</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programHighways2010.php">LA 2010</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programGiessen2009.php">Giessen 2009</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programTXState2008.php">TX State 2008</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programHighways2008.php">LA 2008</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./press/GiessenServer2007.php">Germany 2007</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./press/MichoacanPress2006.php">Mexico 2006</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  </div>' . PHP_EOL;
+/*
+    $navBarString .= self::$indent . '  <div><div class="navBarTitle2" style="color:#e49548;">Event Summary</div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/priorEventsSummary.php">2004/2005</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  </div>' . PHP_EOL;
 */
     $navBarString .= self::$indent . '</div>' . PHP_EOL;

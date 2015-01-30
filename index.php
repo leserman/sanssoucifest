@@ -12,7 +12,7 @@
   $venueDescriptionString = SSFRunTimeValues::getVenueDescriptionString($associatedEventId);
   $entryRequirementsInWindowFilename = 'entryRequirementsInWindow' . $currentYearString . '.php';
   $danceCinemaCallFilename = 'danceCinemaCall' . $currentYearString . '.php';
-  $entryFormFilename = 'entryForm' . $currentYearString . '.php';
+  $entryFormFilename = 'entryForm' . $currentYearString . '.php'; 
 ?>
 
 <html>

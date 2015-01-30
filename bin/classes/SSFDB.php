@@ -4,13 +4,15 @@
 
 // singleton class for the mySQL database
 class SSFDB {
+  // TODO: Change from using MySQL to MySQLi 
   // This group of const vars should be private but PHP does not support private or protected const.
+  // TODO: Get these values from ./bin/data/sanssouci.ini
   const url = 'mysql.sanssoucifest.org';
   const username = 'sanssouci';
   const pw = '4DAMcdfss';  // previously 'minniekitty', 'ssfdcmad4'
   
-  private static $schemaNamePaths = array('../bin/database/', './bin/database/', '../../bin/database/', './') ;
-  private static $schemaNameFile = 'emanamemchs.txt';
+  private static $schemaNamePaths = array('../bin/data/', './bin/data/', '../../bin/data/', './') ;
+  private static $schemaNameFile = 'emanamemchs.txt'; // TODO: Get this info from sanssouci.ini instead of emanamemchs.txt
   private static $schemaName = null; // 'sanssoucitestbed'; // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   private static $db = null; // the single instance
@@ -18,6 +20,7 @@ class SSFDB {
   private static $debug = false;
   private static $debugNextQuery = false;
   
+  // TODO: Rather than store state variables, use the MySQLi API whereever possible.
   private $link = null;
   private $connected = false;
   private $lastErrorText = null;

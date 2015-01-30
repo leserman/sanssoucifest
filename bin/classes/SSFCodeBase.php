@@ -1,16 +1,21 @@
 <?php 
+  
+  spl_autoload_register('SSFCodeBase::my_autoloader');
 
 class SSFCodeBase {
 
   private static $codeBase = null;
-  private static $debug = false;
+  private static $debug = true;
   private $codeBaseString = '';
   private $autoloadClassesPath = '';
+
+  public static function my_autoloader($class) { include '../bin/classes/' . $class . '.php'; }
 
   // Example use:
   // include_once SSFCodeBase::autoloadClasses();
   // SSFWebPageAssets::displayNavBar(SSFCodeBase::string());
 
+/*
   public static function string($filePath) { $me = SSFCodeBase::getInstance($filePath); return $me->codeBaseString; }
   
   public static function autoloadClasses($filePath) { 
@@ -52,7 +57,9 @@ class SSFCodeBase {
       if (self::$debug) { echo 'i=' . $i . ' codeBaseString=' . $this->codeBaseString .  "<br>\r\n"; }
     }
     $this->autoloadClassesPath = $this->codeBaseString . "bin/utilities/autoloadClasses.php";
-  }
+  }  
+*/
+
 }
 
 ?>

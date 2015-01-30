@@ -570,9 +570,10 @@ class SSFQuery {
             $newValue = ($dpObject->swDataType == 'int') ? sprintf('%d', $rawNewValue) : SSFQuery::quote(str_replace("  ", " ", trim($rawNewValue)));
           }
           if (!isset($currentValueArray[$colName]) || $comparisonValue != $currentValueArray[$colName]) { // add this to the update list.
+            $newValueText = (is_string($newValueArray[$dataItemKey])) ? $newValueArray[$dataItemKey] : 'is not a textual value.';
             SSFDebug::globalDebugger()->becho('comparisonValue=|' . $comparisonValue . '| (' . getType($rawNewValue) . ')    currentValueArray[' . $colName. ']=|'
                                                                   . $currentValueArray[$colName] . '| (' . getType($currentValueArray[$colName]) . ')'
-                                                                  . '   newValueArray[dataItemKey]=|' . $newValueArray[$dataItemKey] . '|', '', $debugChanges);
+                                                                  . '   newValueArray[dataItemKey]=|' . $newValueText . '|', '', $debugChanges);
             $updateArray[$colName] = $newValue;
           }
         }

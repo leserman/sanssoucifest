@@ -1,118 +1,44 @@
 /* sansouci.css */
 
+/*
+a:link{color:#039;text-decoration: none;}
+a:hover{color:#0353a5;}
+a:visited{color:#800080;text-decoration:none;}
+a:hover{text-decoration:underline;}
+*/
+a:link { color : #0033FF; text-decoration: none; }
+a:visited { color : #0033FF; text-decoration: none; }  /* was #9900CC */
+a:hover { color : #990000; text-decoration: underline; }
+/* a:active { background : black; } */
 
-/* Lines based on Eric Meyer HTML5 RESET, v2.0 | 20110126, http://meyerweb.com/eric/tools/css/reset/ AND on http://www.w3.org/TR/html5-diff/ */
-
-    /* main added by DHL 3/1/14 */
-    html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-    a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var,
-    b, u, i, center,
-    dl, dt, dd, ol, ul, li,
-    fieldset, form, label, legend,
-    table, caption, tbody, tfoot, thead, tr, th, td,
-    section, article, main, aside, header, footer, figure, figcaption, nav, template, /* new HTML5 elements for improved structure */
-    canvas, datalist, keygen, output, embed, ruby, rt, rp, time, mark, progress, audio, video, track, /* more new HTML5 elements */
-    summary, details, output {
-    	margin: 0;
-    	padding: 0;
-    	border: 0;
-    	font-size: 100%;
-    	font: inherit;
-    	vertical-align: baseline;
-    } 
-    /* HTML5 display-role reset for older browsers */
-    article, aside, details, figcaption, figure, figContainer,
-    footer, header, hgroup, menu, nav, section {
-    	display: block;
-    }
-    body, figure {
-    	line-height: 1;
-    }
-    ol, ul {
-    	list-style: none;
-    }
-    blockquote, q {
-    	quotes: none;
-    }
-    blockquote:before, blockquote:after,
-    q:before, q:after {
-    	content: '';
-    	content: none;
-    }
-    table {
-    	border-collapse: collapse;
-    	border-spacing: 0;
-    } 
-    
-/* END Lines based on Eric Meyer HTML5 RESET */
-
-
-/* Lines below from sanssouci.css */
-
-    a:link { color : #0033FF; text-decoration: none; }
-    a:visited { color : #0033FF; text-decoration: none; }  /* was #9900CC */
-    a:hover { color : #990000; text-decoration: underline; }
-    /* a:active { background : black; } */
-    
-    a.acceptEntryOperator:link { color: #EEEECC; text-decoration: none; }
-    a.acceptEntryOperator:visited { color: #EEEECC; text-decoration: none; } 
-    a.acceptEntryOperator:hover { color: #00FF00; text-decoration: none; }
-    /* a.acceptEntryOperator:active { background : black; } */
-    
-    a.rejectEntryOperator:link { color: #EEEECC; text-decoration: none; }
-    a.rejectEntryOperator:visited { color: #EEEECC; text-decoration: none; } 
-    a.rejectEntryOperator:hover { color: #FF0000; text-decoration: none; }
-    /* a.rejectEntryOperator:active { background : black; } */
-    
-    a.clearEntryStatusOperator:link { color: #EEEECC; text-decoration: none; }
-    a.clearEntryStatusOperator:visited { color: #EEEECC; text-decoration: none; } 
-    a.clearEntryStatusOperator:hover { color: #FFA500; text-decoration: none; }
-    /* a.clearEntryStatusOperator:active { background : black; } */
-    
-    a.badVimeoVideoURL:link { color: #DF7416; text-decoration: underline; }
-    a.badVimeoVideoURL:visited { color: #DF7416; text-decoration: underline; } 
-    a.badVimeoVideoURL:hover { color: #FFA500; text-decoration: none; }
-    /* a.clearEntryStatusOperator:active { background : black; } */
-
-/* END lines from sanssouciBlackBackground.css */
-
-
-/* Lines below from sanssouciBlackBackground.css */
-
-    a:link { color : #CCBD99; text-decoration: underline; }
-    a:visited { color : #CCBD99; text-decoration: underline; }
-    a:hover { color : #990000; text-decoration: none; }
-    
-    .narBarMainSection a:link, .narBarArchiveSection a:link { color : #CCBD99; text-decoration: none; }        /* was .navbar prior to 11/5/14 */
-    .narBarMainSection a:visited, .narBarArchiveSection a:visited { color : #CCBD99; text-decoration: none; }  /* was .navbar prior to 11/5/14 */
-    .narBarMainSection a:hover, .narBarArchiveSection a:hover { color : #990000; text-decoration: underline; } /* was .navbar prior to 11/5/14 */
-    
-    .navbarTight a:link { color : #CCBD99; text-decoration: none; }
-    .navbarTight a:visited { color : #CCBD99; text-decoration: none; }
-    .navbarTight a:hover { color : #990000; text-decoration: underline; }
-    
-    .hideLinkUnderline a:link { color : #CCBD99; text-decoration: none; }
-    .hideLinkUnderline a:visited { color : #CCBD99; text-decoration: none; }
-    .hideLinkUnderline a:hover { color : #990000; text-decoration: underline; }
-
-/* End lines from sanssouciBlackBackground.css */
-
+a.acceptEntryOperator:link { color: #EEEECC; text-decoration: none; }
+a.acceptEntryOperator:visited { color: #EEEECC; text-decoration: none; } 
+a.acceptEntryOperator:hover { color: #00FF00; text-decoration: none; }
+/* a.acceptEntryOperator:active { background : black; } */
+a.rejectEntryOperator:link { color: #EEEECC; text-decoration: none; }
+a.rejectEntryOperator:visited { color: #EEEECC; text-decoration: none; } 
+a.rejectEntryOperator:hover { color: #FF0000; text-decoration: none; }
+/* a.rejectEntryOperator:active { background : black; } */
+a.clearEntryStatusOperator:link { color: #EEEECC; text-decoration: none; }
+a.clearEntryStatusOperator:visited { color: #EEEECC; text-decoration: none; } 
+a.clearEntryStatusOperator:hover { color: #FFA500; text-decoration: none; }
+/* a.clearEntryStatusOperator:active { background : black; } */
+a.badVimeoVideoURL:link { color: #DF7416; text-decoration: underline; }
+a.badVimeoVideoURL:visited { color: #DF7416; text-decoration: underline; } 
+a.badVimeoVideoURL:hover { color: #FFA500; text-decoration: none; }
+/* a.clearEntryStatusOperator:active { background : black; } */
 
 #dek {POSITION:absolute;VISIBILITY:hidden;Z-INDEX:200;} /* for flyover popup */
 
 body { 
-  color: black;
-  background-color: #fffff0;
-  font-family: Helvetica, Arial, sans-serif;
-  font-weight: normal;
-	float: none;
+  /* background-color: #ebe1df; */
+  background-color: #FFFFFF;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
   text-align: left;
 } 
 
-table {
-  border-collapse: collapse;
-}
-
+/* textarea { margin: 1px 0; padding: 0; color: #333333; border: none pink 2px; } */
 
 .idDisplayText { color: #d25ec6; font-size: 11px; }
 .idDisplayTextDark { color: #6b008e; font-size: 11px; font-weight: bold; } /* 6e00a7 380055 2f0265 400b7f 4a0d93 5b10b5 5B1998 7834CA 7E578E */
@@ -135,21 +61,37 @@ table {
   color: #c45f05;
 }
 
-.floatleft, .floatLeft { float: left; }
-.floatright, .floatRight { float: right; }
+.floatleft, .floatLeft {
+	float: left;
+}
 
-.topCenter { text-align: center; vertical-align: top; }
-.topLeft { text-align: left; vertical-align: top; }
+.floatright, .floatRight {
+	float: right;
+}
+
+.topCenter {
+  text-align: center;
+  vertical-align: top;
+}
+
+.topLeft {
+  text-align: left;
+  vertical-align: top;
+}
 
 .etchedIn {
-  padding: 1px 4px 1px 0;
-  margin: 3px 0;
+  padding-right: 4px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  margin-top: 3px;
+  margin-bottom: 3px;
   max-width: 430px;
   border-right: inset 1px #FFFF66;
   border-bottom: inset 1px #FFFF66;
 }
 
 .datumValue, .datumDescription {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13.75px;
   line-height: 17.5px;
   padding-top: 1px;
@@ -160,35 +102,61 @@ table {
 
 .datumValue {
   font-weight: normal;
+/*	color: Ivory; */
+/*	color: #F8F8F0; */
+/*  color: #EEEED5; */
   color: #F9F9CC;
 }
 
 .datumDescription {
   font-weight: 500;
   font-style: normal;
-  color: #CCBD99;
+  color: #CCBD99; /* Khaki */  /* #F0E68C; */
 }
 
+/*
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+	padding-top: 4px;
+  color: #CCCCCC;
+*/
+
 .formRowContainer {
-  float: none; 
+  float: none;  /* WAS float: left prior to 3/2/10 but that caused seemingly unrelated formatting problems with background color. */
   margin-top: 1px;
-  margin-bottom: 2px; 
+  margin-bottom: 2px; /* changed from 1 to 2 on 3/29/12 */
   /* border: dashed 1px red; */
 }
 
 .rowTitleText, .rowTitleTextWide, .rowTitleTextNarrow { 
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
 	line-height: 17px;
-	padding: 1px 0 2px 0;
-	margin: 2px 6px 0 0;
-  color: #F9F9CC;
+	padding-top: 1px;
+	padding-bottom: 2px;
+  font-weight: normal;
+  color: #F9F9CC; /* FFFFCC; */
   float: left;
   text-align: right; 
+  margin-right: 6px;
+  margin-top: 2px;
   width: 110px; 
   /* border: dashed 1px yellow; */
 }
-.rowTitleTextWide { width: 142px; }
-.rowTitleTextNarrow { width: 80px; }
+
+.rowTitleTextWide { 
+  width: 142px; 
+  /* border: dashed 1px yellow; */
+  /* min-width: 142px; */
+}
+
+.rowTitleTextNarrow { 
+  width: 80px;
+  /* border: dashed 1px yellow; */
+  /* min-width: 80px; */
+}
 
 .entryFormFieldContainer {
   margin: 0;
@@ -198,46 +166,116 @@ table {
 }
 
 .navBar, .navBarTight {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   font-weight: normal;
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
-.navBarTight { padding: 3px 0 3px 0; }
+
+.navBarTight {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+.navBarEmphasis {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: normal;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-style: normal;
+}
+
+.navBarSurpressed {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	color: #808080;
+}
 
 .narBarMainSection {
 	border-left: 1px outset #222222;
 	border-top: 1px outset #222222;
-	padding: 3px 0 5px 0;
-	margin: 0px 5px 0 5px;
+	padding-top: 3px;
+	padding-bottom: 5px;
+	margin-top: 0px;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
 .narBarArchiveSection {
 	border-right: 1px inset #222222; /* #FFFFA6 */
 	border-bottom: 1px inset #222222;
-	margin: 0px 5px 0 5px;
+	padding-top: 0px;
+	padding-bottom: 6px;
+	margin-top: 0px;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
 .navBarTitle, .navBarTitle1, .navBarTitle2 {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   font-weight: normal;
-  color: #999999; 
-  padding: 5px 0 5px 0;
+  color: #999999; /* #FFFF99 */
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
-.navBarTitle1 { padding: 5px 0 1px 0; }
-.navBarTitle2 { padding: 12px 0 1px 0; }
 
-.borderPic { border-color: #000000; margin-top: 3px; }
-.borderPic06 { border-color: #FD94B2; margin-top: 3px; }
-.borderPic07 { border-color: #FFFF66; margin-top: 3px; }
-.borderPic08H { border-color: #660000; margin-top: 3px; }
-.borderPic08B { border-color: #000099; margin-top: 2px; }
-.borderPic08TX { border-color: #D1C28B; margin-top: 4px; }
-.borderPic09D { border-color: #CC3333; margin-top: 4px; }
+.navBarTitle1 {
+	padding-top: 5px;
+	padding-bottom: 1px;
+}
 
-.programPic { padding-top: 4px; }
+.navBarTitle2 {
+	padding-top: 12px;
+	padding-bottom: 1px;
+}
+
+.borderPic {
+  border-color: #000000;
+	margin-top: 3px;
+}
+
+.borderPic06 {
+  border-color: #FD94B2;
+	margin-top: 3px;
+}
+
+.borderPic07 {
+  border-color: #FFFF66;
+	margin-top: 3px;
+}
+
+.borderPic08H {
+  border-color: #660000;
+	margin-top: 3px;
+}
+
+.borderPic08B {
+  border-color: #000099;
+	margin-top: 2px;
+}
+
+.borderPic08TX {
+  border-color: #D1C28B;
+	margin-top: 4px;
+}
+
+.borderPic09D {
+  border-color: #CC3333;
+	margin-top: 4px;
+}
+
+.programPic {
+  padding-top: 4px;
+}
 
 li.noIndent {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: normal;
   margin: 0 20px 10px -10px;
@@ -250,6 +288,24 @@ li.noIndentOnDarkGray {
   font-weight: normal;
   margin: 0 20px 8px -10px;
   color: #F6F6F0;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table.almostEndBackground { 
+  background-image: url("http://sanssoucifest.org/images/almostEndBackground2.jpg");
+  background-color: #CCCCCC;
+}
+
+table.almostEndBackground0 { 
+  background-image: url("http://sanssoucifest.org/images/almostEndBackground1.jpg");
+  background-color: #CCCCCC;
+}
+
+table.programPageBackground { 
+  background-color: black;
 }
 
 td {
@@ -270,11 +326,13 @@ ul {
 }
 
 .ulBulletText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   /* padding-left: -1.5em; */
 }
 
 .homeHeading1 {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 24px;
   font-weight: bold;
   font-style:italic;
@@ -283,12 +341,59 @@ ul {
   margin: 40px 0 2px 0;
 }
 
+.homeHeading2 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  text-align:center;
+  color: #FCFC7E;  /* FCFC4C, FFFF33 */
+  margin: 24px 0 2px 0;
+}
+
+.homeHeading3 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  color: #FCFC7E;  /* FCFC4C, FFFF33 */
+  margin: 4px 0 4px 0;
+}
+
+.sotHeading1 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #663333;
+}
+
+.sotHeading2 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: #663333;
+}
+
+img.boxed { 
+  border-width: thin;
+  border-color: #663333;
+} 
+	
+.largeBodyText { 
+  font-family: Arial, Helvetica, sans-serif;
+/*  font-family: Times New Roman, Times, serif; */
+  font-size: 16px;
+  font-weight: normal;
+  color: black;
+}
+	
 .smallBodyText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   font-weight: normal;
 }
 	
 .smallBodyTextOnBlack {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   line-height: 15px;
   font-weight: normal;
@@ -296,6 +401,7 @@ ul {
 }
 	
 .smallBodyTextLeadedGrayLight {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   font-weight: normal;
   line-height: 18px;
@@ -303,35 +409,44 @@ ul {
 }
 
 .smallBodyTextLeaded {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   font-weight: normal;
   line-height: 18px;
 }
 	
+.smallBodyTextLeadedOnBlack {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 18px;
+  color: #FFFFCC;
+}
+	
 .medSmallBodyTextLeaded {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   font-weight: normal;
   line-height: 17px;
 }
 	
-.widgetText1 {
+.medSmallBodyTextLeadedOnBlack {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   font-weight: normal;
   line-height: 17px;
 	color: #FFFFCC;
-  text-align:left;
-  padding-left: 4px;
-  padding-right: 4px;
 }
-
-
+	
 .bodyTextWithEmphasis {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
   font-weight: bold;
   line-height: 125%;
 }
 
 .bodyTextWithEmphasisOnBlack {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
   font-weight: bold;
   line-height: 125%;
@@ -339,6 +454,7 @@ ul {
 }
 
 .pdfEntryFormSpecial {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 18px;
   font-weight: bold;
   line-height: 125%;
@@ -346,6 +462,7 @@ ul {
 }
 
 .bodyTextWithEmphasisGreenDark {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
   font-weight: bold;
 	color: #003300;
@@ -353,6 +470,7 @@ ul {
 }
 
 .bodyTextWithEmphasisGreenLight {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
   font-weight: bold;
 	color: #00CC00;
@@ -360,6 +478,7 @@ ul {
 }
 
 .bodyTextWithEmphasisYellow {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
   font-weight: bold;
 	color: #FFFF99;
@@ -367,6 +486,7 @@ ul {
 }
 
 .bodyTextWithEmphasisBrightYellow {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
   font-weight: bold;
 	color: #FFFF66;
@@ -375,17 +495,20 @@ ul {
 
 .sprocketHoles {
 	background-image: url("http://sanssoucifest.org/images/sprocketHolesOnDarkGray.jpg");
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
   font-weight: normal;
 }
 
 .bodyText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13.75px; /* 14 */
 	line-height: 17.5px; /* 17 */
   font-weight: normal;
 }
 
 .bodyTextOnBlack {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
 	line-height: 17px;
   font-weight: normal;
@@ -393,6 +516,7 @@ ul {
 }
 
 .curationTitle {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 18px;
 	line-height: 20px;
   font-weight: normal;
@@ -400,6 +524,7 @@ ul {
 }
 
 .bodyTextOnDarkGray {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13.75px;  /* 14 */
 	line-height: 20px;
   font-weight: normal;
@@ -407,6 +532,7 @@ ul {
 }
 
 .bodyTextOriginal {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: normal;
   padding: 3px 0 3px 5px;
@@ -414,6 +540,7 @@ ul {
 }
 
 .entryRequirementsText { /* DEPRECATED but maintained here for backward compatability */
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
 	line-height: 1.3;
   font-weight: normal;
@@ -423,6 +550,7 @@ ul {
 }
 
 .entryRequirementsParagraph {  /* DEPRECATED but maintained here for backward compatability */
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
 	line-height: 1.3;
   font-weight: normal;
@@ -436,6 +564,7 @@ ul {
 }
 
 .entryFormSectionHeading { /* NOTE: 3 versions of this rule. This one is the base. */
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
 	line-height: 14px;
   font-weight: normal;
@@ -457,6 +586,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 }
 
 .sectionHeading {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
 	line-height: 14px;
   font-weight: normal;
@@ -465,6 +595,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 }
 
 .entryFormDescription, .entryFormDescriptionSub, .entryFormDescriptionTA {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   font-weight: normal;
   color: #FFFFCC;
@@ -476,6 +607,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 .entryFormDescriptionTA { padding: 6px 6px 0 0; }
 
 .entryFormNotation, .entryFormSubheading, .adminEntryFormSubheading {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   font-weight: normal;
   color: #FFFF99; /* F9F966; */
@@ -509,6 +641,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 .entryFormInputField, .entryFormInputFieldWide, .entryFormInputFieldShort, 
 .entryFormInputFieldShorter, .entryFormInputFieldShorterYet, .entryFormInputFieldVeryShort,
 .entryFormInputFieldShortMed {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   font-weight: normal;
 	height: 22px;
@@ -524,6 +657,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 .entryFormInputFieldVeryShort { width: 45px; }
 
 .entryFormTextAreaField, .entryFormTextAreaFieldWide {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   font-weight: normal;
   color: #000000;
@@ -533,6 +667,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 .entryFormTextAreaFieldWide { width: 420px; }
 
 .curationFormTextArea {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   font-weight: normal;
 	width: 100%;
@@ -540,6 +675,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 }
 
 .entryFormRadioButton {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
 	line-height: 17px;
   font-weight: normal;
@@ -548,6 +684,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 }
 
 .entryFormRadioButtonLabel {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
 	line-height: 17px;
   font-weight: normal;
@@ -556,6 +693,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 }
 
 .loginPrompt {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   font-weight: normal;
   color: #FFFFCC;
@@ -563,6 +701,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 }
 
 .bodyTextOnBlackRowPadded {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: normal;
 	padding: 2px 0 4px 0;
@@ -570,6 +709,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 }
 
 .bodyTextOnDarkGrayRowPadded {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: normal;
 	padding: 2px 0 4px 0;
@@ -577,6 +717,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 }
 
 .bodyTextGrayLight {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
 	line-height: 17px;
   font-weight: normal;
@@ -584,6 +725,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 }
 
 .bodyTextGreenDark {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: normal;
 	color: #003300;
@@ -596,6 +738,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 }
 
 .filmTitleText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 20px;
   font-weight: normal; /* changed from bold 8/25/10 */
   font-style: italic;
@@ -604,6 +747,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 }
 
 .filmInfoText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: normal;
   font-style: normal;
@@ -613,6 +757,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 }
 
 .pressReportItemText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: normal;
 	padding: 6px 40px 6px 40px;
@@ -620,6 +765,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 }
 
 .sectionTitle, .linkListTitle {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 18px;
   font-weight: normal;
   font-style: italic;
@@ -634,6 +780,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 }
 
 h3 {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 18px;
   font-weight: normal;
   font-style: italic;
@@ -644,6 +791,7 @@ h3 {
 }
 
 .sectionText, .linkListText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: normal;
 	padding: 8px 20px 8px 40px;
@@ -651,6 +799,7 @@ h3 {
 }
 
 p {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: normal;
   margin: 10px 20px 0px 40px;
@@ -660,6 +809,7 @@ p {
 p:first-of-type { margin-top:4px; }
 
 .filmInfoSubtitleText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: bold;
   font-style: normal;
@@ -674,35 +824,41 @@ p:first-of-type { margin-top:4px; }
 }
 
 .filmYearText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
-  font-weight: normal; 
+  font-weight: normal; /* changed from bold 8/25/10 */
   font-style: normal;
 	padding-top: 3px;
-  color: #FFFF99; 
+  color: #FFFF99; /* #FCFC7E; #FFFF58, #00C640; */
 }
 
 .filmLiveText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
   font-weight: bold;
   font-style: italic;
 	padding-top: 3px;
-  color: #FFFF99; 
+  color: #FFFF99; /* #FCFC7E; #FFFF58, #00C640; */
 }
 
 .filmRunTimeText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
   font-weight: normal;
   font-style: normal;
 	padding-top: 3px;
 	color: #FFFF99; 
+  /* color: #00C640; */
 }
 
 .filmFormatText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
   font-weight: normal;
   font-style: normal;
 	padding-top: 3px;
 	color: #FFFFAF; 
+  /* color: #229922; */
 }
 
 .captionText {
@@ -713,17 +869,20 @@ p:first-of-type { margin-top:4px; }
 }
 
 .bodyTextOriginal {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   font-weight: normal;
 }
 
 .bodyTextLeaded {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   font-weight: normal;
   line-height: 18px;
 }
 
 .bodyTextLeadedOnBlack {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: normal;
   line-height: 18px;
@@ -731,6 +890,7 @@ p:first-of-type { margin-top:4px; }
 }
 
 .callForEntriesText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
   font-weight: normal;
   line-height: 19px;
@@ -744,43 +904,53 @@ table.inset {
 }
 
 .titleText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 24px;
   font-weight: bold;
   color: #333333;
+  /* padding-left: 3px; */
 }
 
 .titleTextOnBlack {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 24px;
   font-weight: bold;
   color: #FFFFCC;
+  /* padding-left: 3px; */
 }
 
 .smallTitleTextOnBlack {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: bold;
   color: #FFFFCC;
+  /* padding-left: 3px; */
 }
 
 .blackTitleText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 24px;
   font-weight: bold;
   color: #000000;
 }
 
 .titleTextGreenDark {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 24px;
   font-weight: bold;
   color: #003300;
 }
 
 .programPageTitleText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 24px;
 	line-height: 24px;
   font-weight: bold;
-  color: #FCFC7E; 
+  color: #FCFC7E;  /* FCFC4C, FFFF33 */
 }
 
 div.programPageTitleText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 24px;
 	line-height: 24px;
   font-weight: bold;
@@ -792,31 +962,38 @@ div.programPageTitleText {
 }
 
 .homePageTitleText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 18px;
   font-weight: bold;
-  color: #FCFC7E; 
+  color: #FCFC7E; /* was FFFF33 */
 }
 
-.programInfoText, .programInfoTextSmall, .programInfoTextTiny {
+.programInfoText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
-  font-weight: bold;
 	line-height: 22px;
-  vertical-align: top;
+  font-weight: bold;
   color: #FFFF99;
 }
 
 .programInfoTextSmall {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
 	line-height: 20px;
+  font-weight: bold;
+  color: #FFFF99;
 }
 
 .programInfoTextTiny {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
 	line-height: 18px;
   font-weight: normal;
+  color: #FFFF99;
 }
 
 .filmFigureCaption {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   font-weight: normal;
 	text-align: left;
@@ -826,11 +1003,13 @@ div.programPageTitleText {
 }
 
 .smallTitleText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   color: #663333;
 }
 
 .smallNavText {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   line-height: 16px;
 }

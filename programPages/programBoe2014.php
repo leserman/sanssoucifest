@@ -1,34 +1,31 @@
 <!DOCTYPE html>
 <?php 
-  include_once '../bin/classes/SSFCodeBase.php'; 
-  include_once SSFCodeBase::autoloadClasses(__FILE__);
-	SSFDebug::globalDebugger()->belch('_FILE_', __FILE__, -1);
-//  SSFProgramPageParts::initializePage(__FILE__, $doCache = false); 
-?>
-<?php  /* UPDATE THESE ITEMS */
+  include_once '../bin/classes/SSFProgramPageParts.php'; 
+
+  /* UPDATE THESE ITEMS */
   SSFProgramPageParts::setShowsEvent(31);  
-  $allowRobotIndexing = true;
-  SSFProgramPageParts::$pageHeaderTitleText = 'at the Boe, 2014';
-  SSFProgramPageParts::$pageContentTitleText = 'Sans Souci at the Boe, 2014';
-	SSFProgramPageParts::$programPicBorderWidthInPixels = '1';
-	SSFProgramPageParts::$programHighlightColor = '#586caf';
+  SSFProgramPageParts::allowRobotIndexing();
+  SSFProgramPageParts::setHeaderTitleText('at the Boe, 2014');
+  SSFProgramPageParts::setContentTitleText('Sans Souci at the Boe, 2014');
+	SSFProgramPageParts::setProgramPicBorderWidthInPixels(1);
+	SSFProgramPageParts::setProgramHighlightColor('#586caf');
   $onlineTicketsURL = 'https://tickets.thedairy.org/online/default.asp?doWork::WScontent::loadArticle=Load&amp;BOparam::WScontent::loadArticle::article_id=7F250C59-ABB3-4821-A4C2-859087D9BDBD';
 ?>
-<!-- <html lang="en"<?php echo SSFProgramPageParts::cacheString(); ?>> -->
-<html lang="en">
-  <head>
+<html lang="en"<?php echo SSFProgramPageParts::manifestString(); ?>>
+<!-- <html lang="en"> -->
+<!--  <head> -->
 <?php 
-  echo SSFProgramPageParts::htmlHeadContent(SSFProgramPageParts::$pageHeaderTitleText, $allowRobotIndexing); 
+  echo SSFProgramPageParts::getHeader();
+//  echo SSFProgramPageParts::htmlHeadContent(); 
 ?>
     <style type="text/css">
       /* CSS inline style definitions go here. */
-/*      td { padding:0;border:0px solid red;background-color:#2300ff;margin:0;border-collapse:collapse; }  */
       table { padding:0;margin:0;border-collapse:collapse; }
     </style>
 <?php 
-  echo SSFProgramPageParts::cssMediaQueries(); 
+//  echo SSFProgramPageParts::cssMediaQueries(); 
 ?>
-  </head>
+<!--  </head> -->
 
     <body>
     <?php 
@@ -64,6 +61,12 @@
   echo SSFProgramPageParts::endContentHeader();
   SSFProgramPageParts::showWorks();
   echo SSFProgramPageParts::endPageBody();
+/*
+      // Test Code 1/29/15
+      $dbname = SSFInit::getDbName();
+      $debug = new SSFDebug; 
+      $debug->becho('dbname', $dbname, 1);
+*/
 ?>
 
 </body>
