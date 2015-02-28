@@ -7,11 +7,13 @@
     /* Modify the next two values depending on whether the site is live */
     private static $siteIsLive = false;
     
-    private static $hostName = 'http://dev.sanssoucifest.org/';
+//    private static $hostName = 'http://dev.sanssoucifest.org/';
+    private static $hostName = 'http://sanssoucifest.local/';
     public static function getHostName() { return self::$hostName; }
-    
-    private static $rootPath = '/home/hamelbloom/dev.sanssoucifest.org';
-    public static function getRootPath() { return self::$rootPath; }
+  
+// The following are unused.  
+//    private static $rootPath = '/home/hamelbloom/dev.sanssoucifest.org';
+//    public static function getRootPath() { return self::$rootPath; }
     
     private static $columnCount = 3; // Most program pages render content in 3 table columns.
 
@@ -20,6 +22,9 @@
     
     private static $contentTitleText = '';
     public static function setContentTitleText($text) { self::$contentTitleText = $text; }
+    
+    private static $cssInlineStyleDefinitions = null;
+    public static function addCssInlineStyleDefinition($text) { self::$cssInlineStyleDefinitions[] = $text; }
     
     private static $allowRobotIndexing = false;
     // If this method is not called or if $siteIsLive == false, robots will be directed to suppress indexing of this page.
@@ -36,7 +41,7 @@
 
     private static $programHighlightColor = 'black';
     public static function getProgramHighlightColor() { return self::$programHighlightColor; }
-    public static function setProgramHighlightColor($color) { $programHighlightColor = $color; }
+    public static function setProgramHighlightColor($color) { self::$programHighlightColor = $color; }
     
     private static $showsEvent = 0;
     private static $showCount = 0;
@@ -47,9 +52,7 @@
     private static $emptyImageDefaultHeightInPixels = '101';
     private static $emptyImageDefaultWidthInPixels = '180';
 
-
     public static function my_autoloader($class) { include '../bin/classes/' . $class . '.php'; }
-
         
     public static function showsEvent() { return self::$showsEvent; }
 
@@ -64,6 +67,8 @@
     }
     
     public static function showCount() { return self::$showCount; }
+        
+    public static function getHtmlLine() { return '<html lang="en"' . self::manifestString() . '>' . PHP_EOL; }
 
     public static function cachePage($doCache = true) { 
       SSFDebug::globalDebugger()->belch('_FILE_', __FILE__, -1);
@@ -71,19 +76,23 @@
       //      http://stackoverflow.com/questions/15228697/prevent-html5-page-from-caching-what-replaces-cache-control-pragmano-cache
       // Don't worry about this caching stuff. The default is the equivalent of the old pragma nocache.
       // Presumably this means that the page contents will not be cached as long as $doCache = false.
-      SSFProgramPageParts::$manifestString = ($doCache) ? ' manifest="./bin/data/sanssouci.appcache"' : '';
+      self::$manifestString = ($doCache) ? ' manifest="' . self::$hostName . 'bin/data/sanssouci.appcache"' : '';
     }
 
     public static function getHeader() {
       $pageHeader = '';
-      $pageHeader .= '<head>' . PHP_EOL;
+      $pageHeader .= '  <head>' . PHP_EOL;
       $pageHeader .= self::getHeaderContent();
-      $pageHeader .= '    <style type="text/css">' . PHP_EOL;
-      $pageHeader .= '          /* CSS inline style definitions go here. */' . PHP_EOL;
-      $pageHeader .= '          table { padding:0;margin:0;border-collapse:collapse; }' . PHP_EOL;
-      $pageHeader .= '    </style>' . PHP_EOL;
-      $pageHeader .= self::getCSSMediaQueries() . PHP_EOL;
-      $pageHeader .= '</head>' . PHP_EOL;
+      if (!is_null(self::$cssInlineStyleDefinitions)) {
+        $pageHeader .= '    <style type="text/css">' . PHP_EOL;
+        $pageHeader .= '          /* CSS inline style definitions go here. */' . PHP_EOL;
+         foreach (self::$cssInlineStyleDefinitions as $style) {
+          $pageHeader .= '         ' . $style . PHP_EOL;
+        }
+        $pageHeader .= '    </style>' . PHP_EOL;
+      }
+      $pageHeader .= self::getCSSMediaQueries();
+      $pageHeader .= '  </head>' . PHP_EOL;
       return $pageHeader;
     }
     
@@ -101,18 +110,17 @@
                    .  'live dance performance, dance festival, video dance, dance video, dance film, dance cinema, dance, film, video, cinema, festival, art, arts, artists, projection, '
                    .  'projected, tour, touring">' . PHP_EOL;
       $headContent .= '    <meta name="viewport" content="width=device-width">' . PHP_EOL; // alternately, content='width=device-width, initial-scale=1.0'
+      $headContent .= '    <link rel="stylesheet" href="sanssouci.css" type="text/css">' . PHP_EOL;
       $headContent .= '    <style type="text/css">' . PHP_EOL;
-      $headContent .= '    <!--' . PHP_EOL;
-      $headContent .= '      .programHighlightColor { color:' . self::$programHighlightColor . ';border-color:' . self::$programHighlightColor . ';border-width: ' . self::$programPicBorderWidthInPixels . 'px; } ' . PHP_EOL; /* b2dac2 dab2cb ffd0ed */
-      $headContent .= '      .differentProgramsText { font-size:15px;margin:12px 0 -8px 0;line-height:120%;color:#E49548;font-weight:normal; } ' . PHP_EOL;
-      $headContent .= '      a.special:link { color : #FFFF99; text-decoration: none; } ' . PHP_EOL;
-      $headContent .= '      a.special:visited { color : #FFFF99; text-decoration: none; }  /* was #9900CC */ ' . PHP_EOL;
-      $headContent .= '      a.special:hover { color : #990000; text-decoration: underline; } ' . PHP_EOL;
-      $headContent .= '    -->' . PHP_EOL;
+//      $headContent .= '    <!--' . PHP_EOL;
+      $headContent .= '      .programHighlightColor { color:' . self::$programHighlightColor . ';border-color:' . self::$programHighlightColor . ';border-width:' . self::$programPicBorderWidthInPixels . 'px; } ' . PHP_EOL;
+//      $headContent .= '      .differentProgramsText { font-size:15px;margin:12px 0 -8px 0;line-height:120%;color:#E49548;font-weight:normal; } ' . PHP_EOL;
+//      $headContent .= '      a.special:link { color : #FFFF99; text-decoration: none; } ' . PHP_EOL;
+//      $headContent .= '      a.special:visited { color : #FFFF99; text-decoration: none; }  /* was #9900CC */ ' . PHP_EOL;
+//      $headContent .= '      a.special:hover { color : #990000; text-decoration: underline; } ' . PHP_EOL;
+//      $headContent .= '    -->' . PHP_EOL;
       $headContent .= '    </style>' . PHP_EOL;
       $headContent .= '    <script src="bin/scripts/ssfDisplay.js" type="text/javascript"></script>' . PHP_EOL;
-      $headContent .= '    <link rel="stylesheet" href="sanssouci.css" type="text/css">' . PHP_EOL;
-//      $headContent .= '    <link rel="stylesheet" href="sanssouciBlackBackground.css" type="text/css">' . PHP_EOL;
       $headContent .= "    <link rel=icon href=favicon.png sizes='16x16' type='image/png'>" . PHP_EOL;
       return $headContent;
     }  
@@ -260,26 +268,34 @@
   
   }
 
+// SSFInit gets values from sanssouci.ini.
 class SSFInit {
   
   private static $iniData = null;
+  private static $failureNotice = 'Initialization failed.';
+  private static $debugOn = false;
   
-  public static function getDbName() { if (self::initialized()) return self::$iniData['database']['dbname']; else return 'Initialization failed.'; }
-  public static function getDbUsername() { if (self::initialized()) return self::$iniData['database']['dbusername']; else return 'Initialization failed.'; }
-  public static function getDbPW() { if (self::initialized()) return self::$iniData['database']['4DAMcdfss']; else return 'Initialization failed.'; }
-  public static function getDbSchemaName() { if (self::initialized()) return self::$iniData['database']['sanssouci']; else return 'Initialization failed.'; }
+  public static function getDbName() { if (self::initialized()) return self::$iniData['database']['dbname']; else return $failureNotice; }
+  public static function getDbUsername() { if (self::initialized()) return self::$iniData['database']['dbusername']; else return $failureNotice; }
+  public static function getDbPW() { if (self::initialized()) return self::$iniData['database']['4DAMcdfss']; else return $failureNotice; }
+  public static function getDbSchemaName() { if (self::initialized()) return self::$iniData['database']['sanssouci']; else return $failureNotice; }
 
   private static function initialized() {
     if (is_null(self::$iniData)) {
       $debug = new SSFDebug; 
-      self::$iniData = parse_ini_file(SSFProgramPageParts::getRootPath() . '/bin/data/sanssouci.ini', true);
-//      self::$iniData = parse_ini_file(SSFProgramPageParts::getHostName() . '/bin/daata/sanssouci.ini', true);
-//      self::$iniData = parse_ini_file('./bin/data/sanssouci.ini', true);
+      // Note that the next line will break if the web server does not provide the DOCUMENT_ROOT information. See http://php.net/manual/en/reserved.variables.server.php
+      self::$iniData = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/bin/data/sanssouci.ini', true); 
+      // This next approach works but requires maintenance of the definition of SSFProgramPageParts::$rootPath().
+      //      self::$iniData = parse_ini_file(SSFProgramPageParts::getRootPath() . '/bin/data/sanssouci.ini', true); 
+      // This next approach fails because Dreamhost PHP settings do not allow URL_inlcude. See http://wiki.dreamhost.com/Allow_url_include.
+      //      self::$iniData = parse_ini_file(SSFProgramPageParts::getHostName() . '/bin/daata/sanssouci.ini', true);
+      // This next approach fails because the URL base is not implied for parse_ini_file as it is in <a href="...">.
+      //      self::$iniData = parse_ini_file('./bin/data/sanssouci.ini', true);
       if (self::$iniData !== false) {
-        $debug->belch('initialization data', self::$iniData, -1);
+        if (self::$debugOn) $debug->belch('initialization data', self::$iniData, 1);
         return true;
       } else {
-//        $debug->belch('initialization failed', '', 1);
+        if (self::$debugOn) $debug->belch('initialization failed', '', 1);
         return false;
       }
     }

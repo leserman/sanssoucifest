@@ -148,12 +148,6 @@
   $adeDEBUGGER->belch('050. _POST', $_POST, $debugInit);
   $editorState['callForEntriesId'] = SSFRunTimeValues::getCallForEntriesId();
   
-//  if (!isset($editorState['adminSelector']) || $editorState['adminSelector'] == 0) { // was === before 2/16/10
-//    $editorState['adminSelector'] = (isset($editorState['priorAdminSelector'])) ? $editorState['priorAdminSelector'] : 0;
-//  }
-//  if (!isset($editorState['adminSelector']) || $editorState['adminSelector'] == 0) 
-//    $editorState['adminSelector'] = SSFRunTimeValues::getDefaultAdministratorId();
-
   // $editorState['adminSelector'] - There is no longer any need to initialize this because it's value is handled 
   // behind the scenes by HTMLGen::displayAdministratorSelector (and therein by SSFAdmin::userIndex()).
   // We no longer use $editorState['adminSelector'], but in it's place, we call SSFQuery::useAdministratorAsCreatorModifier(). 6/11/11
@@ -348,7 +342,7 @@ echo "          </div>\r\n";
     $alwaysDisplay = (($forAdmin) ? false : true);
     if (!is_null($workArray)) {
       displayWorkDetail1($workArray, $contributorsArray, $forAdmin);
-      $frameParams = HTMLGen::getFrameParametersDisplayElement($workArray);
+      $frameParams = HTMLGen::getFrameParametersDisplayElement2($workArray);
       if ($frameParams != '') echo '<div><div id="Q" style="margin-left:-10px;">' . $frameParams . '</div><div style="clear:both"></div></div>' . "\r\n";
 //      if ($frameParams != '') echo $frameParams;
       else echo '<div class="datumValue floatLeft" style="padding-top:2px;padding-left:10px;"><span class="datumDescription">Aspect Ratio </span></div>' . "\r\n";

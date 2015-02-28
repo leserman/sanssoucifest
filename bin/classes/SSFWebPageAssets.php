@@ -199,6 +199,7 @@ class SSFWebPageAssets {
     $navBarString .= self::$indent . '  </div>' . PHP_EOL;
     $navBarString .= self::$indent . '  <div><div class="navBarTitle2">Admin Activities</div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="' . $moveUpString . 'admin/adminDataEntry.php">Manage<br>People &amp; Works</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="' . $moveUpString . 'admin/adminFAQs.php">FAQs</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div style="line-height:1px;margin:3px auto;border-top:#666 thin solid;width:50%;"></div>';
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="' . $moveUpString . 'admin/submissionsOverviewReport.php">Track Submissions</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="' . $moveUpString . 'admin/informArtistsOfMediaReceipt.php">Acknowledge Media Rceipt</a></div>' . PHP_EOL;
@@ -214,7 +215,6 @@ class SSFWebPageAssets {
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="' . $moveUpString . 'admin/projectionistReport.php">Projectionist</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="' . $moveUpString . 'admin/manageMedia.php">Manage Media</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  <div><div class="navBarTitle2">Admin Help</div>' . PHP_EOL; 
-    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="' . $moveUpString . 'admin/adminFAQs.php">FAQs</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="' . $moveUpString . 'admin/adminHowTo.php">How To</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="' . $moveUpString . 'admin/adminEmailCheck.php">Email addr in DB?</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  </div>' . PHP_EOL;
@@ -225,7 +225,7 @@ class SSFWebPageAssets {
     $navBarString .= self::$indent . '  <div><div class="navBarTitle2">1-Click Utilities</div>' . PHP_EOL; 
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="' . $moveUpString . 'bin/utilities/populateColumnsSchemaInfoCache.php">Gen Meta Table</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="' . $moveUpString . 'bin/utilities/genFileNames.php">Gen File Names</a></div>' . PHP_EOL;
-//    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="' . $moveUpString . 'bin/utilities/createEmptyCurationRows.php">Init Curation</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="' . $moveUpString . 'bin/utilities/createEmptyCurationRows.php">Init Curation</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="' . $moveUpString . 'bin/utilities/populateImageTable.php">Updt Image Tbls</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="' . $moveUpString . 'bin/utilities/updateMetadataFromVimeo.php">Vimeo Metadata</a></div>' . PHP_EOL;
 //    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="#">Set RT Values</a></div>' . PHP_EOL;

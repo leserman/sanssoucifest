@@ -1965,38 +1965,6 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     return $displayString;
   }
 
-  // TODO delete this DEAD METHOD
-  public static function getFrameParametersDisplayElementX($workArray) {
-    $resultString = '';
-    // aspect ratio
-    $aspectRatioId = (isset($workArray['aspectRatio']) && ($workArray['aspectRatio'] != '') && ($workArray['aspectRatio'] !== null)) ? $workArray['aspectRatio'] : 0;
-    $selectString = "SELECT ratio, shortDescription, description from aspectRatios where aspectRatioId = " . $aspectRatioId;
-    $aspectRatioRows = SSFDB::getDB()->getArrayFromQuery($selectString);
-    $separator = '';
-    if (($aspectRatioRows !== null) && (count($aspectRatioRows) > 0)) {
-      $resultString .= '<div class="datumValue floatLeft" style="padding-top:2px;padding-left:10px;">';
-      $resultString .= '<span class="datumDescription">Aspect Ratio: </span>' 
-           . $aspectRatioRows[0]['ratio'] . " - " . $aspectRatioRows[0]['description'];
-      $separator = ', ';
-    } 
-    $frameInfo = self::getFrameParametersDisplayElement2($workArray); // Lines inserted 6/26/13 as an experiment to get the aspect ratio and pixel size onto the curators display
-    SSFDebug::globalDebugger()->becho('$frameInfo', $frameInfo, 1);
-    // anamorphic
-    if ($workArray['anamorphic']) {
-      $resultString .= ($separator == '') ? '<div floatLeft class="datumValue">Anamorphic' : ', anamorphic';
-      $separator = ', ';
-    }
-    // frame width & height
-    if ($workArray['frameWidthInPixels'] != '' && $workArray['frameHeightInPixels'] != '' 
-          && $workArray['frameWidthInPixels'] != 0 && $workArray['frameHeightInPixels'] != 0) {
-      if  ($separator == '') $resultString .= '<div floatLeft class="datumValue">';
-      $resultString .= $separator . $workArray['frameWidthInPixels'] . 'x' . $workArray['frameHeightInPixels'];
-      $separator = ', ';
-    }
-    if ($separator != '') $resultString .= '</div>' . "\r\n";
-    return $resultString;
-  }
-
   private static function computedAspectRatio($width, $height) {
     $computedAspectRatio = (float)$width / (float)$height;
     return $computedAspectRatio;
@@ -2051,73 +2019,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     if ($separator == '') $frameParametersDisplayElement .= '<span class="orangishHighlightDisplayColor">unknown</span>' . "\r\n";
     return $frameParametersDisplayElement;
   }
-  
-  // TODO delete this DEAD METHOD
-  public static function getFrameParametersDisplayElement2X($workArray, $verbose=true) {
-    $frameParametersDisplayElement = '';
-    // get the aspect ratio from the DB if it is known
-    $aspectRatioTable = SSFRunTimeValues::getAspectRatioTable();
-    SSFDebug::globalDebugger()->belch('$aspectRatioTable', $aspectRatioTable, -1);
-    $aspectRatioId = (isset($workArray['aspectRatio']) && ($workArray['aspectRatio'] != '') && ($workArray['aspectRatio'] !== null)) ? $workArray['aspectRatio'] : 0;
-    $aspectRatioInDB = isset($aspectRatioTable[$aspectRatioId]);
-    $aspectRatioInUI = ($aspectRatioInDB && isset($aspectRatioTable[$aspectRatioId]['useInUI']) && ($aspectRatioTable[$aspectRatioId]['useInUI'] == 1));
-    // frame width & height computation
-    $frameSizeString = '';
-    $computedAspectRatio = 0.0;
-    if ($workArray['frameWidthInPixels'] != '' && $workArray['frameHeightInPixels'] != '' 
-          && $workArray['frameWidthInPixels'] != 0 && $workArray['frameHeightInPixels'] != 0) {
-      $frameSizeString = $workArray['frameWidthInPixels'] . '<span style="color:#CCBD99;"> x </span>' . $workArray['frameHeightInPixels'];
-      if (!$aspectRatioInUI) $computedAspectRatio = self::computedAspectRatio($workArray['frameWidthInPixels'], $workArray['frameHeightInPixels']);      
-    }
-/*    else if ((self::$vimeoFrameWidthInPixels != 0) && (self::$vimeoFrameHeightInPixels != 0)) {
-      $frameSizeString = self::$vimeoFrameWidthInPixels . '<span style="color:#CCBD99;"> x </span>' . self::$vimeoFrameHeightInPixels;
-      SSFDebug::globalDebugger()->becho('frameSizeString', $frameSizeString, -1);
-      $computedAspectRatio = self::computedAspectRatio(self::$vimeoFrameWidthInPixels, self::$vimeoFrameHeightInPixels);
-      SSFDebug::globalDebugger()->becho('computedAspectRatio', $computedAspectRatio, -1);
-      // Set workArray frame size parameters 
-      // TODO It's completely inappropriate to do this here in the HTML class display function
-      $workArray['frameWidthInPixels'] = self::$vimeoFrameWidthInPixels;
-      $workArray['frameHeightInPixels'] = self::$vimeoFrameHeightInPixels;
-    }*/
-    else if (isset(self::$vimeoInfo) && (self::$vimeoInfo->width() != 0) && (self::$vimeoInfo->height() != 0)) {
-      $frameSizeString = self::$vimeoInfo->width() . '<span style="color:#CCBD99;"> x </span>' . self::$vimeoInfo->height();
-      SSFDebug::globalDebugger()->becho('frameSizeString', $frameSizeString, -1);
-      $computedAspectRatio = self::computedAspectRatio(self::$vimeoInfo->width(), self::$vimeoInfo->height());
-      SSFDebug::globalDebugger()->becho('computedAspectRatio', $computedAspectRatio, -1);
-      // Set workArray frame size parameters 
-      // TODO It's completely inappropriate to do this here in the HTML class display function
-      $workArray['frameWidthInPixels'] = self::$vimeoInfo->width();
-      $workArray['frameHeightInPixels'] = self::$vimeoInfo->height();
-    }
-    // Begin display line
-//    $frameParametersDisplayElement .= '<div style="margin-top:1px;"><div class="datumValue">';
-//    $frameParametersDisplayElement .= '<span class="datumDescription">Frame: </span>';
-    $separator = '';
-    // display frame width & height 
-    if ($frameSizeString != '') {
-      if  ($separator == '') $frameParametersDisplayElement .= '<span class="datumValue">';
-      $frameParametersDisplayElement .= $separator . $frameSizeString;
-      if  ($separator == '') $frameParametersDisplayElement .= '</span> ';
-      $separator = ', ';
-    }
-    // display aspect ratio
-    if ($aspectRatioInUI && ($computedAspectRatio == 0.0)) {
-      $frameParametersDisplayElement .= '<span class="datumDescription">with aspect ratio given as </span>' . $aspectRatioTable[$aspectRatioId]['shortDescription'];
-      $separator = ', ';
-    } else if ($computedAspectRatio != 0.0) {
-      $frameParametersDisplayElement .= '<span class="datumDescription">with aspect ratio computed as </span>' . sprintf('%.2f', $computedAspectRatio) . ':1';
-      $separator = ', ';
-    }
-    // display anamorphic (not relevant for MP4s)
-    if ($workArray['anamorphic']) {
-      $frameParametersDisplayElement .= ($separator == '') ? '<div class="datumValue">Anamorphic' : ', anamorphic';
-      $separator = ', ';
-    }
-    if ($separator == '') $frameParametersDisplayElement .= '<span class="orangishHighlightDisplayColor">unknown</span>' . "\r\n";
-//    $frameParametersDisplayElement .= '</div></div>' . "\r\n";
-    return $frameParametersDisplayElement;
-  }
-  
+    
   private static function getPaymentInfoDisplayString($workArray) {
     $pmtReceived = (isset($workArray['datePaid']) && ($workArray['datePaid'] != '') && ($workArray['datePaid'] != '0000-00-00'));
     if (true || $pmtReceived) {

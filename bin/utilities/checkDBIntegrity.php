@@ -64,6 +64,30 @@
   // Find people who are a submitter but not labeled as such.
   // select personId, name, relationship, notes from people join `works` on submitter = personId 
   // where personId not in (select personId from people where relationship like '%submitter%') group by personId
+  //
+  // From _SSFQueries.txt, 2/19/15
+  //
+  // TODO other (besides duplicate) integrity checks for people [other integrity checks for people]
+  // - select * from workContributors where work not in (select workId from works)  
+  //   FIXED (2012): delete from workContributors where work not in (select workId from works)  
+  // - select personId, name, workId, title, relationship, notes from people left join `works` on submitter = personId 
+  //   where relationship like '%submitter%' order by personId, workId
+   // Check for Submitters whose recordType should be individual
+  // - select distinct personId, name, email, organization, recordType, relationship, notes from people  
+  //   where relationship like '%submitter%' and (recordType is null or recordType='') and 
+  //   (organization is null or organization = '') order by organization, personId
+   // Repair for Submitters whose recordType should be individual
+  // - update people set recordType = 'individual' 
+  //   where relationship like '%submitter%' and (recordType is null or recordType='') and 
+  //   (organization is null or organization = '') order by organization, personId
+   // Check for people with relationship like submitter who have not submitted works
+  // - select personId, name, recordType, organization, relationship, notes from people 
+  //   where relationship like '%submitter%' and personId not in (select submitter from works)
+   // Check for people who have submitted works but with relationship not like submitter
+  // - select personId, name, workId, title, relationship, notes from people join `works` on submitter = personId
+  //   where relationship not like '%submitter%' order by personId, workId
+  //
+  // TODO phone number integrity - remove non-numbers - as of 7/3/13 the only non-numbers are -, ---, none, n/a, etc
   
 
   $includeReportsOfZeroIds = false;

@@ -199,7 +199,6 @@
   SSFDebug::globalDebugger()->belch("cookedInputInfo1", $cookedInputInfo1, -1);
 
   // We no longer use $editorState['adminSelector'], but in it's place, we call SSFQuery::useAdministratorAsCreatorModifier(). 6/11/11
-  //  if (!isset($editorState['adminSelector']) || $editorState['adminSelector'] == 0) { $editorState['adminSelector'] = SSFRunTimeValues::getDefaultAdministratorId(); }
   SSFQuery::useAdministratorAsCreatorModifier();
 
   // Find a DB record

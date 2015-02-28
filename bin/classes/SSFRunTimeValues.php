@@ -8,8 +8,8 @@ class SSFRunTimeValues {
   private static $currentYearString = "";
   private static $initialCallForEntriesId = 0;
   private static $callForEntriesId = 0;
-  private static $defaultAdministratorId = 0;
-  private static $administratorId = 0;
+//  private static $defaultAdministratorId = 0; // Obsolete as of 2/20/15
+//  private static $administratorId = 0; // Obsolete as of 2/20/15
   private static $defaultWorkId = 0;
 
   private static $permissionStringsArray = array();
@@ -69,7 +69,7 @@ class SSFRunTimeValues {
           case 'contactEmailAddress': self::$contactEmailAddress = $rtvRow['parameterValueString']; break;
           case 'copyrightYearsString': self::$copyrightYearsString = $rtvRow['parameterValueString']; break;
           case 'currentYearString': self::$currentYearString = $rtvRow['parameterValueString']; break;
-          case 'defaultAdministratorId': self::$administratorId = self::$defaultAdministratorId = $rtvRow['parameterValue']; break; // overall beginning 3/9/11
+//          case 'defaultAdministratorId': self::$administratorId = self::$defaultAdministratorId = $rtvRow['parameterValue']; break; // overall beginning 3/9/11 // Obsolete 2/20/15
           case 'defaultCallId': self::$callForEntriesId = self::$initialCallForEntriesId = $rtvRow['parameterValue']; break;
           case 'defaultWorkId': self::$defaultWorkId = self::$defaultWorkId = $rtvRow['parameterValue']; break;
           case 'listManagementEmailAddress': self::$listManagementEmailAddress = $rtvRow['parameterValueString']; break;
@@ -229,9 +229,11 @@ class SSFRunTimeValues {
   }
   
   // administratorId & workId functions
-  public static function getDefaultAdministratorId() { self::checkInit(); return self::$defaultAdministratorId; }
-  public static function getAdministratorId() { self::checkInit(); return self::$administratorId; }
-  public static function setAdministratorId($intValue) { self::checkInit(); self::$administratorId = $intValue; return $intValue; }
+//  public static function getDefaultAdministratorId() { self::checkInit(); return self::$defaultAdministratorId; } // Obsolete as of 2/20/15
+//  public static function getAdministratorId() { self::checkInit(); return self::$administratorId; } // Obsolete as of 2/20/15
+// TODO Find all calls to getAdministratorId() and get the information from elsewhere.
+  public static function getAdministratorId() { return 1; } // Hack to avoid reading this from runTimeValues as $defaultAdministratorId as of 2/20/15
+//  public static function setAdministratorId($intValue) { self::checkInit(); self::$administratorId = $intValue; return $intValue; } // Unused as of 2/20/15
   public static function getDefaultWorkId() { self::checkInit(); return self::$defaultWorkId; }
   
   // releaseInfoStatement functions
