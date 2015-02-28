@@ -2,37 +2,36 @@
 <?php 
   include_once '../bin/classes/SSFProgramPageParts.php'; 
 
-  /* UPDATE THESE ITEMS */
-  SSFProgramPageParts::setShowsEvent(31);  
-  SSFProgramPageParts::allowRobotIndexing();
-  SSFProgramPageParts::setHeaderTitleText('at the Boe, 2014');
-  SSFProgramPageParts::setContentTitleText('Sans Souci at the Boe, 2014');
-	SSFProgramPageParts::setProgramPicBorderWidthInPixels(1);
-	SSFProgramPageParts::setProgramHighlightColor('#586caf');
-  $onlineTicketsURL = 'https://tickets.thedairy.org/online/default.asp?doWork::WScontent::loadArticle=Load&amp;BOparam::WScontent::loadArticle::article_id=7F250C59-ABB3-4821-A4C2-859087D9BDBD';
-?>
-<html lang="en"<?php echo SSFProgramPageParts::manifestString(); ?>>
-<!-- <html lang="en"> -->
-<!--  <head> -->
-<?php 
-  echo SSFProgramPageParts::getHeader();
-//  echo SSFProgramPageParts::htmlHeadContent(); 
-?>
-    <style type="text/css">
-      /* CSS inline style definitions go here. */
-      table { padding:0;margin:0;border-collapse:collapse; }
-    </style>
-<?php 
-//  echo SSFProgramPageParts::cssMediaQueries(); 
-?>
-<!--  </head> -->
+  /* UPDATE THESE ITEMS as appropriate */
+  SSFProgramPageParts::cachePage();            // for faster loading
+  SSFProgramPageParts::allowRobotIndexing();   // so google et al can find the page
+  SSFProgramPageParts::setShowsEvent(31);      // the eventId for this program
+  SSFProgramPageParts::setHeaderTitleText('at the Boe, 2014');  // This is the official HTML head title. It appears in the tab.
+  SSFProgramPageParts::setContentTitleText('Sans Souci at the Boe, 2014');  // The is the title of the page in the Content Area.
+	SSFProgramPageParts::setProgramPicBorderWidthInPixels(1);  // This is the border width in pixels for the image for each work.
+	SSFProgramPageParts::setProgramHighlightColor('#586caf');  // This is the border color for the image for each work.
+	
+	/* These are the inline style definitions that override all other CCS for this page except for the built-in media queries. */
+//	SSFProgramPageParts::addCssInlineStyleDefinition('table { padding:0;margin:0;border-collapse:collapse; }');  
 
-    <body>
+  /* Local PHP variables for use on this page. Example: $phpVar1 = 'Hi there.'; Within HTML use: <?php echo $phpVar1; ?> // Remember to pre-process URLs. */
+  $onlineTicketsURL = 'https://tickets.thedairy.org/online/default.asp?doWork::WScontent::loadArticle=Load&amp;BOparam::WScontent::loadArticle::article_id=7F250C59-ABB3-4821-A4C2-859087D9BDBD';
+  
+  echo SSFProgramPageParts::getHtmlLine();
+  echo SSFProgramPageParts::getHeader();
+
+?>
+
+    <body class='programPageContent'>
     <?php 
       echo SSFProgramPageParts::beginPageBody();
       echo SSFProgramPageParts::beginContentHeader();
      ?>
-  
+
+      <header> 
+        <div class='title'></div>
+      </header>
+      
       <table>
         <tr>
       	  <td class="programInfoText topLeft" style="padding-top:6px;">              <!-- UPDATE --> 
@@ -61,12 +60,25 @@
   echo SSFProgramPageParts::endContentHeader();
   SSFProgramPageParts::showWorks();
   echo SSFProgramPageParts::endPageBody();
+
 /*
       // Test Code 1/29/15
-      $dbname = SSFInit::getDbName();
+      // This block exercises SSFInit.
+      $dbname = SSFInit::getDbName(); 
       $debug = new SSFDebug; 
       $debug->becho('dbname', $dbname, 1);
+      // This block tests various PHP variables and methods.
+      $debug->becho('__DIR__', __DIR__, 1);
+      $debug->becho('__FILE__', __FILE__, 1);
+      $debug->becho('PHP_URL_HOST', parse_url(SSFProgramPageParts::getHostName(), PHP_URL_HOST), 1);
 */
+/* Test results 1/30/15.      
+      ** BECHO ** dbname: sanssouci
+      ** BECHO ** __DIR__: /home/hamelbloom/dev.sanssoucifest.org/programPages
+      ** BECHO ** __FILE__: /home/hamelbloom/dev.sanssoucifest.org/programPages/programBoe2014.php
+      ** BECHO ** PHP_URL_HOST: dev.sanssoucifest.org
+*/
+
 ?>
 
 </body>
