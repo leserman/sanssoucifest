@@ -5,7 +5,7 @@
   /* UPDATE THESE ITEMS as appropriate */
   SSFProgramPageParts::cachePage();            // for faster loading
   SSFProgramPageParts::allowRobotIndexing();   // so google et al can find the page
-  SSFProgramPageParts::setShowsEvent(31);      // the eventId for this program
+  SSFProgramPageParts::setShowsEvent(35);      // the eventId for this program -- REALLY 31; 35 is for a single show event.
   SSFProgramPageParts::setHeaderTitleText('at the Boe, 2014');  // This is the official HTML head title. It appears in the tab.
   SSFProgramPageParts::setContentTitleText('Sans Souci at the Boe, 2014');  // The is the title of the page in the Content Area.
 	SSFProgramPageParts::setProgramPicBorderWidthInPixels(1);  // This is the border width in pixels for the image for each work.
@@ -19,67 +19,26 @@
   
   echo SSFProgramPageParts::getHtmlLine();
   echo SSFProgramPageParts::getHeader();
-
+  echo SSFProgramPageParts::beginPageBody();
+  echo SSFProgramPageParts::beginContentHeader();
 ?>
 
-    <body class='programPageContent'>
-    <?php 
-      echo SSFProgramPageParts::beginPageBody();
-      echo SSFProgramPageParts::beginContentHeader();
-     ?>
-
-      <header> 
-        <div class='title'></div>
-      </header>
-      
-      <table>
-        <tr>
-      	  <td class="programInfoText topLeft" style="padding-top:6px;">              <!-- UPDATE --> 
-            <!-- Boedecker at Dairy -->
-            <div style="margin-bottom:20px;">
-              <div id="oct" class="homeHeading1" style="margin:5px 0 3px 0;color:#FFFF99;font-weight:bold;font-size:19px;text-align:left;">
-                Sundays, September 21 &amp; October 19<span style="font-size:14px;font-weight:normal;">&nbsp;&bull;&nbsp;1:00 PM</span>
-              </div>
-              <div style="font-size:19px;margin-top:0px;margin-bottom:0px;color:#E49548;font-weight:bold;">Boedecker Theater, <span style="font-size:16px;font-weight:normal;">Dairy Center for the Arts</span>
-                <!-- <span class="programInfoTextSmall" style="font-size:10pt;color:#E49548;font-weight:normal;">(<a href="https://tickets.thedairy.org/online/default.asp?doWork::WScontent::loadArticle=Load&BOparam::WScontent::loadArticle::article_id=0543C1D9-E624-4F3E-AFED-7CF05B7B8A95&menu_id=DDCC1202-68C9-4397-BFCE-39ECBA316C47&sToken=1%2C498caca1%2C53f3b06a%2CCDB6A624-7389-4BC5-91CD-7D72BAADBDC6%2CYlwvqJACX7WTsf%2FIyeLKqW%2BYxV8%3D">location</a>)</span> -->
-              </div>
-              <div class="bodyTextLeadedOnBlack" style="margin:1px 0;padding:0;">
-                  with support from and in partnership with Dairy Center for the Arts
-              </div>
-              <div class="bodyTextLeadedOnBlack" style="font-size:14px;margin:4px 0;padding:0;color:#CCC;">
-                  Tickets: $6 - $11, 303-444-7328, <a href="<?php echo $onlineTicketsURL; ?>">online</a>, or at the door
-              </div>
+            <!-- Begin content header -->
+            <div id="oct" class="dateLine">Sundays, September 21 &amp; October 19<span class="timeText">&nbsp;&bull;&nbsp;1:00 PM</span></div>
+            <div class="venueText">Boedecker Theater, <span class="minorSpan">Dairy Center for the Arts</span>
+              <span class="locationLink">(<a href="https://tickets.thedairy.org/online/default.asp?doWork::WScontent::loadArticle=Load&amp;http://dev.sanssoucifest.org/programPages/programBoe2014.phpBOparam::WScontent::loadArticle::article_id=0543C1D9-E624-4F3E-AFED-7CF05B7B8A95&amp;menu_id=DDCC1202-68C9-4397-BFCE-39ECBA316C47&amp;sToken=1%2C498caca1%2C53f3b06a%2CCDB6A624-7389-4BC5-91CD-7D72BAADBDC6%2CYlwvqJACX7WTsf%2FIyeLKqW%2BYxV8%3D">location</a>)</span>
             </div>
-      <?php include_once('../snippets/2014FundingAcknowledgement.html'); ?>
-      		  <div style="font-size:15px;margin-top:12px;margin-bottom:-8px;line-height:120%;color:#E49548;font-weight:normal;">Different programs at each screening:</div>
-          </td>
-        </tr>
-      </table>
+            <div class="miscInfo">with support from and in partnership with Dairy Center for the Arts</div>
+            <div class="ticketInfo">Tickets: $6 - $11, 303-444-7328, <a href="<?php echo $onlineTicketsURL; ?>">online</a>, or at the door</div>
+<?php include_once('../snippets/2014FundingAcknowledgement.html'); ?>
+            <div class="miscInfo" style="font-size:15px;color:purple;margin-bottom:0;">Different programs at each screening:</div>
+            <!-- End content header -->
+
 
 <?php
   echo SSFProgramPageParts::endContentHeader();
   SSFProgramPageParts::showWorks();
   echo SSFProgramPageParts::endPageBody();
-
-/*
-      // Test Code 1/29/15
-      // This block exercises SSFInit.
-      $dbname = SSFInit::getDbName(); 
-      $debug = new SSFDebug; 
-      $debug->becho('dbname', $dbname, 1);
-      // This block tests various PHP variables and methods.
-      $debug->becho('__DIR__', __DIR__, 1);
-      $debug->becho('__FILE__', __FILE__, 1);
-      $debug->becho('PHP_URL_HOST', parse_url(SSFProgramPageParts::getHostName(), PHP_URL_HOST), 1);
-*/
-/* Test results 1/30/15.      
-      ** BECHO ** dbname: sanssouci
-      ** BECHO ** __DIR__: /home/hamelbloom/dev.sanssoucifest.org/programPages
-      ** BECHO ** __FILE__: /home/hamelbloom/dev.sanssoucifest.org/programPages/programBoe2014.php
-      ** BECHO ** PHP_URL_HOST: dev.sanssoucifest.org
-*/
-
 ?>
 
-</body>
 </html>

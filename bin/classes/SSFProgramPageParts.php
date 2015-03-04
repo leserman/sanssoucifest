@@ -1,3 +1,5 @@
+
+
 <?php
 
   spl_autoload_register('SSFProgramPageParts::my_autoloader');
@@ -7,8 +9,7 @@
     /* Modify the next two values depending on whether the site is live */
     private static $siteIsLive = false;
     
-//    private static $hostName = 'http://dev.sanssoucifest.org/';
-    private static $hostName = 'http://sanssoucifest.local/';
+    private static $hostName = 'http://dev.sanssoucifest.org/';
     public static function getHostName() { return self::$hostName; }
   
 // The following are unused.  
@@ -52,7 +53,10 @@
     private static $emptyImageDefaultHeightInPixels = '101';
     private static $emptyImageDefaultWidthInPixels = '180';
 
-    public static function my_autoloader($class) { include '../bin/classes/' . $class . '.php'; }
+//    public static function my_autoloader($class) { include self::$hostName . 'bin/classes/' . $class . '.php'; }
+//    public static function my_autoloader($class) { include 'bin/classes/' . $class . '.php'; }
+//    public static function my_autoloader($class) { include '../bin/classes/' . $class . '.php'; }
+    public static function my_autoloader($class) { include __DIR__ . '/' . $class . '.php'; }
         
     public static function showsEvent() { return self::$showsEvent; }
 
@@ -131,56 +135,37 @@
     }
     
     public static function beginPageBody() {
-      $pageContent = '<!-- BEGIN beginPageBody() -->' . PHP_EOL;
-      $pageContent .= '    <table style="width:100%;border:0;text-align:center;margin:0 auto;padding:0;background-color:black;">' . PHP_EOL;
-      $pageContent .= '      <tr>' . PHP_EOL;
-      $pageContent .= '        <td class="topCenter">' . PHP_EOL;
-      $pageContent .= '          <table style="width:745px;border:0;border-collapse:collapse;text-align:center;margin:0 auto;padding:0;background-color:black;">' . PHP_EOL;
-      $pageContent .= '            <tr>' . PHP_EOL;
-      $pageContent .= '              <td colspan="3" style="text-align:left;vertical-align:top;margin:0;"><a href="../index.php"><img src="images/titleBarGrayLight.gif" alt="SansSouciFest.org" style="width:600px;height:63px;vertical-align:top;border:0;margin:8px 0;padding:0;"></a></td>' . PHP_EOL;
-      $pageContent .= '              <td  class="topCenter" style="width:10px;">&nbsp;</td>' . PHP_EOL;
-      $pageContent .= '            </tr>' . PHP_EOL;
-      $pageContent .= '            <tr>' . PHP_EOL;
-      $pageContent .= '              <td  class="topCenter" style="width:10px;">&nbsp;</td>' . PHP_EOL;
-      $pageContent .= '              <td  class="topCenter" style="width:125px;">' . PHP_EOL;
-      $pageContent .= SSFWebPageAssets::getNavBar();
-      $pageContent .= '              </td>' . PHP_EOL;
-      $pageContent .= '              <td  class="topCenter" style="width:600px;">' . PHP_EOL;
-      $pageContent .= '                <table style="width:100%;text-align:center;margin:0;padding:0;background-color:black;">' . PHP_EOL;
-      $pageContent .= '                  <tr>' . PHP_EOL;
-      $pageContent .= '                    <td class="topLeft sprocketHoles" style="width:25px;padding:0;">&nbsp;</td>' . PHP_EOL; // was &nbsp;
-      $pageContent .= '                    <td class="topLeft programTablePageBackground" style="width:10px;padding:0;">&nbsp;</td>' . PHP_EOL; // was &nbsp;
-      $pageContent .= '                    <td class="topCenter bodyTextGrayLight" style="width:530px;;padding:0;">' . PHP_EOL;
-      $pageContent .= '                      <table class="programTablePageBackground" style="width:100%;border:0;margin:0;padding:0;">' . PHP_EOL;
+      $indent = '  ';
+      $pageContent = '';
+      $pageContent .= '<!-- BEGIN beginPageBody() -->' . PHP_EOL;
+      $pageContent .= $indent . '<body>' . PHP_EOL;
+      $pageContent .= $indent . '  <div class="page">' . PHP_EOL;
 
+//      $pageContent .= $indent . '    <div class="pageBanner"><a href="../index.php"><img src="images/titleBarGrayLight.gif" alt="SansSouciFest.org"></a></div>' . PHP_EOL;
+//      $pageContent .= $indent . '    <div class="pageBanner"><a href="../index.php" style="vertical-align:middle;margin-bottom:-10;"><img src="images/bannerImage2.png" alt="Sans Souci Festival of Dance Cinema, SansSouciFest.org" style="position:relative;left:0px;top:0px;z-index:-1;"></a></div>' . PHP_EOL;
+      $pageContent .= $indent . '    <div class="pageBanner"><a href="../index.php"><img src="images/bannerImage4.png" alt="Sans Souci Festival of Dance Cinema, SansSouciFest.org"></a></div>' . PHP_EOL;
+      $pageContent .= $indent . '    <div class="pageArea">' . PHP_EOL;
+      $pageContent .= $indent . '      <div class="nav navArea">' . PHP_EOL; // nav navArea
+      $pageContent .= SSFWebPageAssets::getNavBar();
+      $pageContent .= $indent . '      </div>' . PHP_EOL;
+      $pageContent .= $indent . '      <div class="content contentArea">' . PHP_EOL; // content contentArea
       $pageContent .= '<!-- END beginPageBody() -->' . PHP_EOL;
       return $pageContent;
     }
     
     public static function endPageBody() {
-      $pageContent = '<!-- BEGIN endPageBody() -->' . PHP_EOL;
-      $pageContent .= '                    </table>' . PHP_EOL;
-      $pageContent .= '                  	</td>' . PHP_EOL;
-      $pageContent .= '                   <td class="topLeft programTablePageBackground" style="width:10px;" ></td>' . PHP_EOL;
-      $pageContent .= '                  	<td class="topLeft sprocketHoles" style="width:25px"></td>' . PHP_EOL;    
-      $pageContent .= '                 </tr>' . PHP_EOL;
-      $pageContent .= '               </table>' . PHP_EOL;
-      $pageContent .= '             </td>' . PHP_EOL;
-      $pageContent .= '             <td class="topCenter" style="width:10px;">&nbsp;</td>' . PHP_EOL;
-      $pageContent .= '           </tr>' . PHP_EOL;
-      $pageContent .= '           <tr class="topCenter">' . PHP_EOL;
-      $pageContent .= '             <td colspan="2">&nbsp;</td>' . PHP_EOL;
-      $pageContent .= '             <td style="text-align:center;vertical-align:bottom;" class="smallBodyTextLeadedGrayLight"><br>' . PHP_EOL;
-      $pageContent .= SSFWebPageAssets::getCopyrightLine() . '</td>' . PHP_EOL;
-      $pageContent .= '             <td style="width:10px;">&nbsp;</td>' . PHP_EOL;
-      $pageContent .= '           </tr>' . PHP_EOL;
-      $pageContent .= '           <tr class="topCenter">' . PHP_EOL;
-      $pageContent .= '             <td colspan="4">&nbsp;</td>' . PHP_EOL;
-      $pageContent .= '           </tr>' . PHP_EOL;
-      $pageContent .= '         </table>' . PHP_EOL;
-      $pageContent .= '       </td>' . PHP_EOL;
-      $pageContent .= '     </tr>' . PHP_EOL;
-      $pageContent .= '   </table>' . PHP_EOL;
+      $indent = '  ';
+      $pageContent = '';
+      $pageContent .= '<!-- BEGIN endPageBody() -->' . PHP_EOL;
+      $pageContent .= $indent . '      </div>' . PHP_EOL; // <-- end content -->
+      $pageContent .= $indent . '      <div style="clear: both;"></div>' . PHP_EOL; // <!-- clear float left -->
+      $pageContent .= $indent . '    </div>' . PHP_EOL; // <-- end contentArea -->
+      $pageContent .= $indent . '  </div>' . PHP_EOL; // <-- end pageArea -->
+      $pageContent .= $indent . '  <div class="pageFooter">' . PHP_EOL; // footer pageFooter
+      $pageContent .= SSFWebPageAssets::getCopyrightLine() . PHP_EOL;
+      $pageContent .= $indent . '  </div>' . PHP_EOL; // <!-- end pageFooter -->
+      $pageContent .= $indent . '  </div>' . PHP_EOL; // <!-- end page -->
+      $pageContent .= $indent . '</body>' . PHP_EOL;
       $pageContent .= '<!-- END endPageBody() -->' . PHP_EOL;
       return $pageContent;      
     }
@@ -190,40 +175,25 @@
     }
     
     public static function beginContentHeader() {
-      $contentHeader = '<!-- BEGIN beginContentHeader() -->' . PHP_EOL;
-      $contentHeader .= '                        <tr>' . PHP_EOL;
-      $contentHeader .= '                          <td colspan="' . self::$columnCount . '" class="programPageTitleText ' . self::$pageHeaderTitleTextAlignment . '" style="padding-top:14px;">' . PHP_EOL;
-      if (self::$contentTitleText !== '') $contentHeader .= '                          <div>' . self::$contentTitleText . '</div>' . PHP_EOL;
+      $indent = '    ';
+      $contentHeader = '';
+      $contentHeader .= $indent . '<!-- BEGIN beginContentHeader() -->' . PHP_EOL;
+      $contentHeader .= $indent . '      <header>' . PHP_EOL;
+      $contentHeader .= $indent . '        <div class="title">' . self::$contentTitleText . '</div>' . PHP_EOL;
       $contentHeader .= '<!-- END beginContentHeader() -->' . PHP_EOL;
       return $contentHeader;
     }
 
     public static function endContentHeader() {
-      $contentHeader = '<!-- BEGIN endContentHeader() -->' . PHP_EOL;
-      $contentHeader .= '                          </td>' . PHP_EOL;
-      $contentHeader .= '                        </tr>' . PHP_EOL;
-      $contentHeader .= '<!-- END endContentHeader() -->' . PHP_EOL;
+      $indent = '    ';
+      $contentHeader = '';
+      $contentHeader .= $indent . '<!-- BEGIN endContentHeader() -->' . PHP_EOL;
+      $contentHeader .= $indent . '      </header>' . PHP_EOL;
+      $contentHeader .= $indent . '<!-- END endContentHeader() -->' . PHP_EOL;
       return $contentHeader;
     }
 
-
-    public static function showWorks() {
-      echo '<!-- BEGIN showWorks() -->' . PHP_EOL;
-
-    	// Get and display the show descriptions as the page index.
-    	if (self::$showCount > 1) {
-      	$showRows = SSFQuery::selectShowsFor(self::$showsEvent);
-      	HTMLGen::progPageDisplayShowIndex($showRows);
-    	}
-    	
-    	// Get the works from the database for display
-//      SSFDB::debugNextQuery();
-    	$workRows = SSFQuery::selectWorksForEvent(self::$showsEvent);
-    	
-      // Debug
-    	SSFDebug::globalDebugger()->belch('workRows', $workRows, -1);
-    
-      // Get the list of images in the directories.
+    private static function getImageDirectoryFiles() {
       $imagesDirectories = SSFQuery::getStillImageDirectories();
       $imageDirectoryFiles = '';
       $codeBase = '../';
@@ -241,28 +211,54 @@
           closedir($handle);
         }
       }
-      
-      // Debug
-    	SSFDebug::globalDebugger()->belch('$imagesDirectories', $imagesDirectories, -1);
-    	SSFDebug::globalDebugger()->becho('$imageDirectoryFiles', $imageDirectoryFiles, -1);
+      return $imageDirectoryFiles;
+    }
     
-      // Display each work.
-    	$index = 0;
+    private static function decorateScreeningProgramBottom() {
+      echo '<div style="float:right;height:12px; width:12px;float:right;border-bottom:1px black solid;border-right:1px black solid;border-left:1px black solid;margin-right:1px;"></div>' . PHP_EOL;
+    }
+
+    public static function showWorks() {
+      echo '<!-- BEGIN showWorks() -->' . PHP_EOL;
+
+      // Get showId & shortDescription for each show in this event.
+    	$showRows = SSFQuery::selectShowsFor(self::$showsEvent);
+    	$showCount = count($showRows);
+
+      $debug = new SSFDebug; 
+      $debug->becho('showCount', $showCount, -1);
+      $debug->belch('showRows', $showRows, -1);
+
+    	// Get and display show descriptions as the page index iff there is more than one show in the event.
+    	if ($showCount > 1) HTMLGen::progPageDisplayShowIndex($showRows);
+    	    	
+    	// Get the works from the database for display
+    	$workRows = SSFQuery::selectWorksForEvent(self::$showsEvent);
+    	
+      // Get the list of images in the directories.
+      $imageDirectoryFiles = self::getImageDirectoryFiles();
+      
+ 	    echo '          <div class="eventProgram">' . PHP_EOL;
+
+    	$workIndex = 0;
     	$showId = 0;
-    	foreach($workRows as $workRow) {
-    	  $index++;
-    	  if ($workRow['showId'] != $showId) {
-          // Insert a name anchor for each show above the 1st work listed for that show to support the on-page navigation from the index of shows.
-    	    $showId = $workRow['showId'];
-    	    if (self::$showCount > 1) HTMLGen::progPageDisplayShowDescription($showId, $workRow['showDescription']);
-    	    else HTMLGen::progPageDisplayNoDescription();
-    	  }
-        HTMLGen::progPageDisplayWork($index, $workRow, $imageDirectoryFiles, self::$programPicBorderWidthInPixels, self::$emptyImageDefaultHeightInPixels, self::$emptyImageDefaultWidthInPixels, true);
-    	}
 
-      echo '                      <tr>' . PHP_EOL;
-      echo '                        <td colspan="3" class="topLeft programInfoText" style="padding-top:6px;">' . PHP_EOL;
-
+        // Display each work.
+      	foreach($workRows as $workRow) {
+      	  $workIndex++;
+      	  if ($workRow['showId'] != $showId) {
+      	    if ($showId != 0) {
+        	    echo '            </div>' . PHP_EOL; // END the prior screeningProgram div
+        	  }
+      	    echo '            <div class="screeningProgram">' . PHP_EOL; // BEGIN the screeningProgram div
+      	    $showId = $workRow['showId'];
+      	    if ($showCount > 1) HTMLGen::progPageDisplayShowDescription($showId, $workRow['showDescription']);
+      	  }
+          HTMLGen::progPageDisplayWork($workIndex, $workRow, $imageDirectoryFiles, self::$programPicBorderWidthInPixels, self::$emptyImageDefaultHeightInPixels, self::$emptyImageDefaultWidthInPixels, true);
+      	}
+//      	echo '            </div>' . PHP_EOL; // END the prior screeningProgram div
+ 	    
+ 	    echo '          </div>' . PHP_EOL; // END eventProgram div
       echo '<!-- END showWorks() -->' . PHP_EOL;
     }
   

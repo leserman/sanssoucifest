@@ -4,6 +4,7 @@
 /* Lines based on Eric Meyer HTML5 RESET, v2.0 | 20110126, http://meyerweb.com/eric/tools/css/reset/ AND on http://www.w3.org/TR/html5-diff/ */
 
     /* main added by DHL 3/1/14 */
+    .page, 
     html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
     a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var,
     b, u, i, center,
@@ -46,31 +47,314 @@
     
 /* END Lines based on Eric Meyer HTML5 RESET */
 
+body { 
+  color: black;
+  background-color: #fffff0; /* #fff9d2; */
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: normal;
+	float: none;
+  text-align: left;
+  border: 1px red solid;
+  border: 0;
+} 
+
+.navArea {
+  margin: 5px auto 4px auto;
+  padding: 5px;
+  float: left;
+  width: 128px;
+  text-align: center;
+  border: 1px solid magenta;
+  border: 0px;
+}
+
+.navArea .navBar a:link { color : blue; text-decoration: none; }
+.navArea .navBar a:visited { color : blue; text-decoration: none; }
+.navArea .navBar a:hover { color : #990000; text-decoration: underline; }
+
+.navArea .navBar a:link,    .navArea .navBarTight a:link    { color : #5e6a18; text-decoration: none; }
+.navArea .navBar a:visited, .navArea .navBarTight a:visited { color : #5e6a18; text-decoration: none; }
+.navArea .navBar a:hover,   .navArea .navBarTight a:hover   { color : #990000; text-decoration: underline; }
+
+.page {
+  width: 900px;
+  padding: 0px 10px 10px 10px;
+  padding: 0;
+  margin: 0 auto;  
+  
+  background-image: url('images/loieFullerBackground.png'); 
+  background-size: 100%;
+  background-repeat: repeat-y;
+/*  background-attachment: fixed; */
+  background-origin: border-box;
+  background-position: 0% 0%;
+
+  border: 1px blue solid;
+  border: 0;
+}
+
+.pageArea {
+  margin: 0 auto;
+  border: 1px green solid;
+  border: 0;
+}
+
+.pageBanner {
+  text-align: left;
+  vertical-align: top;
+  margin: 10px 0 -3px 65px;
+  border: 1px green solid;
+  border: 0px;
+}
+
+.pageBanner image {
+  width: 600px;
+  height: 63px;
+  vertical-align: center;
+}
+
+.contentArea {
+  text-align: left;
+  float: left;
+  margin: 0;
+  padding: 0 10px 10px 10px;
+  border: 1px solid orange;
+  border: 0;
+}
+
+.contentArea header {
+  margin-left: 31px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.contentArea header .title {
+  font-size: 24px;
+	line-height: 24px;
+  font-weight: bold;
+  color: #28733b; /* #2b7a3f;  color: #FCFC7E; */
+  text-align: left;
+}
+
+.contentArea header .dateLine {
+  margin: 5px 0 3px 0;
+  color: black;
+  font-weight: bold;
+  font-size: 19px;
+  text-align: left;
+}
+
+.contentArea header .dateLine .timeText {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.contentArea header .venueText {
+  font-size: 19px;
+  margin-top: 5px;
+  margin-bottom: 0px;
+  color: purple;
+  font-weight: bold;
+}
+
+.contentArea header .venueText .minorSpan {
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.contentArea header .venueText .locationLink {
+  font-size: 14px;
+  font-weight: normal;
+  color: black;
+}
+
+.contentArea header .miscInfo {
+  margin: 5px 0;
+  font-size: 13px;
+  color: gray;
+}
+
+.contentArea header .ticketInfo {
+  margin: 6px 0;
+  font-size: 15px;
+  color: #34834d;
+}
+
+.contentArea header .fundingInfo {
+  font-size: 15px;
+  padding: 9px 0 5px 0;
+  line-height: 120%;
+  color: #b15d10; /* #C26A18; */
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+  border: 1px blue solid;
+  border: 0;
+}
+
+.page .pageFooter {
+  text-align:center;
+  vertical-align:bottom;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+	color: #5e6a18;
+}
+
+.page .filmTitleText {
+  font-size: 20px;
+  font-weight: normal;
+  font-style: italic;
+  color: black;
+	line-height: 20px;
+}
+
+.page .filmInfoText {
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+	line-height: 100%;
+  color: black;
+}
+
+.page .filmInfoText .synopsis {
+ font-style: italic;
+ line-height: 130%;
+}
+
+.page .filmInfoSubtitleText {
+  font-size: 13px;
+	padding-top: 0px;
+	font-style: normal;
+	font-weight: normal;
+  color: #5e6a18;
+}
+
+.page .filmYearText {
+  font-size: 16px;
+  font-weight: normal; 
+  font-style: normal;
+/*	padding-top: 3px; */
+  color: black; 
+}
+
+.page .filmLiveText {
+  font-size: 15px;
+  font-weight: bold;
+  font-style: italic;
+/*	padding-top: 3px; */
+  color: black; 
+}
+
+.page .filmRunTimeText {
+  font-size: 15px;
+  font-weight: normal;
+  font-style: normal;
+/*	padding-top: 3px; */
+	color: black; 
+}
+
+.page .filmFormatText {
+  font-size: 15px;
+  font-weight: normal;
+  font-style: normal;
+/*	padding-top: 3px; */
+	color: black; 
+}
+
+.filmDescriptionCell { 
+  margin: 23px 0;
+/*  max-width: 720px; */
+  border: 1px maroon solid;
+  border: 0;
+}
+
+/* The rules beginning ".screeningProgram > .filmDescriptionCell" mimic :first-of-typpe.
+   To understand this in relation to :firstof-type & nth-of-type(1), 
+   see http://stackoverflow.com/questions/2717480/css-selector-for-first-element-with-class 
+*/
+.screeningProgram > .filmDescriptionCell {
+  margin-top: 12px;
+  border: 1px solid green;
+  border: 0;
+}
+
+.screeningProgram > .filmDescriptionCell ~ .filmDescriptionCell {
+    border: none;
+}
+
+.filmDescriptionCell .imagePart {
+  text-align: right;
+  vertical-align: top;
+  margin-right: 10px;
+  float: left;
+  width: 250px;
+}
+
+.filmDescriptionCell .imagePart .figCaption {
+  font-size: 13px;
+  font-weight: normal;
+	text-align: right;
+	margin-right: 3px;
+  color: black;
+}
+
+.filmDescriptionCell .textPart {
+/*
+  font-size: 13px;
+	line-height: 17px;
+*/
+  text-align: left; 
+  vertical-align: top;
+  float: left;
+  margin: 0 19px 0 10px;
+  max-width: 450px;
+  border: 1px red solid;
+  border: 0;
+}
+
+.copyrightColor {
+  color: #5e6a18;
+}
+
+.showDescriptionHeader {
+  text-align: left;
+  font-size: 16px;
+  font-weight: bold;
+	line-height: 22px;
+	padding-left: 31px;
+	border-bottom: 1px #5e6a18 solid;
+  color: #3a5d61;
+}
+
+.eventIndexText {
+  font-size: 13.75px; /* 14 */
+	line-height: 17.5px; /* 17 */
+  font-weight: normal;
+  line-height: 130%;
+  margin-left: 31px;
+  color: black;
+}
 
 /* Lines below from sanssouci.css */
 
-    a:link { color : #0033FF; text-decoration: none; }
-    a:visited { color : #0033FF; text-decoration: none; }  /* was #9900CC */
+    a:link, a:visited { color : #006956; text-decoration: none; }
     a:hover { color : #990000; text-decoration: underline; }
     /* a:active { background : black; } */
     
-    a.acceptEntryOperator:link { color: #EEEECC; text-decoration: none; }
-    a.acceptEntryOperator:visited { color: #EEEECC; text-decoration: none; } 
+    a.acceptEntryOperator:link, a.acceptEntryOperator:visited { color: #EEEECC; text-decoration: none; }
     a.acceptEntryOperator:hover { color: #00FF00; text-decoration: none; }
     /* a.acceptEntryOperator:active { background : black; } */
     
-    a.rejectEntryOperator:link { color: #EEEECC; text-decoration: none; }
-    a.rejectEntryOperator:visited { color: #EEEECC; text-decoration: none; } 
+    a.rejectEntryOperator:link, a.rejectEntryOperator:visited { color: #EEEECC; text-decoration: none; }
     a.rejectEntryOperator:hover { color: #FF0000; text-decoration: none; }
     /* a.rejectEntryOperator:active { background : black; } */
     
-    a.clearEntryStatusOperator:link { color: #EEEECC; text-decoration: none; }
-    a.clearEntryStatusOperator:visited { color: #EEEECC; text-decoration: none; } 
+    a.clearEntryStatusOperator:link, a.clearEntryStatusOperator:visited { color: #EEEECC; text-decoration: none; }
     a.clearEntryStatusOperator:hover { color: #FFA500; text-decoration: none; }
     /* a.clearEntryStatusOperator:active { background : black; } */
     
-    a.badVimeoVideoURL:link { color: #DF7416; text-decoration: underline; }
-    a.badVimeoVideoURL:visited { color: #DF7416; text-decoration: underline; } 
+    a.badVimeoVideoURL:link, a.badVimeoVideoURL:visited { color: #DF7416; text-decoration: underline; }
     a.badVimeoVideoURL:hover { color: #FFA500; text-decoration: none; }
     /* a.clearEntryStatusOperator:active { background : black; } */
 
@@ -79,40 +363,37 @@
 
 /* Lines below from sanssouciBlackBackground.css */
 
+/*
     a:link { color : #CCBD99; text-decoration: underline; }
     a:visited { color : #CCBD99; text-decoration: underline; }
-    a:hover { color : #990000; text-decoration: none; }
-    
-    .narBarMainSection a:link, .narBarArchiveSection a:link { color : #CCBD99; text-decoration: none; }        /* was .navbar prior to 11/5/14 */
-    .narBarMainSection a:visited, .narBarArchiveSection a:visited { color : #CCBD99; text-decoration: none; }  /* was .navbar prior to 11/5/14 */
-    .narBarMainSection a:hover, .narBarArchiveSection a:hover { color : #990000; text-decoration: underline; } /* was .navbar prior to 11/5/14 */
-    
+    a:hover { color : #990000; text-decoration: none; }  
+
+    .narBarMainSection a:link, .narBarArchiveSection a:link { color : #5e6a18; text-decoration: none; }        /* was .navbar prior to 11/5/14
+    .narBarMainSection a:visited, .narBarArchiveSection a:visited { color : #5e6a18; text-decoration: none; }  /* was .navbar prior to 11/5/14
+    .narBarMainSection a:hover, .narBarArchiveSection a:hover { color : #990000; text-decoration: underline; } /* was .navbar prior to 11/5/14
+
     .navbarTight a:link { color : #CCBD99; text-decoration: none; }
     .navbarTight a:visited { color : #CCBD99; text-decoration: none; }
     .navbarTight a:hover { color : #990000; text-decoration: underline; }
-    
+*/    
     .hideLinkUnderline a:link { color : #CCBD99; text-decoration: none; }
     .hideLinkUnderline a:visited { color : #CCBD99; text-decoration: none; }
     .hideLinkUnderline a:hover { color : #990000; text-decoration: underline; }
 
 /* End lines from sanssouciBlackBackground.css */
 
+/* Lines below are from inline ProgramPageParts */
+
+    a.special:link { color : #FFFF99; text-decoration: none; }
+    a.special:visited { color : #FFFF99; text-decoration: none; }
+    a.special:hover { color : #990000; text-decoration: underline; }
+
+    .differentProgramsText { font-size:15px;margin:12px 0 -8px 0;line-height:120%;color:#E49548;font-weight:normal; } /* TODO: Is this used anywhere? */
+
+/* End lines from inline ProgramPageParts */
+
 
 #dek {POSITION:absolute;VISIBILITY:hidden;Z-INDEX:200;} /* for flyover popup */
-
-body { 
-  color: black;
-  background-color: #fffff0;
-  font-family: Helvetica, Arial, sans-serif;
-  font-weight: normal;
-	float: none;
-  text-align: left;
-} 
-
-table {
-  border-collapse: collapse;
-}
-
 
 .idDisplayText { color: #d25ec6; font-size: 11px; }
 .idDisplayTextDark { color: #6b008e; font-size: 11px; font-weight: bold; } /* 6e00a7 380055 2f0265 400b7f 4a0d93 5b10b5 5B1998 7834CA 7E578E */
@@ -124,8 +405,8 @@ table {
 .orangishHighlightDisplayColor { color: #DF7416; }
 .acceptedDisplayColor { color: #07EB01; }
 .rejectedDisplayColor { color: #CE181F; }
-.darkOrangishHighlightDisplayColor { color: #c45f05; }  /* cc6306 BE3D05 AA470F D28830 */
-.darkAcceptedDisplayColor { color: #3c812d; } /* 347837 */
+.darkOrangishHighlightDisplayColor { color: #c45f05; }
+.darkAcceptedDisplayColor { color: #3c812d; }
 .darkRejectedDisplayColor { color: #CE181F; }
 .liveDisplayText, .noMediaDisplayColor { color: #B22222; /* firebrick */ }
 .offWhite { color: #FFFFCC; /* firebrick */ } 
@@ -205,16 +486,17 @@ table {
 }
 .navBarTight { padding: 3px 0 3px 0; }
 
-.narBarMainSection {
-	border-left: 1px outset #222222;
-	border-top: 1px outset #222222;
+.navBarMainSection {
+	border-left: 1px outset #c26a18;
+	border-top: 1px outset #c26a18;
 	padding: 3px 0 5px 0;
 	margin: 0px 5px 0 5px;
 }
 
-.narBarArchiveSection {
-	border-right: 1px inset #222222; /* #FFFFA6 */
-	border-bottom: 1px inset #222222;
+.navBarArchiveSection {
+	border-right: 1px inset #c26a18; /* #FFFFA6 */
+	border-bottom: 1px inset #c26a18;
+	padding-bottom: 4px;
 	margin: 0px 5px 0 5px;
 }
 
@@ -292,7 +574,7 @@ ul {
   font-size: 12px;
   line-height: 15px;
   font-weight: normal;
-  color: #F9F9CC; /* FFFFCC */
+  color: #F9F9CC; 
 }
 	
 .smallBodyTextLeadedGrayLight {
@@ -802,7 +1084,8 @@ div.programPageTitleText {
   font-weight: bold;
 	line-height: 22px;
   vertical-align: top;
-  color: #FFFF99;
+/*  color: #FFFF99; */
+  color: black;
 }
 
 .programInfoTextSmall {

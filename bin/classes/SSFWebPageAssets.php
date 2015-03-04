@@ -2,7 +2,7 @@
 
 class SSFWebPageAssets {
 
-  private static $indent = '                ';
+  private static $indent = '          ';
 
   public static function displayNavBar($moveUpString = '../') {
     echo self::getNavBar($moveUpString);
@@ -16,12 +16,10 @@ class SSFWebPageAssets {
     echo self::getCopyrightLine($onWhite);
   }
 
-   public static function getCopyrightLine($onWhite = false) {
-    $spanClass = "smallBodyTextLeadedGrayLight";
-    if ($onWhite) $spanClass = "smallBodyTextLeaded";
+   public static function getCopyrightLine() {
     $indent = '              ';
     $copyrightString = $indent;
-    $copyrightString .= '<div><span class="' . $spanClass . '">Copyright ' . self::copyrightYears() 
+    $copyrightString .= '<div><span class="copyrightColor">Copyright ' . self::copyrightYears() 
                      . ' Sans Souci Festival of Dance Cinema </span>'
                      . '<span class="smallBodyTextLeaded">&#8226; <a href="mailto:' . self::contactEmailAddress() . '">email us</a></span></div>'
                      .  PHP_EOL;
@@ -40,7 +38,8 @@ class SSFWebPageAssets {
 
   public static function getNavBarX($moveUpString = '../') {
     $navBarString = '';
-    $navBarString .= self::$indent . '<div class="narBarMainSection">' . PHP_EOL;
+//    $navBarString .= self::$indent . '<div class="narBarMainSection">' . PHP_EOL;
+    $navBarString .= self::$indent . '<div class="navBarMainSection">' . PHP_EOL;
     $navBarString .= self::$indent . '  <div class="navBar"><a class="navBarLink" target="_top" href="' . $moveUpString . 'index.php">Home</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="' . $moveUpString . 'demoreel/">Sample Reel</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="' . $moveUpString . 'aboutUs.php">About Us</a></div>' . PHP_EOL;
@@ -53,7 +52,8 @@ class SSFWebPageAssets {
 
     $navBarString .=  self::$indent . '</div>' . PHP_EOL;
     
-    $navBarString .= self::$indent . '<div class="narBarArchiveSection">' . PHP_EOL;
+//    $navBarString .= self::$indent . '<div class="narBarArchiveSection">' . PHP_EOL;
+    $navBarString .= self::$indent . '<div class="navBarArchiveSection">' . PHP_EOL;
 
 /*
     $navBarString .= self::$indent . '  <div><div class="navBarTitle1" style="color:#e49548;">Current Events</div> <!--  style="color:#FFACAC;" -->' . PHP_EOL;
@@ -115,7 +115,8 @@ class SSFWebPageAssets {
 
   public static function getNavBar() {
     $navBarString = '';
-    $navBarString .= self::$indent . '<div class="narBarMainSection">' . PHP_EOL;
+//    $navBarString .= self::$indent . '<div class="narBarMainSection">' . PHP_EOL;
+    $navBarString .= self::$indent . '<div class="navBarMainSection">' . PHP_EOL;
     $navBarString .= self::$indent . '  <div class="navBar"><a class="navBarLink" target="_top" href="./index.php">Home</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="./demoreel/">Sample Reel</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="./aboutUs.php">About Us</a></div>' . PHP_EOL;
@@ -128,7 +129,8 @@ class SSFWebPageAssets {
 
     $navBarString .=  self::$indent . '</div>' . PHP_EOL;
     
-    $navBarString .= self::$indent . '<div class="narBarArchiveSection">' . PHP_EOL;
+//    $navBarString .= self::$indent . '<div class="narBarArchiveSection">' . PHP_EOL;
+    $navBarString .= self::$indent . '<div class="navBarArchiveSection">' . PHP_EOL;
 
 /*
     $navBarString .= self::$indent . '  <div><div class="navBarTitle1" style="color:#e49548;">Current Events</div> <!--  style="color:#FFACAC;" -->' . PHP_EOL;
@@ -190,10 +192,12 @@ class SSFWebPageAssets {
 
   public static function getAdminNavBar($moveUpString = '../') {
     $navBarString = '';
-    $navBarString .= self::$indent . '<div class="narBarMainSection">' . PHP_EOL;
+//    $navBarString .= self::$indent . '<div class="narBarMainSection">' . PHP_EOL;
+    $navBarString .= self::$indent . '<div class="navBarMainSection">' . PHP_EOL;
     $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="' . $moveUpString . 'index.php">SSF Home</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '</div>' . PHP_EOL;
-    $navBarString .= self::$indent . '<div class="narBarArchiveSection">' . PHP_EOL;
+//    $navBarString .= self::$indent . '<div class="narBarArchiveSection">' . PHP_EOL;
+    $navBarString .= self::$indent . '<div class="navBarArchiveSection">' . PHP_EOL;
     $navBarString .= self::$indent . '  <div><div class="navBarTitle1">Administration</div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div class="navBar"><a target="_top" href="' . $moveUpString . 'admin/index.php">Admin Home</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  </div>' . PHP_EOL;

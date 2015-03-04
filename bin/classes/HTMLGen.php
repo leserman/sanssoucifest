@@ -206,7 +206,7 @@ class HTMLGen {
 
   public static function getSimpleDataWithDescriptionLine($descriptionString, $valueString) {
     $displayElement = self::getSimpleDataWithDescriptionElement($descriptionString, $valueString);
-    $displayLine = '<div>' . $displayElement . '<div style="clear:both;"></div></div>' . "\r\n";
+    $displayLine = '<div>' . $displayElement . '<div style="clear:both;"></div></div>' . PHP_EOL;
     return $displayLine;
   }
   
@@ -249,7 +249,7 @@ class HTMLGen {
                      . $submissionFormat;
     if (isset($originalFormat) && ($originalFormat != '')) // Modified 3/22/14
       $displayElement .= '<span class="datumDescription">. Originally recorded as </span>' . $originalFormat . '.';
-    $displayElement .= '</div>' . "\r\n";
+    $displayElement .= '</div>' . PHP_EOL;
     return $displayElement;
   }
 
@@ -860,12 +860,12 @@ class HTMLGen {
     $decoration = ($disable)  ? '' : self::requiredFieldString(); // 5/5/14
     echo '                 <div class="entryFormSubheading" style="padding-top:15px;padding-bottom:4px;">Payment Information' . $decoration . '</div>';
     if ($dataArray["howPaid"]=="waived") {
-    echo'                  <div class="widgetText1">Entry Fee Waived</div>' . "\r\n";
+    echo'                  <div class="widgetText1">Entry Fee Waived</div>' . PHP_EOL;
     } else {
       echo'                  <div class="entryFormField" style="text-align:left;margin-left:50px;"><input type="radio" name="works_howPaid" id="' . $paypalId . '" value="paypal"';
             if (isset($dataArray["howPaid"]) && ($dataArray["howPaid"]=="paypal")) echo " checked='checked'";
             if ($disable || (isset($dataArray["howPaid"]) && ($dataArray["howPaid"]=="waived"))) echo " disabled='disabled'"; // added 7/24/10
-      echo' onchange="userMadeAChange(1);">' . "\r\n";
+      echo' onchange="userMadeAChange(1);">' . PHP_EOL;
       // Aborted appempt to add paypal payment capability on the Work Edit screen. 
       // This is not practical, because if the user changed the film title, I don't know what it is.
       $payPalPmtString = '';
@@ -880,14 +880,14 @@ class HTMLGen {
                   'alt="Pay now via PayPal" title="Pay now via PayPal" style="border:none;margin:0;padding:0;vertical-align:middle;"></a> ' .
                   '(<a href="../paypal/index.php?' . $getVars . '">pay now</a>)<br>';
   */
-      echo'                    <label for="' . $paypalId . '" class="entryFormRadioButton"> Pay via PayPal ' . $payPalPmtString . '</label>' . "\r\n";
-      echo'                  </div>' . "\r\n";
-      echo'                  <div class="entryFormField" style="text-align:left;margin-left:50px;"><input type="radio" name="works_howPaid" id="' . $checkId . '" value="check"' . "\r\n";
+      echo'                    <label for="' . $paypalId . '" class="entryFormRadioButton"> Pay via PayPal ' . $payPalPmtString . '</label>' . PHP_EOL;
+      echo'                  </div>' . PHP_EOL;
+      echo'                  <div class="entryFormField" style="text-align:left;margin-left:50px;"><input type="radio" name="works_howPaid" id="' . $checkId . '" value="check"' . PHP_EOL;
             if (isset($dataArray["howPaid"]) && ($dataArray["howPaid"]=="check")) echo " checked='checked'";
             if ($disable || (isset($dataArray["howPaid"]) && ($dataArray["howPaid"]=="waived"))) echo " disabled='disabled'"; // added 7/24/10; modified 5/5/14
-      echo' onchange="userMadeAChange(1);">' . "\r\n";
-      echo'                     <label for="' . $checkId . '" class="entryFormRadioButton"> Check or money order in US$, drawn on a US bank, sent via post</label>' . "\r\n";
-      echo'                  </div>' . "\r\n";
+      echo' onchange="userMadeAChange(1);">' . PHP_EOL;
+      echo'                     <label for="' . $checkId . '" class="entryFormRadioButton"> Check or money order in US$, drawn on a US bank, sent via post</label>' . PHP_EOL;
+      echo'                  </div>' . PHP_EOL;
     }
     if (self::$showFunctionMarkers) echo "<!-- END addPaymentWidgetsSection -->\r\n";
   }
@@ -901,28 +901,28 @@ class HTMLGen {
     $releaseInfoWidgetIntroString = str_replace('<saveButtonName>', $saveButtonName, SSFRunTimeValues::getReleaseInfoWidgetIntroString());
     echo '                 <div class="entryFormSubheading" style="padding-top:15px;padding-bottom:4px;">Release Information' . self::requiredFieldString() . '</div>';
     echo'                  <div class="widgetText1">' . $releaseInfoWidgetIntroString;
-    echo'                  </div>' . "\r\n";
-    echo'                  <div class="entryFormField">' . "\r\n";
-    echo'                    <table width="98%"  border="0" align="left" cellpadding="2" cellspacing="0"> ' . "\r\n";
-    echo'                      <tr>' . "\r\n";
+    echo'                  </div>' . PHP_EOL;
+    echo'                  <div class="entryFormField">' . PHP_EOL;
+    echo'                    <table width="98%"  border="0" align="left" cellpadding="2" cellspacing="0"> ' . PHP_EOL;
+    echo'                      <tr>' . PHP_EOL;
     echo'                        <td align="right" valign="top" style="padding-left:20px;"><input type="radio" name="works_permissionsAtSubmission" id="' . $allOKId . '" value="' . $allOKString . '" ';
           if (isset($dataArray["permissionsAtSubmission"]) && ($dataArray["permissionsAtSubmission"]==$allOKString)) echo ' checked="checked"';
           if ($disable) echo " disabled='disabled'"; // added 5/5/14
-    echo' onchange="userMadeAChange(1);"></td>' . "\r\n";
+    echo' onchange="userMadeAChange(1);"></td>' . PHP_EOL;
     echo'                        <td align="left" valign="top" style="padding-top:4px;"><label for="' . $allOKId . '" class="entryFormRadioButton">';
     echo                                                                         SSFRunTimeValues::getReleaseInfoWidgetAllOKString() . "</label></td>\r\n";
-    echo'                      </tr>' . "\r\n";
-    echo'                      <tr>' . "\r\n";
+    echo'                      </tr>' . PHP_EOL;
+    echo'                      <tr>' . PHP_EOL;
     echo'                        <td align="right" valign="top" style="padding-left:20px;"><input type="radio" name="works_permissionsAtSubmission" id="' . $askMeId . '" value="' . $askMeString . '"';
           if (isset($dataArray["permissionsAtSubmission"]) && ($dataArray["permissionsAtSubmission"]==$askMeString)) echo ' checked="checked"';
           if ($disable) echo " disabled='disabled'"; // added 5/5/14
-    echo' onchange="userMadeAChange(1);"></td>' . "\r\n";
+    echo' onchange="userMadeAChange(1);"></td>' . PHP_EOL;
     echo'                        <td align="left" valign="top" style="padding-top:4px;"><label for="' . $askMeId . '" class="entryFormRadioButton">';
     echo                                                                         SSFRunTimeValues::getReleaseInfoWidgetAskMeString() . "</label></td>\r\n";
-    echo'                      </tr>' . "\r\n";
-    echo'                    </table>' . "\r\n";
-    echo'                  </div>' . "\r\n";
-    echo '                 <div style="clear:both;"></div>' . "\r\n";
+    echo'                      </tr>' . PHP_EOL;
+    echo'                    </table>' . PHP_EOL;
+    echo'                  </div>' . PHP_EOL;
+    echo '                 <div style="clear:both;"></div>' . PHP_EOL;
     if (self::$showFunctionMarkers) echo "<!-- END addReleaseInfoWidgetsSection -->\r\n";
   }
   
@@ -934,14 +934,14 @@ class HTMLGen {
     $rows = SSFDB::getDB()->getArrayFromQuery($selectString);
     $options[0] = '- select an aspect ratio -';
     foreach ($rows as $row) $options[$row['aspectRatioId']] = $row['ratio'] . ' - ' . $row['description'];
-    echo '          <div class="formRowContainer"  style="padding-left:0px;padding-top:0px;">' . "\r\n";
+    echo '          <div class="formRowContainer"  style="padding-left:0px;padding-top:0px;">' . PHP_EOL;
     echo "            <div class='rowTitleTextWide' style='margin-top:3px;'>Aspect Ratio:</div>\r\n";
-    echo '            <div class="entryFormFieldContainer">' . "\r\n";
-    echo '              <div style="float:left;padding-top:1px;">' . "\r\n";
-    echo '                <select id="'  . self::genId('works_aspectRatio') . '" name="works_aspectRatio" style="width:170px">' . "\r\n";
+    echo '            <div class="entryFormFieldContainer">' . PHP_EOL;
+    echo '              <div style="float:left;padding-top:1px;">' . PHP_EOL;
+    echo '                <select id="'  . self::genId('works_aspectRatio') . '" name="works_aspectRatio" style="width:170px">' . PHP_EOL;
               self::displaySelectionOptions($options, $currentAspectRatio);
-    echo '                </select>' . "\r\n";
-    echo '              </div>' . "\r\n";
+    echo '                </select>' . PHP_EOL;
+    echo '              </div>' . PHP_EOL;
     $dataItemName = DatumProperties::getItemKeyFor('works', 'anamorphic');
     $genCheckboxId = HTMLGen::genId($dataItemName . 'BoolCheckbox');
     $genHiddenCacheId = HTMLGen::genId($dataItemName);
@@ -962,11 +962,11 @@ class HTMLGen {
     // input field which is updated by the change method of the checkbox.
     echo "                <input type='hidden' id='" . $genHiddenCacheId . "' name='" . $dataItemName . "'"
                              . (($disable) ? ' disabled ' : ' ') . "value=" . (($currentlyAnamorphic) ? '1' : '0') . ">\r\n";
-    echo '              </div>' . "\r\n";
-    echo '              <div style="clear:both;"></div>' . "\r\n";
-    echo '            </div>' . "\r\n";
-    echo '            <div style="clear:both;"></div>' . "\r\n";
-    echo '          </div>' . "\r\n";
+    echo '              </div>' . PHP_EOL;
+    echo '              <div style="clear:both;"></div>' . PHP_EOL;
+    echo '            </div>' . PHP_EOL;
+    echo '            <div style="clear:both;"></div>' . PHP_EOL;
+    echo '          </div>' . PHP_EOL;
     if (self::$showFunctionMarkers) echo "<!-- END addAspectRatioAnamorphicRow -->\r\n";
 }
 
@@ -1153,10 +1153,10 @@ class HTMLGen {
   public static function displayOrientationSelector($formName, $currentValue) {
     if (self::$showFunctionMarkers) echo "<!-- displayOrientationSelector -->\r\n";
     echo '<select id="orientationSelector" name="orientationSelector" style="width:80px" '; // disabled
-    echo 'onchange="' . 'document.' . $formName . '.submit();">' . "\r\n";
+    echo 'onchange="' . 'document.' . $formName . '.submit();">' . PHP_EOL;
     self::displaySelectionOption('people', $currentValue, 'People');
     self::displaySelectionOption('works', $currentValue, 'Works');
-    echo '</select>' . "\r\n";
+    echo '</select>' . PHP_EOL;
     if (self::$showFunctionMarkers) echo "<!-- END displayOrientationSelector -->\r\n";
   }
 
@@ -1170,13 +1170,13 @@ class HTMLGen {
   
   public static function displayCallForEntriesSelector($formName, $changeFunction='') {
     if (self::$showFunctionMarkers) echo "<!-- displayCallForEntriesSelector -->\r\n";
-    echo '<select id="callForEntriesId" name="callForEntriesId" style="width:170px"' . "\r\n";
+    echo '<select id="callForEntriesId" name="callForEntriesId" style="width:170px"' . PHP_EOL;
     $onChangeAction = self::cookieSetterAction('', 'callForEntriesId') 
 //                    . self::cookieSetterAction($formName, 'callForEntriesId') // optionally set this cookie too. Unused as of 6/3/11
                     . self::submitAction($formName);
     // Add a breakpoint opportunity to the $onChangeAction - 4/12/12.
     $onChangeAction = 'doNothingBreakpointOpportunity(\'called from displayCallForEntriesSelector(), cookieSetterAction\' );' . $onChangeAction;
-    echo 'onchange="' . $onChangeAction . '">' . "\r\n"; 
+    echo 'onchange="' . $onChangeAction . '">' . PHP_EOL; 
     $selectString = "SELECT callId, name, description from callsForEntries order by dateOfCall desc";
 //    SSFDB::debugNextQuery();
     $rows = SSFDB::getDB()->getArrayFromQuery($selectString);
@@ -1186,7 +1186,7 @@ class HTMLGen {
 //    self::displaySelectionOptions(self::$callForEntriesSelectionOptions, SSFRunTimeValues::getCallForEntriesId());
     $callCookieName = HTMLGen::cookieName($formName, "callForEntriesId");
     self::displaySelectionOptions(self::$callForEntriesSelectionOptions, SSFRunTimeValues::getCallForEntriesId());
-    echo '</select>' . "\r\n";
+    echo '</select>' . PHP_EOL;
     if (self::$showFunctionMarkers) echo "<!-- END displayCallForEntriesSelector -->\r\n";
   }
 
@@ -1256,12 +1256,12 @@ class HTMLGen {
                                                                            : "") 
                                                                            . $personRow['name'];
     self::displaySelectionOptions(self::$personSelectionOptions, $currentPersonId);
-    echo '</select>' . "\r\n";
+    echo '</select>' . PHP_EOL;
     //$reSubmit = ($workRowCount == 1);
     // What's need here is to resubmit the form. 
     // When I try that, it gets into an infinite reload loop as does the next line of code.
     // The manual apply button achieves this effect.
-    //if ($reSubmit) echo '<script type="text/javascript">document.' . $formName . '.submit();</script>' . "\r\n";
+    //if ($reSubmit) echo '<script type="text/javascript">document.' . $formName . '.submit();</script>' . PHP_EOL;
     //return $reSubmit;
     if (self::$showFunctionMarkers) echo "<!-- END displayPersonSelector -->\r\n";
     $personIdSelected = self::getSelectedOptionValue(self::$personSelectionOptions, $currentPersonId);
@@ -1289,7 +1289,7 @@ class HTMLGen {
                                                                            : "") 
                                                                            . $personRow['name'];
     $selectorText .= self::getSelectionOptionsText($selectionOptions, $initialValue);
-    $selectorText .= '</select>' . "\r\n";
+    $selectorText .= '</select>' . PHP_EOL;
     if (self::$showFunctionMarkers) echo "<!-- END getSubmitterSelector -->\r\n";
     return $selectorText;
   }
@@ -1341,14 +1341,14 @@ public static function submitterIsSelected($selectedPersonId) {
     HTMLGen::debugger()->belch('displayWorkSelector rowCount AAA 4', $rowCount, $debugDisplayWorkSelector); 
     if ($rowCount == 0) {
       HTMLGen::debugger()->belch('displayWorkSelector rowCount BBB', $rowCount, $debugDisplayWorkSelector); 
-      $markup .= ' disabled>' . "\r\n";
+      $markup .= ' disabled>' . PHP_EOL;
       $selectionOptions[0] = (self::$caller == 'user') ? '-- no entries --' : '-- no works --';
       $markup .= self::getSelectionOptions($selectionOptions, 0); // 2/14/10 changed to 0 from $stateArray['workSelector']
       HTMLGen::debugger()->becho('HHAA', 'workIdMayBe:' . $workIdMayBe, $debugDisplayWorkSelector);
     } else if ($rowCount != 1) {
       HTMLGen::debugger()->belch('displayWorkSelector rowCount CCC', $rowCount, $debugDisplayWorkSelector); 
       HTMLGen::debugger()->becho('HHAB', 'workIdMayBe:' . $workIdMayBe, $debugDisplayWorkSelector);
-      $markup .= 'onchange="submitFormVia(' . $formName . ', ' . self::simpleQuote('workSelector') . ')">' . "\r\n";
+      $markup .= 'onchange="submitFormVia(' . $formName . ', ' . self::simpleQuote('workSelector') . ')">' . PHP_EOL;
       $selectionOptions[0] = $workHeader;
       foreach ($rows as $row) {
 //        $workSuffix = ($submitterIsSelected) ? "" : ",&nbsp;BY " . self::htmlEncode($row['name']); TODO Get this right 11/18/14.
@@ -1360,7 +1360,7 @@ public static function submitterIsSelected($selectedPersonId) {
       HTMLGen::debugger()->becho('HHBB', 'workIdMayBe:' . $workIdMayBe, $debugDisplayWorkSelector); // HHBB
     } else { // since ($rowCount == 1)
       HTMLGen::debugger()->belch('displayWorkSelector rowCount DDD', $rowCount, $debugDisplayWorkSelector); 
-      $markup .= '>' . "\r\n";
+      $markup .= '>' . PHP_EOL;
       $workIdMayBe = $rows[0]['workId'];
       HTMLGen::debugger()->becho('HHCC', 'workIdMayBe:' . $workIdMayBe, $debugDisplayWorkSelector);
 //      $workSuffix = ($submitterIsSelected) ? "" : ",&nbsp;BY " . self::htmlEncode($rows[0]['name']); TODO Get this right 11/18/14.
@@ -1368,7 +1368,7 @@ public static function submitterIsSelected($selectedPersonId) {
       $selectionOptions[$rows[0]['workId']] = $rows[0]['title'] . $workSuffix;
       $markup .= self::getSelectionOptions($selectionOptions, $rows[0]['workId']); 
     }
-    $markup .= '</select>' . "\r\n";
+    $markup .= '</select>' . PHP_EOL;
     HTMLGen::debugger()->belch('displayWorkSelector markup', $markup, $debugDisplayWorkSelector); 
     HTMLGen::debugger()->belch('displayWorkSelector rowCount EEE', $rowCount, $debugDisplayWorkSelector); 
     HTMLGen::debugger()->becho('HHDD', 'workIdMayBe:' . $workIdMayBe, $debugDisplayWorkSelector);
@@ -1431,7 +1431,7 @@ public static function submitterIsSelected($selectedPersonId) {
   public static function displayEntryStatusFilterSelector($formName, $currentValue) {
     if (self::$showFunctionMarkers) echo "<!-- BEGIN displayEntryStatusFilterSelector -->\r\n";
     $onChangeAction = self::cookieSetterAction($formName, 'acceptanceFilter') . self::submitAction($formName);
-    echo '<select id="acceptanceFilter" name="AcceptanceFilter" onchange="' . $onChangeAction . '">' . "\r\n";
+    echo '<select id="acceptanceFilter" name="AcceptanceFilter" onchange="' . $onChangeAction . '">' . PHP_EOL;
     $selectionOptions = array("inclAll" => "All",
                               "inclAccepted" => "Accepted Only",
                               "inclRejected" => "Rejected Only",
@@ -1441,7 +1441,7 @@ public static function submitterIsSelected($selectedPersonId) {
                               "inclAccRej" => "Accepted &amp; Rejected",
                               "inclNoScore" => "Unscored Only");
     self::displaySelectionOptions($selectionOptions, $currentValue);
-    echo '</select>' . "\r\n";
+    echo '</select>' . PHP_EOL;
     if (self::$showFunctionMarkers) echo "<!-- END displayEntryStatusFilterSelector -->\r\n";
   }
   
@@ -1469,7 +1469,7 @@ public static function submitterIsSelected($selectedPersonId) {
   public static function displayEntryPropertySortSelector($formName, $selectorId, $selectorName, $currentValue) {
     if (self::$showFunctionMarkers) echo "<!-- BEGIN displayEntryPropertySortSelector -->\r\n";
     $onChangeAction = self::cookieSetterAction($formName, $selectorId) . self::submitAction($formName);
-    echo '<select id="' . $selectorId . '" name="' . $selectorName . '" onchange="' . $onChangeAction . '">' . "\r\n";
+    echo '<select id="' . $selectorId . '" name="' . $selectorName . '" onchange="' . $onChangeAction . '">' . PHP_EOL;
     $selectionOptions = array('idSort' => 'Id', 
                               'acceptedSort' => 'Entry Status', 
                               'scoreSortUp' => 'Average Score &#8593;', 
@@ -1483,7 +1483,7 @@ public static function submitterIsSelected($selectedPersonId) {
                               'acceptForSort' => 'Accepted For ...', 
                               'countrySort' => 'Country');
     self::displaySelectionOptions($selectionOptions, $currentValue);
-    echo '</select>' . "\r\n";
+    echo '</select>' . PHP_EOL;
     if (self::$showFunctionMarkers) echo "<!-- END displayEntryPropertySortSelector -->\r\n";
   }  
 
@@ -1492,11 +1492,11 @@ public static function submitterIsSelected($selectedPersonId) {
     // TODO: Hack Alert: 832 is the personId of Quick Notes. Quick Notes should be hard coded, not a person.
     $isDisabledString = ($curatorId == 832) ? ' disabled ' : '';
     echo '<select id="' . $selectorId . '" name="' . $selectorName . '" ' . $isDisabledString
-            . 'onchange="javascript:updateScore(' . $workId . ', ' . $curatorId . ', this.value);">' . "\r\n";
+            . 'onchange="javascript:updateScore(' . $workId . ', ' . $curatorId . ', this.value);">' . PHP_EOL;
     $selectionOptions = array('--' => '--', '1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', 
                                             '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10');
     self::displaySelectionOptions($selectionOptions, $currentValue);
-    echo '</select>' . "\r\n";
+    echo '</select>' . PHP_EOL;
     if (self::$showFunctionMarkers) echo "<!-- END displayCurationScoreSelector -->\r\n";
   }  
 
@@ -1551,8 +1551,8 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
   public static function getSelectionOptionText($stringValue, $currentValue, $displayString) {
     $optionText = '  <option value ="' . $stringValue . '"';
     $optionText .= (($stringValue == $currentValue) ? " selected='selected'" : "");
-//    $optionText .= '>' . self::htmlEncode($displayString) . '</option>' . "\r\n"; TODO Get this right 11/18/14.
-    $optionText .= '>' . $displayString . '</option>' . "\r\n";
+//    $optionText .= '>' . self::htmlEncode($displayString) . '</option>' . PHP_EOL; TODO Get this right 11/18/14.
+    $optionText .= '>' . $displayString . '</option>' . PHP_EOL;
     return $optionText;
   }
   
@@ -1586,13 +1586,13 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
         // notifyOf
         $notifyOfString = str_replace(',', ", ", $personArray['notifyOf']);
         echo ' <span class="datumDescription" style="padding-left:2em">Notify of: </span>' . $notifyOfString; // 2/1/09
-        echo '</div>' . "\r\n";
+        echo '</div>' . PHP_EOL;
         // last name & nickname
         $lastName = ((isset($personArray['lastName']) && ($personArray['lastName'] != '')) ? $personArray['lastName'] : "-----");
         $nickName = ((isset($personArray['nickName']) && ($personArray['nickName'] != '')) ? $personArray['nickName'] : "-----");
-        echo ' <div class="datumValue floatRight" style="padding-right:4px">[' . $lastName . ', ' . $nickName . ']</div>'  . "\r\n"; // TODO 11/17/14 USE self::htmlEncode() HERE?
-        echo ' <div style="clear:both;"></div>'  . "\r\n";
-      } else echo '</div>' . "\r\n";
+        echo ' <div class="datumValue floatRight" style="padding-right:4px">[' . $lastName . ', ' . $nickName . ']</div>'  . PHP_EOL; // TODO 11/17/14 USE self::htmlEncode() HERE?
+        echo ' <div style="clear:both;"></div>'  . PHP_EOL;
+      } else echo '</div>' . PHP_EOL;
       // organization
       if ($alwaysDisplay || $organizationExists) {
         echo self::getSimpleDataWithDescriptionLine('Organization', $personArray['organization']); // // TODO 11/17/14 USE self::htmlEncode() HERE?
@@ -1601,7 +1601,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
       $addressSegmentSeparator = (($forAdmin || !$forAdmin) ? " &bull; " : "<br>\r\n");
       $addressDescription = (($forAdmin || !$forAdmin) ? "Address" : "");
       $valueString = '';
-      //echo '<div class="datumValue">' . "\r\n";
+      //echo '<div class="datumValue">' . PHP_EOL;
       if (!$addressExists && !$countryExists) $valueString .= "No address provided.<br>\r\n";
       if ($addressLine1Exists) $valueString .= $personArray['streetAddr1'] . $addressSegmentSeparator;
       if ($addressLine2Exists) $valueString .= $personArray['streetAddr2'] . $addressSegmentSeparator;
@@ -1787,8 +1787,8 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
            . ') ' . $acceptRejectString . '<span class="datumDescription" style="margin-left:2em;">run time: </span>' 
            . self::timeAsMinutesAndSeconds($workArray['runTime'])
            . (($workArray['includesLivePerformance'] == 1) ? "<span class='liveDisplayText'>  LIVE</span>" : "")
-           . (($workArray['invited'] == 1) ? "<span class='liveDisplayText'>  INVITED</span>" : "") . '</div>' . "\r\n"
-           . '<div class="datumValue floatRight" style="padding-right:4px;">' . $titleForSortString . '</div>' . "\r\n"
+           . (($workArray['invited'] == 1) ? "<span class='liveDisplayText'>  INVITED</span>" : "") . '</div>' . PHP_EOL
+           . '<div class="datumValue floatRight" style="padding-right:4px;">' . $titleForSortString . '</div>' . PHP_EOL
            . '<div style="clear:both;"></div>' . "\r\n</div>\r\n";
       // media received & computed filename
       $computedFileName = (isset($workArray['filename']) && ($workArray['filename'] != '') && (strripos($workArray['filename'], 'YY-XXX') === false)) 
@@ -1899,18 +1899,18 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
 
   public static function getContributorDisplayLines($contributorsArray, $displayContributorsOnSeparateLines=false) {
     $displayString = '';
-    $displayString .= '<!-- display Contributor Information -->' . "\r\n";
+    $displayString .= '<!-- display Contributor Information -->' . PHP_EOL;
     $separator1 = (($displayContributorsOnSeparateLines) ? '<br>' : ' ');
-    $displayString .= '<div class="datumValue" style="width:98%;padding-top:1px;padding-bottom:4px;">' . "\r\n"
+    $displayString .= '<div class="datumValue" style="width:98%;padding-top:1px;padding-bottom:4px;">' . PHP_EOL
                    . '  <div class="datumDescription floatLeft">Credits: '
-                   . $separator1 . '</div>' . "\r\n";
+                   . $separator1 . '</div>' . PHP_EOL;
     $contributorsDisplayed = 0;
     self::debugger()->belch('contributorsArray in HTMLGen::getContributorDisplayLines()', $contributorsArray, -1);
     if (!is_null($contributorsArray)) {
       $contributorsArraySize = 0;
       foreach ($contributorsArray as $contributor) { if ($contributor['name'] != '') $contributorsArraySize++; }
       if ($contributorsArraySize > 0) {
-        $displayString .= '  <div class="datumValue floatLeft" style="margin-left:1em;width:82%;padding-bottom:0;">' . "\r\n";
+        $displayString .= '  <div class="datumValue floatLeft" style="margin-left:1em;width:82%;padding-bottom:0;">' . PHP_EOL;
         foreach ($contributorsArray as $contributor) { 
           if ($contributor['name'] != '') { 
             $role = ($contributor['optionalContributor']) ? $contributor['roleDescription'] : $contributor['role'];
@@ -1920,7 +1920,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
             } else {
               $separator2 = (($contributorsDisplayed == $contributorsArraySize) ? "" : ", ");
               $displayString .= "<span class='datumDescription'>" . $role .":&nbsp;</span>" 
-                             . $contributor['name'] . $separator2 . "\r\n";
+                             . $contributor['name'] . $separator2 . PHP_EOL;
             }
           }
         }
@@ -1935,11 +1935,11 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
 
   public static function getAllContributorDisplayLines($contributorsArray, $displayContributorsOnSeparateLines=false) {
     $displayString = '';
-    $displayString .= '<!-- display All Contributor Information -->' . "\r\n";
+    $displayString .= '<!-- display All Contributor Information -->' . PHP_EOL;
     //$separator1 = (($displayContributorsOnSeparateLines) ? '<br>' : ' ');
     $separator1 =' ';
     $displayString .= '<div class="datumValue floatLeft" style="width:98%;padding-top:1px;"><div class="datumDescription floatLeft">Credits: '
-                   . $separator1 . '</div>' . "\r\n";
+                   . $separator1 . '</div>' . PHP_EOL;
     $displayString .= '<div class="datumValue floatLeft" style="margin-left:1em;width:82%;padding-bottom:3px;">';
     $roleKeys = DatumProperties::workContributorRoleKeys();
     $contributors = self::getContributorArray($contributorsArray);
@@ -1955,7 +1955,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
         } else {
           $separator2 = (($contributorsDisplayed == $contributorsArraySize) ? "" : ", ");
           $displayString .= "<span class='datumDescription'>" . $roleString .":&nbsp;</span>" 
-                         . $nameString . $separator2 . "\r\n";
+                         . $nameString . $separator2 . PHP_EOL;
         }
         $displayString .= "</div>\r\n";
       }
@@ -2016,7 +2016,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
       $frameParametersDisplayElement .= ($separator == '') ? '<div class="datumValue">Anamorphic' : ', anamorphic';
       $separator = ', ';
     }
-    if ($separator == '') $frameParametersDisplayElement .= '<span class="orangishHighlightDisplayColor">unknown</span>' . "\r\n";
+    if ($separator == '') $frameParametersDisplayElement .= '<span class="orangishHighlightDisplayColor">unknown</span>' . PHP_EOL;
     return $frameParametersDisplayElement;
   }
     
@@ -2160,7 +2160,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
       // title, year, runtime
       echo '<div class="datumValue">' . $workArray['title'] . ' (' . $workArray['yearProduced'] . $countryOfProductionDisplay
            . ')<span class="datumDescription" style="margin-left:2em;">run time: </span>' 
-           . self::timeAsMinutesAndSeconds($workArray['runTime']) . '</div>' . "\r\n";
+           . self::timeAsMinutesAndSeconds($workArray['runTime']) . '</div>' . PHP_EOL;
       // submission & original formats & frame parameters: aspect ratio, anamorphic, & width & height
       // Modified 3/22/14
       $formatDisplayString = '<div class="datumValue" style="padding-top:2px;">'
@@ -2168,15 +2168,15 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
                            . $workArray['submissionFormat'];
       if (isset($workArray['originalFormat']) && ($workArray['originalFormat'] != '')) 
         $formatDisplayString .= '<span class="datumDescription">. Originally recorded as </span>' . $workArray['originalFormat'] . '.';
-      $formatDisplayString .= '</div>' . "\r\n";
+      $formatDisplayString .= '</div>' . PHP_EOL;
       echo $formatDisplayString;
-//      echo "\r\n";
+//      echo PHP_EOL;
       // display frame parameters: aspect ratio, anamorphic, & width & height (ABOVE)
 //      echo self::getFrameParametersDisplayElement2($workArray, true);
       // vimeo publication info
       echo self::getSimpleDataWithDescriptionLine('Vimeo Info', self::getVimeoInfoString($workArray) );
       // work contributors
-      echo '<!-- display Contributor Information -->' . "\r\n";
+      echo '<!-- display Contributor Information -->' . PHP_EOL;
       $displayContributorsOnSeparateLines = true;
 //      echo self::getAllContributorDisplayLines($contributorsArray, $displayContributorsOnSeparateLines);
       echo self::getContributorDisplayLines($contributorsArray, $displayContributorsOnSeparateLines);
@@ -2581,9 +2581,10 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
   public static function progPageDisplayShowIndex($showArray, $comingSoonText='Coming Soon...', $center=false, $multiLine=false, $noPadding=false) {
     self::debugger()->belch('displayShowIndex($showArray)', $showArray, -1);
     $align = ($center) ? 'center' : 'left';
-    echo '<tr>';
-    $padding = ($noPadding) ? '0' : '20px 0 24px 0';
-    echo '<td colspan="3" class="bodyTextOnBlack" style="padding:' . $padding . ';text-align:' . $align . ';line-height:130%;">';
+//    echo '<div>'; // line REMOVED 3/2/15
+//    $padding = ($noPadding) ? '0' : '20px 0 24px 0'; // 3/3/15
+    $padding = ($noPadding) ? '0' : '0 0 24px 0';
+    echo '          <div class="bodyText, eventIndexText" style="padding:' . $padding . ';text-align:' . $align . ';">';
     if ((sizeOf($showArray) > 0) && !$multiLine) { echo '|'; }
     foreach ($showArray as $show) {
       echo '&nbsp;<a href="#' . self::genShowIdTag($show['showId']) . '">' . $show['shortDescription'] . '</a>';
@@ -2591,35 +2592,22 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     }
     if (sizeOf($showArray) > 0) echo '&nbsp;&nbsp;'; 
     else echo '<div class="programHighlightColor" style="font-size:20px;margin:140px 0 230px 0;text-align:center;">' . $comingSoonText . '</div>';
-    echo '</td></tr>' . "\r\n";
+   echo '          </div>' . PHP_EOL; // end div eventIndexText
   }
 
-  // Insert the name anchor for the show for on-page navigation from the index of shows.
-  public static function progPageDisplayShowDescriptionX($showId, $text) {  // REWRITTEN 11/6/14
-    echo '<tr style="text-align:left;">' . "\r\n";
-    echo '  <td colspan="3" class="programInfoText" style="height:10px;vertical-align:top;margin-bottom:10px;overflow:hidden;"><a name="' . self::genShowIdTag($showId) // 10/09/14 added overflow:hidden;
-              . '"></a>' . $text . '</td>' . "\r\n"; // 10/09/14 removed <br clear="all"> before <td>
-//    echo '    <img src="../images/dotClear.gif" alt="" width="1" height="10"></td>' . "\r\n";
-    echo '</tr>' . "\r\n";
-    //echo '<tr><td colspan="3" height="36" align="center" valign="top" class="bodyText">&nbsp;</td></tr>' . "\r\n";
-  }
-  
+  // Insert the name anchor for the show for on-page navigation from the index of shows. REWRITTEN 3/1/15
   // Insert the name anchor for the show for on-page navigation from the index of shows.
   public static function progPageDisplayShowDescription($showId, $text) {
-    echo '<tr style="text-align:left;">' . "\r\n";
-    echo '  <td colspan="3" class="programInfoText" id="' . self::genShowIdTag($showId) . '" '
-              . 'style="height:10px;vertical-align:top;margin-bottom:10px;padding-bottom:9px;overflow:hidden;">'  // 10/09/14 added overflow:hidden; 11/25/14 Added padding-bottom:9px;
-              . $text . '</td>' . "\r\n";                                                      // 10/09/14 removed <br clear="all"> before <td>
-//    echo '    <img src="../images/dotClear.gif" alt="" width="1" height="10"></td>' . "\r\n";
-    echo '</tr>' . "\r\n";
-    //echo '<tr><td colspan="3" height="36" align="center" valign="top" class="bodyText">&nbsp;</td></tr>' . "\r\n";
+//    echo '<div style="text-align:left;">' . PHP_EOL;
+    echo '              <div class="showDescriptionHeader" id="' . self::genShowIdTag($showId) . '" ' . 'style="overflow:hidden;">' . $text . '</div>' . PHP_EOL; 
+//    echo '</div>' . PHP_EOL;
   }
   
+  // progPageDisplayNoDescription() is just cosmetic to add some vertical space.
   public static function progPageDisplayNoDescription($height=20) {
-    echo '<tr style="text-align:left;">' . "\r\n";
-    echo '  <td colspan="3" class="programInfoText" style="height:' . $height . 'px;vertical-align:top;"></td>' . "\r\n";
-    echo '</tr>' . "\r\n";
-    //echo '<tr><td colspan="3" height="36" align="center" valign="top" class="bodyText">&nbsp;</td></tr>' . "\r\n";
+    echo '<div style="text-align:left;">' . PHP_EOL;
+    echo '  <div class="programInfoText" style="height:' . $height . 'px;vertical-align:top;"></div>' . PHP_EOL;
+    echo '</div>' . PHP_EOL;
   }
   
   public static function progPageDisplayWork($index, $workRow, $imageDirectoryFiles, $programPicBorderWidth, 
@@ -2824,78 +2812,70 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
                                                                                  . $contributorName3 
                                                                                  . (($workRow['workId'] == 869) ? '</a>' : '')
                                                                                  . '</div>';
-//    $workNameAnchorString = '<a name="work_' . $workRow['designatedId'] . '"></a>'; // deleted 11/6/14
     
     $useWorkNameId = ($workRow['designatedId'] != '00-000'); // HACK: omit the element id if this is an intermission, i.e., workId == '00-000'
     $workNameIdString = ($useWorkNameId) ? ('id="work_' . $workRow['designatedId'] . '"') : '';
-
-    echo '<!-- Web #' . $index . ', Film ' . $workRow['designatedId'] . ' (' . $workRow['workId'] . '), "' . $workRow['title'] . '" ' . $workRow['shortDescription'] 
-                      . ' #' . $workRow['showOrder'] . ' -->' . "\r\n";
-    echo '  <tr>' . "\r\n";
-    $hideOverflow = ($imageCaption != '') ? 'overflow:hidden;' : '';
-//    echo '    <td class="programPic" style="text-align:center;vertical-align:top;' . $hideOverflow . '">' . $workNameAnchorString . '<img class="programHighlightColor" src="' // REWRITTEN 11/6/14
-    echo '    <td class="programPic" ' . $workNameIdString . ' style="text-align:center;vertical-align:top;' . $hideOverflow . '"><img class="programHighlightColor" src="' 
+    $indent = '            ';
+    echo '<!-- BEGIN Web #' . $index . ', Film ' . $workRow['designatedId'] . ' (' . $workRow['workId'] . '), "' . $workRow['title'] . '" ' . $workRow['shortDescription'] 
+                      . ' #' . $workRow['showOrder'] . ' -->' . PHP_EOL;
+    echo $indent . '  <div ' . $workNameIdString . ' class="filmDescriptionCell">' . PHP_EOL;
+    $hideOverflow = ($imageCaption != '') ? 'style="overflow:hidden;"' : '';
+    echo $indent . '    <div class="imagePart" ' . $hideOverflow . '><img class="programHighlightClor" src="' 
               . $imageDirectory . $imageFileName . '" alt="' . $imageAltText
               . '" title="' . $imageTitleText
               . '" style="height:' . $imageHeightInPixels . 'px;width:' . $imageWidthInPixels . 'px;border:' . $programPicBorderWidth . 'px solid;margin:0 2px;text-align:left;margin-left:1px;">';
-//              . '" height="' . $imageHeightInPixels . '" width="' . $imageWidthInPixels . '" hspace="2" vspace="0" border="' . $programPicBorderWidth 
-//              . '" align="left" style="margin-left:1px;">';
-    if ($imageCaption != '') echo '<div class="filmFigureCaption">' . $imageCaption . '</div>';  // 10/09/14 added overflow:hidden; removed <br clear="all"> before <div...
-    echo      '</td>' . "\r\n";
-//    echo '    <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>' . "\r\n";
-    echo '    <td style="width:12px;" class="bodyText topCenter">&nbsp;</td>' . "\r\n";
-    echo '    <td style="width:336px;" class="bodyText topLeft">' . '<div class="filmTitleText">' 
+//    if ($imageCaption != '') echo '      <div class="filmFigureCaption">' . $imageCaption . '</div>';  // 10/09/14 added overflow:hidden; removed <br clear="all"> before <div...
+    if ($imageCaption != '') echo '      <div class="figCaption">' . $imageCaption . '</div>';  // 10/09/14 added overflow:hidden; removed <br clear="all"> before <div...
+    echo $indent . '    </div>' . PHP_EOL;
+    echo $indent . '    <div class="textPart">' . PHP_EOL . $indent . '      <div class="filmTitleText">'
               . $title . (($yearProducedExists || $liveTextExists || $runTimeMinutesExists || $originalFormatExists) ? ', ' : '')
               . (($yearProducedExists) ? '<span class="filmYearText">' . $yearProduced . (($liveTextExists || $runTimeMinutesExists || $originalFormatExists) ? ', ' : '') . '</span>' : '')
               . $liveText
               . (($runTimeMinutesExists) ? '<span class="filmRunTimeText">' . $runTimeMinutes . ' min' . (($originalFormatExists) ? ', ' : '') . '</span>' : '')
-              . '<span class="filmFormatText">' . $originalFormat . '</span></div>' . "\r\n";
-    echo '      ' . $directorDisplay . "\r\n";
-    echo '      ' . $producerDisplay . "\r\n";
-    echo '      ' . $choreoDisplay . "\r\n";
-    echo '      ' . $companyDisplay . "\r\n";
-    echo '      ' . $dancersDisplay . "\r\n";
-    echo '      ' . $musicCompDisplay . "\r\n";
-    echo '      ' . $musicPerfDisplay . "\r\n";
-    echo '      ' . $cameraDisplay . "\r\n";
-    echo '      ' . $editorDisplay . "\r\n";
-    echo '      ' . $otherContributor1Display . "\r\n";
-    echo '      ' . $otherContributor2Display . "\r\n";
-    echo '      ' . $otherContributor3Display . "\r\n";
-    if ($suppressOriginalFormat) // KLUDGE
-      echo '      ' . $filmInfoDivSpanText . $synopsisTitle . '</span>' . '<span style="font-style:italic;line-height:140%;">' . $synopsis . "</span>" // TODO 11/18/14 Should HTMLGen::htmlEncode() be called here?
-                    . (($cityStateCountry != '') ? '<span class="filmCityStateCountryText" style="font-style:normal;"> (' . HTMLGen::htmlEncode($cityStateCountry) . ')</span>' : '') // TODO 11/18/14 Should HTMLGen::htmlEncode() be called here?
-                    . '</div></td>' . "\r\n";
-    else
-      echo '      ' . $filmInfoDivSpanText . $synopsisTitle . '</span>' . '<span style="font-style:normal;">' . $synopsis . "</span>" // TODO 11/18/14 Should HTMLGen::htmlEncode() be called here?
-                    . (($cityStateCountry != '') ? '<span class="filmCityStateCountryText"> (' . HTMLGen::htmlEncode($cityStateCountry) . ')</span>' : '') // TODO 11/18/14 Should HTMLGen::htmlEncode() be called here?
-                    . '</div></td>' . "\r\n";      
-    echo '  </tr>' . "\r\n";
-    echo '  <tr>' . "\r\n";
-    echo '    <td style="height:36px;width:188px;" class="bodyText topCenter">&nbsp;</td>' . "\r\n";
-    echo '    <td style="height:36px;width:2px;" class="bodyText topCenter">&nbsp;</td>' . "\r\n";
-    echo '    <td style="height:36px;width:336px;" class="bodyText topLeft">&nbsp;</td>' . "\r\n";
-    echo '  </tr>' . "\r\n";
-    echo '<!-- Web #' . $index . ', Film ' . $workRow['designatedId'] . ', "' . $workRow['title'] . '" -->' . "\r\n\r\n";
+              . '<span class="filmFormatText">' . $originalFormat . '</span></div>' . PHP_EOL;
+    echo $indent . '      ' . $directorDisplay . PHP_EOL;
+    echo $indent . '      ' . $producerDisplay . PHP_EOL;
+    echo $indent . '      ' . $choreoDisplay . PHP_EOL;
+    echo $indent . '      ' . $companyDisplay . PHP_EOL;
+    echo $indent . '      ' . $dancersDisplay . PHP_EOL;
+    echo $indent . '      ' . $musicCompDisplay . PHP_EOL;
+    echo $indent . '      ' . $musicPerfDisplay . PHP_EOL;
+    echo $indent . '      ' . $cameraDisplay . PHP_EOL;
+    echo $indent . '      ' . $editorDisplay . PHP_EOL;
+    echo $indent . '      ' . $otherContributor1Display . PHP_EOL;
+    echo $indent . '      ' . $otherContributor2Display . PHP_EOL;
+    echo $indent . '      ' . $otherContributor3Display . PHP_EOL;
+    if ($suppressOriginalFormat) { // KLUDGE
+      echo $indent . '      ' . $filmInfoDivSpanText . $synopsisTitle . '</span>' . '<span class="synopsis">' . $synopsis . "</span>" // TODO 11/18/14 Should HTMLGen::htmlEncode() be called here?
+                    . (($cityStateCountry != '') ? '<span class="filmCityStateCountryText" style="font-style:normal;"> (' . HTMLGen::htmlEncode($cityStateCountry) . ')</span>' : '') . '</div>' . PHP_EOL; 
+// TODO 11/18/14 Should HTMLGen::htmlEncode() be called here?
+    } else {
+      echo $indent . '      ' . $filmInfoDivSpanText . $synopsisTitle . '</span>' . '<span style="font-style:normal;">' . $synopsis . "</span>" // TODO 11/18/14 Should HTMLGen::htmlEncode() be called here?
+                    . (($cityStateCountry != '') ? '<span class="filmCityStateCountryText"> (' . HTMLGen::htmlEncode($cityStateCountry) . ')</span>' : '') . '</div>' .  PHP_EOL; // TODO 11/18/14 Should HTMLGen::htmlEncode() be called here?
+    }
+    echo $indent . '    </div>' . PHP_EOL;
+    echo $indent . '    <div style="clear:both"></div>' . PHP_EOL;
+    echo $indent . '  </div>' . PHP_EOL;
+    echo '<!--   END Web #' . $index . ', Film ' . $workRow['designatedId'] . ', "' . $workRow['title'] . '" -->' . PHP_EOL;
   }
   
   public static function getFormattedDeadlineTable($indent='') {
-    $tableString = $indent . '<div>' . "\r\n";
-    $tableString .= $indent . '<table width="80%" align="left" border="0" cellspacing="1" cellpadding="1" style="padding:6px 0 0 40px">' . "\r\n";
-    $tableString .= $indent . '  <tr valign="bottom">' . "\r\n";
-    $tableString .= $indent . '    <td align="left" width="76%" class="bodyTextOnBlack"><span style="color:#FFFF66">Deadline</span></td>' . "\r\n";
-    $tableString .= $indent . '    <td align="center" class="bodyTextOnBlack"><span style="color:#FFFF66">Entry Fee</span></td>' . "\r\n";
-    $tableString .= $indent . '  </tr>' . "\r\n";
-    $tableString .= $indent . '  <tr valign="middle">' . "\r\n";
-    $tableString .= $indent . '    <td align="left" class="bodyTextOnBlack">Early: ' . date("l, M j, Y", strtotime(SSFRunTimeValues::getEarlyDeadlineDateString())) . '</td>' . "\r\n";
-    $tableString .= $indent . '    <td align="center" class="bodyTextOnBlack">$' . SSFRunTimeValues::getEarlyDeadlineFeeString() . '</td>' . "\r\n";
-    $tableString .= $indent . '  </tr>' . "\r\n";
-    $tableString .= $indent . '  <tr valign="middle">' . "\r\n";
-    $tableString .= $indent . '    <td align="left" class="bodyTextOnBlack">Final: ' . date("l, M j, Y", strtotime(SSFRunTimeValues::getFinalDeadlineDateString())) . '</td>' . "\r\n";
-    $tableString .= $indent . '    <td align="center" class="bodyTextOnBlack">$' . SSFRunTimeValues::getFinalDeadlineFeeString() . '</td>' . "\r\n";
-    $tableString .= $indent . '  </tr>' . "\r\n";
-    $tableString .= $indent . '</table>' . "\r\n";
-    $tableString .= $indent . '</div>' . "\r\n";
+    $tableString = $indent . '<div>' . PHP_EOL;
+    $tableString .= $indent . '<table width="80%" align="left" border="0" cellspacing="1" cellpadding="1" style="padding:6px 0 0 40px">' . PHP_EOL;
+    $tableString .= $indent . '  <tr valign="bottom">' . PHP_EOL;
+    $tableString .= $indent . '    <td align="left" width="76%" class="bodyTextOnBlack"><span style="color:#FFFF66">Deadline</span></td>' . PHP_EOL;
+    $tableString .= $indent . '    <td align="center" class="bodyTextOnBlack"><span style="color:#FFFF66">Entry Fee</span></td>' . PHP_EOL;
+    $tableString .= $indent . '  </tr>' . PHP_EOL;
+    $tableString .= $indent . '  <tr valign="middle">' . PHP_EOL;
+    $tableString .= $indent . '    <td align="left" class="bodyTextOnBlack">Early: ' . date("l, M j, Y", strtotime(SSFRunTimeValues::getEarlyDeadlineDateString())) . '</td>' . PHP_EOL;
+    $tableString .= $indent . '    <td align="center" class="bodyTextOnBlack">$' . SSFRunTimeValues::getEarlyDeadlineFeeString() . '</td>' . PHP_EOL;
+    $tableString .= $indent . '  </tr>' . PHP_EOL;
+    $tableString .= $indent . '  <tr valign="middle">' . PHP_EOL;
+    $tableString .= $indent . '    <td align="left" class="bodyTextOnBlack">Final: ' . date("l, M j, Y", strtotime(SSFRunTimeValues::getFinalDeadlineDateString())) . '</td>' . PHP_EOL;
+    $tableString .= $indent . '    <td align="center" class="bodyTextOnBlack">$' . SSFRunTimeValues::getFinalDeadlineFeeString() . '</td>' . PHP_EOL;
+    $tableString .= $indent . '  </tr>' . PHP_EOL;
+    $tableString .= $indent . '</table>' . PHP_EOL;
+    $tableString .= $indent . '</div>' . PHP_EOL;
     return $tableString;    
   }
 
