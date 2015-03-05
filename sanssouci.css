@@ -117,15 +117,15 @@ body {
   text-align: left;
   float: left;
   margin: 0;
-  padding: 0 10px 10px 10px;
+  padding: 0 10px 0 10px;
   border: 1px solid orange;
-  border: 0;
 }
 
 .contentArea header {
   margin-left: 31px;
   margin-bottom: 20px;
   text-align: left;
+  border: 1px solid purple;
 }
 
 .contentArea header .title {
@@ -198,6 +198,7 @@ body {
   font-size: 13px;
   font-weight: normal;
   line-height: 18px;
+  padding: 10px 0;
 	color: #5e6a18;
 }
 
@@ -269,6 +270,10 @@ body {
   border: 0;
 }
 
+.eventProgram, .contentArea .pageContent {
+  width:739px;
+}
+
 /* The rules beginning ".screeningProgram > .filmDescriptionCell" mimic :first-of-typpe.
    To understand this in relation to :firstof-type & nth-of-type(1), 
    see http://stackoverflow.com/questions/2717480/css-selector-for-first-element-with-class 
@@ -280,7 +285,12 @@ body {
 }
 
 .screeningProgram > .filmDescriptionCell ~ .filmDescriptionCell {
-    border: none;
+  border: none;
+}
+
+.screeningProgram > .filmDescriptionCell:last-of-type {
+  margin-bottom: 18px;
+  border: none;
 }
 
 .filmDescriptionCell .imagePart {
@@ -313,9 +323,10 @@ body {
   border: 0;
 }
 
-.copyrightColor {
-  color: #5e6a18;
-}
+/* COLORS added in 2015 */
+.copyrightColor { color: #5e6a18; }
+.ssfDebugEchoColor { color: #2c2ca6; }
+.ssfDebugTracebackColor { color: maroon; }
 
 .showDescriptionHeader {
   text-align: left;
@@ -363,11 +374,11 @@ body {
 
 /* Lines below from sanssouciBlackBackground.css */
 
-/*
-    a:link { color : #CCBD99; text-decoration: underline; }
-    a:visited { color : #CCBD99; text-decoration: underline; }
-    a:hover { color : #990000; text-decoration: none; }  
+    .before2015 a:link { color : #CCBD99; text-decoration: underline; }
+    .before2015 a:visited { color : #CCBD99; text-decoration: underline; }
+    .before2015 a:hover { color : #990000; text-decoration: none; }  
 
+/*
     .narBarMainSection a:link, .narBarArchiveSection a:link { color : #5e6a18; text-decoration: none; }        /* was .navbar prior to 11/5/14
     .narBarMainSection a:visited, .narBarArchiveSection a:visited { color : #5e6a18; text-decoration: none; }  /* was .navbar prior to 11/5/14
     .narBarMainSection a:hover, .narBarArchiveSection a:hover { color : #990000; text-decoration: underline; } /* was .navbar prior to 11/5/14

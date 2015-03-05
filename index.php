@@ -1,7 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<?php
-  include_once './bin/classes/SSFCodeBase.php'; 
-  include_once SSFCodeBase::autoloadClasses(__FILE__);
+<!DOCTYPE html>
+<?php 
+  include_once $_SERVER['DOCUMENT_ROOT'] . '/bin/classes/SSFWebPageParts.php'; 
+
+  SSFWebPageParts::allowRobotIndexing();   // so google et al can find the page
+  SSFWebPageParts::setHeaderTitleText('Sans Souci Festival of Dance Cinema');  // This is the official HTML head title. It appears in the tab.
+  SSFWebPageParts::setContentTitleText('<div style="margin:0 auto;text-align:center;">Sans Souci Festival of Dance Cinema</div>');  // The is the title of the page in the Content Area.
+	/* These are the inline style definitions that override all other CCS for this page except for the built-in media queries. */
+	SSFWebPageParts::addCssInlineStyleDefinition('table { padding:0;margin:0;border-collapse:collapse;23skido:0; }');  
+  
   $currentYearString = SSFRunTimeValues::getCurrentYearString();
   $callForEntriesId = SSFRunTimeValues::getCallForEntriesId();
   $associatedEventId = SSFRunTimeValues::getAssociatedEventId();
@@ -13,97 +19,25 @@
   $entryRequirementsInWindowFilename = 'entryRequirementsInWindow' . $currentYearString . '.php';
   $danceCinemaCallFilename = 'danceCinemaCall' . $currentYearString . '.php';
   $entryFormFilename = 'entryForm' . $currentYearString . '.php'; 
+
+
+  echo SSFWebPageParts::getHtmlLine();
+  echo SSFWebPageParts::getHeader();
+  echo SSFWebPageParts::beginPageBody();
+  echo SSFWebPageParts::beginContentHeader();
+
 ?>
 
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="-1">
-  <meta name="description" content="A niche film festival specializing in dance cinema, incorporating live performance, and including museum installations.">
-  <meta name="keywords" content="dance film festival, dance video festival, video dance festival, dance cinema festival, live performance, dance performance, live dance performance, dance festival, video dance, dance video, dance film, dance cinema, dance, film, video, cinema, festival, art, arts, artists, projection, projected, tour, touring"><!-- InstanceBeginEditable name="doctitle" -->
-
-  <title>Sans Souci Festival of Dance Cinema - Home</title>
-  <link rel="icon" href="favicon.png" type="image/png">
-  <link rel="stylesheet" href="sanssouci.css" type="text/css">
-  <link rel="stylesheet" href="sanssouciBlackBackground.css" type="text/css">
-  <style type="text/css">
-  .artistNews {font-size:14px;line-height:18px;text-align:center;color:#F9F9CC;padding:4px 0 4px 0;margin:auto;width:94%;}
-  .atVenue {margin-top:18px;}
-  </style>
-</head>
-
-<body bgcolor="#FFFFFF" text="#000000" link="#0033FF" vlink="#0033FF" alink="#990000">
-  <!-- Set bgcolor="#FFFFFF" in the following 100% table to make the edges appear white. -->
-  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000">
-    <tr>
-      <td align="left" valign="top">
-        <table width="745" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000">
-          <tr>
-            <td colspan="3" align="left" valign="top"><a href="index.php"><img src="images/titleBarGrayLight.gif" alt="SansSouciFest.org" width="600" height="63" hspace="0" vspace="8" border="0" align="top"></a></td>
-            <td width="10" align="center" valign="top">&nbsp;</td>
-          </tr>
-          <tr>
-            <td width="10" align="center" valign="top">&nbsp;</td>
-            <td width="125" align="center" valign="top"><?php SSFWebPageAssets::displayNavBar(SSFCodeBase::string(__FILE__)); ?></td>
-            <td width="600" align="center" valign="top">
-              <table width="100%" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000">
-                <tr>
-                  <td width="25" align="left" valign="top" class="sprocketHoles">&nbsp;</td>
-                  <td width="10" align="left" valign="top" class="programTablePageBackground">&nbsp;</td>
-                  <td width="530" align="center" valign="top" class="bodyTextGrayLight">
-                    <!-- InstanceBeginEditable name="ProgramRegion" -->
-                    <table style="width:100%;border:0;align:center;margin:0;padding:0;background-color:#333">
-                      <!-- Dance Movies! -->
-                      <tr>
-                        <td align="center" valign="middle">
-                          <div class="homeHeading1" style="margin-top:12px;color:#FFFF99;font-size:26px;">
-                            Sans Souci Festival of Dance Cinema
-                          </div>
-                          <div class="bodyTextLeadedOnBlack" style="padding:0;margin:2px auto 0 auto;width:36em;">
-                            is a niche film festival specializing in dance cinema<br>
-                            and incorporating live performance.
-                          </div>
-                        </td>
-                      </tr>
-
-<!-- Upcoming Programs 
-                      <tr>
-                        <td align="center" valign="middle">
-                          <div class="homeHeading1" style="margin-top:40px;margin-bottom:8px;">Upcoming Events</div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td align="center" valign="middle">
-                            Roxy 
-                            <div class="bodyTextLeadedOnBlack">
-                        	    <div style="font-size:16px;margin-top:8px;margin-bottom:0px;font-weight:normal;"><span style="font-size:20px;color:#E49548;">The Roxy,</span> Missoula MT</div>
-                              <div class="homeHeading1" style="margin:7px 0 0px 0;color:#FFFF99;font-weight:bold;font-size:17px;">Friday &amp; Saturday, December 5 &amp; 6</div>
-                              <div style="font-size:15px;margin-top:4px;margin-bottom:0px;font-weight:normal;">Two <a href="./programPages/programRoxy2014-12.php">programs</a> on each date</div>
-                            </div>
-                        </td>
-                      </tr>
--->
+<!-- <div class="bodyTextLeadedOnBlack" style="padding:0;margin:2px auto 0 auto;width:36em;"> -->
+<div style="margin:0 auto;text-align:center;">is a niche film festival specializing in dance cinema<br>and incorporating live performance.</div>
+                          
+<?php
+  echo SSFWebPageParts::endContentHeader();
 
 
-<!-- Donate  
-                      <tr>
-                        <td align="center" valign="middle">
-                          <div class="homeHeading1" style="margin-top:40px;margin-bottom:8px;">Seasonal Plea</div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td align="center" valign="middle">
-                            <div class="bodyTextLeadedOnBlack">
-                              <div class="bodyTextLeadedOnBlack" style='line-height:145%;float:left;margin:7px 0px 10px 70px;border:0px solid blue;text-align:left;width:240px;'>If you're so inclined, please make a tax-deductible <a href='https://www.fracturedatlas.org/site/fiscal/profile?id=8028'>donation</a> through our fiscal sponsor, Fractured Atlas. Your gift will help sustain us as we move forward into our twelfth year.
-                              </div>
-                              <div style='float:left;margin-right:0px;border:0px solid blue;'><a href='https://www.fracturedatlas.org/site/fiscal/profile?id=8028'><img src='images/logos/FracturedAtlas-logo.png' alt='Fractured Atlas logo' style='width:174px;height:120px;align-left;'></a>
-                              </div>
-                              <div style='clear:both;'></div>
-                            </div>
-                        </td>
-                      </tr>
--->
+?>
+
+<table class="pageContent" style="border:red 1px solid;margin:0 auto;text-align:center;">
 
 <!-- Demo Reel Link! -->
                       <tr>
@@ -140,9 +74,8 @@
                       </td>
                     </tr>
 
-
 <!-- 2014 -->
-<!-- Boulder, 2014 -->                 
+<!-- Boulder, 2014 -->
                       <tr>
                         <td align="center" valign="middle" class="programInfoText" style="padding-top:0px;">
                           <div class="hideLinkUnderline">
@@ -233,53 +166,6 @@
                             </div>
                             <div style="font-size:16px;margin-top:2px;margin-bottom:0px;color:#FFFF99;font-weight:normal;"><a href="/programPages/programRoxy2014-12.php">Kinetoscope at the Roxy, Dec., 2014</a><br><span style="font-size:14px;">Co-sponsored by <a href=" http://barebaitdance.org/">Bare Bait Dance</a> in Missoula, MT, USA</span>
                             </div>
-<!--
-                            <!-- Guatemala 2014 
-                            <div class="homeHeading1" style="margin:14px 0 0px 0;color:#FFFF99;font-weight:bold;font-size:14px;">
-                              Thursday, June 5, 2014, 11:00 AM
-                            </div>
-                            <div style="font-size:16px;margin-top:0px;margin-bottom:0px;color:#FFFF99;font-weight:normal;line-height:1.3;"><a href="http://sanssoucifest.org/programPages/programGuatemala2014.php">Universidad de San Carlos de Guatemala</a><br>
-                              <span style="font-size:14px;">Departamento de Danza de la Escuela Superior<br>Guatemala City, Guatemala</span>
-                            </div>
-                            <!-- AtticRep 2014 
-                            <div class="homeHeading1" style="margin:16px 0 0px 0;color:#FFFF99;font-weight:bold;font-size:14px;">
-                              Friday &amp; Saturday, March 28 &amp; 29, 2014
-                            </div>
-                            <div style="font-size:16px;margin-top:2px;margin-bottom:0px;color:#FFFF99;font-weight:normal;"><a href="http://www.atticrep.org/">Attic<i>Rep</i></a> - <a href="/programPages/programAtticRep2014.php">Celebrating the past &bull; Investing in the Future</a><br><span style="font-size:14px;">at <a href=" http://bluestarartscomplex.com/">Blue Star Arts Complex</a> in San Antonio, TX, USA</span>
-                            </div>
-                            <!-- Roxy 2014 
-                            <div class="homeHeading1" style="margin:16px 0 0px 0;color:#FFFF99;font-weight:bold;font-size:14px;">
-                              Friday &amp; Saturday, March 7 &amp; 8, 2014
-                            </div>
-                            <div style="font-size:16px;margin-top:2px;margin-bottom:0px;color:#FFFF99;font-weight:normal;"><a href="http://www.theroxytheater.org/">The Roxy</a> - <a href="/programPages/programRoxy2014.php">Kinetoscope at the Roxy</a><br><span style="font-size:14px;">Co-sponsored by <a href=" http://barebaitdance.org/">Bare Bait Dance</a> in Missoula, MT, USA</span>
-                            </div>
-                            <!-- 10th Annual Festivities 
-                            <div class="homeHeading1" style="margin:16px 0 0px 0;color:#FFFF99;font-weight:bold;font-size:14px;">10th Annual Festivities, Fall 2013</div>
-                            <div style="font-size:16px;margin-top:2px;margin-bottom:0px;color:#FFFF99;font-weight:normal;">Boulder, Colorado, USA</div>
-                            <!-- Headline detail line 
-                            <div style="font-size:18px;margin-top:4px;margin-bottom:4px;color:#CCC;font-weight:bold;">
-                              <span style="font-size:15px;font-weight:normal;line-height:1.4;">Featuring four different programs:<br>
-                              &mdash; <a href="./programPages/programOverview2013.php">Overview</a> &mdash;<br>
-                              <a href="./programPages/programAtlas2013.php">September</a>,  <a href="./programPages/program2013FallDates.php#show59">October</a>,  <a href="./programPages/program2013FallDates.php#show60">November</a>, <a href="./programPages/program2013FallDates.php#show61">December</a></span>
-                            </div>
--->
-<!-- Postcard 
-                            <div>
-                              <div class="bodyTextLeadedOnBlack" style="margin:0px 0;">
-                                <a href="./programPages/programOverview2013.php"><img src="images/Stills2013/SSF2013PostcardFront403x312.jpg" alt="Click here to view program overview." title="Click here to view program overview." width="403" height="312" border="0" style="margin:8px 0 0 -2px;border:solid #000 1px;"></a>
-                              </div>
-             postcard caption
-                              <div class="bodyTextLeadedOnBlack" style="margin:3px 0;">
-                                <div class="bodyTextLeadedOnBlack" style="font-size:14px;margin:6px 0 0 0;padding:0;line-height:130%;">
-                                  <span style="font-size:13px;color:#CCC;">postcard with a frame from</span><br>
-                                  "Outside in" (2011), Tove Skeidsvoll &amp; Petrus Sj&ouml;vik, Sweden
-                                </div>
-
-                                <div class="bodyTextLeadedOnBlack" style="font-size:13px;margin:2px 0;padding:0;color:#CCC;">
-                                  thi PDF: <a href="./PDF/Postcards/SSF2013PostcardFront.pdf">front</a> 3.5 MB, <a href="./PDF/Postcards/SSF2013PostcardBack.pdf">back</a> 3.4 MB
-                                </div>
-                              </div>
--->
 
                           </div>
                         </td>
@@ -287,12 +173,12 @@
 
 <!-- Curatorial Criteria -->
                       <tr>
-                        <td>
+                        <td style="max-width:500px;">
                           <a name="danceCinemaDefinition" id="danceCinemaDefinition"></a>
                           <div class="homeHeading1" style="margin-bottom:6px;">
                             Curatorial Criteria
                           </div>
-                          <div class="bodyTextLeadedOnBlack" style="padding:2px 40px 2px 40px;text-align:left;">
+                          <div class="bodyTextLeadedOnBlack" style="margin:0 auto;padding:2px 40px 2px 40px;text-align:left;">
                             <span style="color:#FFFF99;font-style:italic;">Curatorial Criteria:</span> We're interested in film and video works that integrate dance and cinematography. When choosing works for exhibition and installation we consider thoughtful forms and themes, investigative / innovative / experimental approaches, production values, audience appeal, and how the piece will fit with or complement others we are considering. None of these criteria is a must; none are more important than the others; excellence in any one or two areas may be sufficient for acceptance. Shorts are preferred. Documentaries and animations will be considered. Note that we are not interested in simple recordings of dance on a proscenium stage &mdash; cinematic elements must be an integral part of the entry.
                           </div>
                         </td>
@@ -319,26 +205,9 @@
 <!-- END Artificial Vertical Spacer SECTION -->
 
                     </table>
-                  </td>
-                  <td width="10" align="left" valign="top" class="programTablePageBackground">&nbsp;</td>
-                  <td width="25" align="left" valign="top" class="sprocketHoles">&nbsp;</td>
-                </tr>
-              </table>
-            </td>
-            <td width="10" align="center" valign="top">&nbsp;</td>
-          </tr>
-          <tr align="center" valign="top">
-            <td colspan="2">&nbsp;</td>
-            <td align="center" valign="bottom" class="smallBodyTextLeadedGrayLight"><br>
-            <?php SSFWebPageAssets::displayCopyrightLine();?></td>
-            <td width="10">&nbsp;</td>
-          </tr>
-          <tr align="center" valign="top">
-            <td colspan="4">&nbsp;</td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-</body>
+
+<?php
+  echo SSFProgramPageParts::endPageBody();
+?>
+
 </html>

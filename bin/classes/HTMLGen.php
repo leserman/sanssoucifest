@@ -2587,7 +2587,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     echo '          <div class="bodyText, eventIndexText" style="padding:' . $padding . ';text-align:' . $align . ';">';
     if ((sizeOf($showArray) > 0) && !$multiLine) { echo '|'; }
     foreach ($showArray as $show) {
-      echo '&nbsp;<a href="#' . self::genShowIdTag($show['showId']) . '">' . $show['shortDescription'] . '</a>';
+      echo '&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '#' . self::genShowIdTag($show['showId']) . '">' . $show['shortDescription'] . '</a>'; // changed 3/4/15
       echo ($multiLine) ? '<br>' : '&nbsp;|';
     }
     if (sizeOf($showArray) > 0) echo '&nbsp;&nbsp;'; 
@@ -2820,13 +2820,13 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
                       . ' #' . $workRow['showOrder'] . ' -->' . PHP_EOL;
     echo $indent . '  <div ' . $workNameIdString . ' class="filmDescriptionCell">' . PHP_EOL;
     $hideOverflow = ($imageCaption != '') ? 'style="overflow:hidden;"' : '';
-    echo $indent . '    <div class="imagePart" ' . $hideOverflow . '><img class="programHighlightClor" src="' 
+    echo $indent . '    <div class="imagePart" ' . $hideOverflow . '><img class="programHighlightColor" src="' 
               . $imageDirectory . $imageFileName . '" alt="' . $imageAltText
               . '" title="' . $imageTitleText
               . '" style="height:' . $imageHeightInPixels . 'px;width:' . $imageWidthInPixels . 'px;border:' . $programPicBorderWidth . 'px solid;margin:0 2px;text-align:left;margin-left:1px;">';
 //    if ($imageCaption != '') echo '      <div class="filmFigureCaption">' . $imageCaption . '</div>';  // 10/09/14 added overflow:hidden; removed <br clear="all"> before <div...
     if ($imageCaption != '') echo '      <div class="figCaption">' . $imageCaption . '</div>';  // 10/09/14 added overflow:hidden; removed <br clear="all"> before <div...
-    echo $indent . '    </div>' . PHP_EOL;
+    echo $indent . '    </div> <!-- end imagePart -->' . PHP_EOL;
     echo $indent . '    <div class="textPart">' . PHP_EOL . $indent . '      <div class="filmTitleText">'
               . $title . (($yearProducedExists || $liveTextExists || $runTimeMinutesExists || $originalFormatExists) ? ', ' : '')
               . (($yearProducedExists) ? '<span class="filmYearText">' . $yearProduced . (($liveTextExists || $runTimeMinutesExists || $originalFormatExists) ? ', ' : '') . '</span>' : '')
@@ -2853,10 +2853,10 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
       echo $indent . '      ' . $filmInfoDivSpanText . $synopsisTitle . '</span>' . '<span style="font-style:normal;">' . $synopsis . "</span>" // TODO 11/18/14 Should HTMLGen::htmlEncode() be called here?
                     . (($cityStateCountry != '') ? '<span class="filmCityStateCountryText"> (' . HTMLGen::htmlEncode($cityStateCountry) . ')</span>' : '') . '</div>' .  PHP_EOL; // TODO 11/18/14 Should HTMLGen::htmlEncode() be called here?
     }
-    echo $indent . '    </div>' . PHP_EOL;
+    echo $indent . '    </div> <!-- end textPart -->' . PHP_EOL;
     echo $indent . '    <div style="clear:both"></div>' . PHP_EOL;
-    echo $indent . '  </div>' . PHP_EOL;
-    echo '<!--   END Web #' . $index . ', Film ' . $workRow['designatedId'] . ', "' . $workRow['title'] . '" -->' . PHP_EOL;
+    echo $indent . '  </div> <!-- END Web #' . $index . ', Film ' . $workRow['designatedId'] . ', "' . $workRow['title'] . '" -->' . PHP_EOL;
+//    echo '<!--   END Web #' . $index . ', Film ' . $workRow['designatedId'] . ', "' . $workRow['title'] . '" -->' . PHP_EOL;
   }
   
   public static function getFormattedDeadlineTable($indent='') {

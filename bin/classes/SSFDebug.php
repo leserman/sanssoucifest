@@ -14,8 +14,8 @@ class SSFDebug {
   private $logLineEnabled = true;
   private $globalDebugger = null;
 
-  private static $tracebackColor = 'pink';
-  private static $echoColor = '#CCFFFF';
+  private static $tracebackColor = 'maroon'; // 3/4/15 switched to css file
+  private static $echoColor = '#2c2ca6'; // 3/4/15 switched to css file
   
   public static function globalDebugger() {
     if (!isset($globalDebugger)) $globalDebugger = new SSFDebug($initBelchEnabled=true, $initBechoEnabled=true);
@@ -53,7 +53,8 @@ class SSFDebug {
     else if ($enabled == 1) $belch = true;
     else if ($enabled == 0) $belch = $this->belchEnabled;
     else $belch = $this->belchEnabled;
-    if ($belch) { self::echoVisible("** BELCH ** " . $idString . ": " . "<span style='color:" . self::$tracebackColor . ";'>" . print_r($dataStructure, true) . "</span>"); /* echo "<br>\r\n"; 5/4/12 */ } 
+//    if ($belch) { self::echoVisible("** BELCH ** " . $idString . ": " . "<span style='color:" . self::$tracebackColor . ";'>" . print_r($dataStructure, true) . "</span>"); } 
+    if ($belch) { self::echoVisible("** BELCH ** " . $idString . ": " . "<span style='color:ssfDebugTracebackColor;'>" . print_r($dataStructure, true) . "</span>"); }  // 3/4/15 switched to css file
     return $belch;
   }
   
@@ -92,11 +93,13 @@ class SSFDebug {
   }
 
   private static function echoVisible($text) {
-    echo '<span style="color:' . self::$echoColor . ';">' . $text . '</span>' . "<br>\r\n";
+//    echo '<span style="color:' . self::$echoColor . ';">' . $text . '</span>' . "<br>\r\n"; // 3/4/15 switched to css file
+    echo '<span style="color:ssfDebugEchoColor;">' . $text . '</span>' . "<br>\r\n";
   }
   
   private static function traceVisible($text) {
-    echo '<span style="color:' . self::$tracebackColor . ';">' . $text . '</span>';
+//    echo '<span style="color:' . self::$tracebackColor . ';">' . $text . '</span>'; // 3/4/15 switched to css file
+    echo '<span style="color:ssfDebugTracebackColor;">' . $text . '</span>';
   }
 
   private static function showTrace() {

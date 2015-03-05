@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <?php 
-  include_once '../bin/classes/SSFProgramPageParts.php'; 
+   include_once $_SERVER['DOCUMENT_ROOT'] . '/bin/classes/SSFProgramPageParts.php'; 
 
   /* UPDATE THESE ITEMS as appropriate */
-  SSFProgramPageParts::cachePage();            // for faster loading
   SSFProgramPageParts::allowRobotIndexing();   // so google et al can find the page
-  SSFProgramPageParts::setShowsEvent(35);      // the eventId for this program -- REALLY 31; 35 is for a single show event.
+  SSFProgramPageParts::setShowsEvent(31);      // the eventId for this program -- REALLY 31; 35 is for a single show event.
   SSFProgramPageParts::setHeaderTitleText('at the Boe, 2014');  // This is the official HTML head title. It appears in the tab.
   SSFProgramPageParts::setContentTitleText('Sans Souci at the Boe, 2014');  // The is the title of the page in the Content Area.
 	SSFProgramPageParts::setProgramPicBorderWidthInPixels(1);  // This is the border width in pixels for the image for each work.
 	SSFProgramPageParts::setProgramHighlightColor('#586caf');  // This is the border color for the image for each work.
 	
 	/* These are the inline style definitions that override all other CCS for this page except for the built-in media queries. */
-//	SSFProgramPageParts::addCssInlineStyleDefinition('table { padding:0;margin:0;border-collapse:collapse; }');  
+	SSFProgramPageParts::addCssInlineStyleDefinition('table { padding:0;margin:0;border-collapse:collapse;23skido:0; }');  
 
   /* Local PHP variables for use on this page. Example: $phpVar1 = 'Hi there.'; Within HTML use: <?php echo $phpVar1; ?> // Remember to pre-process URLs. */
   $onlineTicketsURL = 'https://tickets.thedairy.org/online/default.asp?doWork::WScontent::loadArticle=Load&amp;BOparam::WScontent::loadArticle::article_id=7F250C59-ABB3-4821-A4C2-859087D9BDBD';
@@ -21,9 +20,16 @@
   echo SSFProgramPageParts::getHeader();
   echo SSFProgramPageParts::beginPageBody();
   echo SSFProgramPageParts::beginContentHeader();
+/*
+  echo '<h1> FILE = |' . __FILE__ . '| </h1>' . PHP_EOL;
+  echo '<h1> DIR = |' . __DIR__ . '| </h1>' . PHP_EOL;
+  echo '<h1> parse_url PHP_URL_HOST = |' . parse_url(__FILE__, PHP_URL_HOST) . '| </h1>' . PHP_EOL;
+  echo '<h1> _SERVER["DOCUMENT_ROOT"] = |' . $_SERVER['DOCUMENT_ROOT'] . '| </h1>' . PHP_EOL;
+*/
+
 ?>
 
-            <!-- Begin content header -->
+            <!-- Continue content header -->
             <div id="oct" class="dateLine">Sundays, September 21 &amp; October 19<span class="timeText">&nbsp;&bull;&nbsp;1:00 PM</span></div>
             <div class="venueText">Boedecker Theater, <span class="minorSpan">Dairy Center for the Arts</span>
               <span class="locationLink">(<a href="https://tickets.thedairy.org/online/default.asp?doWork::WScontent::loadArticle=Load&amp;http://dev.sanssoucifest.org/programPages/programBoe2014.phpBOparam::WScontent::loadArticle::article_id=0543C1D9-E624-4F3E-AFED-7CF05B7B8A95&amp;menu_id=DDCC1202-68C9-4397-BFCE-39ECBA316C47&amp;sToken=1%2C498caca1%2C53f3b06a%2CCDB6A624-7389-4BC5-91CD-7D72BAADBDC6%2CYlwvqJACX7WTsf%2FIyeLKqW%2BYxV8%3D">location</a>)</span>
