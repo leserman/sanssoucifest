@@ -16,7 +16,7 @@
     summary, details, output {
     	margin: 0;
     	padding: 0;
-    	border: 0;
+    	border: none;
     	font-size: 100%;
     	font: inherit;
     	vertical-align: baseline;
@@ -49,13 +49,13 @@
 
 body { 
   color: black;
-  background-color: #fffff0; /* #fff9d2; */
+  background-color: #fffff0;
   font-family: Helvetica, Arial, sans-serif;
   font-weight: normal;
 	float: none;
   text-align: left;
   border: 1px red solid;
-  border: 0;
+  border: none;
 } 
 
 .navArea {
@@ -68,35 +68,33 @@ body {
   border: 0px;
 }
 
-.navArea .navBar a:link { color : blue; text-decoration: none; }
-.navArea .navBar a:visited { color : blue; text-decoration: none; }
-.navArea .navBar a:hover { color : #990000; text-decoration: underline; }
+.navArea .navBar a:link { color: blue; text-decoration: none; }
+.navArea .navBar a:visited { color: blue; text-decoration: none; }
+.navArea .navBar a:hover { color: #990000; text-decoration: underline; }
 
-.navArea .navBar a:link,    .navArea .navBarTight a:link    { color : #5e6a18; text-decoration: none; }
-.navArea .navBar a:visited, .navArea .navBarTight a:visited { color : #5e6a18; text-decoration: none; }
-.navArea .navBar a:hover,   .navArea .navBarTight a:hover   { color : #990000; text-decoration: underline; }
+.navArea .navBar a:link,    .navArea .navBarTight a:link    { color: #5e6a18; text-decoration: none; }
+.navArea .navBar a:visited, .navArea .navBarTight a:visited { color: #5e6a18; text-decoration: none; }
+.navArea .navBar a:hover,   .navArea .navBarTight a:hover   { color: #990000; text-decoration: underline; }
 
 .page {
-  width: 900px;
+  width: 920px;
   padding: 0px 10px 10px 10px;
   padding: 0;
   margin: 0 auto;  
-  
   background-image: url('images/loieFullerBackground.png'); 
   background-size: 100%;
   background-repeat: repeat-y;
-/*  background-attachment: fixed; */
   background-origin: border-box;
   background-position: 0% 0%;
-
   border: 1px blue solid;
-  border: 0;
+  border: none;
 }
 
 .pageArea {
-  margin: 0 auto;
+  margin: 8px auto 0 auto;
+  padding-top: 2px;
   border: 1px green solid;
-  border: 0;
+  border: none;
 }
 
 .pageBanner {
@@ -116,19 +114,21 @@ body {
 .contentArea {
   text-align: left;
   float: left;
-  margin: 0;
-  padding: 0 10px 0 10px;
+  margin-left: 31px;
+  padding: 0 10px;
   border: 1px solid orange;
+  border: none;
 }
 
-.contentArea header {
-  margin-left: 31px;
+.contentArea .headerPart {
   margin-bottom: 20px;
+/*  margin-left: 31px; */
   text-align: left;
   border: 1px solid purple;
+  border: none;
 }
 
-.contentArea header .title {
+.contentArea .headerPart .title {
   font-size: 24px;
 	line-height: 24px;
   font-weight: bold;
@@ -136,7 +136,57 @@ body {
   text-align: left;
 }
 
-.contentArea header .dateLine {
+.contentArea article {
+/*  margin-left: 31px; */
+/*  margin-right: 180px; */
+  border: 1px dashed maroon;
+  border: none;
+}
+
+.contentArea article section, #homePage div {
+  margin-left: 31px;
+  margin-right: 180px;
+  margin-top: 20px;
+  border: 1px dashed orange;
+  border: none;
+}
+
+.contentArea article section:first-of-type {
+  margin-top: 14px;
+}
+
+.contentArea article h1, .contentArea #homePage h2 {
+  font-size: 24px;
+	line-height: 24px;
+  font-weight: bold;
+  color: #28733b; 
+  text-align: left;  
+}
+
+.contentArea article section h2 {
+  font-size: 18px;
+  font-weight: normal;
+  font-style: italic;
+  color: #FFFF99; 
+  color: black;
+	line-height: 20px;
+/*	padding-left: 20px; */
+}
+
+.contentArea article section p {
+  font-size: 15px;
+  line-height: 120%;
+  font-weight: normal;
+	padding: 8px 30px 8px 30px; /* Should this be 30px or 0px 3/8/15 */
+  color: #FFFFCC;
+  color: black;
+}
+
+p .leaded {
+  line-height: 150%;
+}
+
+.contentArea .headerPart .dateLine {
   margin: 5px 0 3px 0;
   color: black;
   font-weight: bold;
@@ -144,12 +194,12 @@ body {
   text-align: left;
 }
 
-.contentArea header .dateLine .timeText {
+.contentArea .headerPart .dateLine .timeText {
   font-size: 14px;
   font-weight: normal;
 }
 
-.contentArea header .venueText {
+.contentArea .headerPart .venueText {
   font-size: 19px;
   margin-top: 5px;
   margin-bottom: 0px;
@@ -157,30 +207,30 @@ body {
   font-weight: bold;
 }
 
-.contentArea header .venueText .minorSpan {
+.contentArea .headerPart .venueText .minorSpan {
   font-size: 16px;
   font-weight: normal;
 }
 
-.contentArea header .venueText .locationLink {
+.contentArea .headerPart .venueText .locationLink {
   font-size: 14px;
   font-weight: normal;
   color: black;
 }
 
-.contentArea header .miscInfo {
+.contentArea .miscInfo {
   margin: 5px 0;
   font-size: 13px;
   color: gray;
 }
 
-.contentArea header .ticketInfo {
+.contentArea .headerPart .ticketInfo {
   margin: 6px 0;
   font-size: 15px;
   color: #34834d;
 }
 
-.contentArea header .fundingInfo {
+.contentArea .headerPart .fundingInfo {
   font-size: 15px;
   padding: 9px 0 5px 0;
   line-height: 120%;
@@ -189,7 +239,7 @@ body {
   display: table-cell;
   vertical-align: middle;
   border: 1px blue solid;
-  border: 0;
+  border: none;
 }
 
 .page .pageFooter {
@@ -263,17 +313,70 @@ body {
 	color: black; 
 }
 
+section {
+  border: 1px maroon dashed;
+  border: none;
+}
+
+section h1 {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  font-style: italic;
+	color: #28733b;
+}
+
+.contentArea article, .contentArea .eventProgram {
+  max-width:720px;
+  font-size: 15px;
+  line-height: 130%;
+  color: #b15d10; 
+/*  border: 1px red solid; */
+/*  border: none; */
+}
+
+.headerPart p, article p {
+  font-size: 15px;
+  line-height: 120%;
+  font-weight: normal;
+  color: #333333;
+}
+
+/*
+.contentArea section p {
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 120%;
+	color: #333333;  
+}
+
+.contentArea section p:first-of-type {
+  margin-top: 0;
+}
+
+.contentArea section p .leaded {
+  line-height: 130%;
+}
+*/
+
+.bodyText, .bodyTextLeaded, .bodyTextLeadedOnBlack {
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 130%;
+	color: #333333;
+}
+
+.bodyText {
+  line-height: 120%;  
+}
+
 .filmDescriptionCell { 
   margin: 23px 0;
 /*  max-width: 720px; */
   border: 1px maroon solid;
-  border: 0;
+  border: none;
 }
-
-.eventProgram, .contentArea .pageContent {
-  width:739px;
-}
-
 /* The rules beginning ".screeningProgram > .filmDescriptionCell" mimic :first-of-typpe.
    To understand this in relation to :firstof-type & nth-of-type(1), 
    see http://stackoverflow.com/questions/2717480/css-selector-for-first-element-with-class 
@@ -281,10 +384,10 @@ body {
 .screeningProgram > .filmDescriptionCell {
   margin-top: 12px;
   border: 1px solid green;
-  border: 0;
+  border: none;
 }
 
-.screeningProgram > .filmDescriptionCell ~ .filmDescriptionCell {
+.screeningProgram > .filmDescriptionCell ~ .filmDescriptionCell { /* TODO: Is this use of ~ correct? 3/8/15 */
   border: none;
 }
 
@@ -310,18 +413,15 @@ body {
 }
 
 .filmDescriptionCell .textPart {
-/*
-  font-size: 13px;
-	line-height: 17px;
-*/
   text-align: left; 
   vertical-align: top;
   float: left;
   margin: 0 19px 0 10px;
-  max-width: 450px;
+  max-width: 430px;      /* --- */
   border: 1px red solid;
-  border: 0;
+  border: none;
 }
+
 
 /* COLORS added in 2015 */
 .copyrightColor { color: #5e6a18; }
@@ -333,12 +433,12 @@ body {
   font-size: 16px;
   font-weight: bold;
 	line-height: 22px;
-	padding-left: 31px;
+/*  margin-left: 31px; */
 	border-bottom: 1px #5e6a18 solid;
   color: #3a5d61;
 }
 
-.eventIndexText {
+.eventIndexText, .showIndexText {
   font-size: 13.75px; /* 14 */
 	line-height: 17.5px; /* 17 */
   font-weight: normal;
@@ -347,59 +447,83 @@ body {
   color: black;
 }
 
+.centered, .centerColumn {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.centeredText {
+  text-align: center;
+}
+
+.leftJustifiedText {
+  text-align: left;
+}
+
+.justifiedText {
+  text-align: justify;
+}
+
 /* Lines below from sanssouci.css */
 
-    a:link, a:visited { color : #006956; text-decoration: none; }
-    a:hover { color : #990000; text-decoration: underline; }
-    /* a:active { background : black; } */
-    
+    a:link, a:visited { color: #006956; text-decoration: none; }
+    a:hover { color: #990000; text-decoration: underline; }
+    /* a:active { background: black; } */
+
+    .page a:link, .page a:visited { color: #006956; text-decoration: underline; }
+/*
+    .contentArea a:link, .contentArea a:visited,
+    .page header a:link, .page header a:visited,
+    .page article a:link, .page .article a:visited,
+    .eventProgram a:link, .eventProgram a:visited  { color: #006956; text-decoration: underline; }
+*/  
     a.acceptEntryOperator:link, a.acceptEntryOperator:visited { color: #EEEECC; text-decoration: none; }
     a.acceptEntryOperator:hover { color: #00FF00; text-decoration: none; }
-    /* a.acceptEntryOperator:active { background : black; } */
+    /* a.acceptEntryOperator:active { background: black; } */
     
     a.rejectEntryOperator:link, a.rejectEntryOperator:visited { color: #EEEECC; text-decoration: none; }
     a.rejectEntryOperator:hover { color: #FF0000; text-decoration: none; }
-    /* a.rejectEntryOperator:active { background : black; } */
+    /* a.rejectEntryOperator:active { background: black; } */
     
     a.clearEntryStatusOperator:link, a.clearEntryStatusOperator:visited { color: #EEEECC; text-decoration: none; }
     a.clearEntryStatusOperator:hover { color: #FFA500; text-decoration: none; }
-    /* a.clearEntryStatusOperator:active { background : black; } */
+    /* a.clearEntryStatusOperator:active { background: black; } */
     
     a.badVimeoVideoURL:link, a.badVimeoVideoURL:visited { color: #DF7416; text-decoration: underline; }
     a.badVimeoVideoURL:hover { color: #FFA500; text-decoration: none; }
-    /* a.clearEntryStatusOperator:active { background : black; } */
+    /* a.clearEntryStatusOperator:active { background: black; } */
 
 /* END lines from sanssouciBlackBackground.css */
 
 
 /* Lines below from sanssouciBlackBackground.css */
 
-    .before2015 a:link { color : #CCBD99; text-decoration: underline; }
-    .before2015 a:visited { color : #CCBD99; text-decoration: underline; }
-    .before2015 a:hover { color : #990000; text-decoration: none; }  
+    .before2015 a:link { color: #CCBD99; text-decoration: underline; }
+    .before2015 a:visited { color: #CCBD99; text-decoration: underline; }
+    .before2015 a:hover { color: #990000; text-decoration: none; }  
 
 /*
-    .narBarMainSection a:link, .narBarArchiveSection a:link { color : #5e6a18; text-decoration: none; }        /* was .navbar prior to 11/5/14
-    .narBarMainSection a:visited, .narBarArchiveSection a:visited { color : #5e6a18; text-decoration: none; }  /* was .navbar prior to 11/5/14
-    .narBarMainSection a:hover, .narBarArchiveSection a:hover { color : #990000; text-decoration: underline; } /* was .navbar prior to 11/5/14
+    .narBarMainSection a:link, .narBarArchiveSection a:link { color: #5e6a18; text-decoration: none; }        /* was .navbar prior to 11/5/14
+    .narBarMainSection a:visited, .narBarArchiveSection a:visited { color: #5e6a18; text-decoration: none; }  /* was .navbar prior to 11/5/14
+    .narBarMainSection a:hover, .narBarArchiveSection a:hover { color: #990000; text-decoration: underline; } /* was .navbar prior to 11/5/14
 
-    .navbarTight a:link { color : #CCBD99; text-decoration: none; }
-    .navbarTight a:visited { color : #CCBD99; text-decoration: none; }
-    .navbarTight a:hover { color : #990000; text-decoration: underline; }
+    .navbarTight a:link { color: #CCBD99; text-decoration: none; }
+    .navbarTight a:visited { color: #CCBD99; text-decoration: none; }
+    .navbarTight a:hover { color: #990000; text-decoration: underline; }
 */    
-    .hideLinkUnderline a:link { color : #CCBD99; text-decoration: none; }
-    .hideLinkUnderline a:visited { color : #CCBD99; text-decoration: none; }
-    .hideLinkUnderline a:hover { color : #990000; text-decoration: underline; }
+    .hideLinkUnderline a:link { color: #CCBD99; text-decoration: none; }
+    .hideLinkUnderline a:visited { color: #CCBD99; text-decoration: none; }
+    .hideLinkUnderline a:hover { color: #990000; text-decoration: underline; }
 
 /* End lines from sanssouciBlackBackground.css */
 
 /* Lines below are from inline ProgramPageParts */
 
-    a.special:link { color : #FFFF99; text-decoration: none; }
-    a.special:visited { color : #FFFF99; text-decoration: none; }
-    a.special:hover { color : #990000; text-decoration: underline; }
+    a.special:link { color: #FFFF99; text-decoration: none; }
+    a.special:visited { color: #FFFF99; text-decoration: none; }
+    a.special:hover { color: #990000; text-decoration: underline; }
 
-    .differentProgramsText { font-size:15px;margin:12px 0 -8px 0;line-height:120%;color:#E49548;font-weight:normal; } /* TODO: Is this used anywhere? */
+/*    .differentProgramsText { font-size:15px;margin:12px 0 -8px 0;line-height:120%;color:#E49548;font-weight:normal; }  TODO: Is this used anywhere? */
 
 /* End lines from inline ProgramPageParts */
 
@@ -421,11 +545,6 @@ body {
 .darkRejectedDisplayColor { color: #CE181F; }
 .liveDisplayText, .noMediaDisplayColor { color: #B22222; /* firebrick */ }
 .offWhite { color: #FFFFCC; /* firebrick */ } 
-
-.yearsAtVenue {
-  font-weight: bold;
-  color: #c45f05;
-}
 
 .floatleft, .floatLeft { float: left; }
 .floatright, .floatRight { float: right; }
@@ -567,20 +686,12 @@ ul {
   /* padding-left: -1.5em; */
 }
 
-.homeHeading1 {
-  font-size: 24px;
-  font-weight: bold;
-  font-style:italic;
-  text-align:center;
-	color: #E49548; /* #FFFF99; */
-  margin: 40px 0 2px 0;
-}
-
-.smallBodyText {
+  .smallBodyText {
   font-size: 12px;
   font-weight: normal;
 }
 	
+/*
 .smallBodyTextOnBlack {
   font-size: 12px;
   line-height: 15px;
@@ -594,6 +705,7 @@ ul {
   line-height: 18px;
 	color: #CCCCCC;
 }
+*/
 
 .smallBodyTextLeaded {
   font-size: 12px;
@@ -624,12 +736,14 @@ ul {
   line-height: 125%;
 }
 
+/*
 .bodyTextWithEmphasisOnBlack {
   font-size: 16px;
   font-weight: bold;
   line-height: 125%;
 	color: #CCCCCC;
 }
+*/
 
 .pdfEntryFormSpecial {
   font-size: 18px;
@@ -671,10 +785,10 @@ ul {
   font-size: 15px;
   font-weight: normal;
 }
-
+/*
 .bodyText {
-  font-size: 13.75px; /* 14 */
-	line-height: 17.5px; /* 17 */
+  font-size: 13.75px; 
+	line-height: 17.5px; 
   font-weight: normal;
 }
 
@@ -682,9 +796,9 @@ ul {
   font-size: 14px;
 	line-height: 17px;
   font-weight: normal;
-  color: #F9F9CC; /* EEEECC */
+  color: #F9F9CC; 
 }
-
+*/
 .curationTitle {
   font-size: 18px;
 	line-height: 20px;
@@ -912,11 +1026,12 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
   color: #FFFFCC;
 }
 
-.sectionTitle, .linkListTitle {
+.sectionTitle, .linkListTitle { /* linkListTitle is in use 3/7/15 */
   font-size: 18px;
   font-weight: normal;
   font-style: italic;
   color: #FFFF99; /* #FCFC7E; FFFF58, 00C640; #00A651; #00A739; #04A44B; #009933; */
+  color: black;
 	line-height: 20px;
 	padding-top: 14px;
 	padding-left: 20px;
@@ -936,14 +1051,15 @@ h3 {
 	margin-left: 20px;
 }
 
-.sectionText, .linkListText {
+.sectionText, .linkListText { /* linkListText is in use 3/7/15 */
   font-size: 14px;
   font-weight: normal;
 	padding: 8px 20px 8px 40px;
   color: #FFFFCC;
+  color: black;
 }
 
-p {
+~ article p { /* TODO: Is this use of ~ correct? 3/8/15 */
   font-size: 14px;
   font-weight: normal;
   margin: 10px 20px 0px 40px;
@@ -1008,19 +1124,6 @@ p:first-of-type { margin-top:4px; }
 .bodyTextOriginal {
   font-size: 13px;
   font-weight: normal;
-}
-
-.bodyTextLeaded {
-  font-size: 13px;
-  font-weight: normal;
-  line-height: 18px;
-}
-
-.bodyTextLeadedOnBlack {
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 18px;
-	color: #FFFFCC;
 }
 
 .callForEntriesText {
@@ -1143,7 +1246,7 @@ div.programPageTitleText {
 }
 
 .horizontalSeparator1 {
-  border: 0;
+  border: none;
   color: #FFFF58;
   background-color: #FFFF58;
   height: 1px;
@@ -1152,7 +1255,7 @@ div.programPageTitleText {
 }
 
 .horizontalSeparator2 {
-  border: 0;
+  border: none;
   color: #CCBD99;
   background-color: #CCBD99;
   height: 1px;
@@ -1163,7 +1266,7 @@ div.programPageTitleText {
 }
 
 .horizontalSeparatorFull {
-  border: 0;
+  border: none;
   color: #FFFFCC;
   background-color: #FFFF66;
   height: 1px;

@@ -11,7 +11,10 @@
   
     private static $contentTitleText = '';
     public static function setContentTitleText($text) { self::$contentTitleText = $text; }
-    
+
+    protected static $thisIsAProgramPage = false;    
+//    public static function thisIsAProgramPage($soItIs) { self::$thisIsAProgramPage = $soItIs; }
+
     private static $cssInlineStyleDefinitions = null;
     public static function addCssInlineStyleDefinition($text) { self::$cssInlineStyleDefinitions[] = $text; }
 
@@ -38,6 +41,16 @@
       // Presumably this means that the page contents will not be cached as long as $doCache = false.
       self::$manifestString = ($doCache) ? ' manifest="' . self::$hostName . 'bin/data/sanssouci.appcache"' : '';
     }
+    
+    public static function beginPage() {
+      echo SSFWebPageParts::getHtmlLine();
+      echo SSFWebPageParts::getHeader();
+      echo SSFWebPageParts::beginPageBody();
+    }
+
+    public static function endPage() {
+      echo SSFWebPageParts::endPageBody();
+    }
 
     public static function getHtmlLine() { return '<html lang="en"' . self::manifestString() . '>' . PHP_EOL; }
 
@@ -47,12 +60,10 @@
       $pageHeader .= self::getHeaderContent();
       if (!is_null(self::$cssInlineStyleDefinitions) && (count(self::$cssInlineStyleDefinitions) !== 0)) {
         $pageHeader .= '    <style type="text/css">' . PHP_EOL;
-        $pageHeader .= '      <!--' . PHP_EOL;
         $pageHeader .= '      /* CSS inline style definitions added by prior calls to SSFWebPageParts::addCssInlineStyleDefinition(). */' . PHP_EOL;
          foreach (self::$cssInlineStyleDefinitions as $style) {
           $pageHeader .= '      ' . $style . PHP_EOL;
         }
-        $pageHeader .= '      -->' . PHP_EOL;
         $pageHeader .= '    </style>' . PHP_EOL;
       }
       $pageHeader .= self::getCSSMediaQueries();
@@ -76,13 +87,10 @@
       $headContent .= '    <meta name="viewport" content="width=device-width">' . PHP_EOL; // alternately, content='width=device-width, initial-scale=1.0'
       $headContent .= '    <link rel="stylesheet" href="sanssouci.css" type="text/css">' . PHP_EOL;
       $headContent .= '    <style type="text/css">' . PHP_EOL;
-      $headContent .= '      <!--' . PHP_EOL;
-      $headContent .= '      /* CSS inline style definitions hard-coded into SSFWebPageParts::htmlHeadContent(). */' . PHP_EOL;
-      $headContent .= '      .differentProgramsText { font-size:15px;margin:12px 0 -8px 0;line-height:120%;color:#E49548;font-weight:normal; } ' . PHP_EOL;
+      $headContent .= '      /* CSS inline style definitions hard-coded into SSFWebPageParts::htmlHeadContent() for items based on variables. */' . PHP_EOL;
 //      $headContent .= '      a.special:link { color : #FFFF99; text-decoration: none; } ' . PHP_EOL;
 //      $headContent .= '      a.special:visited { color : #FFFF99; text-decoration: none; }  /* was #9900CC */ ' . PHP_EOL;
 //      $headContent .= '      a.special:hover { color : #990000; text-decoration: underline; } ' . PHP_EOL;
-      $headContent .= '      -->' . PHP_EOL;
       $headContent .= '    </style>' . PHP_EOL;
       $headContent .= '    <script src="bin/scripts/ssfDisplay.js" type="text/javascript"></script>' . PHP_EOL;
       $headContent .= "    <link rel=icon href=favicon.png sizes='16x16' type='image/png'>" . PHP_EOL;
@@ -138,8 +146,9 @@
     public static function beginContentHeader() {
       $indent = '    ';
       $contentHeader = '';
+      $headerStyle = (self::$thisIsAProgramPage) ? ' style="margin-left:31px;"' : '';
       $contentHeader .= $indent . '<!-- BEGIN beginContentHeader() -->' . PHP_EOL;
-      $contentHeader .= $indent . '      <header>' . PHP_EOL;
+      $contentHeader .= $indent . '      <div class="headerPart"' . $headerStyle . '><header>' . PHP_EOL;
       if (self::$contentTitleText !== '') $contentHeader .= $indent . '        <div class="title">' . self::$contentTitleText . '</div>' . PHP_EOL;
       $contentHeader .= '<!-- END beginContentHeader() -->' . PHP_EOL;
       return $contentHeader;
@@ -149,7 +158,7 @@
       $indent = '    ';
       $contentHeader = '';
       $contentHeader .= $indent . '<!-- BEGIN endContentHeader() -->' . PHP_EOL;
-      $contentHeader .= $indent . '      </header>' . PHP_EOL;
+      $contentHeader .= $indent . '      </header></div>' . PHP_EOL;
       $contentHeader .= $indent . '<!-- END endContentHeader() -->' . PHP_EOL;
       return $contentHeader;
     }

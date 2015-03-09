@@ -22,6 +22,104 @@
 
 ?>
 
+<!-- 2014 -->
+<!-- Boulder, 2014 -->
+                      <tr>
+                        <td align="center" valign="middle" class="programInfoText" style="padding-top:0px;">
+                          <div class="hideLinkUnderline">
+                            <div class="homeHeading1" style="margin-top:44px;margin-bottom:6px;">Recent Programs</div>
+                            <!-- event list Recent Programs  -->
+
+                          <!-- 2014 Festivities Section -->
+                          <div style="margin-top:22px;text-align:center;">
+                                                    
+                            <!-- 2014 Festivities Headline -->
+<!--                            <div class="homeHeading1" style="margin:0;font-size:18;">Coming soon</div> -->
+                            <div class="homeHeading1" style="margin-top:7px;font-size:20px;line-height:normal;">11th Annual Festivities</div>
+                            <div class="homeHeading1" style="margin-top:3px;font-size:18px;line-height:normal;">September &amp; October, 2014</div>                            
+                            <div class="homeHeading1" style="margin-top:4px;font-size:16px;line-height:normal;">Boulder, Colorado, USA</div>
+<!--                      	    <div style="font-size:18px;margin-top:4px;margin-bottom:4px;color:#CCC;font-weight:bold;">
+                      	      <span class="bodyTextOnBlack" style="font-size:15px;font-weight:normal;line-height:19px;">Five unique programs at three venues:<br><a href="#atlas">CU Atlas Black Box</a>,  <a href="#boe">The Boe</a>, <a href="#bpl">Canyon Theater</a></span>
+                      	   </div> -->
+                      	    <div class="bodyTextOnBlack" style="font-size:15px;margin:4px 0;line-height:19px;">Five unique programs at three venues:<br><a href="#atlas">CU Atlas Black Box</a>,  <a href="#boe">The Boe</a>, <a href="#bpl">Canyon Theater</a>
+                      	   </div>
+                            <div class="bodyTextLeadedOnBlack" style="margin:0px 0;">
+                              <a href="./programPages/programAtlas2014.php"><img src="images/Stills2014/SSF2014PostcardFront403x312.jpg" alt="Click here to view program." title="Click here to view program." width="403" height="312" border="0" style="margin:8px 0 0 -2px;border:solid #000 1px;"></a>
+                            </div>
+                            <div class="bodyTextLeadedOnBlack" style="margin:3px 0;">
+                              <div class="bodyTextLeadedOnBlack" style="font-size:14px;margin:6px 0 0 0;padding:0;line-height:130%;"><span style="font-size:13px;color:#CCC;">postcard with a frame from</span><br>&quot;<a href="./programPages/programBoe2014.php#work_14-076">The Bridge</a>&quot; (2010), Caren McCaleb &amp; Ana Baer
+                            </div>
+                              <div class="bodyTextLeadedOnBlack" style="font-size:13px;margin:2px 0;padding:0;color:#CCC;">Download the postcard PDF: 
+                                <a href="./PDF/Postcards/SSF2014PostcardFront.pdf">front</a>, <a href="./PDF/Postcards/SSF2014PostcardBack.pdf">back</a>
+                              </div>
+
+                    		    <!-- Poster download -->
+                            <div class="bodyTextLeadedOnBlack" style="font-size:13px;margin:8px 0 0 0;padding:0;"><a href="./PDF/Posters/SSF2014AtlasPromoPoster.pdf">Download the 11x17" Promo Poster PDF</a></div>
+                            <div class="bodyTextLeadedOnBlack" style="font-size:13px;margin:0;padding:0;"><a href="./PDF/PressReleases/SansSouciPressRelease_2014.pdf">Download the Press Release PDF</a></div>
+
+
+
+                            <!-- Atlas -->
+                            <div class="atVenue" id="atlas">
+                              <div class="homeHeading1" style="margin:0;font-weight:bold;font-size:15px;">Friday &amp; Saturday, September 5 &amp; 6
+                              </div>
+                        	    <div style="font-size:15px;margin-top:2px;margin-bottom:0px;font-weight:normal;"><a href="http://atlas.colorado.edu/wordpress/?page_id=102">Atlas Building</a>,
+                        	      <span class="programInfoTextSmall">University of Colorado at Boulder</span>
+                        	    </div>
+                        	    <div style="font-size:15px;margin-top:2px;margin-bottom:0px;color:#FFFF99;font-weight:normal;">Different <a href="./programPages/programAtlas2014.php">programs</a> each evening
+                        	    </div>
+                              <div class="bodyTextLeadedOnBlack" style="margin-top:2px;">View the Program <a href=". /programPages/programAtlas2014.php">online</a>
+                               or in <a href="./PDF/ProgramSpreads/SSF2014ProgramSpreadsAtlas.pdf">print</a> format (PDF)
+                            </div>
+
+                            <!-- Boe -->
+                            <div class="atVenue" id="boe">
+                              <div class="homeHeading1" style="margin:0;font-weight:bold;font-size:15px;">Sundays, September 21 &amp; October 19</div>
+                              <div style="font-size:15px;margin-top:2px;margin-bottom:0px;font-weight:normal;">Different <a href="./programPages/programBoe2014.php">programs</a> on each date</div>
+                        	    <div style="font-size:15px;margin-top:2px;margin-bottom:0px;font-weight:normal;">Boedecker Theater, Dairy Center for the Arts</div>
+                            </div>
+
+                            <!-- BPL / Canyon Theater -->
+                            <div class="atVenue" id="bpl">
+                              <div class="homeHeading1" style="margin:0;font-weight:bold;font-size:15px;">Monday, October 6</div>
+                              <div style="font-size:15px;margin-top:2px;margin-bottom:0px;font-weight:normal;">Canyon Theater, <a href="http://boulderlibrary.org/">Boulder Public Library</a></div>
+                            </div>
+
+                            </div>
+                          
+                            <!-- Funded by -->
+                      		  <div class="atVenue" style="width:90%;font-size:14px;margin:20px auto 2px auto;line-height:120%;color:#E49548;font-weight:normal;text-align:center;">
+                      		    <div style="margin:0 auto 8px auto;text-align:center;border:0px red solid;">All above partially funded by</div>
+                      		    <div style="margin:0 auto 0 auto;text-align:center;border:0px yellow solid;">
+                        		    <div style="margin:0 auto 0 auto;text-align:center;width:345px;border:0px green dashed;">
+                          		    <div style="float:left;font-size:13px;border:0px pink dashed;"><a href="http://www.artsresource.org/bac/"><img src="../images/logos/BAC_High_Horizontal1_logo_156x35.jpg" alt="Boulder Arts Commission" style="width:156px;height:35px;margin:5px 0 5px 0;"></a>
+                          		    </div>
+                          		    <div style="float:left;padding-top:15px;border:0px pink dashed;">&nbsp;&nbsp;and&nbsp;&nbsp;</div>
+                          		    <div style="float:left;font-size:13px;border:0px pink dashed;"><a href="http://bouldercountyarts.org"><img src="../images/logos/BCAA-color-logo-6_11.jpg" style="width:145px;height:45px;margin-top:0px;" alt="Boulder County Arts Alliance"></a>
+                          		    </div>
+                          		    <div style="clear:both;"></div>
+                        		    </div>
+                      		    </div>
+                      		  </div>
+                      		                        		    
+                          </div> <!-- END 2014 Festivities Section -->
+                    		
+                    		</div> <!-- END div class hideLinkUnderline -->
+                    		
+                    		                            <div class="homeHeading1" style="margin-top:26px;font-size:18px;line-height:normal;">Other Recent Programs</div>                            
+
+                            <!-- Roxy 2014-12 -->
+                            <div class="homeHeading1" style="margin-top:8px;font-weight:bold;font-size:14px;">
+                              Friday &amp; Saturday, December 5 &amp; 6, 2014
+                            </div>
+                            <div style="font-size:16px;margin-top:2px;margin-bottom:0px;color:#FFFF99;font-weight:normal;"><a href="/programPages/programRoxy2014-12.php">Kinetoscope at the Roxy, Dec., 2014</a><br><span style="font-size:14px;">Co-sponsored by <a href=" http://barebaitdance.org/">Bare Bait Dance</a> in Missoula, MT, USA</span>
+                            </div>
+
+                          </div>
+                        </td>
+                      </tr>
+
+
 <!-- Upcoming Programs -->
 <div class='before2015'>
                     <table>

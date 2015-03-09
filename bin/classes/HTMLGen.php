@@ -1718,6 +1718,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
   // These filenames are to be used for videos, e.g., 10-22-BinaryForm-ChirstinnWhyte.vob or 10-22-BinaryForm-ChirstinnWhyte.mov,
   // image files, e.g., 10-22-BinaryForm-ChirstinnWhyte.jpg, and folder names.
   public static function computedFileNameForWork($designatedId, $titleForSort, $submitterName) {
+    // TODO: See https://support.apple.com/en-us/HT202808
     $remove = array(' ', '-');
     $idPart = (isset($designatedId) && $designatedId != '') ? $designatedId : 'YY-XXX';
     $titlePart = str_replace($remove, '', $titleForSort);
@@ -2593,6 +2594,16 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     if (sizeOf($showArray) > 0) echo '&nbsp;&nbsp;'; 
     else echo '<div class="programHighlightColor" style="font-size:20px;margin:140px 0 230px 0;text-align:center;">' . $comingSoonText . '</div>';
    echo '          </div>' . PHP_EOL; // end div eventIndexText
+  }
+
+  public static function getProgPageShowIndex($showArray, $multiLine=false) {
+    $showIndexText = '';
+    if ((sizeOf($showArray) > 0) && !$multiLine) { $showIndexText .= '|'; }
+    foreach ($showArray as $show) {
+      $showIndexText .= '&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '#' . self::genShowIdTag($show['showId']) . '">' . $show['shortDescription'] . '</a>'; // changed 3/4/15
+      $showIndexText .= ($multiLine) ? '<br>' : '&nbsp;|';
+    }
+   return $showIndexText;
   }
 
   // Insert the name anchor for the show for on-page navigation from the index of shows. REWRITTEN 3/1/15
