@@ -1,110 +1,49 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><!-- InstanceBegin template="/Templates/program.dwt" codeOutsideHTMLIsLocked="false" -->
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="-1">
-  <meta name="description" content="A niche film festival specializing in dance cinema, incorporating live performance, and including museum installations.">
-  <meta name="keywords" content="dance film festival, dance video festival, video dance festival, dance cinema festival, live performance, dance performance, live dance performance, dance festival, video dance, dance video, dance film, dance cinema, dance, film, video, cinema, festival, art, arts, artists, projection, projected, tour, touring"><!-- InstanceBeginEditable name="doctitle" -->
-<title>Sans Souci Festival of Dance Cinema - Demo Reel</title>
-<!--<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">-->
-<script language="JavaScript" type="text/JavaScript" src="../scripts/plugins.js"></script>
-<!-- InstanceEndEditable --><!-- <base href="http://www.sansoucifest.org/"> -->
-  <link rel="stylesheet" href="../sanssouci.css" type="text/css">
-  <link rel="stylesheet" href="../sanssouciBlackBackground.css" type="text/css">
-</head>
-<body bgcolor="#FFFFFF" text="#000000" link="#0033FF" vlink="#0033FF" alink="#990000">
-  <!-- Set bgcolor="#FFFFFF" in the following 100% table to make the edges appear white. -->
-  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000">
-    <tr>
-      <td align="left" valign="top">
-        <table width="745" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000">
-          <tr>
-            <td colspan="3" align="left" valign="top"><a href="../index.php"><img src="../images/titleBarGrayLight.gif" alt="SansSouciFest.org" width="600" height="63" hspace="0" vspace="8" border="0" align="top"></a></td>
-            <td width="10" align="center" valign="top">&nbsp;</td>
-          </tr>
-          <tr>
-            <td width="10" align="center" valign="top">&nbsp;</td>
-            <td width="125" align="center" valign="top">
-            <?php
-              $filePathArray = explode('/', __FILE__);
-              $loopIndex = 0;
-              foreach ($filePathArray as $element) { 
-                $loopIndex++;
-                if ($element == 'sanssoucifest.org') { break; } 
-              }
-              $codeBase = "";
-              for ($i = ($loopIndex+1); $i <= (sizeof($filePathArray)-1); $i++) { $codeBase .= '../'; }
-              include_once $codeBase . "bin/utilities/autoloadClasses.php";
-              SSFWebPageAssets::displayNavBar();
-            ?></td>
-            <td width="600" align="center" valign="top">
-              <table width="100%" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000">
-                <tr>
-                  
-	  <td width="25" align="left" valign="top" class="sprocketHoles">&nbsp;</td>
-    <td width="10" align="left" valign="top" class="programTablePageBackground">&nbsp;</td>
-	  	<td width="530" align="center" valign="top" class="bodyTextGrayLight"><!-- InstanceBeginEditable name="ProgramRegion" -->
-      
-   <table width="100%"  border="0" cellpadding="0" cellspacing="0" bgcolor="#333333">
-      <tr>
-<!--        <td align="left" valign="top" class="programPageTitleText" style="padding-top:12px;color:#999999">Sample Reel <span style="font-size:15px;">(2014)</span></td> -->
-        <td align="left" valign="top" class="programPageTitleText" style="padding-top:12px;color:#999999">Sample Reel</td>
-      </tr>
-      <tr>
-        <td align="center" valign="top">
+<!DOCTYPE html>
+<?php 
+  include_once $_SERVER['DOCUMENT_ROOT'] . '/bin/classes/SSFWebPageParts.php'; 
 
+  /* UPDATE THESE ITEMS */
+  SSFWebPageParts::allowRobotIndexing();   // so google et al can find the page
+  SSFWebPageParts::setHeaderTitleText('Sample Reel');  // This is the official HTML head title. It appears in the tab.
 
+	/* These are the inline style definitions that override all other CCS for this page except for the built-in media queries. */
+	SSFWebPageParts::addCssInlineStyleDefinition('.pageArea .contentArea { background-color:#000000; margin-left:10px; padding-left:80px;padding-right:80px;}');
+	 
+  // Produce Top-of-Page boiler plate.
+  SSFWebPageParts::beginPage();
+?>
+          <article id="sampleReel" style="width:100%;">
+            
+            <style type="text/css" scoped>
+            </style>
 
-          <div style="width:480px;background-color:#000000;margin:45px auto 70px auto;padding-right:10px;border:solid #333333 1px;">
-            <div style="margin:30px auto 30px auto;padding:0 0 0 0;">
-<!--              <iframe src="//player.vimeo.com/video/89757884" width="420" height="236" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> - original embed size: 500x281  -->
-              <iframe src="//player.vimeo.com/video/115611799" width="420" height="236" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-<!--              <p class="bodyTextOnBlack" style="margin-top:20px;"><a href="http://vimeo.com/115611799" style="color:#5e6a18;text-decoration:none;font-size:15px;font-weight:normal;line-height:19px;">2014 Sample Reel</a></p> -->
-             </div>
-          </div>
+            <h1 style="color:#999999;margin-top:18px;margin-left:-10px;">Sample Reel</h1>
+
+            <div style="width:500px;background-color:#000000;margin:70px auto 420px auto;padding-left:40px;padding-right:40px;">
+              <div style="margin:30px auto 80px auto;padding:0 0 0 0px;">
+                <iframe src="https://player.vimeo.com/video/115611799?title=1&amp;byline=0&amp;portrait=0" style="width:500px;height:281px;border:none;margin:0 auto;" allowfullscreen></iframe>
+                <p class="centeredText" style="color:#666666;">2014</p>
 <!--
-          <div style="width:480px;background-color:#000000;margin:45px auto 70px auto;padding-right:10px;border:solid #333333 1px;">
-            <div style="margin:30px auto 30px auto;padding:0 0 0 0;">
-              <iframe width="420" height="284" src="http://www.youtube.com/embed/RNh8YZpQDI0?hl=en&fs=1&autohide=1" frameborder="0" allowfullscreen></iframe>
-             </div>
-          </div>
-          <div style="width:480px;background-color:#000000;margin:45px auto 70px auto;padding-right:10px;border:solid #333333 1px;">
-            <div style="margin:30px auto 30px auto;padding:0 0 0 0;">
-              <iframe src="//player.vimeo.com/video/39229862" width="420" height="310" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> < original embed size: 500x369  >
-             </div>
-          </div>
-          <div style="width:480px;background-color:#000000;margin:45px auto 70px auto;padding-right:10px;border:solid #333333 1px;">
-            <div style="margin:30px auto 30px auto;padding:0 0 0 0;">
-              <iframe width="420" height="315" src="//www.youtube.com/embed/WWSliiylOss" frameborder="0" allowfullscreen></iframe>
-             </div>
-          </div>
+      Vimeo
+                <iframe src="https://player.vimeo.com/video/89757884?title=1&amp;byline=0&amp;portrait=0" style="width:500px;height:281px;border:none;margin:0 auto;" allowfullscreen></iframe>
+                <p class="centeredText" style="color:#666666;">2013</p>
+                <iframe src="https://player.vimeo.com/video/39229862?title=1&amp;byline=0&amp;portrait=0" style="width:500px;height:369px;border:none;margin:0 auto;" allowfullscreen></iframe>
+                <p class="centeredText" style="color:#666666;">2011</p>
+                <iframe src="https://player.vimeo.com/video/115833356?title=0&amp;byline=0&amp;portrait=0" style="width:500px;height:375px;border:none;margin:0 auto;" allowfullscreen></iframe>
+                <p class="centeredText" style="color:#666666;">2009</p>
+      YouTube
+                <iframe width="420" height="284" src="http://www.youtube.com/embed/RNh8YZpQDI0?hl=en&amp;fs=1&amp;autohide=1" frameborder="0" allowfullscreen></iframe>
+                <p class="centeredText" style="color:#666666;">2011</p>
+                <iframe width="420" height="315" src="http://www.youtube.com/embed/WWSliiylOss" frameborder="0" allowfullscreen></iframe>
+                <p class="centeredText" style="color:#666666;">2009</p>
 -->
-        </td>
-      </tr>
-    </table>      
-      
-<!-- InstanceEndEditable --></td>
-    <td width="10" align="left" valign="top" class="programTablePageBackground">&nbsp;</td>
-	  <td width="25" align="left" valign="top" class="sprocketHoles">&nbsp;</td>
-    
-                </tr>
-              </table>
-            </td>
-            <td width="10" align="center" valign="top">&nbsp;</td>
-          </tr>
-          <tr align="center" valign="top">
-            <td colspan="2">&nbsp;</td>
-            <td align="center" valign="bottom" class="smallBodyTextLeadedGrayLight"><br>
-            <?php SSFWebPageAssets::displayCopyrightLine();?></td>
-            <td width="10">&nbsp;</td>
-          </tr>
-          <tr align="center" valign="top">
-            <td colspan="4">&nbsp;</td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-</body>
-<!-- InstanceEnd --></html>
+               </div>
+            </div>
+
+          </article>
+                      
+<?php
+  // Produce Bottom-of-Page boiler plate.
+  SSFWebPageParts::endPage();
+?>
+

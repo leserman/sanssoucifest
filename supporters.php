@@ -3,15 +3,24 @@
   include_once $_SERVER['DOCUMENT_ROOT'] . '/bin/classes/SSFWebPageParts.php'; 
 
   SSFWebPageParts::allowRobotIndexing();   // so google et al can find the page
-  SSFWebPageParts::setHeaderTitleText('SSF :: Resources');  // This is the official HTML head title. It appears in the tab.
+  SSFWebPageParts::setHeaderTitleText('Supporters');  // This is the official HTML head title. It appears in the tab.
 	/* These are the inline style definitions that override all other CCS for this page except for the built-in media queries. */
+/*
 	SSFWebPageParts::addCssInlineStyleDefinition('.yearsAtVenue { font-weight: bold; color: #c45f05; }');
-  
+	SSFWebPageParts::addCssInlineStyleDefinition('.contentArea article section h2 { color:#9b480f; }');
+*/
+
   // Produce Top-of-Page boiler plate.
   SSFWebPageParts::beginPage();
 ?>
           <article id="suppporters">
-            <h1>Supporters, Partners, and Venues</h1>
+
+            <style type="text/css" scoped>
+              .yearsAtVenue { font-weight: bold; color: #c45f05; }
+              .contentArea article section h2 { color:#9b480f; }
+            </style>
+
+            <h1  style="color:#9b480f;">Supporters, Partners, and Venues</h1>
 
             <!-- Supporters -->
             <section>
