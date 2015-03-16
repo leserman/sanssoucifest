@@ -44,8 +44,10 @@ class SSFWebPageAssets {
     $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="./aboutUs.php">About Us</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="./memorabilia/">Memorabilia</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="./press/">Press Reports</a></div>' . PHP_EOL;
-    $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="./links.php">Links</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="./supporters.php">Supporters</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="./resources.php">Resources</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="./contactUs.php">Contact Us</a><br><a target="_top" href="./contactUs.php">Join Email List</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '  <div class="navBar"><a target="_top" href="./colophon.php">Colophon</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  <div class="navBar" style="margin:4px 6px 0 0;"><a target="_top" title="find us on Facebook" href="http://www.facebook.com/sanssoucifest/"><img alt="follow me on facebook" src="//login.create.net/images/icons/user/facebook_30x30.png" style="border:0;"></a></div>' . PHP_EOL;
 /*
     $navBarString .= self::$indent . '<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="88" data-layout="button" data-action="like" data-show-faces="false" data-share="false" data-colorscheme="light"></div>' . PHP_EOL;
@@ -64,7 +66,7 @@ class SSFWebPageAssets {
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programRoxy2014-12.php">The Roxy</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  </div>' . PHP_EOL;
 */
-/*
+
     $navBarString .= self::$indent . '  <div><div class="navBarTitle2" style="color:#e49548;">Recent Events</div> <!--  style="color:#FFACAC;" -->' . PHP_EOL;
 //    $navBarString .= self::$indent . '    <div class="bodyTextOnBlack navBarTight" style="font-size:13px;padding-bottom:1px;">Boulder 2014</a></div>' . PHP_EOL;
 //    $navBarString .= self::$indent . '    <div style="border-bottom:gray 1px solid;line-height:2px;width:75%;margin-bottom:4px;"></div>' . PHP_EOL;
@@ -76,7 +78,7 @@ class SSFWebPageAssets {
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programUrsinus2014.php">Ursinus College</a></div>' . PHP_EOL;
 //    $navBarString .= self::$indent . '    <div style="border-bottom:gray 1px solid;line-height:2px;width:75%;margin-bottom:4px;"></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  </div>' . PHP_EOL;
-*/
+
     $navBarString .= self::$indent . '  <div><div class="navBarTitle2" style="color:#e49548;">Festival Archive</div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programOverview2014.php">Boulder 2014</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programOverview2013.php">Boulder 2013</a></div>' . PHP_EOL;
@@ -100,7 +102,7 @@ class SSFWebPageAssets {
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./press/SanAntonio2012.php">San Antonio \'12</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programACC2011.php">Austin 2011</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programSanAntonio2011.php">San Antonio \'11</a></div>' . PHP_EOL;
-    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/barcelona2010.php">Barcelona 2010</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programBarcelona2010.php">Barcelona 2010</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programHighways2010.php">LA 2010</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programGiessen2009.php">Giessen 2009</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programTXState2008.php">TX State 2008</a></div>' . PHP_EOL;

@@ -24,26 +24,27 @@
 
   echo SSFProgramPageParts::beginContentHeader();
 ?>
-            <div>
+<!--            <div class="programPageTitleText" style="padding-left:0;padding-bottom:4px;color:#ebeb14;">Punt Multimedia, Barcelona, 2010</div><br> -->
+            <div class="programInfoTextSmall">in collaboration with <a href="http://www.ob-art.com/">ob-art video</a></div>            <div>
               <style type="text/css" scoped>
                 .contentArea .headerPart .title { color:<?php echo $primaryTextColor; ?>; } /* 3b2873 */
               </style>
-              <table>
-              	<tr>  <!-- Roxy 12/2014 -->
-              	  <td class="topLeft programInfoText">
-<!--
-                	    <div style="font-size:20px;margin-top:8px;margin-bottom:0px;line-height:18px;color:#E49548;"><a href="http://www.theroxytheater.org/">The Roxy</a>&nbsp;<span class="programInfoTextSmall" style="color:#E49548;">718 South Higgins Ave, Missoula MT 59801, USA</span></div>
--->
-              	    <div style="font-size:20px;margin-top:2px;margin-bottom:0px;line-height:18px;"><span class="programInfoText" style="color:<?php echo $secondaryTextColor; ?>;">718 South Higgins Ave, Missoula MT 59801, USA</span></div>
-              		  <div style="font-size:15px;margin-top:2px;margin-bottom:0px;line-height:120%;color:<?php echo $secondaryTextColor; ?>;font-weight:normal;">Co-sponsored by <a class="nodeco" href="http://www.barebaitdance.org">Bare Bait Dance</a>.</div>
-                  </td>
-                </tr>
-              </table>
+              <div class="programInfoText topLeft">Casa del Mig, Parc de L'Espanya Industrial<br>
+                <span class="programInfoTextSmall">calle Muntadas 5 - 08014 Barcelona<br></span>14 de julio, de 19h a 00h<br>
+              <!--
+                <span class="programInfoTextSmall">1/2 block N of Olympic &#8226; <a href="http://maps.google.com/maps?f=q&amp;hl=en&amp;geocode=&amp;q=Highways+Performance+Space;+1651+18th+Street;+Santa+Monica,+CA,+USA&amp;jsv=128e&amp;sll=34.02332,-118.477443&amp;sspn=0.060182,0.062485&amp;ie=UTF8&amp;ei=hmbRSKCPHJ3uiwPj5N3xAQ&amp;cd=1&amp;cid=34023320,-118477443,1374057131672289811&amp;li=lmd&amp;z=15&amp;t=m" target="highwaysMap">map</a></span> &#8226; Tickets: 310.415.1459</span><br>
+              -->
+                <img src="../images/barcelonaCartel.jpg" height="881" width="524" border="0" hspace="0" vspace="0" usemap="#offsiteLinks" alt="Ob-Art Poster" style="margin-bottom:20px;">
+                <map name="offsiteLinks">
+                  <area shape="rect" coords="60,24,500,100" href="http://www.ob-art.com/" alt="Ob-Art" title="Ob-Art">
+                  <area shape="rect" coords="120,782,500,830" href="http://www.ob-art.com/" alt="Ob-Art" title="Ob-Art">
+                </map>
+              </div>
             </div>
 <?php
   echo SSFProgramPageParts::endContentHeader();
   // Display the program index and listings
-  SSFProgramPageParts::showWorks();
+//  SSFProgramPageParts::showWorks(); NO WORKS HERE
   // Produce Bottom-of-Page boiler plate.
   SSFWebPageParts::endPage();
 ?>

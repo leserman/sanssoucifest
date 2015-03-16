@@ -47,6 +47,10 @@
     
 /* END Lines based on Eric Meyer HTML5 RESET */
 
+b, em { font-weight: bold; }
+i { font-style: italic; }
+.gray, .grey { color: #999999; }
+
 body { 
   color: black;
   background-color: #fffff0;
@@ -132,20 +136,21 @@ body {
   font-size: 24px;
 	line-height: 24px;
   font-weight: bold;
-  color: #28733b; /* #2b7a3f;  color: #FCFC7E; */
+/*  color: #28733b;  #2b7a3f;  color: #FCFC7E; */
   text-align: left;
 }
 
 .contentArea article {
 /*  margin-left: 31px; */
 /*  margin-right: 180px; */
+  width: 650px;
   border: 1px dashed maroon;
   border: none;
 }
 
 .contentArea article section, #homePage div {
   margin-left: 31px;
-  margin-right: 180px;
+  margin-right: 130px; /* Changed from 180px 3/11/15 */
   margin-top: 20px;
   border: 1px dashed orange;
   border: none;
@@ -160,16 +165,15 @@ body {
   font-size: 24px;
 	line-height: 24px;
   font-weight: bold;
-  color: #28733b; 
+/*  color: #28733b; 3/15/15 */
   text-align: left;  
 }
 
-.contentArea article section h2 {
+.contentArea article section h2, .contentArea #contactUs h2 {
   font-size: 18px;
   font-weight: normal;
   font-style: italic;
-  color: #FFFF99; 
-  color: black;
+ /* color: #FFFF99; 3/15/15 */
 	line-height: 20px;
 /*	padding-left: 20px; */
 }
@@ -179,69 +183,76 @@ body {
   line-height: 120%;
   font-weight: normal;
 	padding: 8px 30px 8px 30px; /* Should this be 30px or 0px 3/8/15 */
-  color: #FFFFCC;
-  color: black;
+/*  color: #FFFFCC;
+  color: black; 3/15/15 */
 }
 
 p .leaded {
   line-height: 150%;
 }
 
-.contentArea .headerPart .dateLine {
+.contentArea .dateLine {
   margin: 5px 0 3px 0;
-  color: black;
   font-weight: bold;
   font-size: 19px;
   text-align: left;
+/*  color: black; 3/15/15 */
 }
 
-.contentArea .headerPart .dateLine .timeText {
+.contentArea .dateLine .timeText {
   font-size: 14px;
   font-weight: normal;
 }
 
-.contentArea .headerPart .venueText {
+.contentArea .venueText {
   font-size: 19px;
-  margin-top: 5px;
-  margin-bottom: 0px;
-  color: purple;
+  line-height: 110%;
+/*  margin-top: 5px;
+  margin-bottom: 0px; 3/15/15 */
+/*  color: purple;  3/15/15 */
   font-weight: bold;
 }
 
-.contentArea .headerPart .venueText .minorSpan {
+.venueText { color: purple; }
+
+.contentArea .venueText .minorSpan {
   font-size: 16px;
   font-weight: normal;
 }
 
-.contentArea .headerPart .venueText .locationLink {
+.contentArea .venueText .locationLink {
   font-size: 14px;
   font-weight: normal;
-  color: black;
+/*  color: black; */
 }
 
 .contentArea .miscInfo {
-  margin: 5px 0;
+/*  margin: 5px 0; */
   font-size: 13px;
-  color: gray;
-}
-
-.contentArea .headerPart .ticketInfo {
-  margin: 6px 0;
-  font-size: 15px;
-  color: #34834d;
-}
-
-.contentArea .headerPart .fundingInfo {
-  font-size: 15px;
-  padding: 9px 0 5px 0;
   line-height: 120%;
-  color: #b15d10; /* #C26A18; */
-  text-align: center;
+/*  color: gray;  3/15/15 */
+}
+
+.ticketInfo {
+/*  margin: 3px 0; */
+  padding: 3px 0;
+  font-size: 15px;
+  line-height: 110%;
+  color: #666666; /* #34834d; 3/15/15 */
+}
+
+.contentArea .fundingInfo {
+  font-size: 15px;
+/*  padding: 9px 0 5px 0; 3/15/15 */
+  line-height: 110%;
+/*  text-align: center; 3/15/15 */
   display: table-cell;
   vertical-align: middle;
   border: 1px blue solid;
   border: none;
 }
+
+.fundingInfo { color: #b15d10; /* #C26A18; */ }
 
 .page .pageFooter {
   text-align:center;
@@ -445,6 +456,7 @@ section h1 {
   font-weight: normal;
   line-height: 130%;
   margin-left: 31px;
+  max-width: 600px;
   color: black;
 }
 
@@ -471,7 +483,13 @@ section h1 {
     a:hover { color: #990000; text-decoration: underline; }
     /* a:active { background: black; } */
 
-    .page a:link, .page a:visited { color: #006956; text-decoration: underline; }
+    .page a:link, .page a:visited,
+    .page .contentArea .dodeco a:link, .page .contentArea .dodeco a:visited { color: #006956; text-decoration: underline; }
+
+    .nodeco,
+    .contentArea .headerPart .title a:link, 
+    .contentArea .headerPart .title a:visited { color: #006956; text-decoration: none; }
+
 /*
     .contentArea a:link, .contentArea a:visited,
     .page header a:link, .page header a:visited,
@@ -552,6 +570,7 @@ section h1 {
 
 .topCenter { text-align: center; vertical-align: top; }
 .topLeft { text-align: left; vertical-align: top; }
+.topRight { text-align: right; vertical-align: top; }
 .middleCenter { text-align: center; vertical-align: middle; }
 
 .etchedIn {
@@ -1198,7 +1217,8 @@ div.programPageTitleText {
 .programInfoText, .programInfoTextSmall, .programInfoTextTiny {
   font-size: 16px;
   font-weight: bold;
-	line-height: 22px;
+/*	line-height: 22px; 3/15/15 */
+	line-height: 120%;
   vertical-align: top;
 /*  color: #FFFF99; */
   color: black;

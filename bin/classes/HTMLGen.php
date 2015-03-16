@@ -2598,6 +2598,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
 
   public static function getProgPageShowIndex($showArray, $multiLine=false) {
     $showIndexText = '';
+    self::debugger()->becho('progPageDisplayShowIndex() multiLine', ($multiLine) ? 'TRUE' : 'FALSE', -1);
     if ((sizeOf($showArray) > 0) && !$multiLine) { $showIndexText .= '|'; }
     foreach ($showArray as $show) {
       $showIndexText .= '&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '#' . self::genShowIdTag($show['showId']) . '">' . $show['shortDescription'] . '</a>'; // changed 3/4/15

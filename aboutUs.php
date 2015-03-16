@@ -3,9 +3,10 @@
   include_once $_SERVER['DOCUMENT_ROOT'] . '/bin/classes/SSFWebPageParts.php'; 
 
   /* UPDATE THESE ITEMS */
+/*
   SSFWebPageParts::allowRobotIndexing();   // so google et al can find the page
   SSFWebPageParts::setHeaderTitleText('About Us');  // This is the official HTML head title. It appears in the tab.
-
+*/
 	/* These are the inline style definitions that override all other CCS for this page except for the built-in media queries. */
 /*
 	SSFWebPageParts::addCssInlineStyleDefinition('p { width:500px; font-style:italic; }');
@@ -19,23 +20,24 @@
   // Produce Top-of-Page boiler plate.
   SSFWebPageParts::beginPage();
 ?>
-          <article id="aboutUs">
+          <article id="<?php echo SSFWebPageParts::getArticleId(); ?>">
 
             <style type="text/css" scoped>
             	p { width:500px; font-style:italic; }
             	p:first-of-type { margin-top:4px; }
-            	.contentArea article section h2 { color:#973961;font-weight:bold; }
+            	.contentArea article section h2 { color:<?php echo SSFWebPageParts::getPrimaryTextColor(); ?>; font-weight:bold; }
+            	.contentArea article h1 { color:<?php echo SSFWebPageParts::getPrimaryTextColor(); ?> }
             	li { margin-bottom:3px; margin-left:20px; }
             	ul, ol { list-style-position:outside; font-style:italic; border:0px maroon dashed; }
             	ul { list-style-type: disc; padding-left:50px;  }
             	ol { list-style-type: decimal; padding-left:30px; }
             </style>
 
-            <h1 style="color:#973961">About Us</h1>
+            <h1><?php echo SSFWebPageParts::getContentTitleText(); ?></h1> 
             <p style="margin:16px 0 16px 20px;font-style:normal;"><a href="./aboutUs.php/#beginnings">Beginnings</a>&nbsp;&nbsp;<a href="./aboutUs.php/#vision">Vision</a>&nbsp;&nbsp;<a href="./aboutUs.php/#mission">Mission</a>&nbsp;&nbsp;<a href="./aboutUs.php/#history">History</a>&nbsp;&nbsp;<a href="./aboutUs.php/#directors">Directors</a>&nbsp;&nbsp;<a href="./aboutUs.php/#founders">Founders</a></p>
             <p style="margin:16px 12px 0 20px;font-style:normal;width:550px;">With an expansive definition of <i>dance</i> and an appreciation for highly experimental and interdisciplinary forms, this unique festival exposes diverse audiences to a variety of film, video, and performance possibilities.</p>
 
-            <section id="beginnings">
+            <section id="beginnings" class="primaryTextColor">
               <h2>Beginnings</h2>
               <p>Sans Souci (meaning &quot;without concern&quot;) was conceived one fine spring day in 2003 when Michelle Ellsworth and Brandi Mathis sat  on the porch of a 1967 Marlette Mobile home in the Sans Souci Trailer Park in  Boulder Colorado musing about the pleasures of viewing and creating dances for the screen. Quickly Boulder Museum of Contemporary Art (BMoCA) and the <img src="images/daisycrunchgraphic.jpg" alt="Our daisy-eating icon" style="width:75px;height:74px;float:right;margin:13px;">University of Colorado at Boulder <a href="http://www.colorado.edu/TheatreDance/">Department of Theatre and Dance</a>, as well as artists Ana Baer and Hamel Bloom, added their support to transform mere musing into an Festival of Dance Cinema.</p>
               <p>What was first envisioned as an informal gathering of local dance video artists screening their works on a white wall in a trailer is now an international festival with submissions from all over the world.</p>
