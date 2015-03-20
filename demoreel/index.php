@@ -28,7 +28,7 @@
               /* .pageArea .contentArea { background-color:#000000; margin-left:10px; padding-left:80px;padding-right:80px;} */
             </style>
 
-            <h1 style="color:<?php echo SSFWebPageParts::getPrimaryTextColor(); ?>;margin-top:18px;margin-left:-10px;"><?php echo $contentTitle; ?></h1>
+            <h1 style="margin-top:18px;margin-left:-10px;"><?php echo $contentTitle; ?></h1>
 
             <div style="width:500px;margin:70px auto 420px auto;padding-left:40px;padding-right:40px;">
               <div style="margin:30px auto 80px auto;padding:0 0 0 0px;">

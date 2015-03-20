@@ -27,7 +27,7 @@
             <h1><?php echo $contentTitle; ?></h1>
 
             <section>
-              <h2 style="font-size:16px;padding-bottom:9px;">We hope these resources are helpful to you if you'd like to learn more about dance film/video/cinema and screendance activities.</h2>
+              <h2 style="font-size:15px;padding-bottom:9px;">We hope these resources are helpful to you if you'd like to learn more about dance film/video/cinema and screendance activities.</h2>
 
             <!-- Resources -->
   					  <p><a href="http://www.dancefilms.org/">Dance Films Association, DFA</a>, is dedicated to furthering the art of dance film. Of interest is their <a href="http://www.dancefilms.org/resources/other-dance-film-festivals/">listing of dance film festivals around the world</a> and their <a href="http://www.dancefilms.org/resources/dance-and-media-timeline/">Dance and Media Timeline</a>.</p>

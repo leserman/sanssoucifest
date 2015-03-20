@@ -53,7 +53,7 @@ i { font-style: italic; }
 
 body { 
   color: black;
-  background-color: #fffff0;
+  background-color: #fffff0; /* ivory */
   font-family: Helvetica, Arial, sans-serif;
   font-weight: normal;
 	float: none;
@@ -112,7 +112,7 @@ body {
 .pageBanner image {
   width: 600px;
   height: 63px;
-  vertical-align: center;
+  vertical-align: middle;
 }
 
 .contentArea {
@@ -132,23 +132,33 @@ body {
   border: none;
 }
 
-.contentArea .headerPart .title {
+.contentArea .headerPart .title,
+.contentArea .subtitle {
   font-size: 24px;
-	line-height: 24px;
+	line-height: 120%;
   font-weight: bold;
-/*  color: #28733b;  #2b7a3f;  color: #FCFC7E; */
-  text-align: left;
+/*  text-align: left; */
+}
+
+.title, .subtitle { color: #28733b;  /* #2b7a3f; #FCFC7E; */ }
+
+.contentArea .subtitle {
+  font-size: 20px;
 }
 
 .contentArea article {
-/*  margin-left: 31px; */
-/*  margin-right: 180px; */
   width: 650px;
   border: 1px dashed maroon;
   border: none;
 }
 
-.contentArea article section, #homePage div {
+.contentArea .screeningProgram article{
+/*  width: 650px; */
+  border: 1px dashed maroon;
+  border: none;
+}
+
+.contentArea article section {
   margin-left: 31px;
   margin-right: 130px; /* Changed from 180px 3/11/15 */
   margin-top: 20px;
@@ -160,60 +170,83 @@ body {
   margin-top: 14px;
 }
 
-.contentArea article h1, .contentArea #homePage h2 {
+/*
+.contentArea article h1,
+.contentArea article h1.showDescriptionHeader {
+*/
+
+.contentArea article h1 {
   padding-top:3px; /* added 3/10/15 */
   font-size: 24px;
-	line-height: 24px;
+	line-height: 120%;
   font-weight: bold;
-/*  color: #28733b; 3/15/15 */
   text-align: left;  
 }
 
-.contentArea article section h2, .contentArea #contactUs h2 {
+.eventHeader h2 {
+  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  line-height:18px;
+}
+
+/*
+.contentArea article h1.showDescriptionHeader {
+  overflow:hidden;
+}
+*/
+
+h1 { color: #28733b; /* 3/15/15 */ }
+
+.contentArea article section h2 {
   font-size: 18px;
   font-weight: normal;
   font-style: italic;
- /* color: #FFFF99; 3/15/15 */
 	line-height: 20px;
-/*	padding-left: 20px; */
 }
 
+h2 { color: #3b2873; /* deep purple 3/15/15 */ }
+
 .contentArea article section p {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 120%;
   font-weight: normal;
 	padding: 8px 30px 8px 30px; /* Should this be 30px or 0px 3/8/15 */
-/*  color: #FFFFCC;
-  color: black; 3/15/15 */
 }
 
-p .leaded {
-  line-height: 150%;
-}
+p .leaded { line-height: 150%; }
+p { color: #333333; /* 3/15/15 */ }
 
 .contentArea .dateLine {
   margin: 5px 0 3px 0;
   font-weight: bold;
   font-size: 19px;
   text-align: left;
-/*  color: black; 3/15/15 */
 }
+
+.dateline { color: black; /* 3/15/15 */ }
 
 .contentArea .dateLine .timeText {
   font-size: 14px;
   font-weight: normal;
 }
 
-.contentArea .venueText {
-  font-size: 19px;
-  line-height: 110%;
-/*  margin-top: 5px;
-  margin-bottom: 0px; 3/15/15 */
-/*  color: purple;  3/15/15 */
+.contentArea .venueText .timeText {
+  font-size: 16px;
+  line-height: 120%;
   font-weight: bold;
 }
 
-.venueText { color: purple; }
+
+.contentArea .venueText {
+  font-size: 19px;
+  line-height: 120%;
+/*  margin-top: 5px;
+  margin-bottom: 0px; 3/15/15 */
+  font-weight: bold;
+}
+
+.venueText { color: purple; /* 3/15/15 */ }
 
 .contentArea .venueText .minorSpan {
   font-size: 16px;
@@ -223,36 +256,41 @@ p .leaded {
 .contentArea .venueText .locationLink {
   font-size: 14px;
   font-weight: normal;
-/*  color: black; */
 }
+
+.locationLink { color: black; /* 3/15/15 */ }
 
 .contentArea .miscInfo {
 /*  margin: 5px 0; */
   font-size: 13px;
   line-height: 120%;
-/*  color: gray;  3/15/15 */
 }
+
+.miscInfo { color: #666666; /* 3/15/15 */}
 
 .ticketInfo {
 /*  margin: 3px 0; */
   padding: 3px 0;
   font-size: 15px;
   line-height: 110%;
-  color: #666666; /* #34834d; 3/15/15 */
 }
+
+.ticketInfo { color: #666666; /* #34834d; 3/15/15 */ }
 
 .contentArea .fundingInfo {
   font-size: 15px;
-/*  padding: 9px 0 5px 0; 3/15/15 */
-  line-height: 110%;
-/*  text-align: center; 3/15/15 */
+  line-height: 120%;
   display: table-cell;
   vertical-align: middle;
+/*  padding: 9px 0 5px 0; 3/15/15 */
+/*  text-align: center; 3/15/15 */
   border: 1px blue solid;
   border: none;
 }
 
-.fundingInfo { color: #b15d10; /* #C26A18; */ }
+.contentArea .fundingInfo.small { font-size: 14px; }
+
+.fundingInfo { color: #b15d10; /* #C26A18; 3/15/15 */ }
 
 .page .pageFooter {
   text-align:center;
@@ -276,13 +314,17 @@ p .leaded {
   font-size: 14px;
   font-weight: normal;
   font-style: normal;
-	line-height: 100%;
+	line-height: 120%;
   color: black;
 }
 
 .page .filmInfoText .synopsis {
- font-style: italic;
- line-height: 130%;
+   font-style: italic;
+   line-height: 130%;
+}
+
+.page .filmInfoText .synopsis i {
+   font-style: normal;
 }
 
 .page .filmInfoSubtitleText {
@@ -343,16 +385,26 @@ section h1 {
   max-width:720px;
   font-size: 15px;
   line-height: 130%;
-  color: #b15d10; 
+/*  color: #b15d10; 3/16/15 */
 /*  border: 1px red solid; */
 /*  border: none; */
+}
+
+.eventDate { 
+  font-size: 20px;
+  font-style: italic;
+  margin-top: 9px; 
+}
+
+.eventTime {
+  font-size:15px;
+  line-height:120%;
 }
 
 .headerPart p, article p {
   font-size: 15px;
   line-height: 120%;
   font-weight: normal;
-  color: #333333;
 }
 
 /*
@@ -416,12 +468,13 @@ section h1 {
   width: 250px;
 }
 
-.filmDescriptionCell .imagePart .figCaption {
+.filmDescriptionCell .imagePart .figCaption { 
   font-size: 13px;
+  line-height: 110%;
   font-weight: normal;
 	text-align: right;
 	margin-right: 3px;
-  color: black;
+  color: #333333;
 }
 
 .filmDescriptionCell .textPart {
@@ -445,7 +498,7 @@ section h1 {
   font-size: 16px;
   font-weight: bold;
 	line-height: 22px;
-/*  margin-left: 31px; */
+  overflow: hidden;
 	border-bottom: 1px #5e6a18 solid;
   color: #3a5d61;
 }
@@ -456,7 +509,9 @@ section h1 {
   font-weight: normal;
   line-height: 130%;
   margin-left: 31px;
-  max-width: 600px;
+  max-width: 680px;
+  border: 1px dashed pink;
+  border: none;
   color: black;
 }
 
@@ -483,10 +538,15 @@ section h1 {
     a:hover { color: #990000; text-decoration: underline; }
     /* a:active { background: black; } */
 
-    .page a:link, .page a:visited,
+    a.dodeco:link, a.dodeco:visited,
+    .page .contentArea a.dodeco:link, .page .contentArea a.dodeco:visited,
+    .page .contentArea a:link, .page .contentArea a:visited,
     .page .contentArea .dodeco a:link, .page .contentArea .dodeco a:visited { color: #006956; text-decoration: underline; }
 
-    .nodeco,
+    .page .nodeco a:link,
+    .page .nodeco a:visited,
+    .contentArea .headerPart .nodeco a:link,
+    .contentArea .headerPart .nodeco a:visited,
     .contentArea .headerPart .title a:link, 
     .contentArea .headerPart .title a:visited { color: #006956; text-decoration: none; }
 
@@ -550,7 +610,7 @@ section h1 {
 #dek {POSITION:absolute;VISIBILITY:hidden;Z-INDEX:200;} /* for flyover popup */
 
 .idDisplayText { color: #d25ec6; font-size: 11px; }
-.idDisplayTextDark { color: #6b008e; font-size: 11px; font-weight: bold; } /* 6e00a7 380055 2f0265 400b7f 4a0d93 5b10b5 5B1998 7834CA 7E578E */
+.idDisplayTextDark { color: #6b008e; font-size: 11px; font-weight: bold; } 
 .designatedIdDisplayText { color: #B7E5F7; }
 .submissionFormatDisplayText { color: #94b328; }
 .originalFormatDisplayText { color: #b39428; }
@@ -1027,7 +1087,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
   font-size: 20px;
   font-weight: normal; /* changed from bold 8/25/10 */
   font-style: italic;
-  color: #FFFF99; /* #FCFC7E; FFFF58, 00C640; #00A651; #00A739; #04A44B; #009933; */
+  color: #FFFF99; 
 	line-height: 20px;
 }
 
@@ -1051,7 +1111,6 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
   font-size: 18px;
   font-weight: normal;
   font-style: italic;
-  color: #FFFF99; /* #FCFC7E; FFFF58, 00C640; #00A651; #00A739; #04A44B; #009933; */
   color: black;
 	line-height: 20px;
 	padding-top: 14px;
@@ -1066,7 +1125,7 @@ h3 {
   font-size: 18px;
   font-weight: normal;
   font-style: italic;
-  color: #FFFF99;
+  color: black; /* changed 3/16/15 */
 	line-height: 1.2;
 	margin-top: 14px;
 	margin-left: 20px;
@@ -1080,12 +1139,14 @@ h3 {
   color: black;
 }
 
-~ article p { /* TODO: Is this use of ~ correct? 3/8/15 */
+/*
+~ article p { TODO: This is an incorrect use of ~ on this line. 3/17/15
   font-size: 14px;
   font-weight: normal;
   margin: 10px 20px 0px 40px;
   color: #FFFFCC;
 }
+*/
 
 p:first-of-type { margin-top:4px; }
 
@@ -1214,24 +1275,23 @@ div.programPageTitleText {
   color: #FCFC7E; 
 }
 
-.programInfoText, .programInfoTextSmall, .programInfoTextTiny {
+.programInfoText, .programInfoTextSmall, .programInfoTextTiny { /* in use as of 3/17/15 */
   font-size: 16px;
   font-weight: bold;
-/*	line-height: 22px; 3/15/15 */
 	line-height: 120%;
   vertical-align: top;
-/*  color: #FFFF99; */
   color: black;
 }
 
-.programInfoTextSmall {
+.programInfoText.small { font-size: 14px; }
+.programInfoText.tiny { font-size: 12px; }
+
+.programInfoTextSmall { /* in use as of 3/17/15 */
   font-size: 14px;
-	line-height: 20px;
 }
 
-.programInfoTextTiny {
+.programInfoTextTiny { /* in use as of 3/17/15 */
   font-size: 12px;
-	line-height: 18px;
   font-weight: normal;
 }
 

@@ -2,13 +2,6 @@
 <?php 
   include_once $_SERVER['DOCUMENT_ROOT'] . '/bin/classes/SSFWebPageParts.php'; 
 
- // SSFWebPageParts::allowRobotIndexing();   // so google et al can find the page
- // SSFWebPageParts::setHeaderTitleText('Welcome');  // This is the official HTML head title. It appears in the tab.
-
-	/* These are the inline style definitions that override all other CCS for this page except for the built-in media queries. */
-//	SSFWebPageParts::addCssInlineStyleDefinition('.contentArea article h1 { margin-left:auto; margin-right:auto; text-align:center; }');
-//	SSFWebPageParts::addCssInlineStyleDefinition('.contentArea #homePage h2 { margin:15px auto 6px auto; text-align:center; }');
-  
   // Define values that may be used below.
   $currentYearString = SSFRunTimeValues::getCurrentYearString();
   $callForEntriesId = SSFRunTimeValues::getCallForEntriesId();
@@ -37,12 +30,13 @@
 
 ?>
 
-          <article id="<?php echo $articleId; ?>">
+          <article id="homePage">
              
             <style type="text/css" scoped>
-              .contentArea article h1 { color:<?php echo $primaryTextColor; ?>; margin-left:auto; margin-right:auto; text-align:center; }
-              .contentArea #homePage h2 { color:<?php echo $secondaryTextColor; ?>; margin:15px auto 0px auto; padding-bottom:0px; text-align:center; }
+              .contentArea article h1 { margin-left:auto; margin-right:auto; text-align:center; }
+              .contentArea #homePage h2 { font-size: 24px; line-height: 24px; font-weight: bold; margin:15px auto 0px auto; padding-top:3px; padding-bottom:0px; text-align:center; }
               .contentArea #homePage section p { padding-top: 0px; }
+              #homePage div { margin-left: 31px; margin-right: 130px; margin-top: 20px; border: 1px dashed orange; border: none; }`
             </style>
             
             <div style="margin-top:0px;">
@@ -82,7 +76,7 @@
             <section>
               <h2>Film, Video, Camera, Cinema?</h2>
               <p class="leftJustifiedText">
-                We thought about calling ourselves a <em>Dance Film Festival,</em> a <em>Video Dance Festival,</em> a <em>Dance Video Festival,</em> a <em>ScreenDance Festival</em>, or a <em>Dance for Camera Festival</em> but we settled on <em>Festival of Dance Cinema</em> because that seems to cover the bases best.
+                We thought about calling ourselves a <i>Dance Film Festival,</i> a <i>Video Dance Festival,</i> a <i>Dance Video Festival,</i> a <i>ScreenDance Festival</i>, or a <i>Dance for Camera Festival</i> but we settled on <i>Festival of Dance Cinema</i> because that seems to cover the bases best.
               </p>
             </section>
                         

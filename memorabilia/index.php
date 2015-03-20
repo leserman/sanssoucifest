@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <?php 
   include_once $_SERVER['DOCUMENT_ROOT'] . '/bin/classes/SSFWebPageParts.php'; 
-
-  /* UPDATE THESE ITEMS */
-//  SSFWebPageParts::allowRobotIndexing();   // so google et al can find the page
-//  SSFWebPageParts::setHeaderTitleText('Memorabilia');  // This is the official HTML head title. It appears in the tab.
-
-	/* These are the inline style definitions that override all other CCS for this page except for the built-in media queries. */
-//	SSFWebPageParts::addCssInlineStyleDefinition('.pageArea .contentArea { background-color:#333333; margin-left:10px; padding-left:31px; }');
 	 
   // Produce Top-of-Page boiler plate.
   SSFWebPageParts::beginPage();
@@ -56,7 +49,7 @@
               th { text-align: center; vertical-align: middle; font-size:16px; color: #EEEECC; }
             </style>
 
-            <h1 style="color:<?php echo $primaryTextColor; ?>;margin-top:12px;margin-bottom:12px;">Memorabilia</h1> <!-- #0593d6 -->
+            <h1 style="margin-top:12px;margin-bottom:12px;">Memorabilia</h1>
 
             <table style="border:none;margin:0;margin-top:15px;padding:0;width:100%;">
               <tr style="padding:15px 0 0 0;">

@@ -2,21 +2,6 @@
 <?php 
   include_once $_SERVER['DOCUMENT_ROOT'] . '/bin/classes/SSFWebPageParts.php'; 
 
-  /* UPDATE THESE ITEMS */
-/*
-  SSFWebPageParts::allowRobotIndexing();   // so google et al can find the page
-  SSFWebPageParts::setHeaderTitleText('About Us');  // This is the official HTML head title. It appears in the tab.
-*/
-	/* These are the inline style definitions that override all other CCS for this page except for the built-in media queries. */
-/*
-	SSFWebPageParts::addCssInlineStyleDefinition('p { width:500px; font-style:italic; }');
-	SSFWebPageParts::addCssInlineStyleDefinition('p:first-of-type { margin-top:4px; }');
-	SSFWebPageParts::addCssInlineStyleDefinition('.contentArea article section h2 { color:#973961;font-weight:bold; }');
-	SSFWebPageParts::addCssInlineStyleDefinition('li { margin-bottom:3px; margin-left:20px; }');
-	SSFWebPageParts::addCssInlineStyleDefinition('ul, ol { list-style-position:outside; font-style:italic; border:0px maroon dashed; }');
-	SSFWebPageParts::addCssInlineStyleDefinition('ul { list-style-type: disc; padding-left:50px;  }');
-	SSFWebPageParts::addCssInlineStyleDefinition('ol { list-style-type: decimal; padding-left:30px; }');
-*/ 
   // Produce Top-of-Page boiler plate.
   SSFWebPageParts::beginPage();
 ?>
@@ -26,7 +11,6 @@
             	p { width:500px; font-style:italic; }
             	p:first-of-type { margin-top:4px; }
             	.contentArea article section h2 { color:<?php echo SSFWebPageParts::getPrimaryTextColor(); ?>; font-weight:bold; }
-            	.contentArea article h1 { color:<?php echo SSFWebPageParts::getPrimaryTextColor(); ?> }
             	li { margin-bottom:3px; margin-left:20px; }
             	ul, ol { list-style-position:outside; font-style:italic; border:0px maroon dashed; }
             	ul { list-style-type: disc; padding-left:50px;  }

@@ -17,7 +17,6 @@
 
             <style type="text/css" scoped>
               .yearsAtVenue { font-weight: normal; color:<?php echo $tertiaryTextColor; ?>; }
-              .contentArea article section h2 { color:<?php echo $secondaryTextColor; ?>; }
             </style>
 
             <h1  style="color:<?php echo $primaryTextColor; ?>;"><?php echo $contentTitle; ?></h1>

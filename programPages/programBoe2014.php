@@ -13,7 +13,6 @@
 
   // Initialize useful PHP variables.
   $programHighlightColor = SSFWebPageParts::getProgramHighlightColor();
-  $primaryTextColor = SSFWebPageParts::getPrimaryTextColor();  
   $primaryTextColor = SSFWebPageParts::getPrimaryTextColor();
   $secondaryTextColor = SSFWebPageParts::getSecondaryTextColor();
   $tertiaryTextColor = SSFWebPageParts::getTertiaryTextColor();
@@ -27,7 +26,6 @@
 ?>
             <div style="margin-top:18px;">
               <style type="text/css" scoped>
-                .contentArea .headerPart .title { color:<?php echo $primaryTextColor; ?>; } /* 3b2873 */
               </style>
               <!-- Continue content header -->
               <div id="oct" class="dateLine secondaryTextColor">Sundays, September 21 &amp; October 19<span class="timeText">&nbsp;&bull;&nbsp;1:00 PM</span></div>

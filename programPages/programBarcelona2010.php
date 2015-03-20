@@ -13,7 +13,6 @@
   
   // Initialize useful PHP variables.
   $programHighlightColor = SSFWebPageParts::getProgramHighlightColor();
-  $primaryTextColor = SSFWebPageParts::getPrimaryTextColor();  
   $primaryTextColor = SSFWebPageParts::getPrimaryTextColor();
   $secondaryTextColor = SSFWebPageParts::getSecondaryTextColor();
   $tertiaryTextColor = SSFWebPageParts::getTertiaryTextColor();

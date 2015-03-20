@@ -19,23 +19,23 @@ REQUEST_URI - The URI which was given in order to access this page; for instance
     protected static $thisIsAProgramPage = false;    
 //    public static function thisIsAProgramPage($soItIs) { self::$thisIsAProgramPage = $soItIs; }
 
-    protected static $pageArticleId = 'EMPTY';          public static function getArticleId() { return self::$pageArticleId; }
-    protected static $showsEvent = '';                  public static function getProgramPageEvent() { return self::$showsEvent; } // DEPRECATED TODO: replace occurances
-                                                        public static function getProgramPageEventId() { return self::$showsEvent; }
-    private   static $headerTitleText = '';             public static function setHeaderTitleText($text) { self::$headerTitleText = $text; } 
-    private   static $contentTitleText = '';            public static function setContentTitleText($text) { self::$contentTitleText = $text; }
-                                                        public static function getContentTitleText() { return self::$contentTitleText; } 
-    protected static $showIndexLineBreaks = 0;          public static function useLineBreaksInShowIndex() { return (self::$showIndexLineBreaks == 1) ? true : false; } 
-    protected static $showIndexPrefix = '';              // Text that precedes the Event Show Index on Program Pages
-    protected static $programPicBorderWidthInPixels = 0; // imageBorderWidth
-    protected static $programHighlightColor = 'black';  public static function getProgramHighlightColor() { return self::$programHighlightColor; }
-    protected static $primaryTextColor = '';            public static function getPrimaryTextColor() { return self::$primaryTextColor; }
-    protected static $secondaryTextColor = '';          public static function getSecondaryTextColor() { return self::$secondaryTextColor; }
-    protected static $tertiaryTextColor = '';           public static function getTertiaryTextColor() { return self::$tertiaryTextColor; }
-    protected static $quaternaryTextColor = '';         public static function getQuaternaryTextColor() { return self::$quaternaryTextColor; }
+    protected static $pageArticleId = 'EMPTY';             public static function getArticleId() { return self::$pageArticleId; }
+    protected static $showsEvent = '';                     public static function getProgramPageEvent() { return self::$showsEvent; } // DEPRECATED TODO: replace occurances
+                                                           public static function getProgramPageEventId() { return self::$showsEvent; }
+    private   static $headerTitleText = '';                public static function setHeaderTitleText($text) { self::$headerTitleText = $text; } 
+    private   static $contentTitleText = '';               public static function setContentTitleText($text) { self::$contentTitleText = $text; }
+                                                           public static function getContentTitleText() { return self::$contentTitleText; } 
+    protected static $showIndexLineBreaks = 0;             public static function useLineBreaksInShowIndex() { return (self::$showIndexLineBreaks == 1) ? true : false; } 
+    protected static $showIndexPrefix = '';                // Text that precedes the Event Show Index on Program Pages, e.g., "Different programs for each date:"
+    protected static $programPicBorderWidthInPixels = 0;   public static function getProgramPicBorderWidthInPixels() { return self::$programPicBorderWidthInPixels; } 
+    protected static $programHighlightColor = 'black';     public static function getProgramHighlightColor() { return self::$programHighlightColor; }
+    protected static $primaryTextColor = '';               public static function getPrimaryTextColor() { return self::$primaryTextColor; }
+    protected static $secondaryTextColor = '';             public static function getSecondaryTextColor() { return self::$secondaryTextColor; }
+    protected static $tertiaryTextColor = '';              public static function getTertiaryTextColor() { return self::$tertiaryTextColor; }
+    protected static $quaternaryTextColor = '';            public static function getQuaternaryTextColor() { return self::$quaternaryTextColor; }
     
-    protected static $emptyImageDefaultHeightInPixels = '101';
-    protected static $emptyImageDefaultWidthInPixels = '180';
+    protected static $emptyImageDefaultHeightInPixels = '101';  public static function getEmptyImageDefaultHeightInPixels() { return self::$emptyImageDefaultHeightInPixels; } 
+    protected static $emptyImageDefaultWidthInPixels = '180';   public static function getEmptyImageDefaultWidthInPixels() { return self::$emptyImageDefaultWidthInPixels; } 
 
     private static $allowRobotIndexing = false;
     // If this method is not called or if $siteIsLive == false, robots will be directed to suppress indexing of this page.
@@ -62,14 +62,21 @@ REQUEST_URI - The URI which was given in order to access this page; for instance
     
     // Fix up hex character color ccodes that are missing the leading '#'
     private static function fixColor($colorCode) {
-      $fixedCode = $colorCode;
+      $fixedCode = trim($colorCode);
       if (strlen($colorCode) == 6) {
         $hexChars = array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "a", "b", "c", "d", "e", "f");
         $chars = str_split($colorCode);
-        foreach($chars as $char) if (!in_array($char, $hexChars)) break;
-        $fixedCode = "#" . $colorCode;
+        foreach($chars as $char) { if (!in_array($char, $hexChars)) { return $fixedCode; } } // Sometimes RETURN from here
+        $fixedCode = "#" . $fixedCode;
       }
       return $fixedCode;
+    }
+    
+    public static function getFilename() {
+      $fileMetadata = pathinfo($_SERVER["PHP_SELF"]);
+     	SSFDebug::globalDebugger()->belch('initializePageParameters() fileMetadata', $fileMetadata, -1);
+      $filename = $fileMetadata['basename'];
+      return $filename; 
     }
     
     private static function initializePageParameters() {
@@ -178,6 +185,11 @@ REQUEST_URI - The URI which was given in order to access this page; for instance
       $headContent .= '    <link rel="stylesheet" href="sanssouci.css" type="text/css">' . PHP_EOL;
       $headContent .= '    <style type="text/css">' . PHP_EOL;
       $headContent .= '      /* CSS inline style definitions hard-coded into SSFWebPageParts::htmlHeadContent() for items based on variables. */' . PHP_EOL;
+      if (self::$primaryTextColor !== '') {
+        $headContent .= '      .contentArea .headerPart .title,' . PHP_EOL;
+        $headContent .= '      .contentArea article h1 { color:' . self::$primaryTextColor . '; ?>; }' . PHP_EOL;
+      }
+      if (self::$secondaryTextColor !== '') $headContent .= '      .contentArea article h2 { color:' . self::$secondaryTextColor . '; ?>; }' . PHP_EOL;
 //      $headContent .= '      a.special:link { color : #FFFF99; text-decoration: none; } ' . PHP_EOL;
 //      $headContent .= '      a.special:visited { color : #FFFF99; text-decoration: none; }  /* was #9900CC */ ' . PHP_EOL;
 //      $headContent .= '      a.special:hover { color : #990000; text-decoration: underline; } ' . PHP_EOL;

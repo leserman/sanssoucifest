@@ -55,11 +55,16 @@ class HTMLGen {
 //    mb_internal_encoding("UTF-8"); NOT NEEDED 11/19/14
 //    mb_convert_encoding($text, mb_internal_encoding(), 'UTF-8'); NOT NEEDED 11/19/14
     $encodedString = '';
+
+    // Below is debug on/off logic for a special test case.
     $thisIsASpecialCase = false;
     if (stristr($string, 'lisabeth') !== false) $thisIsASpecialCase = true;
     if (stristr($string, 'Jamnikar') !== false) $thisIsASpecialCase = true;
     if ($thisIsASpecialCase) $showDebug = 1; else $showDebug = -1;
-    $showDebug = -1;                                                 // TODO COmment this out to turn debug on.
+    
+    // TODO Comment this out to turn debug on for the special test case or set it to 1 to turn debug on in general.
+    $showDebug = -1;
+    
     if (isset($string) && $string != '') {
       $encodedString = $string;
       self::debugger()->becho('htmlEncode() input', $string, $showDebug);
@@ -81,6 +86,8 @@ class HTMLGen {
 */
       self::debugger()->becho('htmlEncode() NORMALIZED', $encodedString, $showDebug);
       // Convert all characters to the corresponding html entity codes.
+      // TODO htmlEncode 3/18/15 - When htmlEncode is called, items like '<i>' in the input are ourput literally rather than as html commands.
+      //                           Maybe I need to pull those sequences, replacing with a unique string, call htmlentities, and then put the original sequence back.
       $encodedString = htmlentities($encodedString, ENT_COMPAT | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8', false); // 11/16/14 Added , ENT_COMPAT | ENT_IGNORE (or ENT_SUBSTITUTE) | ENT_HTML5
 /*
       // Unmap (decode) some entities.
@@ -2611,7 +2618,10 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
   // Insert the name anchor for the show for on-page navigation from the index of shows.
   public static function progPageDisplayShowDescription($showId, $text) {
 //    echo '<div style="text-align:left;">' . PHP_EOL;
-    echo '              <div class="showDescriptionHeader" id="' . self::genShowIdTag($showId) . '" ' . 'style="overflow:hidden;">' . $text . '</div>' . PHP_EOL; 
+//    echo '              <div class="showDescriptionHeader" id="' . self::genShowIdTag($showId) . '" ' . 'style="overflow:hidden;">' . $text . '</div>' . PHP_EOL; // 3/17/15
+//    echo '              <h1 class="showDescriptionHeader" style="overflow:hidden;">' . $text . '</h1>' . PHP_EOL; // 3/17/15
+    echo '              <h1 class="showDescriptionHeader">' . $text . '</h1>' . PHP_EOL; // 3/17/15
+//    echo '              <div class="showDescriptionHeader">' . $text . '</div>' . PHP_EOL; 
 //    echo '</div>' . PHP_EOL;
   }
   
@@ -2622,8 +2632,9 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     echo '</div>' . PHP_EOL;
   }
   
-  public static function progPageDisplayWork($index, $workRow, $imageDirectoryFiles, $programPicBorderWidth, 
-                       $emptyImageDefaultHeightInPixels, $emptyImageDefaultWidthInPixels, $suppressOriginalFormat=false) {
+/*  public static function progPageDisplayWork($index, $workRow, $imageDirectoryFiles, $programPicBorderWidth, 
+                       $emptyImageDefaultHeightInPixels, $emptyImageDefaultWidthInPixels, $suppressOriginalFormat=false) {  3/17/15 */
+  public static function progPageDisplayWork($showId, $index, $workRow, $suppressOriginalFormat=false) {
     $filmInfoDivSpanText = '<div class="filmInfoText"><span class="filmInfoSubtitleText">';
     $title = $workRow['title'];
     
@@ -2631,15 +2642,16 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     // NOTE: do not use $workRow['tablename.whatever'], just use $workRow['whatever']
     if ($workRow['fileName'] != '') {
       $imageFileName = $workRow['fileName'];
-      $imageDirectory  = '../' . $workRow['directory'];
+//      $imageDirectory  = '../' . $workRow['directory'];
+      $imageDirectory  = $workRow['directory'];
       $imageHeightInPixels = $workRow['heightInPixels'];
       $imageWidthInPixels = $workRow['widthInPixels'];
-      if (stripos($imageDirectoryFiles, $imageDirectory . $imageFileName) === false) {
-        $imageDirectory = '../images/';
+      if (stripos(SSFProgramPageParts::getImageDirectoryFiles(), $imageDirectory . $imageFileName) === false) {
+        $imageDirectory = 'images/'; // 3/17/15 Changed from ../images/
         $imageTitleText = 'File ' . $imageDirectory . $imageFileName . ' is missing.';
         $imageFileName = 'emptyImage.gif';
-        $imageHeightInPixels = $emptyImageDefaultHeightInPixels;
-        $imageWidthInPixels = $emptyImageDefaultWidthInPixels;
+        $imageHeightInPixels = SSFProgramPageParts::getEmptyImageDefaultHeightInPixels();    // $emptyImageDefaultHeightInPixels;
+        $imageWidthInPixels = SSFProgramPageParts::getEmptyImageDefaultWidthInPixels();     // $emptyImageDefaultWidthInPixels;
         $imageAltText = '';
         $imageCaption = '';
       } else {
@@ -2649,8 +2661,8 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     } else {
       $imageFileName = 'emptyImage.gif';
       $imageDirectory = '../images/';
-      $imageHeightInPixels = $emptyImageDefaultHeightInPixels;
-      $imageWidthInPixels = $emptyImageDefaultWidthInPixels;
+      $imageHeightInPixels = SSFProgramPageParts::getEmptyImageDefaultHeightInPixels();  // $emptyImageDefaultHeightInPixels;
+      $imageWidthInPixels = SSFProgramPageParts::getEmptyImageDefaultWidthInPixels();   // $emptyImageDefaultWidthInPixels;
       $imageTitleText = $imageAltText = '';
       $imageCaption = '';
     }
@@ -2680,6 +2692,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     $liveText = (($liveTextExists) ? '<span class="filmLiveText">includes live performance' . (($runTimeMinutesExists || $originalFormatExists) ? ', ' : '') . '</span>' : '');
     
     // define $synopsis
+    // TODO htmlEncode 3/18/15 - When htmlEncode is called, items like '<i>' in the text are ourput literally rather than as html commands.
     $synopsis = HTMLGen::htmlEncode(self::getSynopsisFrom($workRow)); // TODO 11/18/14 Should HTMLGen::htmlEncode() be called here? NOTE: validation error if not called. Text disappears if called.
     $synopsisTitle = ($suppressOriginalFormat) ? '' : 'Synopsis: '; // This is a kludgy use of $suppressOriginalFormat which was not originally intended.
     
@@ -2771,13 +2784,13 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     $webSite = ((isset($workRow['webSite'])) ? $workRow['webSite'] : '');
     if ($webSite  != '' && strripos($webSite, 'http') === false) $webSite = 'http://' . $webSite;
     if ($webSite != '') switch ($workRow['webSitePertainsTo']) {
-      case "director":      $director = "<a href='" . $webSite . "'>" . $director . "</a>"; break;
-      case "producer":      $producer = "<a href='" . $webSite . "'>" . $producer . "</a>"; 
+      case "director":      $director = "<a class=\"dodeco\" href='" . $webSite . "'>" . $director . "</a>"; break; // 3/17/15 added class=\"dodeco\" 5 times
+      case "producer":      $producer = "<a class=\"dodeco\" href='" . $webSite . "'>" . $producer . "</a>"; 
                             if ($prodEqDir) $director = $producer; // make sure the producer-associated website also applies to the director 
                             break;
-      case "choreographer": $choreographer = "<a href='" . $webSite . "'>" . $choreographer . "</a>"; break;
-      case "company":       $danceCompany = "<a href='" . $webSite . "'>" . $danceCompany . "</a>"; break;
-      case "movie":         $title = "<a href='" . $webSite . "'>" . $title . "</a>"; break;
+      case "choreographer": $choreographer = "<a class=\"dodeco\" href='" . $webSite . "'>" . $choreographer . "</a>"; break;
+      case "company":       $danceCompany = "<a class=\"dodeco\" href='" . $webSite . "'>" . $danceCompany . "</a>"; break;
+      case "movie":         $title = "<a class=\"dodeco\" href='" . $webSite . "'>" . $title . "</a>"; break;
     }
 
     $directorTitle = ($prodEqDir) ? 'Produced and Directed by ' : 'Directed by ';
@@ -2826,25 +2839,30 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
                                                                                  . '</div>';
     
     $useWorkNameId = ($workRow['designatedId'] != '00-000'); // HACK: omit the element id if this is an intermission, i.e., workId == '00-000'
-    $workNameIdString = ($useWorkNameId) ? ('id="work_' . $workRow['designatedId'] . '"') : '';
+    $showIdTag = HTMLGen::genShowIdTag($showId);
+    $workNameIdString = ($useWorkNameId) ? ('id="' . $showIdTag . '_work' . $workRow['designatedId'] . '"') : '';  // 3/17/15 changed format of id value from 'work_99-999' to 'work99-999'.    
+    $programPicBorderWidth = SSFProgramPageParts::getProgramPicBorderWidthInPixels();
+    $emptyImageDefaultHeightInPixels = SSFProgramPageParts::getEmptyImageDefaultHeightInPixels();
+    $emptyImageDefaultWidthInPixels = SSFProgramPageParts::getEmptyImageDefaultWidthInPixels();
     $indent = '            ';
     echo '<!-- BEGIN Web #' . $index . ', Film ' . $workRow['designatedId'] . ' (' . $workRow['workId'] . '), "' . $workRow['title'] . '" ' . $workRow['shortDescription'] 
                       . ' #' . $workRow['showOrder'] . ' -->' . PHP_EOL;
-    echo $indent . '  <div ' . $workNameIdString . ' class="filmDescriptionCell">' . PHP_EOL;
-    $hideOverflow = ($imageCaption != '') ? 'style="overflow:hidden;"' : '';
-    echo $indent . '    <div class="imagePart" ' . $hideOverflow . '><img class="programHighlightColor" src="' 
+    echo $indent . '  <section ' . $workNameIdString . ' class="filmDescriptionCell">' . PHP_EOL; // 3/17/15 changed div to section
+//    echo $indent . '    <h2>Fake Heading</h2>' . PHP_EOL; // 3/17/15 changed div to section
+    $hideOverflow = ($imageCaption != '') ? 'overflow:hidden;' : '';
+    echo $indent . '    <div class="imagePart" style="width:' . $imageWidthInPixels . 'px;' . $hideOverflow . '"><img class="programHighlightColor" src="' 
               . $imageDirectory . $imageFileName . '" alt="' . $imageAltText
               . '" title="' . $imageTitleText
               . '" style="height:' . $imageHeightInPixels . 'px;width:' . $imageWidthInPixels . 'px;border:' . $programPicBorderWidth . 'px solid;margin:0 2px;text-align:left;margin-left:1px;">';
 //    if ($imageCaption != '') echo '      <div class="filmFigureCaption">' . $imageCaption . '</div>';  // 10/09/14 added overflow:hidden; removed <br clear="all"> before <div...
     if ($imageCaption != '') echo '      <div class="figCaption">' . $imageCaption . '</div>';  // 10/09/14 added overflow:hidden; removed <br clear="all"> before <div...
     echo $indent . '    </div> <!-- end imagePart -->' . PHP_EOL;
-    echo $indent . '    <div class="textPart">' . PHP_EOL . $indent . '      <div class="filmTitleText">'
+    echo $indent . '    <div class="textPart">' . PHP_EOL . $indent . '      <h2 class="filmTitleText">'
               . $title . (($yearProducedExists || $liveTextExists || $runTimeMinutesExists || $originalFormatExists) ? ', ' : '')
               . (($yearProducedExists) ? '<span class="filmYearText">' . $yearProduced . (($liveTextExists || $runTimeMinutesExists || $originalFormatExists) ? ', ' : '') . '</span>' : '')
               . $liveText
               . (($runTimeMinutesExists) ? '<span class="filmRunTimeText">' . $runTimeMinutes . ' min' . (($originalFormatExists) ? ', ' : '') . '</span>' : '')
-              . '<span class="filmFormatText">' . $originalFormat . '</span></div>' . PHP_EOL;
+              . '<span class="filmFormatText">' . $originalFormat . '</span></h2>' . PHP_EOL;
     echo $indent . '      ' . $directorDisplay . PHP_EOL;
     echo $indent . '      ' . $producerDisplay . PHP_EOL;
     echo $indent . '      ' . $choreoDisplay . PHP_EOL;
@@ -2867,7 +2885,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     }
     echo $indent . '    </div> <!-- end textPart -->' . PHP_EOL;
     echo $indent . '    <div style="clear:both"></div>' . PHP_EOL;
-    echo $indent . '  </div> <!-- END Web #' . $index . ', Film ' . $workRow['designatedId'] . ', "' . $workRow['title'] . '" -->' . PHP_EOL;
+    echo $indent . '  </section> <!-- END Web #' . $index . ', Film ' . $workRow['designatedId'] . ', "' . $workRow['title'] . '" -->' . PHP_EOL; // 3/17/15 Changed /div to /section
 //    echo '<!--   END Web #' . $index . ', Film ' . $workRow['designatedId'] . ', "' . $workRow['title'] . '" -->' . PHP_EOL;
   }
   
