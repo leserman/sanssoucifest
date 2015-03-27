@@ -25,7 +25,6 @@
 ?>
             <div>
               <style type="text/css" scoped>
-                .contentArea .headerPart .title { color:<?php echo $primaryTextColor; ?>; } /* 3b2873 */
               </style>
               <table>
               	<tr>  <!-- Roxy 12/2014 -->

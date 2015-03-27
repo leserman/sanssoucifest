@@ -42,6 +42,7 @@
               <div class="comeEarly primaryTextColor"><span class="freeAdmissionSpan">FREE Admission.</span> Come a little early to get a good seat and enjoy the installation videos in the lobby.</div>
 -->
 <?php SSFProgramPageParts::showIndex(); ?>
+              <div class="programInfoText small" style="width:400px;padding-left:34px;padding-bottom:18px;">Also see our <a class="dodeco" href="programPages/programBPL2011.php"><b>October Program in Canyon Theater</b></a>.</div>
               <div style="width:420px;padding-bottom:10px;">
                 <p class="programInfoText small topCenter">
                   <span style="font-weight:bold;">This 8th Annual Festival is sponsored by</span><br>
@@ -52,15 +53,9 @@
                 </p>
               </div>
             </div>
-            
-
-
-
 
 <?php
   echo SSFProgramPageParts::endContentHeader();
-  // Call SSFWebPageParts::setComingSoonText() with appropriate text if the show has not yet been entered into the database.
-  SSFProgramPageParts::setComingSoonText('Program details will appear here in mid-August.'); 
   SSFProgramPageParts::showWorks($withIndex = false);
   // Produce Bottom-of-Page boiler plate.
   SSFWebPageParts::endPage();

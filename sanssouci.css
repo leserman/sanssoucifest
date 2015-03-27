@@ -1,5 +1,6 @@
 /* sansouci.css */
 
+/* Reference: CSS - Assigning property values, Cascading, and Inheritance - http://www.w3.org/TR/CSS21/cascade.html */
 
 /* Lines based on Eric Meyer HTML5 RESET, v2.0 | 20110126, http://meyerweb.com/eric/tools/css/reset/ AND on http://www.w3.org/TR/html5-diff/ */
 
@@ -69,12 +70,8 @@ body {
   width: 128px;
   text-align: center;
   border: 1px solid magenta;
-  border: 0px;
+  border: none;
 }
-
-.navArea .navBar a:link { color: blue; text-decoration: none; }
-.navArea .navBar a:visited { color: blue; text-decoration: none; }
-.navArea .navBar a:hover { color: #990000; text-decoration: underline; }
 
 .navArea .navBar a:link,    .navArea .navBarTight a:link    { color: #5e6a18; text-decoration: none; }
 .navArea .navBar a:visited, .navArea .navBarTight a:visited { color: #5e6a18; text-decoration: none; }
@@ -106,7 +103,7 @@ body {
   vertical-align: top;
   margin: 10px 0 -3px 65px;
   border: 1px green solid;
-  border: 0px;
+  border: none;
 }
 
 .pageBanner image {
@@ -120,7 +117,7 @@ body {
   float: left;
   margin-left: 31px;
   padding: 0 10px;
-  border: 1px solid orange;
+  border: 1px solid orange;    /* Useful for diagnosing screeningProgram articles, 3/21/15 */
   border: none;
 }
 
@@ -147,23 +144,30 @@ body {
 }
 
 .contentArea article {
-  width: 650px;
-  border: 1px dashed maroon;
+  width: 650px; 
+  border: 1px dashed black;
   border: none;
 }
 
-.contentArea .screeningProgram article{
-/*  width: 650px; */
-  border: 1px dashed maroon;
-  border: none;
+.contentArea article.screeningProgram { /* Added 3/20/15 */
+  width: 750px;
 }
 
 .contentArea article section {
   margin-left: 31px;
-  margin-right: 130px; /* Changed from 180px 3/11/15 */
+  margin-right: 50px; /* Changed from 180px 3/11/15 */
   margin-top: 20px;
-  border: 1px dashed orange;
+  border: 1px dashed orange;  /* Useful for diagnosing screeningProgram articles, 3/21/15 */
   border: none;
+}
+
+.contentArea article.screeningProgram section {
+  margin-left: 0px;  
+  margin-right: 20px;
+}
+
+.contentArea article:not(.screeningProgram) section {
+  margin-right: 130px; /* Changed from 180px 3/11/15 */
 }
 
 .contentArea article section:first-of-type {
@@ -175,8 +179,8 @@ body {
 .contentArea article h1.showDescriptionHeader {
 */
 
-.contentArea article h1 {
-  padding-top:3px; /* added 3/10/15 */
+.contentArea article:not(.screeningProgram) h1 { /* Added :not(.screeningProgram) 3/20/15 */
+  padding-top: 3px;
   font-size: 24px;
 	line-height: 120%;
   font-weight: bold;
@@ -431,6 +435,8 @@ section h1 {
 	color: #333333;
 }
 
+.bodyTextLeadedOnBlack { color: #CCCCCC; } /* TODO: This can be deleted once the black background is obsolete. */
+
 .bodyTextUnleaded {
   line-height: 120%;  
 }
@@ -447,11 +453,7 @@ section h1 {
 */
 .screeningProgram > .filmDescriptionCell {
   margin-top: 12px;
-  border: 1px solid green;
-  border: none;
-}
-
-.screeningProgram > .filmDescriptionCell ~ .filmDescriptionCell { /* TODO: Is this use of ~ correct? 3/8/15 */
+  border: 1px solid green;  /* Useful for diagnosing screeningProgram articles, 3/21/15 */
   border: none;
 }
 
@@ -466,24 +468,26 @@ section h1 {
   margin-right: 10px;
   float: left;
   width: 250px;
+  border: 1px brown dashed;  /* Useful for diagnosing screeningProgram articles, 3/21/15 */
+  border:none;
 }
 
 .filmDescriptionCell .imagePart .figCaption { 
-  font-size: 13px;
+  font-size: 12px;
   line-height: 110%;
   font-weight: normal;
 	text-align: right;
-	margin-right: 3px;
-  color: #333333;
+	margin-right: 2px;
+  color: #666666;
 }
 
-.filmDescriptionCell .textPart {
+.filmDescriptionCell .textPart { 
   text-align: left; 
   vertical-align: top;
   float: left;
   margin: 0 19px 0 10px;
-  max-width: 430px;      /* --- */
-  border: 1px red solid;
+  max-width: 400px;      /* --- 3/20/15 */
+  border: 1px red dashed;  /* Useful for diagnosing screeningProgram articles, 3/21/15 */
   border: none;
 }
 
@@ -532,17 +536,29 @@ section h1 {
   text-align: justify;
 }
 
-/* Lines below from sanssouci.css */
+/* LINKS NOTES:
+  - nodeco means no underline except when hovering. This is the defualt.
+  - dodeco means override nodeco and show an underline when hovering.
+*/  
 
-    a:link, a:visited { color: #006956; text-decoration: none; }
-    a:hover { color: #990000; text-decoration: underline; }
-    /* a:active { background: black; } */
+/* 2 ines below are from sanssouci.css */
+a:link, a:visited { color: #006956; text-decoration: none; }
+a:hover { color: #990000; text-decoration: underline; }
 
-    a.dodeco:link, a.dodeco:visited,
-    .page .contentArea a.dodeco:link, .page .contentArea a.dodeco:visited,
-    .page .contentArea a:link, .page .contentArea a:visited,
-    .page .contentArea .dodeco a:link, .page .contentArea .dodeco a:visited { color: #006956; text-decoration: underline; }
-
+/*
+.page:not(:link) a:link, 
+.page:not(:link) a:visited { color: #006956; text-decoration: none; }
+.page:not(:link) a:hover { color: #990000; text-decoration: underline; }
+*/
+  
+/*
+    a, a.dodeco,
+    .page .nodeco,
+    .page .contentArea .headerPart .nodeco,
+    .page .contentArea .dodeco a:hover { color: #990000; text-decoration: underline; }
+    
+    contentArea .headerPart .title a:hover { color: #990000; text-decoration: underline; }
+*/
     .page .nodeco a:link,
     .page .nodeco a:visited,
     .contentArea .headerPart .nodeco a:link,
@@ -550,6 +566,12 @@ section h1 {
     .contentArea .headerPart .title a:link, 
     .contentArea .headerPart .title a:visited { color: #006956; text-decoration: none; }
 
+    a.dodeco:link, a.dodeco:visited,
+    .page .contentArea a.dodeco:link, .page .contentArea a.dodeco:visited,
+    .page .contentArea .dodeco a:link, .page .contentArea .dodeco a:visited,
+    .contentArea .headerPart .title .doceco a:link, 
+    .contentArea .headerPart .title .doceco a:visited { color: #006956; text-decoration: underline; }
+    
 /*
     .contentArea a:link, .contentArea a:visited,
     .page header a:link, .page header a:visited,
@@ -574,37 +596,6 @@ section h1 {
 
 /* END lines from sanssouciBlackBackground.css */
 
-
-/* Lines below from sanssouciBlackBackground.css */
-
-    .before2015 a:link { color: #CCBD99; text-decoration: underline; }
-    .before2015 a:visited { color: #CCBD99; text-decoration: underline; }
-    .before2015 a:hover { color: #990000; text-decoration: none; }  
-
-/*
-    .narBarMainSection a:link, .narBarArchiveSection a:link { color: #5e6a18; text-decoration: none; }        /* was .navbar prior to 11/5/14
-    .narBarMainSection a:visited, .narBarArchiveSection a:visited { color: #5e6a18; text-decoration: none; }  /* was .navbar prior to 11/5/14
-    .narBarMainSection a:hover, .narBarArchiveSection a:hover { color: #990000; text-decoration: underline; } /* was .navbar prior to 11/5/14
-
-    .navbarTight a:link { color: #CCBD99; text-decoration: none; }
-    .navbarTight a:visited { color: #CCBD99; text-decoration: none; }
-    .navbarTight a:hover { color: #990000; text-decoration: underline; }
-*/    
-    .hideLinkUnderline a:link { color: #CCBD99; text-decoration: none; }
-    .hideLinkUnderline a:visited { color: #CCBD99; text-decoration: none; }
-    .hideLinkUnderline a:hover { color: #990000; text-decoration: underline; }
-
-/* End lines from sanssouciBlackBackground.css */
-
-/* Lines below are from inline ProgramPageParts */
-
-    a.special:link { color: #FFFF99; text-decoration: none; }
-    a.special:visited { color: #FFFF99; text-decoration: none; }
-    a.special:hover { color: #990000; text-decoration: underline; }
-
-/*    .differentProgramsText { font-size:15px;margin:12px 0 -8px 0;line-height:120%;color:#E49548;font-weight:normal; }  TODO: Is this used anywhere? */
-
-/* End lines from inline ProgramPageParts */
 
 
 #dek {POSITION:absolute;VISIBILITY:hidden;Z-INDEX:200;} /* for flyover popup */
@@ -1285,6 +1276,8 @@ div.programPageTitleText {
 
 .programInfoText.small { font-size: 14px; }
 .programInfoText.tiny { font-size: 12px; }
+
+.page .programInfoText { font-weight:normal; }
 
 .programInfoTextSmall { /* in use as of 3/17/15 */
   font-size: 14px;

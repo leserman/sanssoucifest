@@ -41,7 +41,7 @@
       		  <div class="programInfoTextSmall secondaryTextColor">University of Colorado at Boulder, Boulder, CO, USA</div>
       		  <div class="primaryTextColor" style="font-size:20px;margin-top:8px;font-style:italic;font-weight:normal;"><?php echo SSFRunTimeValues::getEventDatesDescriptionStringLong($eventId); ?></div>
       	    <div style="font-size:15px;margin-top:2px;margin-bottom:0px;line-height:120%;font-weight:normal;">7:00 PM: Video installations&nbsp;&bull;&nbsp;7:30 PM: Screenings</div>
-            <div class="tertiaryTextColor" style="font-size:16px;margin-top:8px;margin-bottom:0px;line-height:130%;">FREE Admission. <span style="font-size:14px;color:black;">Come early to enjoy the looping video installations.</span>
+            <div class="tertiaryTextColor" style="font-size:16px;margin-top:8px;margin-bottom:0px;line-height:130%;">FREE Admission. <span style="font-size:14px;color:black;">Come a little early to enjoy the looping video installations.</span>
             </div>
           </div>
 

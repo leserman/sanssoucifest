@@ -37,7 +37,7 @@ class HTMLGen {
     return '"' . str_replace('"', '\"', trim($string)) . '"';
   }
   
-  public static function genShowIdTag($showId) {
+  public static function genShowIdTagX($showId) {
     return 'show' . $showId;
   }
   
@@ -86,9 +86,25 @@ class HTMLGen {
 */
       self::debugger()->becho('htmlEncode() NORMALIZED', $encodedString, $showDebug);
       // Convert all characters to the corresponding html entity codes.
-      // TODO htmlEncode 3/18/15 - When htmlEncode is called, items like '<i>' in the input are ourput literally rather than as html commands.
+      // TODO htmlEncode 3/18/15 - When htmlEncode is called, items like '<i>' in the input are output literally rather than as html commands.
       //                           Maybe I need to pull those sequences, replacing with a unique string, call htmlentities, and then put the original sequence back.
+      
+      // 3/26/15 - Switch out string that I want to perserve but that htmlentities would otherwise convert: "<i>", "</i>", "<b>", "</b>", "<br>"
+      $encodedString = str_ireplace("<i>", "RiIiIi", $encodedString);
+      $encodedString = str_ireplace("</i>", "slashIiIiIi", $encodedString);
+      $encodedString = str_ireplace("<b>", "RbBbBb", $encodedString);
+      $encodedString = str_ireplace("</b>", "slashBbBbBb", $encodedString);
+      $encodedString = str_ireplace("<br>", "brBRbrBRbr", $encodedString);
+
       $encodedString = htmlentities($encodedString, ENT_COMPAT | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8', false); // 11/16/14 Added , ENT_COMPAT | ENT_IGNORE (or ENT_SUBSTITUTE) | ENT_HTML5
+
+      // 3/26/15 - Switch back strings that I want to perserve: "<i>", "</i>", "<b>", "</b>", "<br>"
+      $encodedString = str_replace("RiIiIi", "<i>", $encodedString);
+      $encodedString = str_replace("slashIiIiIi", "</i>", $encodedString);
+      $encodedString = str_replace("RbBbBb", "<b>", $encodedString);
+      $encodedString = str_replace("slashBbBbBb", "<//b>", $encodedString);
+      $encodedString = str_replace("brBRbrBRbr", "<br>", $encodedString);
+
 /*
       // Unmap (decode) some entities.
       $encodedString = str_replace('&lt;', '<', $encodedString);     // Convert the htmlentities for < and > back to < and > because they're used in markup in the database.
@@ -2586,7 +2602,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     return $synopsis;
   }
   
-  public static function progPageDisplayShowIndex($showArray, $comingSoonText='Coming Soon...', $center=false, $multiLine=false, $noPadding=false) {
+  public static function progPageDisplayShowIndexX($showArray, $comingSoonText='Coming Soon...', $center=false, $multiLine=false, $noPadding=false) {
     self::debugger()->belch('displayShowIndex($showArray)', $showArray, -1);
     $align = ($center) ? 'center' : 'left';
 //    echo '<div>'; // line REMOVED 3/2/15
@@ -2603,7 +2619,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
    echo '          </div>' . PHP_EOL; // end div eventIndexText
   }
 
-  public static function getProgPageShowIndex($showArray, $multiLine=false) {
+  public static function getProgPageShowIndexX($showArray, $multiLine=false) {
     $showIndexText = '';
     self::debugger()->becho('progPageDisplayShowIndex() multiLine', ($multiLine) ? 'TRUE' : 'FALSE', -1);
     if ((sizeOf($showArray) > 0) && !$multiLine) { $showIndexText .= '|'; }
@@ -2616,7 +2632,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
 
   // Insert the name anchor for the show for on-page navigation from the index of shows. REWRITTEN 3/1/15
   // Insert the name anchor for the show for on-page navigation from the index of shows.
-  public static function progPageDisplayShowDescription($showId, $text) {
+  public static function progPageDisplayShowDescriptionX($showId, $text) {
 //    echo '<div style="text-align:left;">' . PHP_EOL;
 //    echo '              <div class="showDescriptionHeader" id="' . self::genShowIdTag($showId) . '" ' . 'style="overflow:hidden;">' . $text . '</div>' . PHP_EOL; // 3/17/15
 //    echo '              <h1 class="showDescriptionHeader" style="overflow:hidden;">' . $text . '</h1>' . PHP_EOL; // 3/17/15
@@ -2626,15 +2642,18 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
   }
   
   // progPageDisplayNoDescription() is just cosmetic to add some vertical space.
-  public static function progPageDisplayNoDescription($height=20) {
+  public static function progPageDisplayNoDescriptionX($height=20) {
+/*
     echo '<div style="text-align:left;">' . PHP_EOL;
     echo '  <div class="programInfoText" style="height:' . $height . 'px;vertical-align:top;"></div>' . PHP_EOL;
     echo '</div>' . PHP_EOL;
+*/
+    echo '              <h1 class="showDescriptionHeader" style="display:none;">This is a deliberately empty heading to satisfy the HTML5 validator.</h1>' . PHP_EOL; // 3/23/15
   }
   
 /*  public static function progPageDisplayWork($index, $workRow, $imageDirectoryFiles, $programPicBorderWidth, 
                        $emptyImageDefaultHeightInPixels, $emptyImageDefaultWidthInPixels, $suppressOriginalFormat=false) {  3/17/15 */
-  public static function progPageDisplayWork($showId, $index, $workRow, $suppressOriginalFormat=false) {
+  public static function progPageDisplayWorkX($showId, $index, $workRow, $suppressOriginalFormat=false) {
     $filmInfoDivSpanText = '<div class="filmInfoText"><span class="filmInfoSubtitleText">';
     $title = $workRow['title'];
     
@@ -2848,14 +2867,14 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     echo '<!-- BEGIN Web #' . $index . ', Film ' . $workRow['designatedId'] . ' (' . $workRow['workId'] . '), "' . $workRow['title'] . '" ' . $workRow['shortDescription'] 
                       . ' #' . $workRow['showOrder'] . ' -->' . PHP_EOL;
     echo $indent . '  <section ' . $workNameIdString . ' class="filmDescriptionCell">' . PHP_EOL; // 3/17/15 changed div to section
-//    echo $indent . '    <h2>Fake Heading</h2>' . PHP_EOL; // 3/17/15 changed div to section
     $hideOverflow = ($imageCaption != '') ? 'overflow:hidden;' : '';
-    echo $indent . '    <div class="imagePart" style="width:' . $imageWidthInPixels . 'px;' . $hideOverflow . '"><img class="programHighlightColor" src="' 
-              . $imageDirectory . $imageFileName . '" alt="' . $imageAltText
-              . '" title="' . $imageTitleText
-              . '" style="height:' . $imageHeightInPixels . 'px;width:' . $imageWidthInPixels . 'px;border:' . $programPicBorderWidth . 'px solid;margin:0 2px;text-align:left;margin-left:1px;">';
-//    if ($imageCaption != '') echo '      <div class="filmFigureCaption">' . $imageCaption . '</div>';  // 10/09/14 added overflow:hidden; removed <br clear="all"> before <div...
+    $hideOverflow = ''; // TODO: Decide if this overflow:hidden is helpful or if its causing the border edges to be too narrow sometimes.
+    echo $indent . '    <div class="imagePart">' . PHP_EOL;
+    echo $indent . '      <div  style="width:' . ($imageWidthInPixels+(2*$programPicBorderWidth)) . 'px;float:right;' . $hideOverflow . '">' . PHP_EOL;
+    echo $indent . '        <img class="programHighlightColor" src="' . $imageDirectory . $imageFileName . '" alt="' . $imageAltText . '" title="' . $imageTitleText . '" style="height:'
+                 . $imageHeightInPixels . 'px;width:' . $imageWidthInPixels . 'px;border:' . $programPicBorderWidth . 'px solid;margin:0 2px;margin-left:1px;">' . PHP_EOL;
     if ($imageCaption != '') echo '      <div class="figCaption">' . $imageCaption . '</div>';  // 10/09/14 added overflow:hidden; removed <br clear="all"> before <div...
+    echo $indent . '      </div> <!-- figure frame -->' . PHP_EOL;
     echo $indent . '    </div> <!-- end imagePart -->' . PHP_EOL;
     echo $indent . '    <div class="textPart">' . PHP_EOL . $indent . '      <h2 class="filmTitleText">'
               . $title . (($yearProducedExists || $liveTextExists || $runTimeMinutesExists || $originalFormatExists) ? ', ' : '')

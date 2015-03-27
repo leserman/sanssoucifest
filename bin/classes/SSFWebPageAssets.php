@@ -7,16 +7,19 @@ class SSFWebPageAssets {
   public static function displayNavBar($moveUpString = '../') {
     echo self::getNavBar($moveUpString);
   }
+*/
 
+  // TODO: Delete this method after migration to HTML5 is complete.
   public static function displayAdminNavBar($moveUpString = '../') {
     echo self::getAdminNavBar($moveUpString);
   }
 
+  // TODO: Delete this method after migration to HTML5 is complete.
   public static function displayCopyrightLine($onWhite = false) {
     echo self::getCopyrightLine($onWhite);
   }
-*/
-   public static function getCopyrightLine() {
+
+  public static function getCopyrightLine() {
     $indent = '        ';
     $copyrightString = $indent;
     $copyrightString .= '<span class="copyrightColor">Copyright ' . self::copyrightYears() 

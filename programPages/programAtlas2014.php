@@ -27,7 +27,7 @@
               <style type="text/css" scoped>
               </style>
               <div class="secondaryTextColor" style="font-size:20px;margin-top:8px;margin-bottom:0px;line-height:18px;">Atlas
-                <span class="programInfoTextSmall" style="font-size:13pt;"><a class="special" style="color:<?php echo $secondaryTextColor; ?>;" href="http://www.colorado.edu/atlas/newatlas/amp/">Center for Media, Arts and Performance</a></span>
+                <span class="programInfoTextSmall" style="font-size:13pt;"><a style="color:<?php echo $secondaryTextColor; ?>;" href="http://www.colorado.edu/atlas/newatlas/amp/">Center for Media, Arts and Performance</a></span>
                 <span class="programInfoTextSmall" style="font-size:8pt;"><a href="http://atlas.colorado.edu/wordpress/?page_id=102">directions</a></span>
               </div>
               <!-- ATLAS Institute, Black Box Studio, lower level B2<br>University of Colorado at Boulder, 1125 18th St.<br>Boulder, CO 80309-0320 -->
@@ -38,7 +38,7 @@
               <div class="programInfoTextSmall secondaryTextColor">University of Colorado at Boulder, Boulder, CO, USA</div>
               <div class="primaryTextColor" style="font-size:20px;margin-top:8px;"><?php echo SSFRunTimeValues::getEventDatesDescriptionStringLong($eventId); ?></div>
               <div class="primaryTextColor" style="font-size:15px;margin-top:0px;margin-bottom:0px;line-height:120%;font-weight:normal;">7:00 PM: Video installations&nbsp;&bull;&nbsp;7:30 PM: Screenings</div>
-              <div class="primaryTextColor" style="font-size:16px;margin-top:8px;margin-bottom:12px;line-height:130%;font-weight:normal;">FREE Admission. <span style="font-size:14px;">Come early to enjoy the looping video installations.</span>
+              <div class="primaryTextColor" style="font-size:16px;margin-top:8px;margin-bottom:12px;line-height:130%;font-weight:normal;"><span class="tertiaryTextColor">FREE Admission.</span> <span style="font-size:14px;">Come early to enjoy the looping video installations.</span>
               </div>
 <?php // include_once('../snippets/2014FundingAcknowledgement.html'); ?>
             </div>

@@ -1,21 +1,23 @@
 <?php 
   
-  spl_autoload_register('SSFCodeBase::my_autoloader');
+//  spl_autoload_register('SSFCodeBase::my_autoloader');
 
 class SSFCodeBase {
 
   private static $codeBase = null;
-  private static $debug = true;
+  private static $debug = false;
   private $codeBaseString = '';
   private $autoloadClassesPath = '';
 
   public static function my_autoloader($class) { include '../bin/classes/' . $class . '.php'; }
+  
+//  public static function my_autoloader($class) { include __DIR__ . '/' . $class . '.php'; }
+
 
   // Example use:
   // include_once SSFCodeBase::autoloadClasses();
   // SSFWebPageAssets::displayNavBar(SSFCodeBase::string());
 
-/*
   public static function string($filePath) { $me = SSFCodeBase::getInstance($filePath); return $me->codeBaseString; }
   
   public static function autoloadClasses($filePath) { 
@@ -44,7 +46,7 @@ class SSFCodeBase {
     if (self::$debug) { echo 'filePathArray '; print_r($filePathArray);  echo "<br>\r\n"; }
     $loopIndex = 0;
     foreach (array_reverse($filePathArray) as $element) { 
-      if ($element == 'sanssoucifest.org') { 
+      if (($element == 'sanssoucifest.org') || ($element == 'dev.sanssoucifest.org')) { 
         if (self::$debug) { echo 'loopIndex '; print_r($loopIndex);  echo "<br>\r\n"; } 
         break; 
       } else {
@@ -58,7 +60,7 @@ class SSFCodeBase {
     }
     $this->autoloadClassesPath = $this->codeBaseString . "bin/utilities/autoloadClasses.php";
   }  
-*/
+
 
 }
 

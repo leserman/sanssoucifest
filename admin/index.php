@@ -21,7 +21,8 @@
   include_once SSFCodeBase::autoloadClasses(__FILE__);
 ?>
   <!-- Set bgcolor="#FFFFFF" in the following 100% table to make the edges appear white. -->
-  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000">
+<!--  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000"> -->
+  <table style="width:800;border:none;text-align:center;margin:0 auto;padding:0;background-color:black;"
     <tr>
       <td align="left" valign="top">
         <table width="745" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000">
@@ -30,8 +31,10 @@
             <td width="10" align="center" valign="top">&nbsp;</td>
           </tr>
           <tr>
-            <td width="10" align="center" valign="top">&nbsp;</td>
-            <td width="125" align="center" valign="top"><?php SSFWebPageAssets::displayAdminNavBar(SSFCodeBase::string(__FILE__)); ?></td>
+<!--            <td width="10" align="center" valign="top">&nbsp;</td> -->
+    <td style="width:10px;text-align:center;vertical-align:top;">&nbsp;</td>
+<!--            <td width="125" align="center" valign="top"><?php // SSFWebPageAssets::displayAdminNavBar(SSFCodeBase::string(__FILE__)); ?></td> -->
+    <td  style="width:125px;text-align:center;vertical-align:top;"><?php SSFWebPageAssets::displayAdminNavBar(SSFCodeBase::string(__FILE__)); ?></td>
             <td width="600" align="center" valign="top">
               <table width="100%" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000">
                 <tr>
@@ -133,14 +136,6 @@
             </tr>
           </table>
           </div>
-
-<!--          
-      <!-- Old Forms -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-          <div class="entryFormSectionHeading padded" style="font-size:17px;line-height:19px;">Old Forms</div>
-          <div><hr align="center" size="1" noshade class="horizontalSeparator1" style="width:60%;"></div>
-          <div class="bodyTextLeadedOnBlack padded"><a href="adminLogin.php">Admin Login</a></div>
-          <div class="bodyTextLeadedOnBlack padded"><a href="worksDataEntry.php">Data Entry Form (OLD)</a></div>
--->      
 
       <!-- Developer Show -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
           <div class="entryFormSectionHeading padded" style="font-size:17px;line-height:19px;margin-top:12px;">Developer Show &amp; Tell</div>

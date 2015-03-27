@@ -195,6 +195,7 @@ REQUEST_URI - The URI which was given in order to access this page; for instance
 //      $headContent .= '      a.special:hover { color : #990000; text-decoration: underline; } ' . PHP_EOL;
       $headContent .= '    </style>' . PHP_EOL;
       $headContent .= '    <script src="bin/scripts/ssfDisplay.js" type="text/javascript"></script>' . PHP_EOL;
+      $headContent .= '    <script src="bin/scripts/flyoverPopup.js" type="text/javascript"></script>' . PHP_EOL;
       $headContent .= "    <link rel=icon href=favicon.png sizes='16x16' type='image/png'>" . PHP_EOL;
       return $headContent;
     }  

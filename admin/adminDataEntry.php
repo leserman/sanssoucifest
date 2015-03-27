@@ -25,16 +25,21 @@
 </head>
 <body bgcolor="#FFFFFF" text="#000000" link="#0033FF" vlink="#0033FF" alink="#990000" onload="doNothingBreakpointOpportunity('adminDataEntry.php called from onload');">
 <!-- Set bgcolor="#FFFFFF" in the following 100% table to make the edges appear white. -->
-<table width="100%"  border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000">
-<tr><td align="left" valign="top">
-<table width="800"  border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000"> <!-- was 745 -->
+<!-- <table width="100%"  border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000"> -->
+<table style="width:100%;border:none;text-align:center;margin:0;padding:0;background-color:black;">
+<!-- <tr><td align="left" valign="top"> -->
+<tr><td style="text-align:center;vertical-align:top;">
+<!-- <table width="800"  border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000"> was 745 -->
+<table style="width:800;border:none;text-align:center;margin:0 auto;padding:0;background-color:black;"> <!-- was 745 -->
   <tr>
     <td colspan="3" align="left" valign="top"><a href="../index.php"><img src="../images/titleBarGrayLight.gif" alt="SansSouciFest.org" width="600" height="63" hspace="0" vspace="8" border="0" align="top"></a></td>
     <td width="10" align="center" valign="top">&nbsp;</td>
   </tr>
   <tr>
-    <td width="10" align="center" valign="top">&nbsp;</td>
-    <td width="125" align="center" valign="top"><?php SSFWebPageAssets::displayAdminNavBar(SSFCodeBase::string(__FILE__)); ?></td>
+<!--    <td width="10" align="center" valign="top">&nbsp;</td> 3/22/15 --> 
+    <td style="width:10px;text-align:center;vertical-align:top;">&nbsp;</td>
+<!--    <td width="125" align="center" valign="top"><?php // SSFWebPageAssets::displayAdminNavBar(SSFCodeBase::string(__FILE__)); ?></td> 3/22/15 -->
+    <td  style="width:125px;text-align:center;vertical-align:top;"><?php SSFWebPageAssets::displayAdminNavBar(SSFCodeBase::string(__FILE__)); ?></td>
     <td align="center" valign="top">
       <table width="665" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000">
         <tr><!-- InstanceBeginEditable name="Content" -->

@@ -138,7 +138,7 @@
     $pmtSum['total'][$subArrayKey] += $amtPaid;
     $pmtCount['total']['total']++;
     $pmtSum['total']['total'] += $amtPaid;
-    SSFDebug::globalDebugger()->belch('pmtSum[paymentRow[' . $pmtSum[$howPaid] . ']]', $pmtSum[$howPaid], -1);
+//    SSFDebug::globalDebugger()->belch('pmtSum[paymentRow[' . $pmtSum[$howPaid] . ']]', $pmtSum[$howPaid], -1);
   }
 
 //  echo "<div style='margin:0 auto 0 auto;width:600px;padding:10px;'>\r\n";
