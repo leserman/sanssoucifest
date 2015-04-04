@@ -8,9 +8,7 @@
                       // date('l, M j, Y', strtotime(SSFRunTimeValues::getFinalDeadlineDateString()));
   $finalDeadlineString = date('M j, Y', strtotime(SSFRunTimeValues::getFinalDeadlineDateString()));
   $earlyDeadlineString = date('M j, Y', strtotime(SSFRunTimeValues::getEarlyDeadlineDateString()));
-  $eventDatesDescriptionString = SSFRunTimeValues::getEventDatesDescriptionStringShort($associatedEventId);
   $eventDescription = SSFRunTimeValues::getEventDescriptionStringLong(SSFRunTimeValues::getAssociatedEventId($callForEntriesId)); // 3/19/14
-  $venueDescriptionString = SSFRunTimeValues::getVenueDescriptionString($associatedEventId);
   $entryRequirementsInWindowFilename = 'entryRequirementsInWindow' . $currentYearString . '.php';
   $entryRequirementsInWindowPath = 'onlineEntryForm/' . $entryRequirementsInWindowFilename;
   $onlineEntryFormFilename = 'entryForm' . $currentYearString . '.php';

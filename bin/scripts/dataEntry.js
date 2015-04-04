@@ -27,14 +27,14 @@
   // submitEnter is called when the user presses the Return or Enter key as set up in HTMLGen.
   // Based on http://www.htmlcodetutorial.com/forms/index_famsupp_157.html
   function submitEnter(thisField, e) {
-    if ((thisField.form.name != "entryForm") && (thisField.form.name != "adeSelectorsForm")) { return true; } // escape if this in not the user Entry Form
+    if ((thisField.form.name != "ssfEntryForm") && (thisField.form.name != "adeSelectorsForm")) { return true; } // escape if this in not the user Entry Form
     var keycode = '';
     if (window.event) { keycode = window.event.keyCode; }
     else if (e) { keycode = e.which; }
     if (keycode == 13) {
       return false; // ****** Shortcut this so that nothing happens when the user presses Return or Enter
 //      if (preSubmitValidation()) { thisField.form.submit(); }                                       // 2/10/14 - It appears that this line is unreachable.
-      if (thisField.form.name == "entryForm" && preSubmitValidation()) { thisField.form.submit(); } // 2/10/14 - It appears that this line is unreachable. Add test on form name.
+      if (thisField.form.name == "ssfEntryForm" && preSubmitValidation()) { thisField.form.submit(); } // 2/10/14 - It appears that this line is unreachable. Add test on form name.
       return false;
     } else { return true; }
   }
@@ -644,6 +644,7 @@ function validWorkEntry() {
     works_minutesElement.focus(); 
     return false;
   }
+/* works_originalFormatSelector nas not been on the entry from since 2014. DHL 4/1/15
   if (empty(getUniqueElement('works_originalFormatSelector'))) { 
     alert("Please enter the Original Format of your film.");
     getUniqueElement('works_originalFormatSelector').focus(); 
@@ -659,6 +660,7 @@ function validWorkEntry() {
 	  getUniqueElement('works_originalFormatOtherText').focus(); 
 	  return false; 
 	}
+	*/
   if (empty(getUniqueElement('works_synopsisOriginal'))) { 
     alert('Please enter a brief synopsis of your film.');
     getUniqueElement('works_synopsisOriginal').focus(); 

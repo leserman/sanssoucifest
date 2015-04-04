@@ -9,8 +9,6 @@
                       // date('l, M j, Y', strtotime(SSFRunTimeValues::getFinalDeadlineDateString())); 'l' is weekday, e.g.,, Friday
   $finalDeadlineString = date('M j, Y', strtotime(SSFRunTimeValues::getFinalDeadlineDateString()));
   $earlyDeadlineString = date('M j, Y', strtotime(SSFRunTimeValues::getEarlyDeadlineDateString()));
-  $eventDatesDescriptionString = SSFRunTimeValues::getEventDatesDescriptionStringShort($associatedEventId);
-  $venueDescriptionString = SSFRunTimeValues::getVenueDescriptionString($associatedEventId);
   $entryRequirementsInWindowFilename = 'entryRequirementsInWindow' . $currentYearString . '.php';
   $danceCinemaCallFilename = 'danceCinemaCall' . $currentYearString . '.php';
   $entryFormFilename = 'entryForm' . $currentYearString . '.php'; 

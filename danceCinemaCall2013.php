@@ -9,7 +9,6 @@
   $finalDeadlineString = date('M j, Y', strtotime(SSFRunTimeValues::getFinalDeadlineDateString()));
   $earlyDeadlineString = date('M j, Y', strtotime(SSFRunTimeValues::getEarlyDeadlineDateString()));
   $eventDatesDescriptionString = SSFRunTimeValues::getEventDatesDescriptionStringShort($associatedEventId);
-  $venueDescriptionString = SSFRunTimeValues::getVenueDescriptionString($associatedEventId);
   $entryRequirementsInWindowFilename = 'entryRequirementsInWindow' . $currentYearString . '.php';
   $entryRequirementsInWindowPath = 'onlineEntryForm/' . $entryRequirementsInWindowFilename;
   $onlineEntryFormFilename = 'entryForm' . $currentYearString . '.php';
@@ -95,7 +94,9 @@
       </div>
       <div class="callForEntriesText">Deadlines for submission are <?php echo $earlyDeadlineString . ' and ' . $finalDeadlineString ?>.</div>
       <div class="callForEntriesText">Accepted works will be exhibited on <?php echo $eventDatesDescriptionString; ?>
-        at <?php echo $venueDescriptionString; ?> and, with permission, considered for  upcoming tours.
+<!--        at <?php echo $venueDescriptionString; ?> -->
+        at the University of Colorado's <a href='http://www.colorado.edu/atlas/newatlas/amp/'>ATLAS Black Box Theatre</a> in Boulder Colorado USA
+        and, with permission, considered for  upcoming tours.
       </div>
       <div class="callForEntriesText"><span style="color:ffff99;font-size:15px;">Please read the </span>
          <a href="javascript:void(0)" 

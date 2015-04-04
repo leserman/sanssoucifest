@@ -66,7 +66,12 @@ REQUEST_URI - The URI which was given in order to access this page; for instance
       if (strlen($colorCode) == 6) {
         $hexChars = array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "a", "b", "c", "d", "e", "f");
         $chars = str_split($colorCode);
-        foreach($chars as $char) { if (!in_array($char, $hexChars)) { return $fixedCode; } } // Sometimes RETURN from here
+        foreach($chars as $char) { 
+          if (!in_array($char, $hexChars)) { 
+            SSFDebug::globalDebugger()->becho('fixColor() non-hex char encountered', $char, 1);
+            return $fixedCode; // Sometimes RETURN from here
+          } 
+        } 
         $fixedCode = "#" . $fixedCode;
       }
       return $fixedCode;
@@ -194,6 +199,8 @@ REQUEST_URI - The URI which was given in order to access this page; for instance
 //      $headContent .= '      a.special:visited { color : #FFFF99; text-decoration: none; }  /* was #9900CC */ ' . PHP_EOL;
 //      $headContent .= '      a.special:hover { color : #990000; text-decoration: underline; } ' . PHP_EOL;
       $headContent .= '    </style>' . PHP_EOL;
+      // TODO: Add these javascript files conditionally. For instance, we need dataEntry.js only when the user is entering data.
+      $headContent .= '    <script src="bin/scripts/dataEntry.js" type="text/javascript"></script>' . PHP_EOL;
       $headContent .= '    <script src="bin/scripts/ssfDisplay.js" type="text/javascript"></script>' . PHP_EOL;
       $headContent .= '    <script src="bin/scripts/flyoverPopup.js" type="text/javascript"></script>' . PHP_EOL;
       $headContent .= "    <link rel=icon href=favicon.png sizes='16x16' type='image/png'>" . PHP_EOL;

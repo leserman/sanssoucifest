@@ -2,7 +2,7 @@
 
 class SSFRunTimeValues {
   private static $valuesAreInitialized = false;
-  private static $copyrightYearsString;
+//  private static $copyrightYearsString;
   private static $contactEmailAddress;
   private static $listManagementEmailAddress;
   private static $currentYearString = "";
@@ -29,7 +29,7 @@ class SSFRunTimeValues {
   private static $eventDatesDescriptionStringShort = array();
   private static $eventDescriptionStringLong = array();
   private static $eventDescriptionStringShort = array();
-  private static $venueDescriptionString = array();
+//  private static $venueDescriptionString = array();  DELETED 3/28/15
   
   // curation message phrases
   private static $arMsgAcceptanceMessagePart2 = '';
@@ -67,7 +67,7 @@ class SSFRunTimeValues {
       foreach ($rtvRows as $rtvRow) { // item in db
         switch ($rtvRow['parameterName']) {
           case 'contactEmailAddress': self::$contactEmailAddress = $rtvRow['parameterValueString']; break;
-          case 'copyrightYearsString': self::$copyrightYearsString = $rtvRow['parameterValueString']; break;
+//          case 'copyrightYearsString': self::$copyrightYearsString = $rtvRow['parameterValueString']; break;
           case 'currentYearString': self::$currentYearString = $rtvRow['parameterValueString']; break;
 //          case 'defaultAdministratorId': self::$administratorId = self::$defaultAdministratorId = $rtvRow['parameterValue']; break; // overall beginning 3/9/11 // Obsolete 2/20/15
           case 'defaultCallId': self::$callForEntriesId = self::$initialCallForEntriesId = $rtvRow['parameterValue']; break;
@@ -97,14 +97,14 @@ class SSFRunTimeValues {
       self::$eventDatesDescriptionStringShort[$row['eventId']] = $row['eventDatesDescription1'];
       self::$eventDescriptionStringLong[$row['eventId']] = $row['eventDescriptionLong'];
       self::$eventDescriptionStringShort[$row['eventId']] = $row['eventDescriptionShort'];
-      self::$venueDescriptionString[$row['eventId']] = $row['venueDescription1'];
+//      self::$venueDescriptionString[$row['eventId']] = $row['venueDescription1'];    DELETED 3/28/15
     }
   $debug = new SSFDebug;
   $debug->belch('$eventDatesDescriptionStringLong', self::$eventDatesDescriptionStringLong, -1);
   $debug->belch('$eventDatesDescriptionStringShort', self::$eventDatesDescriptionStringShort, -1);
   $debug->belch('$eventDescriptionStringLong', self::$eventDescriptionStringLong, -1);
   $debug->belch('$eventDescriptionStringShort', self::$eventDescriptionStringShort, -1);
-  $debug->belch('$venueDescriptionString', self::$venueDescriptionString, -1);
+//  $debug->belch('$venueDescriptionString', self::$venueDescriptionString, -1);    DELETED 3/28/15
   }
 
   private static function initializeCallsAttributes() {
@@ -178,7 +178,7 @@ class SSFRunTimeValues {
   }
   
   // general functions
-    public static function getCopyrightYearsString() { self::checkInit(); return self::$copyrightYearsString; }
+//    public static function getCopyrightYearsString() { self::checkInit(); return self::$copyrightYearsString; }
     public static function getCurrentYearString() { self::checkInit(); return self::$currentYearString; }
     public static function getContactEmailAddress() { self::checkInit(); return self::$contactEmailAddress; }
     public static function getListManagementEmailAddress() { self::checkInit(); return self::$listManagementEmailAddress; }
@@ -279,11 +279,12 @@ class SSFRunTimeValues {
     self::checkInit(); 
     return (isset(self::$eventDescriptionStringShort[$eventId])) ? self::$eventDescriptionStringShort[$eventId] : "";
   }
+/* function deleted 3/28/15
   public static function getVenueDescriptionString($eventId) {
     self::checkInit(); 
     return (isset(self::$venueDescriptionString[$eventId])) ? self::$venueDescriptionString[$eventId] : "";
   }
-  
+*/
   // accept/reject message (arMsg) email string functions 
   public static function getAcceptanceMessagePart2() { self::checkInit(); return self::$arMsgAcceptanceMessagePart2; }
   public static function requestImages() { self::checkInit(); return self::$arMsgRequestImages; }

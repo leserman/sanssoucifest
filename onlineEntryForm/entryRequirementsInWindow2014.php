@@ -9,8 +9,6 @@
   $finalDeadlineString = date('M j, Y', strtotime(SSFRunTimeValues::getFinalDeadlineDateString()));
   $earlyDeadlineString = date('M j, Y', strtotime(SSFRunTimeValues::getEarlyDeadlineDateString()));
   $associatedEventId = SSFRunTimeValues::getAssociatedEventId();
-  $eventDatesDescriptionString = SSFRunTimeValues::getEventDatesDescriptionStringShort($associatedEventId);
-  $venueDescriptionString = SSFRunTimeValues::getVenueDescriptionString($associatedEventId);
   $eventDescription = SSFRunTimeValues::getEventDescriptionStringLong(SSFRunTimeValues::getAssociatedEventId($callForEntriesId)); // 3/19/14
   $highlightTextColor = '#e4afe4'; //FAFF66 E495E4
 ?>

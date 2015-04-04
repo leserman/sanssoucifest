@@ -23,7 +23,7 @@
   
               <style type="text/css" scoped>
                 .tickets { font-size:15px;margin-top:6px;margin-bottom:0px;line-height:120%;font-weight:normal; }
-/*
+/*              These lines would force the title to be the primaryTextColor even though it's in an anchor.
                 .page .contentArea .headerPart .title a:link,
                 .page .contentArea .headerPart .title a:visited { color:<?php echo $primaryTextColor; ?>; text-decoration: underline; }
                 .page .contentArea .headerPart .title a:hover { color: #990000; text-decoration: underline; }

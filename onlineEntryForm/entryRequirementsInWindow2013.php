@@ -9,7 +9,6 @@
   $finalDeadlineString = date('M j, Y', strtotime(SSFRunTimeValues::getFinalDeadlineDateString()));
   $earlyDeadlineString = date('M j, Y', strtotime(SSFRunTimeValues::getEarlyDeadlineDateString()));
   $eventDatesDescriptionString = SSFRunTimeValues::getEventDatesDescriptionStringShort($associatedEventId);
-  $venueDescriptionString = SSFRunTimeValues::getVenueDescriptionString($associatedEventId);
 ?>
 <html>
 <head>
