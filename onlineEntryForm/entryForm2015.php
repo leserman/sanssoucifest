@@ -17,9 +17,10 @@
 //  $eventDescriptionLong = SSFRunTimeValues::getEventDescriptionStringLong(SSFRunTimeValues::getAssociatedEventId($associatedEventId));   // 3/29/14
   $eventDatesDescriptionStringShort = SSFRunTimeValues::getEventDatesDescriptionStringShort($associatedEventId);
   $eventDatesDescriptionStringLong = SSFRunTimeValues::getEventDatesDescriptionStringLong($associatedEventId);
-  $entryRequirementsInWindowFilename = 'entryRequirementsInWindow' . $currentYearString . '.php';
+
+  SSFEntryForm::$entryRequirementsInWindowFilename = 'onlineEntryForm/entryRequirementsInWindow' . $currentYearString . '.php';
+  SSFEntryForm::$formActionFileName = "onlineEntryForm/entryForm" . $currentYearString . ".php";
   $danceCinemaCallFilename = 'danceCinemaCall' . $currentYearString . '.php';
-  $formActionFileName = "onlineEntryForm/entryForm" . $currentYearString . ".php";
   $listManagementEmailAddress = SSFRunTimeValues::getListManagementEmailAddress();
   $forceDisplayAllForW3CValidation = true;
  
@@ -34,19 +35,23 @@
 
 <!--
   TODO
-    - Add Name title
-    - Add Title title
-    - FIX title run time to Running time
-    - make the text describe the input label better in
+    / Add Name title
+    / Add Title title
+    / FIX title run time to Running time
+    / make the text describe the input label better in
       ERROR:
       The password you entered does not match your Sign In Email Address.
       If you simply forgot your password, leave it blank and Sign In again.
       You'll receive more help after that.
-    - 2015 Entry Form: Bad link for Payment Information http://dev.sanssoucifest.org/onlineEntryForm/entryForm2015.php
-    - Add Subscribed to field to person display
-    - Stop collecting phoneFax
+    / 2015 Entry Form: Bad link for Payment Information http://dev.sanssoucifest.org/onlineEntryForm/entryForm2015.php
+    / Stop collecting phoneFax
     - Fix 3 occurances of <span style="color:#FFFF99;"> in callsForEntries.releaseInfoWidgetIntro
+    - Fix 3 occurances of <span style="color:#FFFF99;"> in HTMLGen
     - handle carriage returns in user input
+    - fix the way control is exchanged between the entry form and the requirements.
+    - Add NotifyOf to person display.
+    / Remove How you heard about us from person display
+    - Fix Paypal pages
 -->
 
 
@@ -135,7 +140,8 @@
 
 <!-- Switch from table-based formatting to primarily DIV-based formatting ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
 
-   <div id="encloseEntireFormDiv" class="entryFormSection" style="border:dashed 1px green;">
+   <div id="encloseEntireFormDiv" class="entryFormSection" style="border:dashed 1px green;border:none;"> <!-- Optional debug border -->
+     <script type="text/javascript">window.name='EntryForm';</script>
 <!-- From bolier plate -->
           <article id="<?php echo $articleId; ?>">
 
@@ -146,6 +152,7 @@
               .page { background-image: none; }
               .page .highlightedWordColor { color: <?php echo $programHighlightColor; ?>; }
               .page .highlightedTextColor { color: <?php echo $programHighlightColor; ?>; }
+              .page .entryFormSection .programPageTitleText { color: <?php echo $secondaryTextColor; ?>; }
               .page .entryFormSubheading { color: <?php echo $quaternaryTextColor; ?>; }
               .page .bodyText { font-size: 14px; line-height: 130%; }
               .page .rowTitleTextWide { width:160px; }
@@ -156,7 +163,7 @@
                                      
 <!-- begin FORM ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
       <!-- TODO Generalize action filename. -->
-      <form class="ssfEntryForm" name="ssfEntryForm" id="ssfEntryForm" onSubmit="return preSubmitValidation();" action="<?php echo $formActionFileName; ?>" method="post"> 
+      <form class="ssfEntryForm" name="ssfEntryForm" id="ssfEntryForm" onSubmit="return preSubmitValidation();" action="<?php echo SSFEntryForm::$formActionFileName; ?>" method="post"> 
 
 <?php
 // ++++ Initialization ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++
@@ -202,7 +209,7 @@
     }
   }
 
-  $theForm->DEBUGGER->belch('100 theForm->state', $theForm->state, SSFEntryForm::$displayDataStructures);
+  $theForm->DEBUGGER->belch('100 theForm->state', $theForm->state, 1); // SSFEntryForm::$displayDataStructures
   $theForm->DEBUGGER->belch('101 _POST', $_POST, 0);
 
 // -- Initialize $dbPersonWorkState & $dbContributorsState  ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++
@@ -258,7 +265,7 @@
 
 $theForm->DEBUGGER->belch('503. theForm->state', $theForm->state, -1);
 $theForm->DEBUGGER->becho('503. theForm->state["workSelector"]', $theForm->state['workSelector'], SSFEntryForm::$debugRefreshIssues);
-$theForm->DEBUGGER->belch('503. $dbPersonWorkState', $dbPersonWorkState, SSFEntryForm::$displayDataStructures);
+$theForm->DEBUGGER->belch('503. $dbPersonWorkState', $dbPersonWorkState, 1); // SSFEntryForm::$displayDataStructures
 $theForm->DEBUGGER->becho('503. personIsSpecified', $personIsSpecified, SSFEntryForm::$displayDataStructures);
 $theForm->DEBUGGER->becho('503. theForm->workIsSpecified()', $theForm->workIsSpecified(), SSFEntryForm::$displayDataStructures);
 
@@ -277,7 +284,7 @@ echo '            <tr>' . PHP_EOL;
 echo '              <td class="programPageTitleText bottomCenter" style="padding-top:24px;">Sign In / Register</td>' . PHP_EOL;
 echo '            </tr>' . PHP_EOL;
 echo '            <tr>' . PHP_EOL;
-echo '              <td class="middleCenter" style="height:30px;"><hr class="horizontalSeparator1" style="vertical-align:middle;height:1px;border-width:0;"></td>' . PHP_EOL;
+echo '              <td class="middleCenter" style="height:30px;"><hr class="horizontalSeparator1" style="vertical-align:middle;height:1px;border-width:0;background-color:' . $secondaryTextColor . '"></td>' . PHP_EOL;
 echo '            </tr>' . PHP_EOL;
 echo '            <tr>' . PHP_EOL;
 echo '              <td style="text-align:center;"> ' . PHP_EOL;
@@ -291,29 +298,29 @@ echo '              <td style="text-align:center;"> ' . PHP_EOL;
                     . ' credentials and affiliations. Accepted works will be screened ' . $eventDescriptionShort
 /*                  . 'Additionally, with your permission, your work may tour to other venues around the U.S. and elsewhere.' */
                     . 'For more information see our <a class="dodeco" href="' . $danceCinemaCallFilename . '">'
-                    . 'Call for Entries</a> and our ' . SSFEntryForm::entryRequirementsDisplayString();
+                    . 'Call for Entries</a> and our ' . SSFEntryForm::getEntryRequirementsDisplayStringWithLink('Entry Requirements');
 echo '              </td>' . PHP_EOL;
 echo '            </tr>' . PHP_EOL;
 echo '            <tr>' . PHP_EOL;
 echo '              <td class="middleCenter bodyTextWithEmphasis">' . PHP_EOL;
         if ($showLoginBlurb) echo '<div class="bodyText" style="text-align:left;padding:0px 54px 24px 64px;">' . $loginBlurb . '.</div>' . PHP_EOL;
 echo '                <table style="text-align:center;width:100%;border:none;margin:0;padding:0;">' . PHP_EOL;
-echo '                  <tr><td colspan="2" class="loginPrompt" style="padding:0 0 6px 0;font-size:14px;">Please sign in or register here.</td></tr>' . PHP_EOL;
+echo '                  <tr><td colspan="2" class="loginPrompt" style="padding:0 0 6px 0;"><span class="secondaryTextColor">Please sign in or register here.</span></td></tr>' . PHP_EOL;
 echo '                  <tr>' . PHP_EOL;
 echo '                    <td class="entryFormDescription" style="width:242px;height:28px;text-align:right;"> ' . PHP_EOL;
 echo '                      <a class="dodeco" href="javascript:window.void(0)" onMouseOver="flyoverPopup(' . HTMLGen::simpleQuote('Your login name is your email address.') . ')"' . PHP_EOL;
-echo '                        onMouseOut="killFlyoverPopup()" onClick="window.alert(' . HTMLGen::simpleQuote('Your login name is your email address.') . ')">Email / Login Name</a>: </td>' . PHP_EOL;
-echo '                    <td class="entryFormField" style="height:28px;text-align:left;"><input type="text" name="loginName" id="loginName" ' . PHP_EOL;
+echo '                        onMouseOut="killFlyoverPopup()" onClick="window.alert(' . HTMLGen::simpleQuote('Your login name is your email address.') . ')">Email Address / Login Name</a>: </td>' . PHP_EOL;
+echo '                    <td class="entryFormField" style="height:28px;text-align:left;"><input style="height:14px;" type="text" name="loginName" id="loginName" ' . PHP_EOL;
 echo '                         value="' . $theForm->state['loginName'] . '" ' . "onKeyPress='return submitEnter(this, event)'" . PHP_EOL;
 echo '                         onchange="document.getElementById(' . HTMLGen::simpleQuote('people_loginName') . ').value=this.value"' . PHP_EOL;
 echo '                         class="entryFormInputFieldShort" maxlength="100">' . PHP_EOL;
 echo '                         <!-- onBlur="ValidEmail(this);" -->' . PHP_EOL;
 echo '                    </td>' . PHP_EOL;
 echo '                  </tr>' . PHP_EOL;
-echo '                  <tr><td colspan="2" class="loginPrompt" style="padding:6px 0 4px 0;">If you have a password and you know what it is, enter it below.</td></tr>' . PHP_EOL;
+echo '                  <tr><td colspan="2" class="loginPrompt" style="padding:6px 0 4px 0;"><span class="secondaryTextColor">If you have a password and you know what it is, enter it below.</span></td></tr>' . PHP_EOL;
 echo '                  <tr>' . PHP_EOL;
 echo '                    <td class="entryFormDescription" style="height:28px;text-align:right;">Password: </td>' . PHP_EOL;
-echo '                    <td class="entryFormField" style="height:28px;text-align:left;"><input type="password" name="pwFromLogin" id="pwFromLogin" ' . PHP_EOL;
+echo '                    <td class="entryFormField" style="height:28px;text-align:left;"><input style="height:14px;" type="password" name="pwFromLogin" id="pwFromLogin" ' . PHP_EOL;
 echo '                       value="' . $theForm->state['pwFromLogin'] . '" class="entryFormInputFieldShorter" maxlength="100"><span ' . PHP_EOL;
 echo '                       class="entryFormDescription"> (leave blank if unknown)</span></td>' . PHP_EOL;
 echo '                  </tr>' . PHP_EOL;
@@ -331,7 +338,7 @@ echo '        <script type="text/javascript">getUniqueElement("loginName").focus
 <!-- End loginSectionDiv ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
 
 <!-- Begin entryFormSectionsDiv ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
-        <div id = "entryFormSectionsDiv" class="entryFormSection" style="padding-bottom:10px;border:hotpink dashed 1px;">
+        <div id = "entryFormSectionsDiv" class="entryFormSection" style="padding-bottom:10px;border:hotpink dashed 1px;border:none;"> <!-- Optional debug border -->
 <?php
   $theForm->DEBUGGER->becho('502x theForm->state[userLoginUnderway]', $theForm->state['userLoginUnderway'], -1);
   if (!$theForm->state['userLoginUnderway']) { // || $forceDisplayAllForW3CValidation
@@ -339,7 +346,7 @@ echo '        <script type="text/javascript">getUniqueElement("loginName").focus
     echo '          <div id = "entryFormInstructionsDiv" class="bodyText" style="text-align:left;padding:6px 8px 0px 8px;">To';
     echo ' make a submission, complete this form adhering';
     // TODO Generalize Reqs Window
-    echo ' to the ' . SSFEntryForm::entryRequirementsDisplayString() . '. You may return later to print or edit this form by signing in again. ' ;
+    echo ' to the ' . SSFEntryForm::getEntryRequirementsDisplayStringWithLink('Entry Requirements') . '. You may return later to print or edit this form by signing in again. ' ;
     echo (!$theForm->isDisplayingData()) ? ('Save your changes by clicking the ' 
                                             . (($theForm->isCreatingANewPerson() || $theForm->isCreatingANewWork()) ? "Submit" : "Save") . ' button.') : ''; 
     echo (($theForm->isEditingAWork()) ? ' Note that payment and release information is at the very bottom of the form.' : '') . PHP_EOL;
@@ -349,7 +356,7 @@ echo '        <script type="text/javascript">getUniqueElement("loginName").focus
     echo '          </div>' . PHP_EOL;
   }
 ?>
-          <div id='editSectionsContainer' style='margin:0 auto 10px auto;padding:0 8px;border:dashed cyan 1px;'>
+          <div id='editSectionsContainer' style='margin:0 auto 10px auto;padding:0 8px;border:dashed cyan 1px;border:none;'> <!-- Optional debug border -->
 
 <!-- Begin Data Display ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
         <div id="edDataDiv">
@@ -407,7 +414,7 @@ echo '        <script type="text/javascript">getUniqueElement("loginName").focus
 <!-- Begin Person Edit ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
 <?php
   if (($theForm->isEditingAPerson()) && isset($dbPersonWorkState['personId']) && $dbPersonWorkState['personId'] != null) { //   || $forceDisplayAllForW3CValidation
-//    echo '<div style="border:1px red dashed;border:none;">' . PHP_EOL; 
+//    echo '<div style="border:1px red dashed;border:none;">' . PHP_EOL; // <!-- Optional debug border -->
     SSFEntryForm::displayPersonEditForm($theForm, $dbPersonWorkState);
 //    echo '</div>' . PHP_EOL; 
   }
@@ -418,7 +425,7 @@ echo '        <script type="text/javascript">getUniqueElement("loginName").focus
 <?php 
   if ($theForm->isCreatingANewWork()) { //  || $forceDisplayAllForW3CValidation
     // Initialize parameters for the new work.
-//    echo '<div style="border:1px red dashed;border:none;">' . PHP_EOL; 
+//    echo '<div style="border:1px red dashed;border:none;">' . PHP_EOL; // <!-- Optional debug border -->
     $dbPersonWorkState["howPaid"] = 'paypal'; 
     $dbPersonWorkState["permissionsAtSubmission"] = SSFRunTimeValues::getPermissionAllOKString();
     SSFEntryForm::displayWorkCreationForm($theForm, $dbPersonWorkState, $dbContributorsState); 

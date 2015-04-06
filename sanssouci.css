@@ -64,6 +64,15 @@ body {
   border: none;
 } 
 
+input, textarea, keygen, select, button {
+  font-family: Helvetica, Arial, sans-serif;  
+}
+
+.page textarea {
+  margin-top: 3px;
+  line-height: 130%;
+}
+
 .navArea {
   margin: 5px auto 4px auto;
   padding: 5px;
@@ -640,7 +649,7 @@ a:hover { color: #990000; text-decoration: underline; }
 
 .page .etchedIn {
   padding: 1px 4px 1px 0;
-  margin: 3px 0;
+  margin: 1px 0 3px 0;
   max-width: 430px;
   border-right: inset 1px #AAAAAA;
   border-bottom: inset 1px #AAAAAA;
@@ -714,8 +723,9 @@ a:hover { color: #990000; text-decoration: underline; }
 .page .rowTitleText, 
 .page .rowTitleTextWide, 
 .page .rowTitleTextNarrow { 
-	padding: 0;
-	margin-top: 4px; /* 2px works for IE, Chrome on Windows, and Safari. 3px works better for Chrome on Mac. */
+  line-height: 120%;
+	padding: 0px;
+	margin-top: 4px;  /* ??? 2px works for IE, Chrome on Windows, and Safari. 3px works better for Chrome on Mac. */
 	vertical-align: middle;
   color: #333333;
 }
@@ -738,7 +748,8 @@ a:hover { color: #990000; text-decoration: underline; }
   margin: 0;
   padding: 1px 0 2px 0; 
   float: left;
-  /* border: dashed 1px #66FF00; */
+  border: dashed 1px blue;
+  border: none;
 }
 
 .navBar, .navBarTight {
@@ -882,6 +893,7 @@ ul {
   padding-left: 24px;
   padding-right: 24px;
 	color: #666666;
+	color: black;
 }
 
 .bodyTextWithEmphasis {
@@ -1117,7 +1129,8 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 .page .entryFormInputField, .page .entryFormInputFieldWide, .page .entryFormInputFieldShort, 
 .page .entryFormInputFieldShorter, .page .entryFormInputFieldShorterYet, .page .entryFormInputFieldVeryShort,
 .page .entryFormInputFieldShortMed {
-	height: 13px; /* 3/31/15 or 14px */
+  font-size: 13px;
+	height: 130%; /* 3/31/15 or 14px */
 }
 
 .entryFormInputFieldWide { width: 420px; }
@@ -1128,15 +1141,22 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 .entryFormInputFieldVeryShort { width: 45px; }
 
 .entryFormTextAreaField, .entryFormTextAreaFieldWide {
+  font-family: Helvetica, Arial, sans-serif;
   font-size: 12px;
   font-weight: normal;
   color: #000000;
 	width: 340px;
 }
 
+.page .entryFormTextAreaField, .page .entryFormTextAreaFieldWide {
+  font-size: 13px;
+  line-height: 120%;
+}
+
 .entryFormTextAreaFieldWide { width: 420px; }
 
 .curationFormTextArea {
+/*  font-family: Helvetica, Arial, sans-serif; */
   font-size: 12px;
   font-weight: normal;
 	width: 100%;
@@ -1152,10 +1172,12 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 }
 
 .page .entryFormRadioButton {
-  color: #666666;
+  vertical-align: middle;
+/*  color: #666666; */
 }
 
 .entryFormRadioButtonLabel {
+/*  font-family: Helvetica, Arial, sans-serif; */
   font-size: 13px;
 	line-height: 130%;
   font-weight: normal;
@@ -1164,7 +1186,18 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 }
 
 .page .entryFormRadioButtonLabel {
-  color: #666666;
+  padding-top: 5px;
+  vertical-align: middle;
+  vertical-align: baseline;
+  color: black; /* #666666; */
+}
+
+.page *:not(etchedIn) input[type="radio"] {
+  margin-top: 0;
+}
+
+.page .etchedIn input[type="radio"] { /* This should not be necessary given the :not in the above related selector. */
+  margin-top: 3px;
 }
 
 .loginPrompt {
@@ -1175,6 +1208,7 @@ html>body .entryFormSectionHeading { /* All other browsers will apply
 }
 
 .page .entryFormSection .loginPrompt {
+  font-size: 14px;
   color: green;
 }
 

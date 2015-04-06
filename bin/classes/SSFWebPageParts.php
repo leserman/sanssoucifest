@@ -68,7 +68,7 @@ REQUEST_URI - The URI which was given in order to access this page; for instance
         $chars = str_split($colorCode);
         foreach($chars as $char) { 
           if (!in_array($char, $hexChars)) { 
-            SSFDebug::globalDebugger()->becho('fixColor() non-hex char encountered', $char, 1);
+            SSFDebug::globalDebugger()->becho('fixColor() non-hex char encountered', $char, -1);
             return $fixedCode; // Sometimes RETURN from here
           } 
         } 

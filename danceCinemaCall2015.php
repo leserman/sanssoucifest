@@ -104,10 +104,13 @@
             <section class="dodeco" id="how">
               <h2 style="margin-top:10px;margin-bottom:7px;">How to Submit</h2>
               <div class="bodyTextUnleaded">
-                <p class="dodeco primaryTextColor">Please read the
-                   <a href="javascript:void(0)" onClick="entryRequirementsWindow=window.open('<?php echo $entryRequirementsInWindowPath; ?>',
+                <p class="dodeco primaryTextColor">Please read the <?php echo HTMLGen::getEntryRequirementsDisplayStringWithLink($entryRequirementsInWindowPath, 'Entry Information &amp; Requirements'); ?>
+<!--
+                   <a href="javascript:void(0)" onClick="entryRequirementsWindow=window.open('<?php // echo $entryRequirementsInWindowPath; ?>',
                      'EntryRequirementsWindow','directories=no,status=no,menubar=no,resizable=yes,scrollbars=yes,toolbar=no,top=50,width=850,height=640',false);
-                     entryRequirementsWindow.focus();">Entry Information &amp; Requirements</a> <span style="color:ffff99;font-size:15px;">for details regarding submission</span>.
+                     entryRequirementsWindow.focus();">Entry Information &amp; Requirements</a> 
+-->                     
+                     <span style="color:ffff99;font-size:15px;">for details regarding submission</span>.
                 </p>
                 <p class="dodeco">Sign in to submit an <a href="./<?php echo $onlineEntryFormPath; ?>">entry form</a>.</p>
                 <p class="dodeco"><a href="<?php echo $onlineEntryFormPath; ?> ">Sign in</a> to modify your entry or pay the entry fee via Paypal&nbsp;<img src="images/logos/PayPal_mark_37x23.gif" alt="PayPal logo" style="border:none;margin:0;padding:0;vertical-align:-30%;">.</p>

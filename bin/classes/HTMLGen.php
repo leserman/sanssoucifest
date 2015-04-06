@@ -190,7 +190,7 @@ class HTMLGen {
   }
 
   // TODO 4/3/15 - Moved to SSFEntryForm.php. Delete from here after 2015.
-  public static function displayEditSectionFooterX($title, $saveButtonName, $saveButtonNameId, 
+  public static function displayEditSectionFooter($title, $saveButtonName, $saveButtonNameId, 
                                                 $hiddenInputSavingId, $cancelButtonNameId='') {
     $saveButtonGenId = HTMLGen::genId($saveButtonNameId);
     $cancelButtonGenId = HTMLGen::genId($cancelButtonNameId);
@@ -275,7 +275,7 @@ class HTMLGen {
   public static function addCheckBoxWidgetRow($title, $tableName, $colName, $currentValue, $cols, $disable=false) {
     echo "<!-- CheckBoxWidgetRow: " . $tableName . "." . $colName . ", " . $title . (($disable) ? " disabled" : "") . " -->\r\n";
     echo "      <div class='formRowContainer' style='padding-bottom:2px;'>\r\n";
-    echo "        <div class='rowTitleTextWide ssfCheckboxTitle' style='padding-top:2px;'>" . $title . ":</div> \r\n";
+    echo "        <div class='rowTitleTextWide ssfCheckboxTitle' style='padding-top:3px;'>" . $title . ":</div> \r\n";
     echo "        <div class='floatLeft etchedIn'>\r\n";
     $dpArray = DatumProperties::getArray();
     $dataItemName = DatumProperties::getItemKeyFor($tableName, $colName);
@@ -304,7 +304,7 @@ class HTMLGen {
       if ($inSet) echo " checked='checked'";
       echo ">\r\n";
       echo "            </div>\r\n";
-      echo "            <div class='entryFormRadioButtonLabel' style='float:left;padding-right:16px;padding-top:5px;'>\r\n"; // Removed padding-top:0px; 3/31/15
+      echo "            <div class='entryFormRadioButtonLabel' style='float:left;padding-right:16px;padding-top:3px;'>\r\n"; // Removed padding-top:0px; 3/31/15
       echo "              <label for='" . $genId . "'>" . $possVal . "</label>\r\n";
       echo "            </div>\r\n";
       echo "            <div style='clear:both;'></div>\r\n";
@@ -467,7 +467,7 @@ class HTMLGen {
       if ($isValue) echo " checked='checked'";
       echo ">\r\n";
       echo "            </div>\r\n";
-      echo "            <div class='entryFormRadioButtonLabel' style='float:left;padding-right:16px;padding-top:4px;'>\r\n";
+      echo "            <div class='entryFormRadioButtonLabel' style='float:left;padding-right:16px;'>\r\n";
       echo "              <label for='" . $genId . "'>" . $labelStr . "</label>\r\n";
       echo "            </div>\r\n";
       echo "            <div style='clear:both;'></div>\r\n";
@@ -541,7 +541,7 @@ class HTMLGen {
     echo "      <div class='formRowContainer' style='margin-top:0px;margin-bottom:0px;'>\r\n"; // style='margin-top:0px;margin-bottom:0px;' prior to 3/4/10
     // description 
     $titleMarkupClass = self::getTitleMarkupClass($width);
-    echo "        <div class='" . $titleMarkupClass . "' style='margin-top:3px;padding-top:0;'>" . $desc . $descAnteChar . "</div>\r\n"; 
+    echo "        <div class='" . $titleMarkupClass . "' style='margin-top:6px;'>" . $desc . $descAnteChar . "</div>\r\n";
     echo "        <div class='entryFormFieldContainer' style='padding-top:0px;padding-bottom:1px;'>\r\n";
 //    echo "          <div style='float:left;'>\r\n";
     echo "            <textarea id=" . $genId . " name=" . $idName . (($disable) ? ' disabled' : '');
@@ -731,13 +731,14 @@ class HTMLGen {
     echo "<!-- TextWidgetTelephonesRow " . (($disable) ? " disabled" : "") . " -->\r\n";
     echo "      <div class='formRowContainer'>\r\n";
     echo "        <div class='rowTitleTextWide' style='float:left;vertical-align:top;'>Telephones:</div>\r\n";
-    echo "        <div class='entryFormFieldContainer' style='float:left;vertical-align:top'>\r\n";
+    echo "        <div class='entryFormFieldContainer' style='float:left;vertical-align:top;'>\r\n";
     $maxLength = 32;
-    $phoneTypes = array('phoneVoice' => 'Voice', 'phoneMobile' => 'Mobile', 'phoneFax' => 'Fax' );
+//    $phoneTypes = array('phoneVoice' => 'Voice', 'phoneMobile' => 'Mobile', 'phoneFax' => 'Fax' );
+    $phoneTypes = array('phoneVoice' => 'Voice', 'phoneMobile' => 'Mobile');
     foreach ($phoneTypes as $phoneType => $phoneDesc) {
-      echo "      <div style='margin-top:-1px;'>\r\n";
+      echo "      <div style='margin-top:-1px;clear:left;'>\r\n"; // added clear:left 4/4/15 to keep each internal div on a separate line in IE.
       echo "        <div class='rowTitleTextNarrow' style='float:left;width:60px;'>" . $phoneDesc . ":</div>\r\n";
-      echo "        <div class='entryFormFieldContainer' style='float:left'>\r\n";
+      echo "        <div class='entryFormFieldContainer' style='float:left;'>\r\n";
       echo "          <input type='text' id=" . HTMLGen::genId("people_" . $phoneType) . " name=people_" . $phoneType . " class='entryFormInputFieldShort'";
       echo " style='width:120px;float:left'";
       echo " value='" . $dataArray[$phoneType] . "' maxlength=" . $maxLength . (($disable) ? ' disabled' : '');
@@ -756,12 +757,10 @@ class HTMLGen {
     echo "<!-- RunTimeWidgetsRow " . (($disable) ? " disabled" : "") . " -->\r\n";
     list($hours, $minutes, $runTimeSeconds) = explode(":", $runTime);
     $runTimeMinutes = (60 * $hours) + $minutes; 
-    echo "      <div class='formRowContainer'>\r\n";
+    echo "      <div class='formRowContainer' style='border:1px dashed blue;border:none;'>\r\n";
     // Overall title
     echo "        <div class='rowTitleTextWide'>" . self::requiredFieldString() . "Running Time Minutes:</div>\r\n";
     echo "        <div class='entryFormFieldContainer'>\r\n";
-    // Minutes title
-//    echo "          <div class='rowTitleTextNarrow' style='width:50px;'>Minutes:</div>\r\n"; line deleted 3/29/12
     // Minutes widget
     echo "          <div style='float:left;'>\r\n";
     echo "            <input type='text' id='" . HTMLGen::genId("works_minutes") . "' name='" . "works_minutes" . "' class='entryFormInputFieldVeryShort'";
@@ -770,14 +769,14 @@ class HTMLGen {
     echo " onchange='javascript:userMadeAChange(0);'" . ">\r\n";
     echo "          </div>\r\n";
     // Seconds title
-    echo "        <div class='rowTitleTextNarrow' style='width:70px;'>Seconds:</div>\r\n";
+    echo "          <div class='rowTitleTextNarrow' style='width:70px;'>Seconds:</div>\r\n";
     // Seconds widget
     echo "          <div style='float:left;'>\r\n";
     echo "            <input type='text' id='" . HTMLGen::genId("works_seconds") . "' name='" . "works_seconds" . "' class='entryFormInputFieldVeryShort'";
     echo " value='" . $runTimeSeconds . "' maxlength=2 onKeyPress='return digitsOnly2(event);'" . (($disable) ? ' disabled' : '');
     echo " onchange='javascript:userMadeAChange(0);'" . ">\r\n";
     echo "          </div>\r\n";
-    echo "        </div>\r\n";
+    echo "          </div>\r\n";
     echo "        <div style='clear:both;'></div>\r\n";
     echo "      </div>\r\n";
     if (self::$showFunctionMarkers) echo "<!-- END RunTimeWidgetsRow -->\r\n";
@@ -1596,15 +1595,17 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
       $phoneMobileExists = isset($personArray['phoneMobile']) && ($personArray['phoneMobile'] != '');
       $phoneFaxExists = isset($personArray['phoneFax']) && ($personArray['phoneFax'] != '');
       $telephonesExist = $phoneVoiceExists || $phoneMobileExists || $phoneFaxExists;
+      $notifyOfString = str_replace(',', ", ", $personArray['notifyOf']);
       // name
       echo '<div class="datumValue' . (($forAdmin) ? " floatLeft" : "") . '">';
       if ($forAdmin) echo $personArray["name"]; // TODO 11/17/14 USE self::htmlEncode() HERE?
-      else echo $personArray["nickName"] . ' ' . $personArray["lastName"];
+      else {
+        echo '<span class="datumDescription">Name: </span>' . $personArray["nickName"] . ' ' . $personArray["lastName"];
+      }
       if ($forAdmin) {
         // recordType
         echo ' <span style="padding-left:2em;color:rgb(223,116,22);">' . ucfirst($personArray["recordType"]) . '</span>';
         // notifyOf
-        $notifyOfString = str_replace(',', ", ", $personArray['notifyOf']);
         echo ' <span class="datumDescription" style="padding-left:2em">Notify of: </span>' . $notifyOfString; // 2/1/09
         echo '</div>' . PHP_EOL;
         // last name & nickname
@@ -1649,8 +1650,20 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
                                                                  : self::getHTMLAnchoredEmailStringFor($personArray['name'], $emailString));
       echo self::getSimpleDataWithDescriptionLine('Email', $valueString); 
       // how heard about us
-      if ($alwaysDisplay || (isset($personArray['howHeardAboutUs']) && ($personArray['howHeardAboutUs'] != ''))) {
+      if ($alwaysDisplay || ((isset($personArray['howHeardAboutUs']) && ($personArray['howHeardAboutUs'] != '') && $forAdmin))) {
         echo self::getSimpleDataWithDescriptionLine('How you heard about us', $personArray['howHeardAboutUs']); 
+      }
+      if (!$forAdmin) {
+        // notifyOf
+    self::debugger()->becho('notifyOfString', $notifyOfString, 1);
+        $notifyOfCalls = substr_count($notifyOfString, 'calls') != 0;
+        $notifyOfEvents = substr_count($notifyOfString, 'events') != 0;
+        $notifyString = 'Nothing. Please don\'t send me any email.';
+        if ($notifyOfCalls && $notifyOfEvents) $notifyString = 'Calls for Entries and Festival Events.';
+        else if ($notifyOfCalls && !$notifyOfEvents) $notifyString = 'Calls for Entries but not Festival Events.';
+        else if (!$notifyOfCalls && $notifyOfEvents) $notifyString = 'Festival Events but not Calls for Entries.';
+        echo self::getSimpleDataWithDescriptionLine('Notify me of', $notifyString);
+        echo '</div>' . PHP_EOL;
       }
       if ($forAdmin) {
         // relationship(s)
@@ -1713,7 +1726,12 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     }
     return $string;
   }
-  
+
+  public static function getWindowLinkDisplayString($filename, $displayText, $openedWindowName, $section='') {
+    $displayString = '<a class="dodeco" href="javascript:void(0)" onClick="openedWindow=window.open(\'' . $filename . $section . '\',' . '\'' . $openedWindowName . '\', \'directories=no,status=no,menubar=no,resizable=yes,scrollbars=yes,toolbar=no,top=50,width=850,height=640\',false);' . 'entryRequirementsWindow.focus();">' . $displayText . '</a>';
+    return $displayString;
+  }
+
   public static function getTitleForSort($title) {
   // 5/8/11 switched from using iconv() to mb_convert_encoding() (after reading the comment accredited to
   // "manuel at kiessling dot net 16-Apr-2009 04:33" at http://www.php.net/manual/en/function.iconv.php)
@@ -1923,7 +1941,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     $displayString .= '<!-- display Contributor Information -->' . PHP_EOL;
     $separator1 = (($displayContributorsOnSeparateLines) ? '<br>' : ' ');
     $displayString .= '<div class="datumValue" style="width:98%;padding-top:1px;padding-bottom:4px;">' . PHP_EOL
-                   . '  <div class="datumDescription floatLeft" style="padding-top:3px;">Credits: ' // 4/2/15 added padding-top
+                   . '  <div class="datumDescription floatLeft" style="padding-top:2px;">Credits: ' // 4/2/15 added padding-top
                    . $separator1 . '</div>' . PHP_EOL;
     $contributorsDisplayed = 0;
     self::debugger()->belch('contributorsArray in HTMLGen::getContributorDisplayLines()', $contributorsArray, -1);
@@ -1954,7 +1972,8 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     return $displayString;
   }
 
-  public static function getAllContributorDisplayLines($contributorsArray, $displayContributorsOnSeparateLines=false) {
+  // TODO Delete this apparently unused function. 4/4/15
+  public static function getAllContributorDisplayLinesX($contributorsArray, $displayContributorsOnSeparateLines=false) {
     $displayString = '';
     $displayString .= '<!-- display All Contributor Information -->' . PHP_EOL;
     //$separator1 = (($displayContributorsOnSeparateLines) ? '<br>' : ' ');
@@ -2068,7 +2087,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     return $completeWebAddress;
   }
   
-  private static function getWebAddressDisplayString($webAddress, $linkClass='') {
+  public static function getWebAddressDisplayString($webAddress, $linkClass='') {
     $string = '<a href="' . self::getCompleteWebAddress($webAddress) . '"' . (($linkClass == '') ? '' : ' class="' . $linkClass . '"') . '>' . $webAddress . '</a>';
     return $string;
   }
@@ -2173,7 +2192,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
 
   // TODO Move this to SSFEntryForm. 4/3/15
   // Generates HTML for the work detail. Parameter $workArray must contain workId.
-  public static function displayWorkDetail($workArray, $contributorsArray) {
+  public static function displayWorkDetailX($workArray, $contributorsArray) {
     if (self::$showFunctionMarkers) echo "<!-- BEGIN displayWorkDetail -->\r\n";
     if (!is_null($workArray)) {
       $workId = $workArray['workId'];
@@ -2663,7 +2682,7 @@ class SSFHelp {
                     HTMLGen::simpleQuote($popupHelpString) . ', ' . HTMLGen::simpleQuote('#FFFF99') . ')"' .
                     ' onMouseOut="killFlyoverPopup()" onClick="window.alert(' . HTMLGen::simpleQuote($alertHelpString) . ')">' .
                     '<img src="../images/helpIcon16.png" alt="HELP" ' .
-                    'style="' . $floatString . 'padding:0px 8px;margin:0px 0px;border:none;text-align:center;position:relative;top:-1;' .
+                    'style="' . $floatString . 'padding:0 8px;margin:-4px 0 0 0;border:none;text-align:center;position:relative;top:-1;' . // 4/5/15 Added margin top -4px
                     'vertical-align:middle;"></a>';
     }
     self::debugger()->becho('getHTMLIconFor htmlEmbed', $htmlEmbed, 0);

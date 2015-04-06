@@ -1,5 +1,5 @@
 // ssfDisplay.js
-
+  
   $displayShowHideAlerts = false;
   
   function submitFormVia(form, selectorName) {
@@ -64,10 +64,17 @@
     }
   }
     
-  function enableByName(control) { 
+  function enableByName(control) {
     if (getUniqueElement(control) !== null) {
       getUniqueElement(control).disabled=false;
       // alert(control + " - " + control.disabled);
     } 
   } 
+  
+  function getEntryRequirementsDisplayStringWithLink(filename, displayText, section) {
+    "use strict";
+    section = (section !== 'undefined') ? section : '';
+    var displayString = '<a class="dodeco" href="javascript:void(0)" onClick="entryRequirementsWindow=window.open(\'onlineEntryForm/' + filename + section + '\',' + '\'EntryRequirementsWindow\',\'directories=no,status=no,menubar=no,resizable=yes,scrollbars=yes,toolbar=no,top=50,width=850,height=640\',false);' + 'entryRequirementsWindow.focus();">' + displayText + '</a>';
+    return displayString;
+  }
 
