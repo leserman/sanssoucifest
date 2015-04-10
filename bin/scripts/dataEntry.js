@@ -1,5 +1,83 @@
   var missingValueString = 'aljf5732kln8adfru';
   var usingAlertsForDebugging = false;
+  
+// Begin functions moved here from EntryForm 4/6/15 ------------------------------------------------------------------------------------------
+
+  function okToCreateNewWork() { return (document.getElementById('okToCreateNewWork').value == 1); }
+
+  function disableSelectors() { 
+    disable("workSelector"); 
+    disable("createNewWork");
+    disable("editPerson");
+    disable("editWork");
+  }
+
+  function enableSelectors() { 
+    enable("workSelector"); 
+    if (okToCreateNewWork()) { enable("createNewWork"); } 
+    enable("editPerson");
+    enable("editWork");
+  }
+
+  function setHiddenBoolCacheWidget(checkboxId, hiddenCacheId) {
+    isChecked = document.getElementById(checkboxId).checked;
+    hiddenCacheWidget = document.getElementById(hiddenCacheId);
+    //alert('isChecked=|' + isChecked + '|  hiddenCacheWidget=|' + hiddenCacheWidget +
+    //      '|  hiddenCacheWidget.value=|' + hiddenCacheWidget.value + '|  hiddenCacheWidget.checked=|' + hiddenCacheWidget.checked + '|');
+    if (isChecked) { hiddenCacheWidget.value = '1'; }
+    else { hiddenCacheWidget.value ='0'; }
+  }
+
+  function submitItsMe() {
+//    alert('submitItsMe() value 1: ' + document.getElementById("itsMeSubmit").value);
+    document.getElementById("itsMeSubmit").value="ItsMe";
+//    alert('submitItsMe() value 2: ' + document.getElementById("itsMeSubmit").value);
+    document.getElementById("ssfEntryForm").submit();
+  }
+  
+  function resumeLogin() {
+    document.getElementById('userLoginUnderway').value = 1;
+  }
+
+  // NOTE: For each hidden input is a corresponding value for hiddenInputSavingKey
+  //  hidden input      hiddenInputSavingKey
+  //  ++++++++++++      ++++++++++++++++++++
+  //  saveNewPerson     savingNewPerson
+  //  savePerson        savingPerson
+  //  saveNewWork       savingNewWork
+  //  saveWork          savingWork
+  //  n/a               signingOff
+
+  function cancelSubmit() { // TODO Desk check this function
+//    alert('cancelSubmit');
+    document.getElementById('hiddenInputSavingKey').value = 'Cancel';
+    if (document.getElementById('saveNewPerson') !== null) { document.getElementById('saveNewPerson').value = ''; resumeLogin(); }
+    if (document.getElementById('savePerson') !== null) { document.getElementById('savePerson').value = ''; }
+    if (document.getElementById('saveNewWork') !== null) { document.getElementById('saveNewWork').value = ''; }
+    if (document.getElementById('saveWork') !== null) { document.getElementById('saveWork').value = ''; }
+    document.ssfEntryForm.submit();
+  }
+
+  function preSubmitValidation() {
+    var usingAlertsForDebugging = false;
+    var hiddenInputSavingKey = document.getElementById('hiddenInputSavingKey').value;
+    if (document.getElementById(hiddenInputSavingKey) !== null) { document.getElementById(hiddenInputSavingKey).value = hiddenInputSavingKey; }
+    if (usingAlertsForDebugging) { alert('hiddenInputSavingKey=' + hiddenInputSavingKey); }
+    switch (hiddenInputSavingKey)
+    {
+      case '': valid = true; break;
+      case 'signingOff': valid = true; break;
+      case 'Cancel': valid = true; break;
+      case 'savingNewPerson': valid = (personNameIsUnique()) ? validPersonCreation() : false; break;
+      case 'savingPerson': valid = validPersonEntry(); break;
+      case 'savingNewWork': valid = computeRunTimeAndValidateWorkEntry(); break;
+      case 'savingWork': valid = computeRunTimeAndValidateWorkEntry();  break;
+    }
+    if (usingAlertsForDebugging) { alert('hiddenInputSavingKey is' + ((valid) ? '' : ' not') + ' valid'); } 
+    return valid; 
+  }
+  
+// END functions moved here from EntryForm 4/6/15 ---------------------------------------------------------------------------------------------------------
 
   // from http://stackoverflow.com/questions/469357/html-text-input-allow-only-numeric-input
   function digitsOnly1(evt) { // UNUSED as of 3/17/2011

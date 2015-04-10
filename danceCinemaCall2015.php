@@ -104,7 +104,7 @@
             <section class="dodeco" id="how">
               <h2 style="margin-top:10px;margin-bottom:7px;">How to Submit</h2>
               <div class="bodyTextUnleaded">
-                <p class="dodeco primaryTextColor">Please read the <?php echo HTMLGen::getEntryRequirementsDisplayStringWithLink($entryRequirementsInWindowPath, 'Entry Information &amp; Requirements'); ?>
+                <p class="dodeco primaryTextColor">Please read the <?php echo SSFEntryForm::getEntryRequirementsDisplayStringWithLink('Entry Information &amp; Requirements', $entryRequirementsInWindowPath); ?>
 <!--
                    <a href="javascript:void(0)" onClick="entryRequirementsWindow=window.open('<?php // echo $entryRequirementsInWindowPath; ?>',
                      'EntryRequirementsWindow','directories=no,status=no,menubar=no,resizable=yes,scrollbars=yes,toolbar=no,top=50,width=850,height=640',false);

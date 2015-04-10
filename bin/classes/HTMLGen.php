@@ -1,5 +1,58 @@
 <?php 
 
+class SSFPerson {
+  public $valueArray = array();
+
+  public function __construct($personArray) {
+    foreach ($personArray as $personArrayKey => $personArrayElement) {
+      $this->valueArray[$personArrayKey] = $personArrayElement;
+    }
+  } 
+
+  public function id() { return $this->valueArray['personId']; }
+  public function organizationExists() { return isset($this->valueArray['organization']) && ($this->valueArray['organization'] != ''); }
+  public function addressLine1Exists() { return isset($this->valueArray['streetAddr1']) && ($this->valueArray['streetAddr1'] != ''); }
+  public function addressLine2Exists() { return isset($this->valueArray['streetAddr2']) && ($this->valueArray['streetAddr2'] != ''); }
+  public function addressLineExists() { return $this->addressLine1Exists() || $this->addressLine2Exists(); }
+  public function cityExists() { return isset($this->valueArray['city']) && ($this->valueArray['city'] != ''); }
+  public function stateProvRegionExists() { return isset($this->valueArray['stateProvRegion']) && ($this->valueArray['stateProvRegion'] != ''); }
+  public function zipPostalCodeExists() { return isset($this->valueArray['zipPostalCode']) && ($this->valueArray['zipPostalCode'] != ''); }
+  public function cityLineOutputExists() { return $this->cityExists() || $this->stateProvRegionExists() || $this->zipPostalCodeExists(); }
+  public function addressExists() { return $this->addressLineExists() || $this->cityLineOutputExists(); }
+  public function countryExists() { return isset($this->valueArray['country']) && ($this->valueArray['country'] != ''); }
+  public function phoneVoiceExists() { return isset($this->valueArray['phoneVoice']) && ($this->valueArray['phoneVoice'] != ''); }
+  public function phoneMobileExists() { return isset($this->valueArray['phoneMobile']) && ($this->valueArray['phoneMobile'] != ''); }
+  public function phoneFaxExists() { return isset($this->valueArray['phoneFax']) && ($this->valueArray['phoneFax'] != ''); }
+  public function telephonesExist() { return $this->phoneVoiceExists() || $this->phoneMobileExists() || $this->phoneFaxExists(); }
+  public function notifyOfString() { return str_replace(',', ", ", $this->valueArray['notifyOf']); }
+
+  public function notifyDisplayForUser() {
+//self::debugger()->becho('notifyOfString', $notifyOfString, 1);
+    $notifyOfCalls = substr_count($this->valueArray['notifyOf'], 'calls') != 0;
+    $notifyOfEvents = substr_count($this->valueArray['notifyOf'], 'events') != 0;
+    $notifyString = '<span class="highlightedTextColor">Nothing.</span> Please don\'t send me any email announcements.';
+    if ($notifyOfCalls && $notifyOfEvents) $notifyString = 'Calls for Entries and Festival Events.';
+    else if ($notifyOfCalls && !$notifyOfEvents) $notifyString = 'Calls for Entries but not Festival Events.';
+    else if (!$notifyOfCalls && $notifyOfEvents) $notifyString = 'Festival Events but not Calls for Entries.';
+    return $notifyString;
+  }
+
+  public function addressDisplay() {
+    $addressSegmentSeparator = " &bull; ";
+    $addressDisplay = '';
+    if (!$this->addressExists() && !$this->countryExists()) $addressDisplay .= "No address provided.<br>" . PHP_EOL;
+    if ($this->addressLine1Exists()) $addressDisplay .= $this->valueArray['streetAddr1'] . $addressSegmentSeparator;
+    if ($this->addressLine2Exists()) $addressDisplay .= $this->valueArray['streetAddr2'] . $addressSegmentSeparator;
+    if ($this->cityExists()) $addressDisplay .= $this->valueArray['city'];
+    if ($this->cityExists() && ($this->stateProvRegionExists() || $this->zipPostalCodeExists())) $addressDisplay .= ", "; 
+    if ($this->stateProvRegionExists()) $addressDisplay .= $this->valueArray['stateProvRegion'] . " "; 
+    if ($this->zipPostalCodeExists()) $addressDisplay .= $this->valueArray['zipPostalCode']; 
+    if ($this->cityLineOutputExists() && $this->countryExists()) $addressDisplay .= $addressSegmentSeparator;
+    if ($this->countryExists()) $addressDisplay .= $this->valueArray['country'];
+    return $addressDisplay;
+  }
+}
+
 class HTMLGen {
 
   private static $debugger;
@@ -224,7 +277,8 @@ class HTMLGen {
 
   public static function getSimpleDataWithDescriptionLine($descriptionString, $valueString) {
     $displayElement = self::getSimpleDataWithDescriptionElement($descriptionString, $valueString);
-    $displayLine = '<div>' . $displayElement . '<div style="clear:both;"></div></div>' . PHP_EOL;
+//    $displayLine = '<div>' . $displayElement . '<div style="clear:both;"></div></div>' . PHP_EOL; // 4/6/15
+    $displayLine = $displayElement . PHP_EOL;
     return $displayLine;
   }
   
@@ -244,7 +298,7 @@ class HTMLGen {
     $finalDescString = ((isset($descriptionString) && ($descriptionString != '')) ? $descriptionString . ":&nbsp;" : "");
     $displayElement = '<div class="datumValue floatLeft" style="padding-top:2px;padding-left:' . $paddingLeft . ';">';
     $displayElement .= "<span class='datumDescription'>" . $finalDescString . "</span>";
-    $displayElement .= $valueString . "</div>\r\n";
+    $displayElement .= $valueString . "</div>";
     return $displayElement;
   }
   
@@ -733,8 +787,8 @@ class HTMLGen {
     echo "        <div class='rowTitleTextWide' style='float:left;vertical-align:top;'>Telephones:</div>\r\n";
     echo "        <div class='entryFormFieldContainer' style='float:left;vertical-align:top;'>\r\n";
     $maxLength = 32;
-//    $phoneTypes = array('phoneVoice' => 'Voice', 'phoneMobile' => 'Mobile', 'phoneFax' => 'Fax' );
-    $phoneTypes = array('phoneVoice' => 'Voice', 'phoneMobile' => 'Mobile');
+//    $phoneTypes = array('phoneVoice' => 'Landline', 'phoneMobile' => 'Mobile', 'phoneFax' => 'Fax' );
+    $phoneTypes = array('phoneVoice' => 'Landline', 'phoneMobile' => 'Mobile');
     foreach ($phoneTypes as $phoneType => $phoneDesc) {
       echo "      <div style='margin-top:-1px;clear:left;'>\r\n"; // added clear:left 4/4/15 to keep each internal div on a separate line in IE.
       echo "        <div class='rowTitleTextNarrow' style='float:left;width:60px;'>" . $phoneDesc . ":</div>\r\n";
@@ -1578,7 +1632,8 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
   // Generates HTML for person detail.
   public static function displayPersonDetail($personArray, $forAdmin=true) {
     $alwaysDisplay = false;
-    if (self::$showFunctionMarkers) echo "<!-- BEGIN displayPersonDetail " . (($forAdmin) ? "ForAdmin" : "") . " -->\r\n";
+    $indent = '                      ';
+    if (self::$showFunctionMarkers) echo "<!-- BEGIN displayPersonDetail " . (($forAdmin) ? "ForAdmin" : "") . " -->" . PHP_EOL;
     if (!is_null($personArray)) {
       $personId = $personArray['personId'];
       $organizationExists = isset($personArray['organization']) && ($personArray['organization'] != '');
@@ -1597,7 +1652,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
       $telephonesExist = $phoneVoiceExists || $phoneMobileExists || $phoneFaxExists;
       $notifyOfString = str_replace(',', ", ", $personArray['notifyOf']);
       // name
-      echo '<div class="datumValue' . (($forAdmin) ? " floatLeft" : "") . '">';
+      echo $indent . '<div class="datumValue' . (($forAdmin) ? " floatLeft" : "") . '">';
       if ($forAdmin) echo $personArray["name"]; // TODO 11/17/14 USE self::htmlEncode() HERE?
       else {
         echo '<span class="datumDescription">Name: </span>' . $personArray["nickName"] . ' ' . $personArray["lastName"];
@@ -1606,24 +1661,24 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
         // recordType
         echo ' <span style="padding-left:2em;color:rgb(223,116,22);">' . ucfirst($personArray["recordType"]) . '</span>';
         // notifyOf
-        echo ' <span class="datumDescription" style="padding-left:2em">Notify of: </span>' . $notifyOfString; // 2/1/09
+        echo ' <span class="datumDescription" style="padding-left:2em">Notify of: </span>' . $notifyOfString;
         echo '</div>' . PHP_EOL;
         // last name & nickname
         $lastName = ((isset($personArray['lastName']) && ($personArray['lastName'] != '')) ? $personArray['lastName'] : "-----");
         $nickName = ((isset($personArray['nickName']) && ($personArray['nickName'] != '')) ? $personArray['nickName'] : "-----");
-        echo ' <div class="datumValue floatRight" style="padding-right:4px">[' . $lastName . ', ' . $nickName . ']</div>'  . PHP_EOL; // TODO 11/17/14 USE self::htmlEncode() HERE?
-        echo ' <div style="clear:both;"></div>'  . PHP_EOL;
+        echo $indent . ' <div class="datumValue floatRight" style="padding-right:4px">[' . $lastName . ', ' . $nickName . ']</div>'; // TODO 11/17/14 USE self::htmlEncode() HERE?
+        echo $indent . ' <div style="clear:both;"></div>'  . PHP_EOL;
       } else echo '</div>' . PHP_EOL;
       // organization
       if ($alwaysDisplay || $organizationExists) {
-        echo self::getSimpleDataWithDescriptionLine('Organization', $personArray['organization']); // // TODO 11/17/14 USE self::htmlEncode() HERE?
+        echo $indent . '' . self::getSimpleDataWithDescriptionLine('Organization', $personArray['organization']); // // TODO 11/17/14 USE self::htmlEncode() HERE?
       }
       // address
-      $addressSegmentSeparator = (($forAdmin || !$forAdmin) ? " &bull; " : "<br>\r\n");
-      $addressDescription = (($forAdmin || !$forAdmin) ? "Address" : "");
+      $addressSegmentSeparator = (($forAdmin || !$forAdmin) ? " &bull; " : "<br>" . PHP_EOL); // TODO The condition on this line is always true.
+      $addressDescription = (($forAdmin || !$forAdmin) ? "Address" : ""); // TODO The condition on this line is always true.
       $valueString = '';
-      //echo '<div class="datumValue">' . PHP_EOL;
-      if (!$addressExists && !$countryExists) $valueString .= "No address provided.<br>\r\n";
+      //echo $indent . '<div class="datumValue">' . PHP_EOL;
+      if (!$addressExists && !$countryExists) $valueString .= "No address provided.<br>" . PHP_EOL;
       if ($addressLine1Exists) $valueString .= $personArray['streetAddr1'] . $addressSegmentSeparator;
       if ($addressLine2Exists) $valueString .= $personArray['streetAddr2'] . $addressSegmentSeparator;
       if ($cityExists) $valueString .= $personArray['city'];
@@ -1632,38 +1687,47 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
       if ($zipPostalCodeExists) $valueString .= $personArray['zipPostalCode']; 
       if ($cityLineOutputExists && $countryExists) $valueString .= $addressSegmentSeparator;
       if ($countryExists) $valueString .= $personArray['country'];
-      //echo "</div>\r\n";
-      echo self::getSimpleDataWithDescriptionLine($addressDescription, $valueString); 
+      //echo $indent . "</div>" . PHP_EOL;
+      echo $indent . '' . self::getSimpleDataWithDescriptionLine($addressDescription, $valueString); 
       // telephones
-      $valueString = "<div class='datumDescription floatLeft' style='padding-bottom:0;padding-top:3px;'>Telephones:</div>\r\n"; // 4/2/15 added padding-top
-      $valueString .= "<div style='float:left;'>";
-      $phoneSpanMarkup = "<div style='float:left;margin-left:.5em;padding-bottom:0px;'>";
-      if ($phoneVoiceExists) $valueString .=  $phoneSpanMarkup . self::getDatumDisplayWDesc("Voice", $personArray['phoneVoice']) . "</div>\r\n";
-      if ($phoneMobileExists) $valueString .=  $phoneSpanMarkup . self::getDatumDisplayWDesc("Mobile", $personArray['phoneMobile']) . "</div>\r\n";
-      if ($phoneFaxExists) $valueString .=  $phoneSpanMarkup . self::getDatumDisplayWDesc("Fax", $personArray['phoneFax']) . "</div>\r\n";
-      if (!$telephonesExist) $valueString .=  "<div class='datumValue floatLeft' style='margin-bottom:0;padding-bottom:0;'>&nbsp;No telephone numbers provided.</div>"; 
-      $valueString .=  "</div><div style='clear:both;'></div>\r\n";
-      echo self::getSimpleDataWithDescriptionLine('', $valueString); 
+//      $valueString = "<div class='datumDescription floatLeft' style='padding-bottom:0;padding-top:3px;'>Telephones:" . PHP_EOL; // 4/2/15 added padding-top; 4/6/15 removed </div>
+      $valueString = "<div class='datumValue floatLeft' style='padding-top:3px;padding-left:0;'>"; // 4/2/15 added padding-top; 4/6/15 removed </div>
+      $valueString .= "<span class='datumDescription'>Telephones:&nbsp;</span></div>" . PHP_EOL; // 4/2/15 added padding-top; 4/6/15 removed </div>
+//      $valueString .= $indent . "  <div style='float:left;'>" . PHP_EOL;
+//      $phoneSpanMarkup = $indent . "    <div style='float:left;margin-left:.5em;padding-bottom:0px;'>";
+      $valueString .= $indent . "<div style='float:left;margin-left:.5em;padding-bottom:0px;'>" . PHP_EOL;
+      $phoneSpanMarkup = $indent . "  ";
+      if ($phoneVoiceExists) $valueString .= $phoneSpanMarkup . self::getDatumDisplayWDesc("Landline", $personArray['phoneVoice']) . PHP_EOL;
+      if ($phoneMobileExists) $valueString .=  $phoneSpanMarkup . self::getDatumDisplayWDesc("Mobile", $personArray['phoneMobile']) . PHP_EOL;
+      if ($phoneFaxExists) $valueString .=  $phoneSpanMarkup . self::getDatumDisplayWDesc("Fax", $personArray['phoneFax']) . PHP_EOL;
+      if (!$telephonesExist) $valueString .=  $indent . "<div class='datumValue floatLeft' style='margin-bottom:0;padding-bottom:0;'>&nbsp;No telephone numbers provided.</div>"; 
+//      $valueString .=  $indent . "    <div style='clear:both;'></div>" . PHP_EOL;
+//      $valueString .=  $indent . "  </div>" . PHP_EOL;
+      $valueString .=  $indent . "  <div style='clear:both;'></div>" . PHP_EOL;
+      $valueString .=  $indent . "</div>" . PHP_EOL;
+//      echo $indent . '    ' . self::getSimpleDataWithDescriptionLine('', $valueString); 
+      echo $indent . '' . $valueString; 
+      echo $indent . "<div style='clear:both;'></div>" . PHP_EOL;
       // email
       $emailString = str_replace(array('<', '>'), '', $personArray['email']);
       $valueString = (($forAdmin && $personArray['email'] == '') ? '<span style="color:rgb(223,116,22);">No email address provided.</span>' 
                                                                  : self::getHTMLAnchoredEmailStringFor($personArray['name'], $emailString));
-      echo self::getSimpleDataWithDescriptionLine('Email', $valueString); 
+      echo $indent . self::getSimpleDataWithDescriptionLine('Email', $valueString); 
       // how heard about us
       if ($alwaysDisplay || ((isset($personArray['howHeardAboutUs']) && ($personArray['howHeardAboutUs'] != '') && $forAdmin))) {
-        echo self::getSimpleDataWithDescriptionLine('How you heard about us', $personArray['howHeardAboutUs']); 
+        echo $indent . self::getSimpleDataWithDescriptionLine('How you heard about us', $personArray['howHeardAboutUs']); 
       }
       if (!$forAdmin) {
         // notifyOf
     self::debugger()->becho('notifyOfString', $notifyOfString, 1);
         $notifyOfCalls = substr_count($notifyOfString, 'calls') != 0;
         $notifyOfEvents = substr_count($notifyOfString, 'events') != 0;
-        $notifyString = 'Nothing. Please don\'t send me any email.';
+        $notifyString = '<span class="highlightedTextColor">Nothing.</span> Please don\'t send me any email announcements.';
         if ($notifyOfCalls && $notifyOfEvents) $notifyString = 'Calls for Entries and Festival Events.';
         else if ($notifyOfCalls && !$notifyOfEvents) $notifyString = 'Calls for Entries but not Festival Events.';
         else if (!$notifyOfCalls && $notifyOfEvents) $notifyString = 'Festival Events but not Calls for Entries.';
-        echo self::getSimpleDataWithDescriptionLine('Notify me of', $notifyString);
-        echo '</div>' . PHP_EOL;
+        echo $indent . self::getSimpleDataWithDescriptionLine('Notify me of', $notifyString);
+        echo $indent . "<div style='clear:both;'></div>" . PHP_EOL;
       }
       if ($forAdmin) {
         // relationship(s)
@@ -1688,7 +1752,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
         }
       }
     }
-    if (self::$showFunctionMarkers) echo "<!-- END displayPersonDetail " . (($forAdmin) ? "ForAdmin" : "") . " -->\r\n";
+    if (self::$showFunctionMarkers) echo "<!-- END displayPersonDetail " . (($forAdmin) ? "ForAdmin" : "") . " -->" . PHP_EOL;
   }
   
   // Returns a comma-separated string of HTML anchor tagged email addresses
@@ -1940,7 +2004,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     $displayString = '';
     $displayString .= '<!-- display Contributor Information -->' . PHP_EOL;
     $separator1 = (($displayContributorsOnSeparateLines) ? '<br>' : ' ');
-    $displayString .= '<div class="datumValue" style="width:98%;padding-top:1px;padding-bottom:4px;">' . PHP_EOL
+    $displayString .= '<div class="datumValue" style="width:98%;padding-top:1px;padding-bottom:6px;">' . PHP_EOL
                    . '  <div class="datumDescription floatLeft" style="padding-top:2px;">Credits: ' // 4/2/15 added padding-top
                    . $separator1 . '</div>' . PHP_EOL;
     $contributorsDisplayed = 0;

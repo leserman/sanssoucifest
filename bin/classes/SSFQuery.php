@@ -537,25 +537,33 @@ class SSFQuery {
     // TODO Compute $rowsChangedCount as is done in updateDBFor() below.
     return $rowsChangedCount;
   }
-
+  
+  // NOTE af of 4/7/15, the only call to this that sets $handleSetsAsStrings=true is from repairDuplicatePeople.php
   public static function updateDBFor($tableName, $currentValueArray, $newValueArray, $whereKeyName, $whereKeyValue, $handleSetsAsStrings=false) {  
     $updateArray = array();                                                                                     // added ^ $handleSetsAsStrings 6/25/2012
-    $debugChanges = -1;
+    $debugChanges = -1; // 1 is on. -1 is off.
     $success = false;
     SSFDebug::globalDebugger()->belch('SSFQuery::updateDBFor currentValueArray', $currentValueArray, $debugChanges);
+    SSFDebug::globalDebugger()->belch('SSFQuery::updateDBFor newValueArray', $newValueArray, $debugChanges);
     foreach (DatumProperties::getColsForTable($tableName) as $colName) {
       $dataItemKey = DatumProperties::getItemKeyFor($tableName, $colName);
       $dpArray = DatumProperties::getArray();
       $dpObject = DatumProperties::forKey($dataItemKey);
+$showItemInDebug = (($debugChanges == 1) && ($dataItemKey == 'people_notifyOf')) ? 1 : -1;
+$newValueIsSet = isset($newValueArray[$dataItemKey]) ? 'TRUE' : 'FALSE';
+SSFDebug::globalDebugger()->belch('100. SSFQuery::updateDBFor dataItemKey', $dataItemKey, $showItemInDebug);                         // 4/7/15
+SSFDebug::globalDebugger()->becho('150. SSFQuery::updateDBFor newValueIsSet', $newValueIsSet, $showItemInDebug);                         // 4/7/15
       if (isset($newValueArray[$dataItemKey]) && $dpObject->dbColKey != 'PRI') { // never update the value of a primary key.
+SSFDebug::globalDebugger()->belch('&nbsp;200. SSFQuery::updateDBFor', 'a NON-primary key.', $showItemInDebug);               // 4/7/15
         $itemValues = $newValueArray[$dataItemKey];
         // Note that an empty set will fail isset($itemValues) so we must handle this as a special case.
         if (isset($itemValues) || ($dpObject->swDataType == 'set')) {
+SSFDebug::globalDebugger()->belch('&nbsp;&nbsp;300. SSFQuery::updateDBFor $itemValues', $itemValues, $showItemInDebug);              // 4/7/15
           if (!$handleSetsAsStrings && ($dpObject->swDataType == 'set')) { // the data item is a set AND we are not handling sets as strings  // 6/25/2012
-//          if ($dpObject->swDataType == 'set') { // the data item is a set
+SSFDebug::globalDebugger()->belch('&nbsp;&nbsp;&nbsp;400. SSFQuery::updateDBFor $itemValues', $itemValues, $showItemInDebug);        // 4/7/15
             $setString = '';
             if (isset($itemValues)) {
-              SSFDebug::globalDebugger()->belch('SSFQuery::updateDBFor $itemValues', $itemValues, $debugChanges);                             // 6/25/2012
+              SSFDebug::globalDebugger()->belch('&nbsp;&nbsp;&nbsp;&nbsp;500. SSFQuery::updateDBFor $itemValues', $itemValues, $debugChanges);  // 6/25/2012
               foreach ($itemValues as $setMember) {
                 $separator = ($setString == '') ? '' : ',';
                 $setString .= $separator . $setMember;
@@ -563,11 +571,13 @@ class SSFQuery {
             }
             $comparisonValue = $setString;
             $newValue = "'" . $setString . "'";
-          } else { // since this data item is not a set OR $handleSetsAsStrings is TRUE                                                       // 6/25/2012
-            if ($dpObject->swDataType == 'set') { SSFDebug::globalDebugger()->becho('newValueArray[' . $dataItemKey . ']', $newValueArray[$dataItemKey], $debugChanges); }
+SSFDebug::globalDebugger()->becho('&nbsp;&nbsp;&nbsp;505. SSFQuery::updateDBFor newValue', $newValue, $showItemInDebug);        // 4/7/15
+          } else { // since this data item is not a set OR $handleSetsAsStrings is TRUE                                                         // 6/25/2012
+            if ($dpObject->swDataType == 'set') { SSFDebug::globalDebugger()->becho('600. newValueArray[' . $dataItemKey . ']', $newValueArray[$dataItemKey], $debugChanges); }
             $rawNewValue = $newValueArray[$dataItemKey];
             $comparisonValue = ($dpObject->swDataType == 'int') ? sprintf('%d', $rawNewValue) : $rawNewValue;
             $newValue = ($dpObject->swDataType == 'int') ? sprintf('%d', $rawNewValue) : SSFQuery::quote(str_replace("  ", " ", trim($rawNewValue)));
+SSFDebug::globalDebugger()->becho('&nbsp;&nbsp;&nbsp;510. SSFQuery::updateDBFor newValue', $newValue, $showItemInDebug);        // 4/7/15
           }
           if (!isset($currentValueArray[$colName]) || $comparisonValue != $currentValueArray[$colName]) { // add this to the update list.
             $newValueText = (is_string($newValueArray[$dataItemKey])) ? $newValueArray[$dataItemKey] : 'is not a textual value.';

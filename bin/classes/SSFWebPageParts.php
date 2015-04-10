@@ -220,7 +220,7 @@ REQUEST_URI - The URI which was given in order to access this page; for instance
       $pageContent .= $indent . '<div id="fb-root"></div>' . PHP_EOL; // See https://developers.facebook.com/docs/plugins/like-button
       $pageContent .= $indent . '  <script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0"; fjs.parentNode.insertBefore(js, fjs); }(document, "script", "facebook-jssdk"));</script>' . PHP_EOL;
       $pageContent .= $indent . '  <div class="page">' . PHP_EOL;
-      $pageContent .= $indent . '    <div class="pageBanner"><a href="../index.php"><img src="images/bannerImage5.png" style="height:62px;width:735px;" alt="Sans Souci Festival of Dance Cinema, SansSouciFest.org"></a></div>' . PHP_EOL;
+      $pageContent .= $indent . '    <div class="pageBanner"><a href="../index.php"><img src="images/bannerImage6.png" style="height:62px;width:735px;" alt="Sans Souci Festival of Dance Cinema, SansSouciFest.org"></a></div>' . PHP_EOL;
       $pageContent .= $indent . '    <div class="pageArea">' . PHP_EOL;
       if (!$suppressNavArea) {
         $pageContent .= $indent . '      <div class="nav navArea">' . PHP_EOL; // nav navArea

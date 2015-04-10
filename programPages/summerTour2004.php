@@ -13,7 +13,6 @@
   
   // Initialize useful PHP variables.
   $programHighlightColor = SSFWebPageParts::getProgramHighlightColor();
-  $primaryTextColor = SSFWebPageParts::getPrimaryTextColor();  
   $primaryTextColor = SSFWebPageParts::getPrimaryTextColor();
   $secondaryTextColor = SSFWebPageParts::getSecondaryTextColor();
   $tertiaryTextColor = SSFWebPageParts::getTertiaryTextColor();
@@ -30,6 +29,7 @@
                 .contentArea .headerPart .title { color:<?php echo $primaryTextColor; ?>;text-align:center; }
                 .page a:link, .page a:visited { color: #3267cd; text-decoration: none; }
                 .almostEndBackground { background-image: url("http://sanssoucifest.org/images/almostEndBackground2.jpg"); background-color: #DDDDDD; }
+                .page { background-image: none; }
                 /* table, th, td { border: 1px solid black; } */
                 </style>
               <div style="padding:12px 60px 30px 60px;" class="almostEndBackground">

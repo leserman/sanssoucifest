@@ -21,7 +21,6 @@
   $danceCinemaCallFilename = 'danceCinemaCall' . $currentYearString . '.php';
   $entryFormFilename = 'entryForm' . $currentYearString . '.php'; 
   $listManagementEmailAddress = SSFRunTimeValues::getListManagementEmailAddress();
-//  $thisPage = 'onlineEntryForm/entryRequirementsInWindow2015';
   $thisPage = $_SERVER['REQUEST_URI'];
   $recentProgramPage = "programAtlas2014.php";
   $samplePrintProgram = 'PDF/ProgramSpreads/SSF2014ProgramSpreadsAtlas.pdf';
@@ -35,9 +34,10 @@
   $contentTitle = SSFWebPageParts::getContentTitleText();
 ?>
           <script type="text/javascript">
+            // TODO: Fix this stuff.
             function focusAndGo(url) { window.blur(); window.location.href = url; window.focus(); } // Reference: https://developer.mozilla.org/En/Document.location
             function goBackToEntryForm() {
-              if (window.opener && (window.opener.name == 'EntryFormWindow')) 
+              if (window.opener && (window.opener.name == 'SSFEntryFormWindow')) 
                 window.opener.focusAndGo(<?php echo SSFWebPageParts::getHostName() . 'onlineEntryForm/entryForm' . $currentYearString . '.php'; ?>);
               else history.back();
             }

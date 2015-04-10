@@ -634,10 +634,15 @@ a:hover { color: #990000; text-decoration: underline; }
 .floatleft, .floatLeft { float: left; }
 .floatright, .floatRight { float: right; }
 
-.topCenter { text-align: center; vertical-align: top; }
-.topLeft { text-align: left; vertical-align: top; }
-.topRight { text-align: right; vertical-align: top; }
-.middleCenter { text-align: center; vertical-align: middle; }
+.topCenter, .page .topCenter { text-align: center; vertical-align: top; }
+.topLeft, .page .topLeft { text-align: left; vertical-align: top; }
+.topRight, .page .topRight { text-align: right; vertical-align: top; }
+.bottomCenter, .page .bottomCenter { text-align: center; vertical-align: bottom; }
+.bottomLeft, .page .bottomLeft { text-align: left; vertical-align: bottom; }
+.bottomRight, .page .bottomRight { text-align: right; vertical-align: bottom; }
+.middleCenter, .page .middleCenter { text-align: center; vertical-align: middle; }
+.middleLeft, .page .middleLeft { text-align: left; vertical-align: middle; }
+.middleRight, .page .middleRight { text-align: right; vertical-align: middle; }
 
 .etchedIn {
   padding: 1px 4px 1px 0;

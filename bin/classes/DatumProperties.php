@@ -62,6 +62,7 @@ class DatumProperties {
   
   public static function workContributorRoleKeys() { return self::$workContributorRoleKeys; }
   
+  // NOTE 4/7/15: This method is apparently UNUSED!
   // Returns a print format for the data suitable for writing it to the database.
   // For date, time and datetime values, paramater $hint may be 's' for a multi-part string 
   // OR 'i' for a multi-part integer or null for a simple string representation.

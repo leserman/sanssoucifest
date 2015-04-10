@@ -1,49 +1,34 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><!-- InstanceBegin template="/Templates/program.dwt" codeOutsideHTMLIsLocked="false" -->
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="-1">
-  <meta name="description" content="A niche film festival specializing in dance cinema, incorporating live performance, and including museum installations.">
-  <meta name="keywords" content="dance film festival, dance video festival, video dance festival, dance cinema festival, live performance, dance performance, live dance performance, dance festival, video dance, dance video, dance film, dance cinema, dance, film, video, cinema, festival, art, arts, artists, projection, projected, tour, touring"><!-- InstanceBeginEditable name="doctitle" -->
-<title>Sans Souci Festival of Dance Cinema - 2007 Program</title>
-<!-- InstanceEndEditable --><!-- <base href="http://www.sansoucifest.org/"> -->
-  <link rel="stylesheet" href="../sanssouci.css" type="text/css">
-  <link rel="stylesheet" href="../sanssouciBlackBackground.css" type="text/css">
-</head>
-<body bgcolor="#FFFFFF" text="#000000" link="#0033FF" vlink="#0033FF" alink="#990000">
-  <!-- Set bgcolor="#FFFFFF" in the following 100% table to make the edges appear white. -->
-  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000">
-    <tr>
-      <td align="left" valign="top">
-        <table width="745" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000">
-          <tr>
-            <td colspan="3" align="left" valign="top"><a href="../index.php"><img src="../images/titleBarGrayLight.gif" alt="SansSouciFest.org" width="600" height="63" hspace="0" vspace="8" border="0" align="top"></a></td>
-            <td width="10" align="center" valign="top">&nbsp;</td>
-          </tr>
-          <tr>
-            <td width="10" align="center" valign="top">&nbsp;</td>
-            <td width="125" align="center" valign="top">
-            <?php
-              $filePathArray = explode('/', __FILE__);
-              $loopIndex = 0;
-              foreach ($filePathArray as $element) { 
-                $loopIndex++;
-                if ($element == 'sanssoucifest.org') { break; } 
-              }
-              $codeBase = "";
-              for ($i = ($loopIndex+1); $i <= (sizeof($filePathArray)-1); $i++) { $codeBase .= '../'; }
-              include_once $codeBase . "bin/utilities/autoloadClasses.php";
-              SSFWebPageAssets::displayNavBar();
-            ?></td>
-            <td width="600" align="center" valign="top">
-              <table width="100%" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000">
-                <tr>
-                  
-	  <td width="25" align="left" valign="top" class="sprocketHoles">&nbsp;</td>
-    <td width="10" align="left" valign="top" class="programTablePageBackground">&nbsp;</td>
-	  	<td width="530" align="center" valign="top" class="bodyTextGrayLight"><!-- InstanceBeginEditable name="ProgramRegion" -->
-      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="programTablePageBackground">
+<!DOCTYPE html>
+<?php 
+   include_once $_SERVER['DOCUMENT_ROOT'] . '/bin/classes/SSFWebPageParts.php'; 
+
+	/* These are the inline style definitions that override all other CCS for this page except for the built-in media queries. */
+  //SSFProgramPageParts::addCssInlineStyleDefinition('table { padding:0;margin:0;border-collapse:collapse; }');  
+
+  /* Local PHP variables for use on this page. Example: $phpVar1 = 'Hi there.'; Within HTML use: <?php echo $phpVar1; ?> // Remember to pre-process URLs. */
+  $onlineTicketsURL = 'https://tickets.thedairy.org/online/default.asp?doWork::WScontent::loadArticle=Load&amp;BOparam::WScontent::loadArticle::article_id=7F250C59-ABB3-4821-A4C2-859087D9BDBD';
+  
+  // Produce Top-of-Page boiler plate.
+  SSFWebPageParts::beginPage();
+
+  // Initialize useful PHP variables.
+  $programHighlightColor = SSFWebPageParts::getProgramHighlightColor();
+  $primaryTextColor = SSFWebPageParts::getPrimaryTextColor();
+  $secondaryTextColor = SSFWebPageParts::getSecondaryTextColor();
+  $tertiaryTextColor = SSFWebPageParts::getTertiaryTextColor();
+  $quaternaryTextColor = SSFWebPageParts::getQuaternaryTextColor();
+  $contentTitle = SSFWebPageParts::getContentTitleText();
+  $eventId = SSFWebPageParts::getProgramPageEventId();
+
+  echo SSFProgramPageParts::beginContentHeader();
+?>
+            <div>
+              <style type="text/css" scoped>
+                .contentArea .headerPart .title { color:<?php echo $primaryTextColor; ?>; }
+              </style>
+              
+
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr align="right">
     <td colspan="3" valign="middle" class="bodyText"><img src="../images/dotClear.gif" alt="" width="1" height="12" hspace="0" vspace="0" border="0" align="middle"><br clear="all">
       <a href="../press/GiessenServer2007.php">Giessen, Germany Tour, 2007</a><br></td>
@@ -73,12 +58,7 @@
             </tr>
 
 
-
-<!-- BEGIN INSERT STUFF HERE -->
-
-
-
-<!-- Web #1, Film #26, Show time: Friday #11 ­ "CEA" -->
+<!-- Web #1, Film #26, Show time: Friday #11 - "CEA" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/26-CEA-Pass+Keller.jpg" alt="Screen Capture from CEA" width="180" height="120" hspace="2" vspace="2" align="left" border="1"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -96,7 +76,7 @@
 </tr>
 <!-- END Web #1 - "CEA" -->
 
-<!-- Web #2, Film #41, Show time: Friday #1 ­ "City Crumbs" -->
+<!-- Web #2, Film #41, Show time: Friday #1 - "City Crumbs" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/41-CityCrumbs-AnnaBaer.jpg" alt="Screen Capture from City Crumbs" width="180" height="144" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -115,7 +95,7 @@
 </tr>
 <!-- END Web #2 - "City Crumbs" -->
 
-<!-- Web #3, Film #23, Show time: Friday #6 ­ "wash, rinse, repeat" -->
+<!-- Web #3, Film #23, Show time: Friday #6 - "wash, rinse, repeat" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/23-washRinseRepeat-JMcCain.jpg" alt="Screen Capture from wash, rinse, repeat" width="180" height="132" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -139,7 +119,7 @@
     <tr align="left"><td height="10" colspan="3" valign="top"  class="programInfoText">Screening Friday, April 6th, at 8:00
         pm<br clear="all"><img src="../images/dotClear.gif" alt="" width="1" height="10"></td></tr>
 
-<!-- Web #4, Film #4, Show time: Friday #2 ­ "ing" -->
+<!-- Web #4, Film #4, Show time: Friday #2 - "ing" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/04-ing-NicoleRomine.jpg" alt="Screen Capture from ing" width="180" height="169" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -158,7 +138,7 @@
 </tr>
 <!-- END Web #4 - "ing" -->
 
-<!-- Web #5, Film #31, Show time: Friday #3 ­ "Bleu" -->
+<!-- Web #5, Film #31, Show time: Friday #3 - "Bleu" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/31-Bleu-CariAnnShimSham.jpg" alt="Screen Capture from Bleu" width="180" height="90" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -177,7 +157,7 @@
 </tr>
 <!-- END Web #5 - "Bleu" -->
 
-<!-- Web #6, Film #34, Show time: Friday #4 ­ "Icarus Fried" -->
+<!-- Web #6, Film #34, Show time: Friday #4 - "Icarus Fried" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/34-IcarusFried-JeffCurtis.jpg" alt="Screen Capture from Icarus Fried" width="180" height="120" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -196,7 +176,7 @@
 </tr>
 <!-- END Web #6 - "Icarus Fried" -->
 
-<!-- Web #7, Film #20, Show time: Friday #5 ­ "The World of Dance" -->
+<!-- Web #7, Film #20, Show time: Friday #5 - "The World of Dance" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/20-WorldOfDance-BrdVldvio.jpg" alt="Screen Capture from The World of Dance" width="180" height="147" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -215,7 +195,7 @@
 </tr>
 <!-- END Web #7 - "The World of Dance" -->
 
-<!-- Web #8, Film #2, Show time: Friday #7 ­ "Flesh Sites" -->
+<!-- Web #8, Film #2, Show time: Friday #7 - "Flesh Sites" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/02-FleshSites-NancySpanier.jpg" alt="Screen Capture from Flesh Sites" width="180" height="120" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -234,7 +214,7 @@
 </tr>
 <!-- END Web #8 - "Flesh Sites" -->
 
-<!-- Web #9, Film #22, Show time: Friday #8 ­ "Ilusiones" -->
+<!-- Web #9, Film #22, Show time: Friday #8 - "Ilusiones" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/22-Ilusiones-Ob-artProd.jpg" alt="Screen Capture from Ilusiones" width="180" height="109" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -255,7 +235,7 @@
 </tr>
 <!-- END Web #9 - "Ilusiones" -->
 
-<!-- Web #10, Film #19, Show time: Friday #9 ­ "i left you on a cold day in december" -->
+<!-- Web #10, Film #19, Show time: Friday #9 - "i left you on a cold day in december" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/19-ILeftYou-RandyGibson.jpg" alt="Screen Capture from i left you on a cold day in december" width="180" height="114" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -274,7 +254,7 @@
 </tr>
 <!-- END Web #10 - "i left you on a cold day in december" -->
 
-<!-- Web #11, Film #17, Show time: Friday #10 ­ "Journey, The Best of All Worlds, Sections 4 &amp; 12" -->
+<!-- Web #11, Film #17, Show time: Friday #10 - "Journey, The Best of All Worlds, Sections 4 &amp; 12" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/17-JourneyTheBestOfAllWorld.jpg" alt="Screen Capture from Journey, The Best of All Worlds, Sections 4 & 12" width="180" height="119" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -298,7 +278,7 @@
     <tr align="left"><td height="10" colspan="3" valign="top"  class="programInfoText">Screening Saturday, April 7th, at 8:00 pm<br clear="all">
         <img src="../images/dotClear.gif" alt="" width="1" height="10"></td></tr>
 
-<!-- Web #12, Film #18, Show time: Saturday #2 ­ "Bittersweet" -->
+<!-- Web #12, Film #18, Show time: Saturday #2 - "Bittersweet" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/18-Bittersweet-DavidRoussev.jpg" alt="Screen Capture from Bittersweet" width="180" height="121" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -317,7 +297,7 @@
 </tr>
 <!-- END Web #12 - "Bittersweet" -->
 
-<!-- Web #13, Film #35, Show time: Saturday #3 ­ "Plutoian Blueprint" -->
+<!-- Web #13, Film #35, Show time: Saturday #3 - "Plutoian Blueprint" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/35-PlutoianBlueprint-Yeowel.jpg" alt="Screen Capture from Plutoian Blueprint" width="180" height="120" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -336,7 +316,7 @@
 </tr>
 <!-- END Web #13 - "Plutoian Blueprint" -->
 
-<!-- Web #14, Film #25, Show time: Saturday #4 ­ "light hand song" -->
+<!-- Web #14, Film #25, Show time: Saturday #4 - "light hand song" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/25-LightHandSong-RebekahWes.jpg" alt="Screen Capture from light hand song" width="180" height="120" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -355,7 +335,7 @@
 </tr>
 <!-- END Web #14 - "light hand song" -->
 
-<!-- Web #15, Film #28, Show time: Saturday #5 ­ "Mannish." -->
+<!-- Web #15, Film #28, Show time: Saturday #5 - "Mannish." -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/28-Mannish-MichaelRichman.jpg" alt="Screen Capture from Mannish." width="180" height="121" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -374,7 +354,7 @@
 </tr>
 <!-- END Web #15 - "Mannish." -->
 
-<!-- Web #16, Film #36, Show time: Saturday #7 ­ "Ondine" -->
+<!-- Web #16, Film #36, Show time: Saturday #7 - "Ondine" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/36-Ondine-KristenDemaree.jpg" alt="Screen Capture from Ondine" width="180" height="135" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -393,7 +373,7 @@
 </tr>
 <!-- END Web #16 - "Ondine" -->
 
-<!-- Web #17, Film #32, Show time: Saturday #8 ­ "101" -->
+<!-- Web #17, Film #32, Show time: Saturday #8 - "101" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/32-101-MaryWohlHaan.jpg" alt="Screen Capture from 101" width="180" height="122" hspace="2" vspace="2" border="1" align="left"><br clear="all">
 						<div  class="filmFigureCaption">photo by Rebekah West</div></td>
@@ -413,7 +393,7 @@
 </tr>
 <!-- END Web #17 - "101" -->
 
-<!-- Web #18, Film #29, Show time: Saturday #9 ­ "Porch Stories" -->
+<!-- Web #18, Film #29, Show time: Saturday #9 - "Porch Stories" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/29-PorchStories-MartaRenzi.jpg" alt="Screen Capture from Porch Stories" width="180" height="132" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -438,7 +418,7 @@
 				Friday &amp; Saturday, April 6th &amp; 7th, beginning at 7:00 pm<br clear="all">
         <img src="../images/dotClear.gif" alt="" width="1" height="10"></td></tr>
 
-<!-- Web #19, Film #42, Show time: Installation #1 ­ "Saturate" -->
+<!-- Web #19, Film #42, Show time: Installation #1 - "Saturate" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/42-Saturate-DaniBeauchamp.jpg" alt="Screen Capture from Saturate" width="180" height="137" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -457,7 +437,7 @@
 </tr>
 <!-- END Web #19 - "Saturate" -->
 
-<!-- Web #20, Film #11, Show time: Installation #3 ­ "Outer Places" -->
+<!-- Web #20, Film #11, Show time: Installation #3 - "Outer Places" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/11-OuterPlaces-MimiGarrard.jpg" alt="Screen Capture from Outer Places" width="180" height="124" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -476,7 +456,7 @@
 </tr>
 <!-- END Web #20 - "Outer Places" -->
 
-<!-- Web #21, Film #3, Show time: Installation #4 ­ "Envol&eacute;e" -->
+<!-- Web #21, Film #3, Show time: Installation #4 - "Envol&eacute;e" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/03-Envolee-NancySpanier.jpg" alt="Screen Capture from Envol&eacute;e" width="180" height="135" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -495,7 +475,7 @@
 </tr>
 <!-- END Web #21 - "Envol&eacute;e" -->
 
-<!-- Web #22, Film #16, Show time: Installation #5 ­ "Casualty" -->
+<!-- Web #22, Film #16, Show time: Installation #5 - "Casualty" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/16-Casualty-AndyWilson.jpg" alt="Screen Capture from Casualty" width="180" height="129" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -514,7 +494,7 @@
 </tr>
 <!-- END Web #22 - "Casualty" -->
 
-<!-- Web #23, Film #8, Show time: Installation #6 ­ "Embracing Earth - Dances with Nature" -->
+<!-- Web #23, Film #8, Show time: Installation #6 - "Embracing Earth - Dances with Nature" -->
 <tr>
             <td align="center" valign="top"><img class="borderPic07" src="../images/Stills2007/08-EmbracingEarth-DancesWit.jpg" alt="Screen Capture from Embracing Earth - Dances with Nature" width="180" height="129" hspace="2" vspace="2" border="1" align="left"></td>
             <td width="12" align="center" valign="top" class="bodyText">&nbsp;</td>
@@ -541,7 +521,6 @@
 
 <!-- END NSERT STUFF HERE -->
   
-<!--
         <tr align="left">
             <td height="10" colspan="3" valign="top"  class="programInfoText">Showing  Tuesday, June 6th,
               2006, 7:30 pm, <a href="http://www.bmoca.org">BMoCA</a><br clear="all">
@@ -564,29 +543,13 @@
             <td height="10" colspan="3" valign="top"  class="programInfoText"><font color="#00C640">Selected pieces from the BMoCA Program above.</font><br clear="all">
               <img src="images/dotClear.gif" alt="" width="1" height="20"></td>
             </tr>
--->						
+
       </table>
-	  	<!-- InstanceEndEditable --></td>
-    <td width="10" align="left" valign="top" class="programTablePageBackground">&nbsp;</td>
-	  <td width="25" align="left" valign="top" class="sprocketHoles">&nbsp;</td>
-    
-                </tr>
-              </table>
-            </td>
-            <td width="10" align="center" valign="top">&nbsp;</td>
-          </tr>
-          <tr align="center" valign="top">
-            <td colspan="2">&nbsp;</td>
-            <td align="center" valign="bottom" class="smallBodyTextLeadedGrayLight"><br>
-            <?php SSFWebPageAssets::displayCopyrightLine();?></td>
-            <td width="10">&nbsp;</td>
-          </tr>
-          <tr align="center" valign="top">
-            <td colspan="4">&nbsp;</td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-</body>
-<!-- InstanceEnd --></html>
+            </div>
+<?php
+  echo SSFProgramPageParts::endContentHeader();
+  // Produce Bottom-of-Page boiler plate.
+  SSFWebPageParts::endPage();
+?>
+</html>
+

@@ -30,6 +30,7 @@
                   .almostEndBackground { background-image: url("http://sanssoucifest.org/images/almostEndBackground2.jpg"); background-color: #DDDDDD; }
                   .textColumn { width:55%;padding-left:15px;padding-right:33px; }
                   .intermission { padding-right:80px;font-size:12px;font-color:#666666; }
+                  .page { background-image: none; }
                   /* table, th, td { border: 1px solid black; } */ /* for debugging the table */
                 </style>
               <div style="padding:16px 28px 24px 28px;border:0px red dashed;" class="almostEndBackground">

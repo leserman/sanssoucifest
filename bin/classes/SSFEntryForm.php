@@ -21,6 +21,7 @@
     public $possibleDuplicatesString = '';
     private $creatingNewPerson = false;
     private $editingPerson = false;
+    private $domDocument;
     
     // Section titles and other statics
     private static $basicsLeader = 'The Basics';
@@ -29,17 +30,22 @@
     private static $formatsLeader = 'Format Information';
     private static $otherLeader = 'Other Stuff';
     private static $notificationQuestion = 'Would you like to be notified of future Calls for Entries? Screening Events?';
+    public static $entryRequirementsInWindowFilename = '';
+    public static $formActionFileName = '';
+    public static $danceCinemaCallFilename = '';
 
   
     // State
     // $state could be split into multiple arrays, e.g., metaData, workFields, submitterFields, paFields, ...
     public $state = array(); 
+    public $dbPersonWorkState = array();
+    public $dbContributorsState = array();
     public $atLeastOneWorkExistsForThisCallAndPerson = false;
     public $callForEntriesId = 0;
 
     // ++++ Debugger setup ++++ ++++ ++++ ++++ 
     static public $anamorphicDebug = -1;
-    static public $displayDataStructures = -1;
+    static public $displayDataStructures = -1;  // 1 is ON. -1 is OFF. 4/7/15
     static public $debugChangeCount = -1; // 5/30/14 changed and changed back
     static public $debugLoginName = -1;
     static public $debugPeopleLoginName = -1;
@@ -51,12 +57,30 @@
     static public $debugValidLogin = -1;
     private static $showFunctionMarkers = true;
 
+    public static function getEntryRequirementsDisplayStringWithLink($displayText, $section='') {
+      return HTMLGen::getWindowLinkDisplayString(self::$entryRequirementsInWindowFilename, $displayText, 'EntryRequirementsInWindow', $section);
+    }
+
+    public function initializeWorkDatabaseState() {
+//        global $dbPersonWorkState, $dbContributorsState; // out     // $atLeastOneWorkExistsForThisCallAndPerson
+      $this->DEBUGGER->becho('600 theForm->state[workSelector]', $this->state['workSelector'], -1);
+      if ($this->workIsSpecified()) {
+        $this->dbPersonWorkState = SSFQuery::selectSubmitterAndWorkNoCommsFor($this->state['workSelector']); 
+        $this->DEBUGGER->belch('600 dbPersonWorkState', $this->dbPersonWorkState, -1);
+        $this->dbContributorsState = SSFQuery::selectContributorsFor($this->state['workSelector']);  
+        $this->atLeastOneWorkExistsForThisCallAndPerson = true;
+        $this->DEBUGGER->becho('600 theForm->atLeastOneWorkExistsForThisCallAndPerson', $this->atLeastOneWorkExistsForThisCallAndPerson, -1);
+      }
+      echo '<script type="text/javascript">document.getElementById("workExists").value = "' . $this->atLeastOneWorkExistsForThisCallAndPerson . '";</script>' . PHP_EOL;
+    }
+  
     public static function displayEditDivHeader_2($divIdString, $title, $saveButtonName, $saveButtonNameId, 
                                                   $hiddenInputSavingId, $cancelButtonNameId) {
   //    $saveButtonGenId = HTMLGen::genId($saveButtonNameId); TODO Maybe it was a mistake to gen these ids? 3/19/10
       $saveButtonGenId = $saveButtonNameId;
       $cancelButtonGenId = HTMLGen::genId($cancelButtonNameId);
   //    $onClickScript = "document.getElementById('hiddenInputSavingKey').value='" . $hiddenInputSavingId . ";'";
+//      $onClickScript = 'document.getElementById("hiddenInputSavingKey").value=\'' . $hiddenInputSavingId . '\';'; // 4/5/15
       $onClickScript = 'document.getElementById("hiddenInputSavingKey").value="' . $hiddenInputSavingId . '";';
       echo "          <div id='" . $divIdString . "' class='entryFormSection'>\r\n";
       echo "            <div class='entryFormSectionHeading'>\r\n";
@@ -81,23 +105,18 @@
                                                   $hiddenInputSavingId, $cancelButtonNameId='') {
       $saveButtonGenId = HTMLGen::genId($saveButtonNameId);
       $cancelButtonGenId = HTMLGen::genId($cancelButtonNameId);
-  //    $onClickScript = "document.getElementById('hiddenInputSavingKey').value='" . $hiddenInputSavingId . ";'";
       $onClickScript = 'document.getElementById("hiddenInputSavingKey").value="' . $hiddenInputSavingId . '";';
       echo "            <div class='entryFormSectionHeading'>\r\n";
-      echo "              <div style='float:left;padding-top:4px;padding-bottom:4px;'>" . $title . "</div>\r\n";
+      echo "              <div class='withEmphasis' style='float:left;padding-top:4px;padding-bottom:2px;'>" . $title . "</div>\r\n";
       echo "              <div style='float:right;padding-right:4px;padding-bottom:2px;'>\r\n";
       echo "                <input type='submit' id='" . $saveButtonGenId . "' name='" 
                                                        . $saveButtonNameId . "' value='" . $saveButtonName . "'"
-  //                                                     . " onclick='document.pressed=this.name;'"
-  //                                                     . "document.getElementById('hiddenInputSavingKey').value='" . $hiddenInputSavingId . ";'"
                                                        . " onclick=" . HTMLGen::simpleQuote($onClickScript)
                                                        . ">\r\n";
       if ($cancelButtonNameId != '')
         echo "                <input type='button' id='" . $cancelButtonGenId . "' name='" 
                                                          . $cancelButtonNameId . "' value='Cancel'"
                                                          . " onclick='document.pressed=this.value;cancelSubmit()'>\r\n";
-  //    echo "                <script type='text/javascript'>document.getElementById('hiddenInputSavingKey').value='" . $hiddenInputSavingId . "';</script>\r\n";
-  //    echo "                <input type='hidden' id='" . $hiddenInputSavingId . "' name='" . $hiddenInputSavingId . "'>\r\n";
       echo "              </div>\r\n";
       echo "              <div style='clear:both;'><hr class='horizontalSeparatorFull'></div>\r\n";
       echo "            </div>\r\n";
@@ -120,7 +139,7 @@
             if (isset($dataArray["permissionsAtSubmission"]) && ($dataArray["permissionsAtSubmission"]==$allOKString)) echo ' checked="checked"';
             if ($disable) echo " disabled='disabled'"; // added 5/5/14
       echo' onchange="userMadeAChange(1);"></td>' . PHP_EOL;
-      echo'                        <td style="text-align:left;vertical-align:top;padding-top:4px;"><label for="' . $allOKId . '" class="entryFormRadioButtonLabel">';
+      echo'                        <td style="text-align:left;vertical-align:top;"><label for="' . $allOKId . '" class="entryFormRadioButtonLabel">'; // padding-top:4px;
       echo                                                                         SSFRunTimeValues::getReleaseInfoWidgetAllOKString() . "</label></td>\r\n";
       echo'                      </tr>' . PHP_EOL;
       echo'                      <tr>' . PHP_EOL;
@@ -128,7 +147,7 @@
             if (isset($dataArray["permissionsAtSubmission"]) && ($dataArray["permissionsAtSubmission"]==$askMeString)) echo ' checked="checked"';
             if ($disable) echo " disabled='disabled'"; // added 5/5/14
       echo' onchange="userMadeAChange(1);"></td>' . PHP_EOL;
-      echo'                        <td style="text-align:left;vertical-align:top;padding-top:4px;"><label for="' . $askMeId . '" class="entryFormRadioButtonLabel">';
+      echo'                        <td style="text-align:left;vertical-align:top;"><label for="' . $askMeId . '" class="entryFormRadioButtonLabel">'; // padding-top:4px;
       echo                                                                         SSFRunTimeValues::getReleaseInfoWidgetAskMeString() . "</label></td>\r\n";
       echo'                      </tr>' . PHP_EOL;
       echo'                    </table>' . PHP_EOL;
@@ -155,13 +174,13 @@
         // Aborted appempt to add paypal payment capability on the Work Edit screen. 
         // This is not practical, because if the user changed the film title, I don't know what it is.
         $payPalPmtString = '';
-        echo'                    <label for="' . $paypalId . '" class="entryFormRadioButton"> Pay via PayPal ' . $payPalPmtString . '</label>' . PHP_EOL;
+        echo'                    <label class="entryFormRadioButtonLabel" for="' . $paypalId . '"> Pay via PayPal ' . $payPalPmtString . '</label>' . PHP_EOL;
         echo'                  </div>' . PHP_EOL;
         echo'                  <div class="entryFormField" style="text-align:left;margin-left:50px;"><input type="radio" name="works_howPaid" id="' . $checkId . '" value="check"' . PHP_EOL;
               if (isset($dataArray["howPaid"]) && ($dataArray["howPaid"]=="check")) echo " checked='checked'";
               if ($disable || (isset($dataArray["howPaid"]) && ($dataArray["howPaid"]=="waived"))) echo " disabled='disabled'"; // added 7/24/10; modified 5/5/14
         echo' onchange="userMadeAChange(1);">' . PHP_EOL;
-        echo'                     <label for="' . $checkId . '" class="entryFormRadioButton"> Check or money order in US$, drawn on a US bank, sent via post</label>' . PHP_EOL;
+        echo'                     <label class="entryFormRadioButtonLabel" for="' . $checkId . '"> Check or money order in US$, drawn on a US bank, sent via post</label>' . PHP_EOL;
         echo'                  </div>' . PHP_EOL;
       }
       if (self::$showFunctionMarkers) echo "<!-- END addPaymentWidgetsSection -->\r\n";
@@ -171,7 +190,9 @@
       $this->DEBUGGER = new SSFDebug();
       $this->DEBUGGER->enableBelch(false);
       $this->DEBUGGER->enableBecho(false);
+      $this->DEBUGGER->belch('_POST in constructor', $_POST, self::$displayDataStructures);
       $this->initState($_POST);
+      $this->domDocument = new DomDocument;
       $this->makeHiddenInputField('itsMeSubmit');
       $this->makeHiddenInputField('theItsMePersonId');
       $this->makeHiddenInputField('theItsMePersonPassword');
@@ -189,6 +210,12 @@
       $this->state = array();
       foreach ($fromArray as $fromKey => $fromValue) {
         $this->state[$fromKey] = (isset($fromValue)) ? $fromValue : "";
+      }
+      // This next few lines of code is copied from adminDataEntry. It implicitly changes the data type from string to array for the appropriate properties.
+      // Fix up empty sets - TODO: This is a hack. We should look to the DatumProperties class to identify all the sets that need fixing up. Still OK as of 4/17/13
+      $setsToFixUp = array('people_notifyOf', 'people_relationship', 'people_role');
+      foreach ($setsToFixUp as $setToFixUp) {
+        if (!isset($editorState[$setToFixUp])) $editorState[$setToFixUp] = array();
       }
       if (!isset($this->state['userLoginUnderway'])) { $this->state['userLoginUnderway'] = 1; }
       if (!isset($this->state['theItsMePersonId'])) { $this->state['theItsMePersonId'] = 0; }
@@ -265,9 +292,9 @@
       } else if (($dbPW != '') && ($newPW != $dbPW)) { 
         // User entered incorrect non-blank password. Make them login again.
         $this->DEBUGGER->belch('User entered incorrect non-blank password', $newPW, self::$debugValidLogin);
-        $this->openErrorMessage = "ERROR:<br><br>The password you entered does not match your Sign In Email Address."
+        $this->openErrorMessage = "ERROR:<br>The password you entered does not match your Email Address / Login Name."
                                 . "<br>If you simply forgot your password, leave it blank and Sign In again."
-                                . "<br>You'll receive more help after that.";
+                                . "<br>You'll receive more help after that.<br><br>";
         $this->DEBUGGER->becho('isValidLogin() dbPW', $dbPW, self::$debugValidLogin);
         $this->DEBUGGER->becho('isValidLogin() newPW', $newPW, self::$debugValidLogin);
       } else if ($requirePassword && ($newPW == '')) {
@@ -292,7 +319,15 @@
     }
     
     private function setState($keyName, $keyValue, $debug=-1, $debugId='') {
-      $this->makeHiddenInputField($keyName);
+      if (is_null($this->domDocument->getElementById($keyName))) $this->makeHiddenInputField($keyName);
+
+/*
+      $doc->validateOnParse = true;
+      if (!$doc->getElementById($keyName)) {
+        $doc->setIdAttribute($keyName, true);
+        $this->makeHiddenInputField($keyName);
+      }
+*/
       $this->state[$keyName] = $keyValue;
       echo "<script type='text/javascript'>document.getElementById('" . $keyName . "').value='" . $keyValue . "';</script><!-- from setState() -->\r\n";
       $this->DEBUGGER->becho((($debugId=='') ? '' : $debugId . ' ') .'this->state[' . $keyName . ']', $this->state[$keyName], $debug);
@@ -300,29 +335,9 @@
       return $keyValue;
     }
 
-    // Also see setUpSubscriber() below
-    public function setUpSubmitter($loginName, $loginPassword, $submitterDBState) {
-      $this->DEBUGGER->bechoTrace('setUpSubmitter()', $loginName, -1);
-      $this->state['submitterInPeopleTable'] = 1;
-      $this->state['userLoginUnderway'] = isset($submitterDBState["loginName"]) && isset($submitterDBState["password"])
-                                           &&  !$this->isValidLogin($loginName, $submitterDBState["loginName"], 
-                                                        $loginPassword, $submitterDBState['password'], 
-                                                        $this->state['passwordEntryRequired']);
-      if (!$this->state['userLoginUnderway']) {
-        $this->state['loginUserId'] = $submitterDBState['personId'];
-        $this->setState('people_loginName', $loginName);
-        $this->setState('loginPasswordCache', $loginPassword, -1, 'PE1');
-        return true;
-      } else { // since the login name is not valid
-        $this->state['loginUserId'] = 0;
-        $this->setState('people_loginName', '');
-        $this->setState('loginPasswordCache', '', self::$debugPeopleLoginName, 'PE2');
-        return false;
-      }
-    }
-
    // TODO Clean this up. 4/1/12
-   // setUpSubscriber() is a copy of setUpSubmitter() except that it manipulates $this->state['subscriberInPeopleTable'] instead of $this->state['submitterInPeopleTable'].
+   // setUpSubscriber() is a copy of HTMLGen::setUpSubmitter() except that it manipulates 
+   // $this->state['subscriberInPeopleTable'] instead of $this->state['submitterInPeopleTable'].
     public function setUpSubscriber($loginName, $loginPassword, $subscriberDBState) {
       $this->DEBUGGER->bechoTrace('setUpSubscriber()', $loginName, -1);
       $this->state['subscriberInPeopleTable'] = 1;
@@ -388,7 +403,7 @@
         $itsMeDBState['personId'] = $this->state['theItsMePersonId'];
         $itsMeDBState['password'] = $this->state['theItsMePersonPassword'];
         $itsMeDBState['name'] = $this->state['theItsMePersonName'];
-        $this->setUpSubscriber($this->state['loginName'], $this->state['pwFromLogin'], $itsMeDBState);
+//        $this->setUpSubscriber($this->state['loginName'], $this->state['pwFromLogin'], $itsMeDBState);
       } else { // since signingIn
         $this->DEBUGGER->becho('10', 'Signing In with ' . $this->state['loginName'], self::$debugSignIn);
         $this->state['userLoginUnderway'] = 1;
@@ -476,7 +491,64 @@
       } else { $this->possibleDuplicatesString = ''; }
       return $isUnique;
     }
-    
+
+    public function displayLoginSection() {
+      echo '        <div id="edLoginSectionDiv">' . PHP_EOL;
+      echo '          <table style="width:100%;border:none;text-align:center;margin:0;margin-left:-20px;padding:0;">' . PHP_EOL;
+      echo '            <tr>' . PHP_EOL;
+      echo '              <td class="programPageTitleText bottomCenter" style="padding-top:24px;">Sign In / Register</td>' . PHP_EOL;
+      echo '            </tr>' . PHP_EOL;
+      echo '            <tr>' . PHP_EOL;
+      echo '              <td class="middleCenter" style="height:30px;"><hr class="horizontalSeparator1" style="vertical-align:middle;height:1px;border-width:0;background-color:' . SSFWebPageParts::getSecondaryTextColor() . '"></td>' . PHP_EOL;
+      echo '            </tr>' . PHP_EOL;
+      echo '            <tr>' . PHP_EOL;
+      echo '              <td style="text-align:center;"> ' . PHP_EOL;
+              if ($this->state['userLoginUnderway']) { 
+                  echo '<div class="bodyText" '
+                   . 'style="text-align:center;font-size:14;font-weight:normal;padding:6px 4px 6px 4px;color:' . SSFWebPageParts::getProgramHighlightColor() . ';">'
+                   . $this->openErrorMessage . '</div>';
+              }
+              $showLoginBlurb = $this->state['userLoginUnderway'] && (!isset($this->openErrorMessage) || $this->openErrorMessage == '');
+              $loginBlurb = 'Sans Souci, an international festival of dance cinema, invites and encourages submissions from all artists regardless of' 
+                          . ' credentials and affiliations. Accepted works will be screened ' . SSFRunTimeValues::getEventDescriptionStringShort(SSFRunTimeValues::getAssociatedEventId())
+      /*                  . 'Additionally, with your permission, your work may tour to other venues around the U.S. and elsewhere.' */
+                          . 'For more information see our <a class="dodeco" href="' . self::$danceCinemaCallFilename . '">'
+                          . 'Call for Entries</a> and our ' . SSFEntryForm::getEntryRequirementsDisplayStringWithLink('Entry Requirements');
+      echo '              </td>' . PHP_EOL;
+      echo '            </tr>' . PHP_EOL;
+      echo '            <tr>' . PHP_EOL;
+      echo '              <td class="middleCenter bodyTextWithEmphasis">' . PHP_EOL;
+              if ($showLoginBlurb) echo '<div class="bodyText" style="text-align:left;padding:0px 54px 24px 64px;">' . $loginBlurb . '.</div>' . PHP_EOL;
+      echo '                <table style="text-align:center;width:100%;border:none;margin:0;padding:0;">' . PHP_EOL;
+      echo '                  <tr><td colspan="2" class="loginPrompt" style="padding:0 0 6px 0;"><span class="secondaryTextColor">Please sign in or register here.</span></td></tr>' . PHP_EOL;
+      echo '                  <tr>' . PHP_EOL;
+      echo '                    <td class="entryFormDescription" style="width:242px;height:28px;text-align:right;"> ' . PHP_EOL;
+      echo '                      <a class="dodeco" href="javascript:window.void(0)" onMouseOver="flyoverPopup(' . HTMLGen::simpleQuote('Your login name is your email address.') . ')"' . PHP_EOL;
+      echo '                        onMouseOut="killFlyoverPopup()" onClick="window.alert(' . HTMLGen::simpleQuote('Your login name is your email address.') . ')">Email Address / Login Name</a>: </td>' . PHP_EOL;
+      echo '                    <td class="entryFormField" style="height:28px;text-align:left;"><input style="height:14px;" type="text" name="loginName" id="loginName" ' . PHP_EOL;
+      echo '                         value="' . $this->state['loginName'] . '" ' . "onKeyPress='return submitEnter(this, event)'" . PHP_EOL;
+      echo '                         onchange="document.getElementById(' . HTMLGen::simpleQuote('people_loginName') . ').value=this.value"' . PHP_EOL;
+      echo '                         class="entryFormInputFieldShort" maxlength="100">' . PHP_EOL;
+      echo '                         <!-- onBlur="ValidEmail(this);" -->' . PHP_EOL;
+      echo '                    </td>' . PHP_EOL;
+      echo '                  </tr>' . PHP_EOL;
+      echo '                  <tr><td colspan="2" class="loginPrompt" style="padding:6px 0 4px 0;"><span class="secondaryTextColor">If you have a password and you know what it is, enter it below.</span></td></tr>' . PHP_EOL;
+      echo '                  <tr>' . PHP_EOL;
+      echo '                    <td class="entryFormDescription" style="height:28px;text-align:right;">Password: </td>' . PHP_EOL;
+      echo '                    <td class="entryFormField" style="height:28px;text-align:left;"><input style="height:14px;" type="password" name="pwFromLogin" id="pwFromLogin" ' . PHP_EOL;
+      echo '                       value="' . $this->state['pwFromLogin'] . '" class="entryFormInputFieldShorter" maxlength="100"><span ' . PHP_EOL;
+      echo '                       class="entryFormDescription"> (leave blank if unknown)</span></td>' . PHP_EOL;
+      echo '                  </tr>' . PHP_EOL;
+      echo '                  <tr>' . PHP_EOL;
+      echo '                    <td colspan="2" style="padding:10px 0 16px 0;height:28px;text-align:center;"><input type="submit" id="signInSubmit" name="signInSubmit" value="Sign In"></td>' . PHP_EOL;
+      echo '                  </tr>' . PHP_EOL;
+      echo '                </table>' . PHP_EOL;
+      echo '              </td>' . PHP_EOL;
+      echo '            </tr>' . PHP_EOL;
+      echo '          </table>' . PHP_EOL;
+      echo '        </div> <!-- End edLoginSectionDiv -->' . PHP_EOL;
+    } 
+
     public function insertPerson() {
       $debugIP = -1;
       $personInDatabase = SSFQuery::personExistsInDatabase($this->state['people_email']);
@@ -536,6 +608,22 @@
         }
       }
     }
+    
+/* TODO
+  BUG #166: 4/7/15 When the user deselects both calls and events checkboxes, the change is reported 
+   via email but not applied to the DB or shown to the user within the PersonDisplay. 
+   'notifyOf' is treated in some places as a string and others as an array.
+   I think that SSFQuery::updateDBFor() does not detect a new value for notifyOf and returns 0.
+   For diagnstics, set $debugChanges = -1 on line 544 of SSFQuery in updateDBFor().
+   This functionality works correctly in adminDataEntry. 
+   Compare this with adminDataEntry after setting $debugInit = 1 on line 244 of adminDataEntry.
+   The email to entryform@sanssoucifest.org shows "  people_notifyOf: "n/a"" where the new value
+   of "n/a" is correct but the line is not flagged as a change and the database is not changed.
+   Something is funny about the existence and value of $this->state['people_notifyOf'] before
+   the call to SSFQuery::updateDBFor() and about any Hidden Inputs that may pass it in from the saved edit.
+  Something may be wrong in SSFEntryForm::updatePerson().
+  This bug existed in entryForm2014.php as well.
+*/
 
     public function updatePerson() {
       $this->DEBUGGER->becho('20', 'Save an updated person', -1);
@@ -549,8 +637,16 @@
         if (($this->state['people_email'] == $currentValueArray['email']) || !$multiplePeopleExistInDatabase) {
           // The user did not change their email address in a harmful way  
           $this->setState('people_loginName', $this->state['people_email']);
+//        $this->DEBUGGER->becho('23 dbPersonWorkState[notifyOf] Before update', $this->dbPersonWorkState['notifyOf'], 1);
+          // Next line is a HACK so that a selection of no notifications is treated properly as an empty set/array.
+          // This should really be done in SSFQuery::updateDBFor() for all arrays that might come in as strings. 4/7/15
+//          $this->DEBUGGER->becho('22 this->state[people_notifyOf]', $this->state['people_notifyOf'], 1); // 4/7/15
+//          $this->DEBUGGER->belch('23 this->state[people_notifyOf]', $this->state['people_notifyOf'], 1); // 4/7/15
+//          $this->state['people_notifyOf'] = (isset($this->state['people_notifyOf']) && gettype($this->state['people_notifyOf']) == 'string') 
+//                                          ? explode(',', $this->state['people_notifyOf']) : array();            // explode or preg_split
           $changeCount = SSFQuery::updateDBFor('people', $currentValueArray, $this->state, 'personId', $personId);
-          $this->DEBUGGER->becho('people changeCount', $changeCount, SSFEntryForm::$debugChangeCount);
+//        $this->DEBUGGER->becho('24 dbPersonWorkState[notifyOf] After update', $this->dbPersonWorkState['notifyOf'], 1);
+          $this->DEBUGGER->becho('people changeCount', $changeCount, -1); // SSFEntryForm::$debugChangeCount 4/5/15
           $this->state['people_personId'] = $personId;
           if ($changeCount > 0) SSFPhoneHome::sendPersonInfo($this->state, 1, $changeCount);
         } else { // The user changed their email to an email address belonging to another user.
@@ -653,24 +749,78 @@
       return $asterisk;
     }
 
-    public static function displayPersonInformation($personIsSpecified, $dbPersonWorkState) {
+    public function displayPersonInformation($personIsSpecified) {
+      $indent = '                    ';
       echo "<!-- display Person Information -->\r\n";
-      echo '          <div class="entryFormSectionHeading">' . PHP_EOL;
+      echo $indent . '<div class="entryFormSectionHeading">' . PHP_EOL;
       $personOrSubmitterText = 'Submitter: ';   // <!-- TODO FIX $personOrSubmitterText -->
-      echo '            <div style="float:left;padding-top:4px;padding-bottom:4px;"><span class="withEmphasis">' . $personOrSubmitterText . '</span>' . PHP_EOL;
-      if ($personIsSpecified) echo $dbPersonWorkState['name'];
-      echo '            </div>' . PHP_EOL;
-      echo '            <div style="float:right;padding-right:4px;padding-bottom:0;">' . PHP_EOL;
-      if ($personIsSpecified)  echo '                <input type="submit" id="editPerson" name="editPerson" value="Edit">' . PHP_EOL;
-      echo '            </div>' . PHP_EOL;
-      echo '            <div style="clear:both;padding:0;margin:0;"><hr class="horizontalSeparatorFull"></div>' . PHP_EOL;
-      echo '          </div>' . PHP_EOL;
-      echo '          <div id = "edPersonDiv" style="text-align:left;">' . PHP_EOL;
-      if ($personIsSpecified) HTMLGen::displayPersonDetail($dbPersonWorkState, $forAdmin=false); 
-      echo '          </div> <!-- id = "edPersonDiv" -->' . PHP_EOL;
+      echo $indent . '  <div style="float:left;padding-top:4px;padding-bottom:4px;"><span class="withEmphasis">' . $personOrSubmitterText . '</span>';
+      if ($personIsSpecified) echo $this->dbPersonWorkState['name'];
+      echo '</div>' . PHP_EOL;
+      echo $indent . '  <div style="float:right;padding-right:4px;padding-bottom:0;">' . PHP_EOL;
+      if ($personIsSpecified)  echo $indent . '    <input type="submit" id="editPerson" name="editPerson" value="Edit">' . PHP_EOL;
+      echo $indent . '  </div>' . PHP_EOL;
+      echo $indent . '  <div style="clear:both;padding:0;margin:0;"><hr class="horizontalSeparatorFull"></div>' . PHP_EOL;
+      echo $indent . '</div>' . PHP_EOL;
+      echo $indent . '<div id = "edPersonDiv" style="text-align:left;">' . PHP_EOL;
+      if ($personIsSpecified) self::displayPersonDetail($this->dbPersonWorkState); 
+      echo $indent . '</div> <!-- id = "edPersonDiv" -->' . PHP_EOL;
+    }
+
+    public static function getSimpleDataWithDescriptionLine($descriptionString, $valueString) {
+      $finalDescString = ((isset($descriptionString) && ($descriptionString != '')) ? $descriptionString . ":&nbsp;" : "");
+      $displayElement = '<div class="datumValue" style="padding-top:2px;"><span class="datumDescription">' 
+                      . $finalDescString . "</span>" . $valueString . "</div>";
+      return $displayElement;
+    }
+
+    // Generates HTML for person detail. Moved from HTMLGen 4/6/15
+    public function displayPersonDetail($personArray) {
+      $alwaysDisplay = false;
+      $indent = '                      ';
+      if (self::$showFunctionMarkers) echo "<!-- BEGIN SSFEntryForm::displayPersonDetail -->" . PHP_EOL;
+      if (!is_null($personArray)) {
+        $personToDisplay = new SSFPerson($personArray);
+        $person = $personToDisplay->valueArray;
+        // name
+        echo $indent . '<div class="datumValue"><span class="datumDescription">Name:&nbsp;</span>' . $person["nickName"] . ' ' . $person["lastName"] . '</div>' . PHP_EOL;
+        // organization
+        if ($alwaysDisplay || $personToDisplay->organizationExists()) {
+          echo $indent . '' . self::getSimpleDataWithDescriptionLine('Organization', $person['organization']) . PHP_EOL;
+        }
+        // address
+        echo $indent . self::getSimpleDataWithDescriptionLine('Address', $personToDisplay->addressDisplay()) . PHP_EOL; 
+        // telephones
+        $telephoneString =  "<div class='datumDescription'>" . PHP_EOL;
+        $telephoneString .= $indent . "  <div class='datumValue floatLeft' style='padding-top:1px;padding-left:0;'><span class='datumDescription'>Telephones:&nbsp;</span></div>" . PHP_EOL;
+        if ($personToDisplay->telephonesExist()) {
+          $telephoneString .= $indent . "  <div style='float:left;margin-left:.5em;padding-bottom:0px;'>" . PHP_EOL;
+          $phoneIndent = $indent . "    ";
+          if ($personToDisplay->phoneVoiceExists()) $telephoneString .= $phoneIndent . HTMLGen::getDatumDisplayWDesc("Landline", $person['phoneVoice']) . PHP_EOL;
+          if ($personToDisplay->phoneMobileExists()) $telephoneString .=  $phoneIndent . HTMLGen::getDatumDisplayWDesc("Mobile", $person['phoneMobile']) . PHP_EOL;
+//          if ($personToDisplay->phoneFaxExists()) $telephoneString .=  $phoneIndent . HTMLGen::getDatumDisplayWDesc("Fax", $person['phoneFax']) . PHP_EOL;
+          $telephoneString .= $phoneIndent . "<div style='clear:both;'></div>" . PHP_EOL;
+          $telephoneString .= $indent . '  </div>' . PHP_EOL;
+        } else $telephoneString .=  $indent . "  <div class='datumValue floatLeft' style='margin-bottom:0;padding-bottom:0;'>&nbsp;No telephone numbers provided.</div>" . PHP_EOL; 
+        $telephoneString .=  $indent . "  <div style='clear:both;'></div>" . PHP_EOL;
+        $telephoneString .=  $indent . "</div>" . PHP_EOL;
+        echo $indent . '' . $telephoneString; 
+//        echo $indent . "<div style='clear:both;'></div>" . PHP_EOL;
+        // email
+        $emailString = str_replace(array('<', '>'), '', $person['email']);
+        $completeEmailString = HTMLGen::getHTMLAnchoredEmailStringFor($person['name'], $emailString);
+        echo $indent . self::getSimpleDataWithDescriptionLine('Email', $completeEmailString) . PHP_EOL; 
+        // how heard about us
+        if ($alwaysDisplay) echo $indent . self::getSimpleDataWithDescriptionLine('How you heard about us', $person['howHeardAboutUs']); 
+        // notifyOf
+        $notifyString = $personToDisplay->notifyDisplayForUser();
+        echo $indent . self::getSimpleDataWithDescriptionLine('Notify me of', $personToDisplay->notifyDisplayForUser()) . PHP_EOL;
+        echo $indent . "<div style='clear:both;'></div>" . PHP_EOL;
+      }
+      if (self::$showFunctionMarkers) echo "<!-- END SSFEntryForm::displayPersonDetail -->" . PHP_EOL;
     }
     
-    public static function displayWorkSelector($theForm, $entryFeeAmount, $finalDeadlineHasPassed) {
+    public function displayWorkSelector($entryFeeAmount, $finalDeadlineHasPassed) {
       echo "<!-- display Work Selector -->\r\n";
       echo '          <div class="entryFormSectionHeading">' . PHP_EOL;
       echo '            <div style="float:left;text-align:left;padding-top:4px;padding-bottom:4px;"><span class="withEmphasis">Select an entry or create a new one. </span>' . PHP_EOL;
@@ -681,13 +831,12 @@
       echo '          <div class="formRowContainer">' . PHP_EOL;
       echo '            <div class="entryFormFieldContainer">' . PHP_EOL;
       echo '              <div style="float:left;">' . PHP_EOL;
-      $workIdSelected = HTMLGen::displayWorkSelector('ssfEntryForm', $theForm->state['loginUserId'], $theForm->state, '-- select an entry to view and edit --'); 
-      if ($workIdSelected !=  $theForm->state['workSelector']) {
-        // This is an ugly repeat of code executed above for $dbPersonWorkState and $dbContributorsState initialization
-        $theForm->state['workSelector'] = $workIdSelected;
-        initializeWorkDatabaseState($theForm);
+      $workIdSelected = HTMLGen::displayWorkSelector('ssfEntryForm', $this->state['loginUserId'], $this->state, '-- select an entry to view and edit --'); 
+      if ($workIdSelected !=  $this->state['workSelector']) {
+        $this->state['workSelector'] = $workIdSelected;
+        initializeWorkDatabaseState();
       }
-      $theForm->DEBUGGER->becho('502 theForm->state[workSelector]', $theForm->state['workSelector'], -1);
+      $this->DEBUGGER->becho('502 theForm->state[workSelector]', $this->state['workSelector'], -1);
       echo '              </div>' . PHP_EOL;
       echo '              <div style="float:left;padding-left:20px;">' . PHP_EOL;
       echo '                <input type="submit" id="createNewWork" name="createNewWork" value="Create New Entry"' 
@@ -700,11 +849,11 @@
       return $workIdSelected;
     }
 
-    public static function displayWorkInformation($theForm, $dbPersonWorkState, $dbContributorsState) {
+    public function displayWorkInformation() {
       echo "<!-- display Work Information -->\r\n";
-      if ($theForm->workIsSpecified()) {
+      if ($this->workIsSpecified()) {
         echo "          <div class='entryFormSectionHeading'>\r\n";
-        echo '            <div style="float:left;padding-top:4px;padding-bottom:4px;"><span class="withEmphasis">Entry:</span> "' . $dbPersonWorkState['title'] . '"';
+        echo '            <div style="float:left;padding-top:4px;padding-bottom:4px;"><span class="withEmphasis">Entry:</span> "' . $this->dbPersonWorkState['title'] . '"';
         echo "            </div>\r\n";
         echo "            <div style='float:right;padding-right:4px;padding-bottom:0;'>\r\n";
         echo '              <input type="submit" id="editWork" name="editWork" value="Edit">' . PHP_EOL;
@@ -712,8 +861,8 @@
         echo "            <div style='clear:both;'><hr class='horizontalSeparatorFull'></div>\r\n";
         echo "          </div>\r\n";
         echo "          <div id='edEntriesDiv' style='text-align:left;'>\r\n";
-        $theForm->DEBUGGER->becho('504 databaseState["workId"]', $dbPersonWorkState['workId'], SSFEntryForm::$debugRefreshIssues);
-        HTMLGen::displayWorkDetail($dbPersonWorkState, $dbContributorsState);
+        $this->DEBUGGER->becho('504 databaseState["workId"]', $this->dbPersonWorkState['workId'], SSFEntryForm::$debugRefreshIssues);
+        self::displayWorkDetail();
         echo "          </div> <!-- id=edEntriesDiv -->\r\n";
       }
     }
@@ -727,9 +876,6 @@
       $prodCountryDesc = self::asterisk() . 'Country of Production:';
       $prodCountryIdName = DatumProperties::getItemKeyFor('works', 'countryOfProduction');
       $prodCountryGenId = HTMLGen::genId($prodCountryIdName);
-  
-      // public static function addTextWidgetRowHelper1($desc, $idName, $initValue, $maxLength, $width="w", $disable=false) {
-      // NOTE: Setting $inputType to 'password' causes Firefox to repeatedly ask the user if she wants the password to be saved.
       echo "      <div class='formRowContainer'>\r\n";
       echo "        <div class='rowTitleTextWide'>" . $prodYearDesc . "</div>\r\n"; 
       echo "        <div class='entryFormFieldContainer'>\r\n";
@@ -742,58 +888,150 @@
       echo ' maxLength="' . $prodYearMaxLength . '"';
       echo " onchange='javascript:userMadeAChange(0);'>\r\n";
       echo "          </div>\r\n"; 
-      echo '          <div style="float:left;margin-top:-1;">';
-      echo '            <span class="rowTitleTextWide" style="width:150px;">' . $prodCountryDesc . '</span>';
+      echo '          <div style="float:left;margin-top:-1;">' . PHP_EOL;
+      echo '            <span class="rowTitleTextWide" style="width:150px;margin-top:3px;">' . $prodCountryDesc . '</span>' . PHP_EOL;
       echo '            <input class="entryFormInputFieldShort" style="width:110px;" type="text" id="' . $prodCountryGenId . '" name="' . $prodCountryIdName . '" ' .
-                          'value="' . $prodCountryInitValue . '" maxlength="64"' . ' onchange="javascript:userMadeAChange(0);">';
-      echo '          </div>';
-  
-      // public static function addTextWidgetRowHelper2() {
-      echo "        <div style='clear:both;'></div>\r\n"; // rowTitleTextWide
+                          'value="' . $prodCountryInitValue . '" maxlength="64"' . ' onchange="javascript:userMadeAChange(0);">' . PHP_EOL;
+      echo '          </div>' . PHP_EOL;
       echo "        </div>\r\n";                          // entryFormFieldContainer
+      echo "        <div style='clear:both;'></div>\r\n"; // rowTitleTextWide
       echo "      </div>\r\n";                            // formRowContainer
     
       echo "<!-- END displayProductionYearAndCountry -->\r\n";
     }
 
-    public static function displayPersonCreationForm($theForm) {
-      $disable = $theForm->state['userLoginUnderway'];
+    // Generates HTML for the work detail.
+    public function displayWorkDetail() {
+      if (self::$showFunctionMarkers) echo "<!-- BEGIN displayWorkDetail -->\r\n";
+      if (!is_null($this->dbPersonWorkState)) {
+        $workId = $this->dbPersonWorkState['workId'];
+        $countryOfProductionDisplay = ((!is_null($this->dbPersonWorkState['countryOfProduction']) && ($this->dbPersonWorkState['countryOfProduction'] !== '')))
+                                    ? (', ' . $this->dbPersonWorkState['countryOfProduction']) : '';
+        // title, year, runtime
+        echo '<div class="datumValue"><span class="datumDescription">Title: </span>' . $this->dbPersonWorkState['title'] 
+             . ' (' . $this->dbPersonWorkState['yearProduced'] . $countryOfProductionDisplay
+             . ')<span class="datumDescription" style="margin-left:2em;">Running Time: </span>' 
+             . HTMLGen::timeAsMinutesAndSeconds($this->dbPersonWorkState['runTime']) . '</div>' . PHP_EOL;
+        // submission & original formats & frame parameters: aspect ratio, anamorphic, & width & height
+        $formatDisplayString = '<div class="datumValue" style="padding-top:2px;">'
+                             . '<span class="datumDescription">Submitted as: </span>' 
+                             . $this->dbPersonWorkState['submissionFormat'];
+        if (isset($this->dbPersonWorkState['originalFormat']) && ($this->dbPersonWorkState['originalFormat'] != '')) 
+          $formatDisplayString .= '<span class="datumDescription">. Originally recorded as </span>' . $this->dbPersonWorkState['originalFormat'] . '.';
+        $formatDisplayString .= '</div>' . PHP_EOL;
+        echo $formatDisplayString;
+        // display frame parameters: aspect ratio, anamorphic, & width & height (ABOVE)
+//        echo HTMLGen::getFrameParametersDisplayElement2($this->dbPersonWorkState, true);
+        // vimeo publication info
+        echo '<div class="dodeco">';
+        echo self::getSimpleDataWithDescriptionLine('Vimeo Info', HTMLGen::getVimeoInfoString($this->dbPersonWorkState) );
+        echo '</div>' . PHP_EOL;        
+        // work contributors
+        $displayContributorsOnSeparateLines = true;
+        echo HTMLGen::getContributorDisplayLines($this->dbContributorsState, $displayContributorsOnSeparateLines);  // 4/5/15
+        // synopsis
+        echo '<div class="datumValue"><span class="datumDescription">Synopsis: </span>' . $this->dbPersonWorkState['synopsisOriginal'] . "</div>\r\n";
+        // web site
+        if ($this->dbPersonWorkState['webSite'] != '') echo '<div class="dodeco">' . HTMLGen::getWebSiteDisplayLine($this->dbPersonWorkState['webSite'], $this->dbPersonWorkState['webSitePertainsTo']) . '<div style="clear:both;"></div></div>' . PHP_EOL; 
+        // previously shown at
+        if ($this->dbPersonWorkState['previouslyShownAt'] != '') 
+          echo '<div class="datumValue"><span class="datumDescription">Also shown at: </span>' . $this->dbPersonWorkState['previouslyShownAt'] . "</div>\r\n";
+        // photo location / photo URL // changed 3/24/14
+        $photoURLIsSet = (isset($this->dbPersonWorkState['photoURL']) && $this->dbPersonWorkState['photoURL'] != '');
+        $photosWebAddressDisplay = 'Not specified';
+        if ($photoURLIsSet) {
+          $photosWebAddressDisplay =  HTMLGen::getWebAddressDisplayString($this->dbPersonWorkState['photoURL']);
+          echo '<div class="datumValue"><span class="datumDescription">Screen Snapshots web address: </span>' . $photosWebAddressDisplay . "</div>\r\n";
+        }
+        // photo credits
+        if ($this->dbPersonWorkState['photoCredits'] != '')
+        echo '<div class="datumValue"><span class="datumDescription">Photos by: </span>' . $this->dbPersonWorkState['photoCredits'] . "</div>\r\n";
+        // payment info
+        $pmtReceived = (isset($this->dbPersonWorkState['datePaid']) && ($this->dbPersonWorkState['datePaid'] != '') && ($this->dbPersonWorkState['datePaid'] != '0000-00-00'));
+        if ($pmtReceived) { 
+          $pmtString = self::getPaymentInfoDisplayString($this->dbPersonWorkState);
+          echo self::getSimpleDataWithDescriptionLine('Payment Information', $pmtString);
+        } else { // since the payment has not been received      
+          $works_title = (isset($this->dbPersonWorkState['title'])) ? $this->dbPersonWorkState['title'] : '';
+          $people_email = (isset($this->dbPersonWorkState['email'])) ? $this->dbPersonWorkState['email'] : '';
+          $people_firstName = (isset($this->dbPersonWorkState['nickName'])) ? $this->dbPersonWorkState['nickName'] : '';
+          $people_lastName = (isset($this->dbPersonWorkState['lastName'])) ? $this->dbPersonWorkState['lastName'] : '';
+  //        $getVars = "works_title='" . $works_title . "'&amp;people_email='" . $people_email
+  //                 . "'&amp;people_firstName='" . $people_firstName . "'&amp;people_lastName='" . $people_lastName . "'";
+          // 5/11/14 omitted addition of single quotes around the parameter value strings.
+          $getVars = "works_title=" . $works_title . "&amp;people_email=" . $people_email
+                   . "&amp;people_firstName=" . $people_firstName . "&amp;people_lastName=" . $people_lastName . "";  
+//          $getVars = (Normalizer::isNormalized()) ? $getVars : Normalizer::normalize($getVars);
+          $getVars = str_replace(' ', '%20', $getVars);
+/*          $paymentInformation 
+            = '<a class="dodeco" href="javascript:void(0)" onClick="entryRequirementsWindow=window.open(\'' . self::$entryRequirementsInWindowFilename . '#deadlines\','  
+            . '\'EntryRequirementsWindow\',\'directories=no,status=no,menubar=no,resizable=yes,scrollbars=yes,toolbar=no,top=50,width=650,height=640\',false);'
+            . 'entryRequirementsWindow.focus();">Payment Information</a>';
+*/
+          $paymentInformation = self::getEntryRequirementsDisplayStringWithLink('Payment Information', '#payment');
+          echo '<div class="datumValue"><span class="datumDescription">' . $paymentInformation . ': </span>';
+          if ($this->dbPersonWorkState['howPaid'] == "paypal") 
+            echo '<a href="onlineEntryForm/paypal/index.php?' . $getVars . '"><img src="../images/logos/PayPal_mark_37x23.gif" ' .
+                 'alt="Pay now via PayPal" title="Pay now via PayPal" style="border:none;margin:0;padding:0;vertical-align:middle;"></a> ' .
+                 '(<a class="dodeco" href="onlineEntryForm/paypal/index.php?' . $getVars . '">pay now</a>)<br>';
+          else if ($this->dbPersonWorkState['howPaid'] == "check") echo "Pay via check or money order in US Dollars sent via post.<br>";
+          else echo ucfirst($this->dbPersonWorkState['howPaid']);
+          echo "</div>\r\n";
+        }      
+        // release info
+        echo '<div class="datumValue"><span class="datumDescription highlightedTextColor">Release Information: </span>';
+        if (!isset($this->dbPersonWorkState['permissionsAtSubmission']) || ($this->dbPersonWorkState['permissionsAtSubmission'] == '')) $releaseInfo = 'None given.';
+        else {
+          $releaseInfo = SSFRunTimeValues::getReleaseInfoStatementIntroString();
+          if ($this->dbPersonWorkState['permissionsAtSubmission'] == SSFRunTimeValues::getPermissionAllOKString($this->dbPersonWorkState['callForEntries']))
+            $releaseInfo .= SSFRunTimeValues::getReleaseInfoStatementAllOKString(); 
+          else $releaseInfo .= SSFRunTimeValues::getReleaseInfoStatementAskMeString();
+        }
+        echo $releaseInfo . "</div>\r\n";
+        // items for administrative completion
+          // titleForSort, designatedId, dateMediaReceived, datePaid, amtPaid, howPaid, checkOrPaypalNumber, webSitePertainsTo, photoLocation, photoURL
+      }
+      if (self::$showFunctionMarkers) echo "<!-- END displayWorkDetail -->\r\n";
+    }
+
+    public function displayPersonCreationForm() {
+      $disable = $this->userLoginUnderway();  // 4/7/15
       self::displayEditDivHeader_2('edCreatePersonDiv', "Creating New Account", 'Submit', 'saveNewPerson', 
                                       'savingNewPerson', 'cancelPersonChanges');
-      if ($theForm->personCreationRedo) {
-        HTMLGen::addTextWidgetRow(self::asterisk() . 'First Name', 'people_nickName',  $theForm->state['people_nickName'], 64, $disable);
-        HTMLGen::addTextWidgetRow(self::asterisk() . 'Last Name', 'people_lastName',  $theForm->state['people_lastName'], 64, $disable);
-        HTMLGen::addTextWidgetRow('Organization', 'people_organization',  $theForm->state['people_organization'], 128, $disable);
-        HTMLGen::addTextWidgetRow('Street Address', 'people_streetAddr1',  $theForm->state['people_streetAddr1'], 64, $disable);
-        HTMLGen::addTextWidgetRow('', 'people_streetAddr2',  $theForm->state['people_streetAddr2'], 64, $disable);
-        HTMLGen::addTextWidgetRow('City', 'people_city',  $theForm->state['people_city'], 32, $disable);
-        $szcArray["stateProvRegion"] = $theForm->state['people_stateProvRegion'];
-        $szcArray["zipPostalCode"] = $theForm->state['people_zipPostalCode'];
-        $szcArray["country"] = $theForm->state['people_country']; 
+      if ($this->personCreationRedo) {
+        HTMLGen::addTextWidgetRow(self::asterisk() . 'First Name', 'people_nickName',  $this->state['people_nickName'], 64, $disable);
+        HTMLGen::addTextWidgetRow(self::asterisk() . 'Last Name', 'people_lastName',  $this->state['people_lastName'], 64, $disable);
+        HTMLGen::addTextWidgetRow('Organization', 'people_organization',  $this->state['people_organization'], 128, $disable);
+        HTMLGen::addTextWidgetRow('Street Address', 'people_streetAddr1',  $this->state['people_streetAddr1'], 64, $disable);
+        HTMLGen::addTextWidgetRow('', 'people_streetAddr2',  $this->state['people_streetAddr2'], 64, $disable);
+        HTMLGen::addTextWidgetRow('City', 'people_city',  $this->state['people_city'], 32, $disable);
+        $szcArray["stateProvRegion"] = $this->state['people_stateProvRegion'];
+        $szcArray["zipPostalCode"] = $this->state['people_zipPostalCode'];
+        $szcArray["country"] = $this->state['people_country']; 
         HTMLGen::addStateZipCountryRow($szcArray, $disable);
-        $phoneArray["phoneVoice"] = $theForm->state['people_phoneVoice'];
-        $phoneArray["phoneMobile"] = $theForm->state['people_phoneMobile'];
-        $phoneArray["phoneFax"] = $theForm->state['people_phoneFax']; 
+        $phoneArray["phoneVoice"] = $this->state['people_phoneVoice'];
+        $phoneArray["phoneMobile"] = $this->state['people_phoneMobile'];
+        $phoneArray["phoneFax"] = $this->state['people_phoneFax']; 
         HTMLGen::addTextWidgetTelephonesRow($phoneArray, $disable);
         // email  
         echo '<div class="entryFormNotation" style="padding-top:20px;"><span class="quaternaryTextColor">ERROR.</span> You '
           . 'changed your email address to one that is already in our system. '
           . 'Please use a  different email address. The one displayed below is the one you originally entered on the Sign In page.</div>';
         echo '<div class="entryFormNotation">Changing your Email Address below will change your Login Id.</div>';
-        HTMLGen::addTextWidgetRow(self::asterisk() . 'Email Address', 'people_email', $theForm->state['people_email'], 128, $disable);
-        //if ($theForm->state['subscriberInPeopleTable'])
+        HTMLGen::addTextWidgetRow(self::asterisk() . 'Email Address', 'people_email', $this->state['people_email'], 128, $disable);
+        //if ($this->state['subscriberInPeopleTable'])
         HTMLGen::addTextWidgetRow(self::asterisk() . 'Reenter Email', 'people_email_2',  '', 128, $disable); 
         // password
         echo '<div class="entryFormNotation">Changing your Password below will change your Login Password.</div>';
-        HTMLGen::addTextWidgetRow(self::asterisk() . 'Password', 'people_password', $theForm->state['people_password'], 32, $disable);
-        //if ($theForm->state['subscriberInPeopleTable'])
-        HTMLGen::addTextWidgetRow(self::asterisk() . 'Reenter Psswrd', 'people_password_2', '', 32, $disable);
+        HTMLGen::addTextWidgetRow(self::asterisk() . 'Password', 'people_password', $this->state['people_password'], 32, $disable);
+        //if ($this->state['subscriberInPeopleTable'])
+        HTMLGen::addTextWidgetRow(self::asterisk() . 'Reenter Password', 'people_password_2', '', 32, $disable);
         // notifyOf
         echo '<div class="entryFormNotation"  style="padding-top:9px;padding-bottom:0px;">' . self::$notificationQuestion . '</div>';
-        HTMLGen::addCheckBoxWidgetRow('Notify me of', 'people', 'notifyOf',  $theForm->state['people_notifyOf'], 4, $disable); 
+        HTMLGen::addCheckBoxWidgetRow('Notify me of', 'people', 'notifyOf',  $this->state['people_notifyOf'], 4, $disable); 
         // howHeard
         echo '<div class="entryFormNotation">How did you hear about Sans Souci Festival?</div>';
-        HTMLGen::addTextWidgetRow('How heard', 'people_howHeardAboutUs', $theForm->state['people_howHeardAboutUs'], 128, $disable);
+        HTMLGen::addTextWidgetRow('How heard', 'people_howHeardAboutUs', $this->state['people_howHeardAboutUs'], 128, $disable);
       } else { // this is truely a brand new person
         HTMLGen::addTextWidgetRow(self::asterisk() . 'First Name', 'people_nickName', '', 64, $disable);
         HTMLGen::addTextWidgetRow(self::asterisk() . 'Last Name', 'people_lastName', '', 64, $disable);
@@ -804,17 +1042,18 @@
         $szcArray["stateProvRegion"] = $szcArray["zipPostalCode"] = $szcArray["country"] = ''; 
         HTMLGen::addStateZipCountryRow($szcArray, $disable);
         $phoneArray["phoneVoice"] = $phoneArray["phoneMobile"] = $phoneArray["phoneFax"] = ''; 
+        $phoneArray["phoneVoice"] = $phoneArray["phoneMobile"] = ''; 
         HTMLGen::addTextWidgetTelephonesRow($phoneArray, $disable);
         // email  
         echo '<div class="entryFormNotation">Changing your Email Address below will change your Login Id.</div>';
-        HTMLGen::addTextWidgetRow(self::asterisk() . 'Email Address', 'people_email', $theForm->state['loginName'], 128, $disable);
-        //if ($theForm->state['subscriberInPeopleTable'])
+        HTMLGen::addTextWidgetRow(self::asterisk() . 'Email Address', 'people_email', $this->state['loginName'], 128, $disable);
+        //if ($this->state['subscriberInPeopleTable'])
         HTMLGen::addTextWidgetRow(self::asterisk() . 'Reenter Email', 'people_email_2', '', 128, $disable); 
         // password
         echo '<div class="entryFormNotation">Changing your Password below will change your Login Password.</div>';
-        HTMLGen::addTextWidgetRow(self::asterisk() . 'Password', 'people_password', $theForm->state['pwFromLogin'], 32, $disable);
-        //if ($theForm->state['subscriberInPeopleTable'])
-        HTMLGen::addTextWidgetRow(self::asterisk() . 'Reenter Psswrd', 'people_password_2', '', 32, $disable);
+        HTMLGen::addTextWidgetRow(self::asterisk() . 'Password', 'people_password', $this->state['pwFromLogin'], 32, $disable);
+        //if ($this->state['subscriberInPeopleTable'])
+        HTMLGen::addTextWidgetRow(self::asterisk() . 'Reenter Password', 'people_password_2', '', 32, $disable);
         // notifyOf
         echo '<div class="entryFormNotation"  style="padding-top:9px;padding-bottom:0px;">' . self::$notificationQuestion . '</div>';
         HTMLGen::addCheckBoxWidgetRow('Notify me of', 'people', 'notifyOf', 'calls,events', 4, $disable); 
@@ -827,47 +1066,48 @@
       echo '<script type="text/javascript">getUniqueElement("people_nickName").focus();</script>' . PHP_EOL;
     }
 
-    public static function displayPersonEditForm($theForm, $dbPersonWorkState) {
-      $disable = $theForm->state['userLoginUnderway'];
-      self::displayEditDivHeader_2('edEditPersonDiv', "Editing " . $dbPersonWorkState['name'], 'Save', 'savePerson', 
+    public function displayPersonEditForm() {
+      $disable = $this->userLoginUnderway();  // 4/7/15
+      self::displayEditDivHeader_2('edEditPersonDiv', "<span class='withEmphasis'>Editing</span> " . $this->dbPersonWorkState['name'], 'Save', 'savePerson', 
                                       'savingPerson', 'cancelPersonChanges');
-      HTMLGen::addTextWidgetRow(self::asterisk() . 'First Name', 'people_nickName', $dbPersonWorkState['nickName'], 64, $disable);
-      HTMLGen::addTextWidgetRow(self::asterisk() . 'Last Name', 'people_lastName', $dbPersonWorkState['lastName'], 64, $disable);
-      HTMLGen::addTextWidgetRow('Organization', 'people_organization', $dbPersonWorkState['organization'], 128, $disable);
-      HTMLGen::addTextWidgetRow('Street Address', 'people_streetAddr1', $dbPersonWorkState['streetAddr1'], 64, $disable);
-      HTMLGen::addTextWidgetRow('', 'people_streetAddr2', $dbPersonWorkState['streetAddr2'], 64, $disable);
-      HTMLGen::addTextWidgetRow('City', 'people_city', $dbPersonWorkState['city'], 32, $disable);
+      HTMLGen::addTextWidgetRow(self::asterisk() . 'First Name', 'people_nickName', $this->dbPersonWorkState['nickName'], 64, $disable);
+      HTMLGen::addTextWidgetRow(self::asterisk() . 'Last Name', 'people_lastName', $this->dbPersonWorkState['lastName'], 64, $disable);
+      HTMLGen::addTextWidgetRow('Organization', 'people_organization', $this->dbPersonWorkState['organization'], 128, $disable);
+      HTMLGen::addTextWidgetRow('Street Address', 'people_streetAddr1', $this->dbPersonWorkState['streetAddr1'], 64, $disable);
+      HTMLGen::addTextWidgetRow('', 'people_streetAddr2', $this->dbPersonWorkState['streetAddr2'], 64, $disable);
+      HTMLGen::addTextWidgetRow('City', 'people_city', $this->dbPersonWorkState['city'], 32, $disable);
       $szcArray["stateProvRegion"] = $szcArray["zipPostalCode"] = $szcArray["country"] = ''; 
-      HTMLGen::addStateZipCountryRow($dbPersonWorkState, $disable);
+      HTMLGen::addStateZipCountryRow($this->dbPersonWorkState, $disable);
       $phoneArray["phoneVoice"] = $phoneArray["phoneMobile"] = $phoneArray["phoneFax"] = ''; 
-      HTMLGen::addTextWidgetTelephonesRow($dbPersonWorkState, $disable);
+      $phoneArray["phoneVoice"] = $phoneArray["phoneMobile"] = ''; 
+      HTMLGen::addTextWidgetTelephonesRow($this->dbPersonWorkState, $disable);
       // email
-      if ($theForm->userEnteredEmailAddressAlreadyInUse) 
+      if ($this->userEnteredEmailAddressAlreadyInUse) 
         echo '<div class="entryFormNotation" style="padding-top:20px;"><span class="quaternaryTextColor">ERROR.</span> You '
         . 'changed your email address to one that is already in our system. '
         . 'Please use a  different email address. The one displayed below is the prior one - before you just changed it.</div>';
-      if ($theForm->state['subscriberInPeopleTable']) echo '<div class="entryFormNotation">Changing your Email Address below will change your Login Id.</div>';
-      HTMLGen::addTextWidgetRow(self::asterisk() . 'Email Address', 'people_email', $dbPersonWorkState['email'], 128, $disable);
+      if ($this->state['subscriberInPeopleTable']) echo '<div class="entryFormNotation">Changing your Email Address below will change your Login Id.</div>';
+      HTMLGen::addTextWidgetRow(self::asterisk() . 'Email Address', 'people_email', $this->dbPersonWorkState['email'], 128, $disable);
       HTMLGen::addTextWidgetRow('Reenter Email', 'people_email_2', '', 128, $disable); //
       // password
-      if ($theForm->state['subscriberInPeopleTable']) echo '<div class="entryFormNotation">Changing your Password below will change your Login Password.</div>';
-      $initialPassword = ((!isset($dbPersonWorkState['password']) || $dbPersonWorkState['password'] == '')) ? $theForm->state['loginPasswordCache'] : $dbPersonWorkState['password'];
+      if ($this->state['subscriberInPeopleTable']) echo '<div class="entryFormNotation">Changing your Password below will change your Login Password.</div>';
+      $initialPassword = ((!isset($this->dbPersonWorkState['password']) || $this->dbPersonWorkState['password'] == '')) ? $this->state['loginPasswordCache'] : $this->dbPersonWorkState['password'];
       HTMLGen::addTextWidgetRow(self::asterisk() . 'Password', 'people_password', $initialPassword, 32, $disable);
-      HTMLGen::addTextWidgetRow('Reenter Psswrd', 'people_password_2', '', 32, $disable);
+      HTMLGen::addTextWidgetRow('Reenter Password', 'people_password_2', '', 32, $disable);
       // notifyOf
       echo '<div class="entryFormNotation" style="padding-top:9px;padding-bottom:0px;">' . self::$notificationQuestion . '</div>';
-      HTMLGen::addCheckBoxWidgetRow('Notify me of', 'people', 'notifyOf', $dbPersonWorkState['notifyOf'], 4, $disable); 
+      HTMLGen::addCheckBoxWidgetRow('Notify me of', 'people', 'notifyOf', $this->dbPersonWorkState['notifyOf'], 4, $disable); 
       // howHeard
       echo '<div class="entryFormNotation">How did you hear about Sans Souci Festival?</div>';
-      HTMLGen::addTextWidgetRow('How heard', 'people_howHeardAboutUs', $dbPersonWorkState['howHeardAboutUs'], 128, $disable);
+      HTMLGen::addTextWidgetRow('How heard', 'people_howHeardAboutUs', $this->dbPersonWorkState['howHeardAboutUs'], 128, $disable);
   
-      self::displayEditSectionFooter("<span class='withEmphasis'>Finish Editing</span> " . $dbPersonWorkState['name'], 'Save', 'savePerson', 'savingPerson', 'cancelPersonChanges');
+      self::displayEditSectionFooter("<span class='withEmphasis'>Finish Editing</span> " . $this->dbPersonWorkState['name'], 'Save', 'savePerson', 'savingPerson', 'cancelPersonChanges');
       echo "          </div> <!-- End edEditPersonDiv -->";
       echo '<script type="text/javascript">getUniqueElement("people_nickName").focus();</script>' . PHP_EOL;
     }
 
-    public static function displayWorkCreationForm($theForm, $dbPersonWorkState, $dbContributorsState) {
-      $disable = $theForm->state['userLoginUnderway'];
+    public function displayWorkCreationForm() {
+      $disable = $this->userLoginUnderway();  // 4/7/15
       self::displayEditDivHeader_2('edCreateWorkDiv', 'Creating Entry', 'Submit', 'saveNewWork', 
                                       'savingNewWork', 'cancelWorkChanges');
       echo '<div class="entryFormSubheading" style="padding-top:0px;">' . self::$basicsLeader . '</div>';
@@ -884,9 +1124,9 @@
   //    HTMLGen::addAspectRatioAnamorphicRow(0, 0, $disable);
   //    HTMLGen::addPixelDimensionsWidgetsRow(0, 0, $disable);
       echo '<div class="entryFormSubheading">' . self::$creditsLeader . '</div>';
-      HTMLGen::addContributorWidgetsSection($dbContributorsState, $disable); 
-      self::addPaymentWidgetsSection($dbPersonWorkState, $disable);
-      self::addReleaseInfoWidgetsSection($dbPersonWorkState, 'Submit', $disable);
+      HTMLGen::addContributorWidgetsSection($this->dbContributorsState, $disable); 
+      self::addPaymentWidgetsSection($this->dbPersonWorkState, $disable);
+      self::addReleaseInfoWidgetsSection($this->dbPersonWorkState, 'Submit', $disable);
       echo '<div class="entryFormSubheading" style="padding-top:16px;padding-bottom:2px">' . self::$otherLeader . '</div>';
       HTMLGen::addTextAreaRow(DatumProperties::getItemKeyFor('works', 'previouslyShownAt'), 'Previously screened at', '', 2048, 2, $disable);
       HTMLGen::addTextWidgetRow(SSFHelp::getHTMLIconFor('webSite') . 'Web site', DatumProperties::getItemKeyFor('works', 'webSite'), '', 1024, $disable);
@@ -898,58 +1138,58 @@
       echo '<script type="text/javascript">getUniqueElement("' . DatumProperties::getItemKeyFor('works', 'title') . '").focus();</script>' . PHP_EOL;
     }
 
-    public static function displayWorkEditForm($theForm, $dbPersonWorkState, $dbContributorsState) {
-      $disable = $theForm->state['userLoginUnderway'];
-      $title = (isset($dbPersonWorkState['title'])) ? $dbPersonWorkState['title'] : 'No Title'; 
-      $theForm->DEBUGGER->becho('504a databaseState["countryOfProduction"]', $dbPersonWorkState['countryOfProduction'], SSFEntryForm::$debugRefreshIssues);
+    public function displayWorkEditForm() {
+      $disable = $this->userLoginUnderway();  // 4/7/15
+      $title = (isset($this->dbPersonWorkState['title'])) ? $this->dbPersonWorkState['title'] : 'No Title'; 
+      $this->DEBUGGER->becho('504a databaseState["countryOfProduction"]', $this->dbPersonWorkState['countryOfProduction'], SSFEntryForm::$debugRefreshIssues);
       self::displayEditDivHeader_2('edEditWorkDiv', '<span class="withEmphasis">Editing Entry </span>"' . $title . '"', 'Save', 'saveWork', 
                                       'savingWork', 'cancelWorkChanges');
       echo '<div class="entryFormSubheading" style="padding-top:0px;">' . self::$basicsLeader . '</div>';
-      HTMLGen::addTextWidgetRow(self::asterisk() . 'Film Title', DatumProperties::getItemKeyFor('works', 'title'), $dbPersonWorkState['title'], 128, $disable);
-  //    HTMLGen::addTextWidgetRow(self::asterisk() . 'Production Year', DatumProperties::getItemKeyFor('works', 'yearProduced'), $dbPersonWorkState['yearProduced'], 4, $disable);
-      SSFEntryForm::displayProductionYearAndCountry($dbPersonWorkState['yearProduced'], $dbPersonWorkState['countryOfProduction']);
-      HTMLGen::addRunTimeWidgetsRow($dbPersonWorkState['runTime'], $disable);
-      HTMLGen::addTextAreaRow(DatumProperties::getItemKeyFor('works', 'synopsisOriginal'), self::asterisk() . 'Brief Synopsis', $dbPersonWorkState['synopsisOriginal'], 2048, 3, $disable);
+      HTMLGen::addTextWidgetRow(self::asterisk() . 'Film Title', DatumProperties::getItemKeyFor('works', 'title'), $this->dbPersonWorkState['title'], 128, $disable);
+  //    HTMLGen::addTextWidgetRow(self::asterisk() . 'Production Year', DatumProperties::getItemKeyFor('works', 'yearProduced'), $this->dbPersonWorkState['yearProduced'], 4, $disable);
+      SSFEntryForm::displayProductionYearAndCountry($this->dbPersonWorkState['yearProduced'], $this->dbPersonWorkState['countryOfProduction']);
+      HTMLGen::addRunTimeWidgetsRow($this->dbPersonWorkState['runTime'], $disable);
+      HTMLGen::addTextAreaRow(DatumProperties::getItemKeyFor('works', 'synopsisOriginal'), self::asterisk() . 'Brief Synopsis', $this->dbPersonWorkState['synopsisOriginal'], 2048, 3, $disable);
       echo '<div class="entryFormSubheading" style="padding-top:12px;padding-bottom:2px">' . self::$eSubmissionLeader . '</div>';
-      HTMLGen::addTextWidgetRow('Vimeo Web Address', DatumProperties::getItemKeyFor('works', 'vimeoWebAddress'), $dbPersonWorkState['vimeoWebAddress'], 1024, $disable);
-      HTMLGen::addTextWidgetRow(SSFHelp::getHTMLIconFor('vimeoAddress') . 'Vimeo Password', DatumProperties::getItemKeyFor('works', 'vimeoPassword'), $dbPersonWorkState['vimeoPassword'], 128, $disable);
+      HTMLGen::addTextWidgetRow('Vimeo Web Address', DatumProperties::getItemKeyFor('works', 'vimeoWebAddress'), $this->dbPersonWorkState['vimeoWebAddress'], 1024, $disable);
+      HTMLGen::addTextWidgetRow(SSFHelp::getHTMLIconFor('vimeoAddress') . 'Vimeo Password', DatumProperties::getItemKeyFor('works', 'vimeoPassword'), $this->dbPersonWorkState['vimeoPassword'], 128, $disable);
   //    echo '<div class="entryFormSubheading">' . self::$formatsLeader . '</div>';
-      HTMLGen::addRadioButtonWidgetRow(self::asterisk() . 'Submission Format', 'works', 'submissionFormat', $dbPersonWorkState['submissionFormat'], 4, "w", $disable); 
-  //    $theForm->DEBUGGER->becho('Work Edit databaseState[anamorphic]', $dbPersonWorkState['anamorphic'], SSFEntryForm::$anamorphicDebug);
-  //    HTMLGen::addAspectRatioAnamorphicRow($dbPersonWorkState['aspectRatio'], $dbPersonWorkState['anamorphic'], $disable);
-  //    HTMLGen::addPixelDimensionsWidgetsRow($dbPersonWorkState['frameWidthInPixels'], $dbPersonWorkState['frameHeightInPixels'], $disable);
+      HTMLGen::addRadioButtonWidgetRow(self::asterisk() . 'Submission Format', 'works', 'submissionFormat', $this->dbPersonWorkState['submissionFormat'], 4, "w", $disable); 
+  //    $this->DEBUGGER->becho('Work Edit databaseState[anamorphic]', $this->dbPersonWorkState['anamorphic'], SSFEntryForm::$anamorphicDebug);
+  //    HTMLGen::addAspectRatioAnamorphicRow($this->dbPersonWorkState['aspectRatio'], $this->dbPersonWorkState['anamorphic'], $disable);
+  //    HTMLGen::addPixelDimensionsWidgetsRow($this->dbPersonWorkState['frameWidthInPixels'], $this->dbPersonWorkState['frameHeightInPixels'], $disable);
       // TODO Edit credits separately from the other stuff.
       echo '<div class="entryFormSubheading">' . self::$creditsLeader . '</div>';
-      HTMLGen::addContributorWidgetsSection($dbContributorsState, $disable); 
+      HTMLGen::addContributorWidgetsSection($this->dbContributorsState, $disable); 
       // Suppress user update of payment type after the payment has been made (as indicated by the presence of a check or paypal number.
       $alreadyBeenPaidIndicator = 'checkOrPaypalNumber';
-      $alreadyBeenPaid = isset($dbPersonWorkState[$alreadyBeenPaidIndicator]) && ($dbPersonWorkState[$alreadyBeenPaidIndicator] != 0) && ($dbPersonWorkState[$alreadyBeenPaidIndicator] != '');
-      $theForm->DEBUGGER->becho('alreadyBeenPaid', ($alreadyBeenPaid) ? 'PAID' : 'NOT YET PAID', -1);
-      $theForm->DEBUGGER->belch('dbPersonWorkState', $dbPersonWorkState, -1);
-      self::addPaymentWidgetsSection($dbPersonWorkState, $disable || $alreadyBeenPaid); // 5/5/14
-      self::addReleaseInfoWidgetsSection($dbPersonWorkState, 'Save', $disable);
+      $alreadyBeenPaid = isset($this->dbPersonWorkState[$alreadyBeenPaidIndicator]) && ($this->dbPersonWorkState[$alreadyBeenPaidIndicator] != 0) && ($this->dbPersonWorkState[$alreadyBeenPaidIndicator] != '');
+      $this->DEBUGGER->becho('alreadyBeenPaid', ($alreadyBeenPaid) ? 'PAID' : 'NOT YET PAID', -1);
+      $this->DEBUGGER->belch('dbPersonWorkState', $this->dbPersonWorkState, -1);
+      self::addPaymentWidgetsSection($this->dbPersonWorkState, $disable || $alreadyBeenPaid); // 5/5/14
+      self::addReleaseInfoWidgetsSection($this->dbPersonWorkState, 'Save', $disable);
       echo '<div class="entryFormSubheading" style="padding-top:16px;padding-bottom:2px">' . self::$otherLeader . '</div>';
-  //    HTMLGen::displayOriginalFormatSelector2013($dbPersonWorkState['originalFormat'], $disable); 
-      HTMLGen::addTextAreaRow(DatumProperties::getItemKeyFor('works', 'previouslyShownAt'), 'Previously screened at', $dbPersonWorkState['previouslyShownAt'], 2048, 2, $disable);
-      HTMLGen::addTextWidgetRow(SSFHelp::getHTMLIconFor('webSite') . 'Web site', DatumProperties::getItemKeyFor('works', 'webSite'), $dbPersonWorkState['webSite'], 1024, $disable);
-      HTMLGen::addTextWidgetRow(SSFHelp::getHTMLIconFor('photoURL') . 'Screen Snpshots', DatumProperties::getItemKeyFor('works', 'photoURL'), $dbPersonWorkState['photoURL'], 256, $disable);
-  //    HTMLGen::addTextWidgetRow(SSFHelp::getHTMLIconFor('photoCredits') . 'Photo Credits', DatumProperties::getItemKeyFor('works', 'photoCredits'), $dbPersonWorkState['photoCredits'], 256, $disable);  // removed 3/22/14
+  //    HTMLGen::displayOriginalFormatSelector2013($this->dbPersonWorkState['originalFormat'], $disable); 
+      HTMLGen::addTextAreaRow(DatumProperties::getItemKeyFor('works', 'previouslyShownAt'), 'Previously screened at', $this->dbPersonWorkState['previouslyShownAt'], 2048, 2, $disable);
+      HTMLGen::addTextWidgetRow(SSFHelp::getHTMLIconFor('webSite') . 'Web site', DatumProperties::getItemKeyFor('works', 'webSite'), $this->dbPersonWorkState['webSite'], 1024, $disable);
+      HTMLGen::addTextWidgetRow(SSFHelp::getHTMLIconFor('photoURL') . 'Screen Snpshots', DatumProperties::getItemKeyFor('works', 'photoURL'), $this->dbPersonWorkState['photoURL'], 256, $disable);
+  //    HTMLGen::addTextWidgetRow(SSFHelp::getHTMLIconFor('photoCredits') . 'Photo Credits', DatumProperties::getItemKeyFor('works', 'photoCredits'), $this->dbPersonWorkState['photoCredits'], 256, $disable);  // removed 3/22/14
       self::displayEditSectionFooter('<span class="withEmphasis">Finish Editing </span>"' . $title . '"', 'Save', 'saveWork', 'savingWork', 'cancelWorkChanges');
       echo '            <div style="clear:both;"></div>';
       echo "          </div> <!--  End edEditWorkDiv -->\r\n";
       echo '<script type="text/javascript">getUniqueElement("' . DatumProperties::getItemKeyFor('works', 'title') . '").focus();</script>' . PHP_EOL;
     }
     
-    public static function displayThankYou($theForm, $dbPersonWorkState) {
-      $aWorkIsDisplayed = isset($dbPersonWorkState['workId']);
-      $theForm->DEBUGGER->belch('800 dbPersonWorkState', $dbPersonWorkState, -1);
+    public function displayThankYou() {
+      $aWorkIsDisplayed = isset($this->dbPersonWorkState['workId']);
+      $this->DEBUGGER->belch('800 dbPersonWorkState', $this->dbPersonWorkState, -1);
       $payYourEntryFeeString = '<span class="highlightedTextColor">Don\'t forget to pay your entry fee</span>'; 
-      $submitYourVideoString = '<span class="highlightedTextColor";>Remember to submit your video at <a href="http://vimeo.com">Vimeo</a></span> '
+      $submitYourVideoString = '<span class="highlightedTextColor">Remember to submit your video at <a class="dodeco" href="http://vimeo.com">Vimeo</a></span> '
                              . 'and enter the Vimeo web address and password (if you choose to use one) by editing the entry above. '
-                             . '(The free membership option should be adequate. <span class="highlightedTextColor";>Be sure to '
+                             . '(The free membership option should be adequate. <span class="highlightedTextColor">Be sure to '
                              . 'check the Vimeo box to &quot;Allow other people to download the source video.&quot;</span> '
                              . 'Details for this selection are described in the '
-                             . SSFEntryForm::entryRequirementsDisplayString('#media') . '.)';
+                             . self::getEntryRequirementsDisplayStringWithLink('Media Section', '#media') . '.)';
       $workDisplayedPmtReceived = false;
       $workDisplayedMediaReceived = false;
       $workDisplayedHowPaid = '';
@@ -967,21 +1207,21 @@
                            . SSFRunTimeValues::getMailEntryToAddress() . '</div>' . PHP_EOL
                            . 'Please print this page and include it with your payment. '
                            . '(You may opt to pay by Paypal instead. Just edit the entry above to indicate that intention.)';
-      $lastWordString = 'If you have <span class="highlightedWordColor">questions</span> after reading the ' . SSFEntryForm::entryRequirementsDisplayString()
+      $lastWordString = 'If you have <span class="highlightedWordColor">questions</span> after reading the ' . self::getEntryRequirementsDisplayStringWithLink('Entry Requirements')
                       . ', feel free to send us an <a class="dodeco" href=\'mailto:questions@sanssoucifest.org\'>email</a>.';
-    //  $theForm->DEBUGGER->becho('entryRequirementsDisplayString', $entryRequirementsDisplayString, -1);
-      $theForm->DEBUGGER->becho('lastWordString', $lastWordString, -1);
+    //  $this->DEBUGGER->becho('entryRequirementsDisplayString', $entryRequirementsDisplayString, -1);
+      $this->DEBUGGER->becho('lastWordString', $lastWordString, -1);
       if ($aWorkIsDisplayed) {
-        $workDisplayedPmtReceived = (isset($dbPersonWorkState['datePaid']) && ($dbPersonWorkState['datePaid'] != '') 
-                                                                           && ($dbPersonWorkState['datePaid'] != '0000-00-00'));
-        $workDisplayedHowPaid = (isset($dbPersonWorkState['howPaid'])) ? $dbPersonWorkState['howPaid'] : '';
-        $workDisplayedMediaReceived = (isset($dbPersonWorkState['dateMediaReceived']) && ($dbPersonWorkState['dateMediaReceived'] != '') 
-                                                                                      && ($dbPersonWorkState['dateMediaReceived'] != '0000-00-00'));
+        $workDisplayedPmtReceived = (isset($this->dbPersonWorkState['datePaid']) && ($this->dbPersonWorkState['datePaid'] != '') 
+                                                                           && ($this->dbPersonWorkState['datePaid'] != '0000-00-00'));
+        $workDisplayedHowPaid = (isset($this->dbPersonWorkState['howPaid'])) ? $this->dbPersonWorkState['howPaid'] : '';
+        $workDisplayedMediaReceived = (isset($this->dbPersonWorkState['dateMediaReceived']) && ($this->dbPersonWorkState['dateMediaReceived'] != '') 
+                                                                                      && ($this->dbPersonWorkState['dateMediaReceived'] != '0000-00-00'));
       }
       if (($workDisplayedHowPaid == 'check') || ($workDisplayedHowPaid == 'moneyOrder')) $workDisplayedPayUpString = $payUpViaCheckString;
       else if ($workDisplayedHowPaid == 'paypal') $workDisplayedPayUpString = $payUpViaPaypalString;
-      $theForm->DEBUGGER->becho('workDisplayedPmtReceived', $workDisplayedPmtReceived, -1);
-      $theForm->DEBUGGER->becho('workDisplayedHowPaid', $workDisplayedHowPaid, -1);
+      $this->DEBUGGER->becho('workDisplayedPmtReceived', $workDisplayedPmtReceived, -1);
+      $this->DEBUGGER->becho('workDisplayedHowPaid', $workDisplayedHowPaid, -1);
       echo '                <div id="edThankYouDiv" style="padding:0 8px 2px 8px;">' . PHP_EOL;
       self::displayEditSectionFooter('<span class="withEmphasis">Thanks for submitting your entry.</span>', 'Sign Off', 'signOff', 'signingOff', '');
       echo '                  <div class="bodyText" style="text-align:left;">' . PHP_EOL;
