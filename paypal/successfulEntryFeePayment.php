@@ -1,22 +1,34 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<META http-equiv="Pragma" content="no-cache">
-<META http-equiv="Expires" content="-1"> 
-<META NAME="description" CONTENT="A niche film festival specializing in dance cinema, incorporating live performance, and including museum installations.">
-<META NAME="keywords" CONTENT="dance film festival, dance video festival, video dance festival, dance cinema festival, live performance, dance performance, live dance performance, dance festival, video dance, dance video, dance film, dance cinema, dance, film, video, cinema, festival, art, arts, artists, projection, projected, tour, touring">
-<!-- InstanceBeginEditable name="doctitle" -->
-<title>Sans Souci Festival of Dance Cinema - PayPal Payment Confirmed</title>
-<!-- InstanceEndEditable --><!-- <base href="http://www.sansoucifest.org/"> -->
-<link rel="stylesheet" href="../sanssouci.css" type="text/css">
-<link rel="stylesheet" href="../sanssouciBlackBackground.css" type="text/css">
-</head>
-<body bgcolor="#FFFFFF" text="#000000" link="#0033FF" vlink="#0033FF" alink="#990000">
-<!-- Set bgcolor="#FFFFFF" in the following 100% table to make the edges appear white. -->
+<!DOCTYPE html>
 <?php 
-  include_once '../bin/classes/SSFCodeBase.php'; 
-  include_once SSFCodeBase::autoloadClasses(__FILE__);
+  include_once $_SERVER['DOCUMENT_ROOT'] . '/bin/classes/SSFWebPageParts.php'; 
+
+  // Produce Top-of-Page boiler plate.
+  SSFWebPageParts::beginPage();
+
+  // Initialize useful PHP variables.
+  $currentYearString = SSFRunTimeValues::getCurrentYearString();
+  $callForEntriesId = SSFRunTimeValues::getCallForEntriesId();
+  $associatedEventId = SSFRunTimeValues::getAssociatedEventId();
+  $finalDeadlineString = date('M j, Y', strtotime(SSFRunTimeValues::getFinalDeadlineDateString()));
+  $earlyDeadlineString = date('M j, Y', strtotime(SSFRunTimeValues::getEarlyDeadlineDateString()));
+  $finalDeadlineStringWithDayOfWeek = date('l, M j, Y', strtotime(SSFRunTimeValues::getFinalDeadlineDateString()));
+  $earlyDeadlineStringWithDayOfWeek = date('l, M j, Y', strtotime(SSFRunTimeValues::getEarlyDeadlineDateString()));
+  $eventDescriptionShort = SSFRunTimeValues::getEventDescriptionStringShort(SSFRunTimeValues::getAssociatedEventId($associatedEventId)); // 3/29/14
+  $eventDescriptionLong = SSFRunTimeValues::getEventDescriptionStringLong(SSFRunTimeValues::getAssociatedEventId($associatedEventId));   // 3/29/14
+  $eventDatesDescriptionStringShort = SSFRunTimeValues::getEventDatesDescriptionStringShort($associatedEventId);
+  $eventDatesDescriptionStringLong = SSFRunTimeValues::getEventDatesDescriptionStringLong($associatedEventId);
+  $entryRequirementsInWindowFilename = 'entryRequirementsInWindow' . $currentYearString . '.php';
+  $danceCinemaCallFilename = 'danceCinemaCall' . $currentYearString . '.php';
+  $entryFormFilename = 'entryForm' . $currentYearString . '.php'; 
+  $listManagementEmailAddress = SSFRunTimeValues::getListManagementEmailAddress();
+
+  $programHighlightColor = SSFWebPageParts::getProgramHighlightColor();
+  $primaryTextColor = SSFWebPageParts::getPrimaryTextColor();
+  $secondaryTextColor = SSFWebPageParts::getSecondaryTextColor();
+  $tertiaryTextColor = SSFWebPageParts::getTertiaryTextColor();
+  $quaternaryTextColor = SSFWebPageParts::getQuaternaryTextColor();
+  $articleId = SSFWebPageParts::getArticleId();
+  $contentTitle = SSFWebPageParts::getContentTitleText();
 
 SSFDebug::globalDebugger()->belch('_POST', $_POST, -1);
 /*
@@ -60,6 +72,21 @@ Belch _POST: Array (
   [merchant_return_link] => Return to Sans Souci Festival of Dance Cinema ) 
 */
 
+?>
+          <article id="<?php echo $articleId; ?>">
+
+            <style type="text/css" scoped>
+              .yearsAtVenue { font-weight: normal; color:<?php echo $tertiaryTextColor; ?>; }
+              .contentArea article section h2 { color:<?php echo $secondaryTextColor; ?>; }
+              .contentArea article h1 { color:<?php echo $primaryTextColor; ?>; }
+            </style>
+
+            <h1><?php echo $contentTitle; ?></h1>
+
+            <table>
+              <tr>
+                <td>
+<?php
   if (!SSFRunTimeValues::earlyDeadlineHasPassed()) {
     $entryFeeString = SSFRunTimeValues::getEarlyDeadlineFeeString();
     $deadlineDateString = SSFRunTimeValues::getEarlyDeadlineDateString();
@@ -72,57 +99,18 @@ Belch _POST: Array (
     echo '                                <input type="hidden" name="item_name" value="Entry Fee $' . $entryFeeString . ' USD">';
   }
 ?>
-  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000">
-    <tr>
-      <td align="left" valign="top">
-        <table width="745" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000">
-          <tr>
-            <td colspan="3" align="left" valign="top"><a href="../index.php"><img src="../images/titleBarGrayLight.gif" alt="SansSouciFest.org" width="600" height="63" hspace="0" vspace="8" border="0" align="top"></a></td>
-            <td width="10" align="center" valign="top">&nbsp;</td>
-          </tr>
-          <tr>
-            <td width="10" align="center" valign="top">&nbsp;</td>
-            <td width="125" align="center" valign="top"><?php SSFWebPageAssets::displayNavBar(SSFCodeBase::string(__FILE__)); ?></td>
-            <td width="600" align="center" valign="top">
-              <table width="100%" align="center" cellpadding="0" cellspacing="0" bgcolor="#000000">
-                <tr>
-                <td width="25" align="left" valign="top" class="sprocketHoles">&nbsp;</td>
-                <td width="10" align="left" valign="top" class="programTablePageBackground">&nbsp;</td>
-                  <td width="530" align="center" valign="top" class="bodyTextGrayLight">
-                    <table width="100%"  border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="333333">
-                      <tr>
-                        <td align="left" valign="top" class="programPageTitleText" style="padding:20px 0 40px 0;">Paypal Entry Fee Payment Confirmation</td>
-                      </tr>
-                      <tr>
-                        <td align="left" valign="top" class="bodyTextOnBlack" style="padding-bottom:50px;"><blockquote style="padding-right:14px;">
-                          Thank you for paying your entry fee to the Sans Souci Festival of Dance Cinema via PayPal. You will receive a detailed
-                          receipt via email from PayPal shortly. 
-                          <!-- Or you may log into your account at <a href="https://www.paypal.com/us">PayPal.com</a> to view details of this transaction. -->
-                          <br><br>
-                          Thanks for your submission. We look forward to viewing your film.</blockquote>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                  <td width="10" align="left" valign="top" class="programTablePageBackground">&nbsp;</td>
-                  <td width="25" align="left" valign="top" class="sprocketHoles">&nbsp;</td>
-                </tr>
-              </table>
-            </td>
-            <td width="10" align="center" valign="top">&nbsp;</td>
-          </tr>
-          <tr align="center" valign="top">
-            <td colspan="2">&nbsp;</td>
-            <td align="center" valign="bottom" class="smallBodyTextLeadedGrayLight"><br>
-            <?php SSFWebPageAssets::displayCopyrightLine();?></td>
-            <td width="10">&nbsp;</td>
-          </tr>
-          <tr align="center" valign="top">
-            <td colspan="4">&nbsp;</td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-</body>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <blockquote style="padding:18px 130px 0 31px;font-size:15px;">Thank you for paying your entry fee to the Sans Souci Festival of Dance Cinema via PayPal. You will receive a detailed receipt via email from PayPal shortly. <br><br>Thanks for your submission. We look forward to viewing your film.
+                  </blockquote>
+                </td>
+              </tr>
+            </table>
+          </article>
+<?php
+  // Produce Bottom-of-Page boiler plate.
+  SSFWebPageParts::endPage();
+?>
 </html>

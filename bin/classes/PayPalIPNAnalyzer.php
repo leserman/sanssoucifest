@@ -162,6 +162,7 @@ class PayPalIPNAnalyzer {
                                                 . "'" . $this->paypalIPNDataValue['first_name'] . "', " 
                                                 . "'" . $this->paypalIPNDataValue['last_name'] . "', " 
                                                 . "'" . SSFRunTimeValues::nowForDB() . "')";
+//    error_log($query);
     SSFDB::getDB()->saveData($query);
   }
 

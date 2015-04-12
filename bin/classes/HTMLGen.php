@@ -1,58 +1,5 @@
 <?php 
 
-class SSFPerson {
-  public $valueArray = array();
-
-  public function __construct($personArray) {
-    foreach ($personArray as $personArrayKey => $personArrayElement) {
-      $this->valueArray[$personArrayKey] = $personArrayElement;
-    }
-  } 
-
-  public function id() { return $this->valueArray['personId']; }
-  public function organizationExists() { return isset($this->valueArray['organization']) && ($this->valueArray['organization'] != ''); }
-  public function addressLine1Exists() { return isset($this->valueArray['streetAddr1']) && ($this->valueArray['streetAddr1'] != ''); }
-  public function addressLine2Exists() { return isset($this->valueArray['streetAddr2']) && ($this->valueArray['streetAddr2'] != ''); }
-  public function addressLineExists() { return $this->addressLine1Exists() || $this->addressLine2Exists(); }
-  public function cityExists() { return isset($this->valueArray['city']) && ($this->valueArray['city'] != ''); }
-  public function stateProvRegionExists() { return isset($this->valueArray['stateProvRegion']) && ($this->valueArray['stateProvRegion'] != ''); }
-  public function zipPostalCodeExists() { return isset($this->valueArray['zipPostalCode']) && ($this->valueArray['zipPostalCode'] != ''); }
-  public function cityLineOutputExists() { return $this->cityExists() || $this->stateProvRegionExists() || $this->zipPostalCodeExists(); }
-  public function addressExists() { return $this->addressLineExists() || $this->cityLineOutputExists(); }
-  public function countryExists() { return isset($this->valueArray['country']) && ($this->valueArray['country'] != ''); }
-  public function phoneVoiceExists() { return isset($this->valueArray['phoneVoice']) && ($this->valueArray['phoneVoice'] != ''); }
-  public function phoneMobileExists() { return isset($this->valueArray['phoneMobile']) && ($this->valueArray['phoneMobile'] != ''); }
-  public function phoneFaxExists() { return isset($this->valueArray['phoneFax']) && ($this->valueArray['phoneFax'] != ''); }
-  public function telephonesExist() { return $this->phoneVoiceExists() || $this->phoneMobileExists() || $this->phoneFaxExists(); }
-  public function notifyOfString() { return str_replace(',', ", ", $this->valueArray['notifyOf']); }
-
-  public function notifyDisplayForUser() {
-//self::debugger()->becho('notifyOfString', $notifyOfString, 1);
-    $notifyOfCalls = substr_count($this->valueArray['notifyOf'], 'calls') != 0;
-    $notifyOfEvents = substr_count($this->valueArray['notifyOf'], 'events') != 0;
-    $notifyString = '<span class="highlightedTextColor">Nothing.</span> Please don\'t send me any email announcements.';
-    if ($notifyOfCalls && $notifyOfEvents) $notifyString = 'Calls for Entries and Festival Events.';
-    else if ($notifyOfCalls && !$notifyOfEvents) $notifyString = 'Calls for Entries but not Festival Events.';
-    else if (!$notifyOfCalls && $notifyOfEvents) $notifyString = 'Festival Events but not Calls for Entries.';
-    return $notifyString;
-  }
-
-  public function addressDisplay() {
-    $addressSegmentSeparator = " &bull; ";
-    $addressDisplay = '';
-    if (!$this->addressExists() && !$this->countryExists()) $addressDisplay .= "No address provided.<br>" . PHP_EOL;
-    if ($this->addressLine1Exists()) $addressDisplay .= $this->valueArray['streetAddr1'] . $addressSegmentSeparator;
-    if ($this->addressLine2Exists()) $addressDisplay .= $this->valueArray['streetAddr2'] . $addressSegmentSeparator;
-    if ($this->cityExists()) $addressDisplay .= $this->valueArray['city'];
-    if ($this->cityExists() && ($this->stateProvRegionExists() || $this->zipPostalCodeExists())) $addressDisplay .= ", "; 
-    if ($this->stateProvRegionExists()) $addressDisplay .= $this->valueArray['stateProvRegion'] . " "; 
-    if ($this->zipPostalCodeExists()) $addressDisplay .= $this->valueArray['zipPostalCode']; 
-    if ($this->cityLineOutputExists() && $this->countryExists()) $addressDisplay .= $addressSegmentSeparator;
-    if ($this->countryExists()) $addressDisplay .= $this->valueArray['country'];
-    return $addressDisplay;
-  }
-}
-
 class HTMLGen {
 
   private static $debugger;
@@ -948,9 +895,9 @@ class HTMLGen {
       $people_lastName = (isset($dataArray['lastName'])) ? $dataArray['lastName'] : '';
       $getVars = "works_title='" . $works_title . "'&amp;people_email='" . $people_email
                . "'&amp;people_firstName='" . $people_firstName . "'&amp;people_lastName='" . $people_lastName . "'";
-      $payPalPmtString = '&nbsp;<a href="../paypal/index.php?' . $getVars . '"><img src="../images/logos/PayPal_mark_37x23.gif" ' .
+      $payPalPmtString = '&nbsp;<a href="paypal/index.php?' . $getVars . '"><img src="images/logos/PayPal_mark_37x23.gif" ' .
                   'alt="Pay now via PayPal" title="Pay now via PayPal" style="border:none;margin:0;padding:0;vertical-align:middle;"></a> ' .
-                  '(<a href="../paypal/index.php?' . $getVars . '">pay now</a>)<br>';
+                  '(<a href="paypal/index.php?' . $getVars . '">pay now</a>)<br>';
   */
       echo'                    <label for="' . $paypalId . '" class="entryFormRadioButton"> Pay via PayPal ' . $payPalPmtString . '</label>' . PHP_EOL;
       echo'                  </div>' . PHP_EOL;
@@ -1717,18 +1664,24 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
       if ($alwaysDisplay || ((isset($personArray['howHeardAboutUs']) && ($personArray['howHeardAboutUs'] != '') && $forAdmin))) {
         echo $indent . self::getSimpleDataWithDescriptionLine('How you heard about us', $personArray['howHeardAboutUs']); 
       }
+/*
       if (!$forAdmin) {
         // notifyOf
+        $ssfPerson = new SSFPerson($personArray);
     self::debugger()->becho('notifyOfString', $notifyOfString, 1);
         $notifyOfCalls = substr_count($notifyOfString, 'calls') != 0;
         $notifyOfEvents = substr_count($notifyOfString, 'events') != 0;
+
         $notifyString = '<span class="highlightedTextColor">Nothing.</span> Please don\'t send me any email announcements.';
-        if ($notifyOfCalls && $notifyOfEvents) $notifyString = 'Calls for Entries and Festival Events.';
-        else if ($notifyOfCalls && !$notifyOfEvents) $notifyString = 'Calls for Entries but not Festival Events.';
-        else if (!$notifyOfCalls && $notifyOfEvents) $notifyString = 'Festival Events but not Calls for Entries.';
+        if ($notifyOfCalls && $notifyOfEvents) $notifyString = '<span class="highlightedTextColor">Both</span> Calls for Entries and Festival Events.';
+        else if ($notifyOfCalls && !$notifyOfEvents) $notifyString = 'Calls for Entries <span class="highlightedTextColor">but not</span> Festival Events.';
+        else if (!$notifyOfCalls && $notifyOfEvents) $notifyString = 'Festival Events <span class="highlightedTextColor">but not</span> Calls for Entries.';
+
+        $notifyOfString = $ssfPerson->notifyDisplayForUser();
         echo $indent . self::getSimpleDataWithDescriptionLine('Notify me of', $notifyString);
         echo $indent . "<div style='clear:both;'></div>" . PHP_EOL;
       }
+*/
       if ($forAdmin) {
         // relationship(s)
         if ($alwaysDisplay || (isset($personArray['relationship']) && ($personArray['relationship'] != ''))) { 
@@ -2027,12 +1980,12 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
             }
           }
         }
-//        $displayString .= '</div>';
+        $displayString .= '</div>';
       }
     }
     if ($contributorsDisplayed == 0) 
       $displayString .= "<div class='datumValue floatLeft' style='padding-bottom:0;'>&nbsp;No contributors are listed.</div>"; // 2/1/09
-    $displayString .= "  </div>\r\n  <div style='clear:both;'></div>\r\n</div>\r\n";
+    $displayString .= "  <div style='clear:both;'></div>\r\n</div>\r\n";
     return $displayString;
   }
 
@@ -2124,7 +2077,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     return $frameParametersDisplayElement;
   }
     
-  private static function getPaymentInfoDisplayString($workArray) {
+  public static function getPaymentInfoDisplayString($workArray) { // private prior to 4/10/15
     $pmtReceived = (isset($workArray['datePaid']) && ($workArray['datePaid'] != '') && ($workArray['datePaid'] != '0000-00-00'));
     if (true || $pmtReceived) {
       $pmtString = '';
@@ -2326,9 +2279,9 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
 
         echo '<div class="datumValue"><span class="datumDescription">' . $PaymentInformation . ': </span>';
         if ($workArray['howPaid'] == "paypal") 
-          echo '<a href="onlineEntryForm/paypal/index.php?' . $getVars . '"><img src="../images/logos/PayPal_mark_37x23.gif" ' .
+          echo '<a href="paypal/index.php?' . $getVars . '"><img src="images/logos/PayPal_mark_37x23.gif" ' .
                'alt="Pay now via PayPal" title="Pay now via PayPal" style="border:none;margin:0;padding:0;vertical-align:middle;"></a> ' .
-               '(<a class="dodeco" href="onlineEntryForm/paypal/index.php?' . $getVars . '">pay now</a>)<br>';
+               '(<a class="dodeco" href="paypal/index.php?' . $getVars . '">pay now</a>)<br>';
         else if ($workArray['howPaid'] == "check") echo "Pay via check or money order in US Dollars sent via post.<br>";
         else echo ucfirst($workArray['howPaid']);
         echo "</div>\r\n";
@@ -2419,7 +2372,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
                                 ? (' (' . $workRow['countryOfProduction']) . ') ' : ' ';
     $quickNoteIcon = ($quickNote == '') ? '' : // TODO This HTML is duplicated in ssf.js
       '<a href="javascript:void(0)" ' . 
-           'onMouseOver="flyoverPopup(\'' . $designatedId . $quickNote . '\', \'#FFFF99\')"' .
+           'onMouseOver="flyoverPopup(\'' . $designatedId . $quickNote . '\', \'#ad000b\')"' .
            'onMouseOut="killFlyoverPopup()" onClick="window.alert(\'' . $designatedId . $quickNote . '\')">' .
            '<span style="font-weight:bold;color:#D25EC0;">Q</span>' . '</a>';
     $displayLine = "<i>" 
@@ -2695,67 +2648,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
 }
 
 
-class SSFHelp {
-
-  private static $valuesAreInitialized = false;
-  private static $helpString = array();
-  private static $debugger;
-  private static $doBelchAndBecho = false; // true false
-  private static $float = '';
-
-  public static function setFloat($string) { self::$float = $string; }
-  public static function clearFloat($string) { self::$float = ''; }
-  
-  private static function debugger() { 
-    if (!isset($debugger)) $debugger = new SSFDebug($initBelchEnabled=self::$doBelchAndBecho, $initBechoEnabled=self::$doBelchAndBecho);
-    return $debugger;
-  }
-
-  private static function initializeRunTimeValuesFromDB() {
-    if (!self::$valuesAreInitialized) {
-      $helpRows = SSFDB::getDB()->getArrayFromQuery("SELECT * from editorHelp");
-      foreach ($helpRows as $helpRow) {
-        self::$helpString[$helpRow['helpKey']] = $helpRow['helpString'];
-      }
-    }
-    self::$valuesAreInitialized = true;
-    self::debugger()->belch('self::$helpString', self::$helpString, 0);
-  }
-
-  public static function helpStringFor($helpStringKey) {
-    if (!self::$valuesAreInitialized) self::initializeRunTimeValuesFromDB();
-    $helpStringValue = ((isset(self::$helpString[$helpStringKey])) ? self::$helpString[$helpStringKey] : '');
-    return $helpStringValue;
-  }
-  
-  public static function getHTMLIconFor($popupHelpStringKey, $alertHelpStringKey='') {
-    if (!self::$valuesAreInitialized) self::initializeRunTimeValuesFromDB();
-    if ($alertHelpStringKey == '') $alertHelpStringKey = $popupHelpStringKey;
-    self::debugger()->becho('getHTMLIconFor popupHelpStringKey', $popupHelpStringKey, 0);
-    self::debugger()->becho('getHTMLIconFor alertHelpStringKey', $alertHelpStringKey, 0);
-    $popupHelpString = self::helpStringFor($popupHelpStringKey);
-    $alertHelpString = self::helpStringFor($alertHelpStringKey);
-    self::debugger()->becho('getHTMLIconFor popupHelpString', $popupHelpString, 0);
-    self::debugger()->becho('getHTMLIconFor alertHelpString', $alertHelpString, 0);
-    if ($popupHelpString == '') $htmlEmbed = '';
-    else {
-      $floatString = (self::$float == 'left') ? 'float:left;' 
-                   : (self::$float == 'right') ? 'float:right;' 
-                   : (self::$float == 'none') ? 'float:none;' : '';
-      $htmlEmbed = '<a href="javascript:void(0)" onMouseOver="flyoverPopup(' . 
-                    HTMLGen::simpleQuote($popupHelpString) . ', ' . HTMLGen::simpleQuote('#FFFF99') . ')"' .
-                    ' onMouseOut="killFlyoverPopup()" onClick="window.alert(' . HTMLGen::simpleQuote($alertHelpString) . ')">' .
-                    '<img src="../images/helpIcon16.png" alt="HELP" ' .
-                    'style="' . $floatString . 'padding:0 8px;margin:-4px 0 0 0;border:none;text-align:center;position:relative;top:-1;' . // 4/5/15 Added margin top -4px
-                    'vertical-align:middle;"></a>';
-    }
-    self::debugger()->becho('getHTMLIconFor htmlEmbed', $htmlEmbed, 0);
-    return $htmlEmbed;
-  }
-}
-
-
-class SSFQuickNote {
+class SSFQuickNoteX { // Apparently unused as of 4/11/15
 
   private static $valuesAreInitialized = false;
   private static $helpString = array();
@@ -2798,9 +2691,9 @@ class SSFQuickNote {
                    : (self::$float == 'right') ? 'float:right;' 
                    : (self::$float == 'none') ? 'float:none;' : '';
       $htmlEmbed = '<a href="javascript:void(0)" onMouseOver="flyoverPopup(' . 
-                    $text . ', ' . HTMLGen::simpleQuote('#FFFF99') . ')"' .
+                    $text . ', ' . HTMLGen::simpleQuote('#ad000b') . ')"' .
                     ' onMouseOut="killFlyoverPopup()" onClick="window.alert(' . $text . ')">' .
-                    '<img src="../images/helpIcon16.png" alt="HELP" ' .
+                    '<img src="images/helpIcon16.png" alt="HELP" ' .
                     'style="' . $floatString . 'padding:0px 8px;margin:0px 0px;border:none;text-align:center;position:relative;top:-1;' .
                     'vertical-align:middle;"></a>';
     }
@@ -2810,7 +2703,7 @@ class SSFQuickNote {
 }
 
 
-class SSFFocus {
+class SSFFocusX { // Apparently unused as of 4/11/15
 
   private static $setFocusTo = '';
   

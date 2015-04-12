@@ -12,6 +12,9 @@
  *  @copyright  (c) 2012 - Micah Carrick
  *  @version    2.1.0
  */
+ 
+ // For an alternative implementation see https://github.com/paypal/sdk-core-php/blob/master/lib/PPHttpConfig.php
+ 
 class PayPalIPNListener {
     
     /**
@@ -84,14 +87,19 @@ class PayPalIPNListener {
     protected function curlPost($encoded_data) {
 
         if ($this->use_ssl) {
-            $uri = 'https://'.$this->getPaypalHost().'/cgi-bin/webscr';
+            $uri = 'https://'. $this->getPaypalHost().'/cgi-bin/webscr';
             $this->post_uri = $uri;
         } else {
-            $uri = 'http://'.$this->getPaypalHost().'/cgi-bin/webscr'; 
+            $uri = 'http://'. $this->getPaypalHost().'/cgi-bin/webscr'; 
             $this->post_uri = $uri;
         }
-        
         $ch = curl_init();
+
+        // next line added 4/10/15 based on stackoverflow.com/questions/26379773/paypal-ipn-acknowledgements-failing-with-ssl-routinesssl3-read-bytessslv3-aler
+        curl_setopt($ch, CURLOPT_SSL_CIPHER_LIST, 'TLSv1');
+        // next line added 4/10/15 from stackoverflow.com/questions/26379773/paypal-ipn-acknowledgements-failing-with-ssl-routinesssl3-read-bytessslv3-aler 
+        curl_setopt($ch, CURLOPT_SSLVERSION, 4);
+        // For the above, also see stackoverflow.com/questions/26763737/update-php-curl-request-from-sslv3-to-tls
 
         // curl options set at https://gist.github.com/xcommerce-gists/3440401#file-completelistener-php only
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
@@ -104,7 +112,8 @@ class PayPalIPNListener {
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, $this->follow_location);
         curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
         curl_setopt($ch, CURLOPT_HEADER, true);
-        if ($this->force_ssl_v3) { curl_setopt($ch, CURLOPT_SSLVERSION, 3); }
+        // Next line changed from 3 to 4 on 4/10/15 based on stackoverflow.com/questions/26379773/paypal-ipn-acknowledgements-failing-with-ssl-routinesssl3-read-bytessslv3-aler
+        if ($this->force_ssl_v3) { curl_setopt($ch, CURLOPT_SSLVERSION, 4); } 
         
         // curl options set at both
         curl_setopt($ch, CURLOPT_POST, true);

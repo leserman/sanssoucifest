@@ -105,13 +105,16 @@
                                                   $hiddenInputSavingId, $cancelButtonNameId='') {
       $saveButtonGenId = HTMLGen::genId($saveButtonNameId);
       $cancelButtonGenId = HTMLGen::genId($cancelButtonNameId);
+//      $onClickScript = 'document.getElementById(\"hiddenInputSavingKey\").value="' . $hiddenInputSavingId . '";'; // 4/11/15
       $onClickScript = 'document.getElementById("hiddenInputSavingKey").value="' . $hiddenInputSavingId . '";';
+
       echo "            <div class='entryFormSectionHeading'>\r\n";
       echo "              <div class='withEmphasis' style='float:left;padding-top:4px;padding-bottom:2px;'>" . $title . "</div>\r\n";
       echo "              <div style='float:right;padding-right:4px;padding-bottom:2px;'>\r\n";
       echo "                <input type='submit' id='" . $saveButtonGenId . "' name='" 
                                                        . $saveButtonNameId . "' value='" . $saveButtonName . "'"
-                                                       . " onclick=" . HTMLGen::simpleQuote($onClickScript)
+                                                       . " onclick=" . HTMLGen::simpleQuote($onClickScript) 
+//                                                       . " onclick=" . $onClickScript)
                                                        . ">\r\n";
       if ($cancelButtonNameId != '')
         echo "                <input type='button' id='" . $cancelButtonGenId . "' name='" 
@@ -211,11 +214,13 @@
       foreach ($fromArray as $fromKey => $fromValue) {
         $this->state[$fromKey] = (isset($fromValue)) ? $fromValue : "";
       }
-      // This next few lines of code is copied from adminDataEntry. It implicitly changes the data type from string to array for the appropriate properties.
-      // Fix up empty sets - TODO: This is a hack. We should look to the DatumProperties class to identify all the sets that need fixing up. Still OK as of 4/17/13
-      $setsToFixUp = array('people_notifyOf', 'people_relationship', 'people_role');
+      // This next few lines of code is copied from adminDataEntry. It changes the data type from string to array for the properties of type 'set'.
+      // Fix up empty sets. TODO: This should really be done at a lower level of the code like in SSFQuery or something. See BUG #168
+//      $setsToFixUp = array('people_notifyOf', 'people_relationship', 'people_role');
+      $setsToFixUp = DatumProperties::getSetNames();  // Line added 4/11/15 
+//      $this->DEBUGGER->belch('setsToFixUp', $setsToFixUp, 1);
       foreach ($setsToFixUp as $setToFixUp) {
-        if (!isset($editorState[$setToFixUp])) $editorState[$setToFixUp] = array();
+        if (!isset($this->state[$setToFixUp])) $this->state[$setToFixUp] = array();
       }
       if (!isset($this->state['userLoginUnderway'])) { $this->state['userLoginUnderway'] = 1; }
       if (!isset($this->state['theItsMePersonId'])) { $this->state['theItsMePersonId'] = 0; }
@@ -315,7 +320,7 @@
       $value = '';
       if (isset($this->state[$IdName])) $value = $this->state[$IdName];
       else $this->state[$IdName] = $value;
-      echo '<input type="hidden" id="' . $IdName . '" name="' . $IdName . '" value="' . $value . '">' . PHP_EOL;
+      echo '                <input type="hidden" id="' . $IdName . '" name="' . $IdName . '" value="' . $value . '">' . PHP_EOL;
     }
     
     private function setState($keyName, $keyValue, $debug=-1, $debugId='') {
@@ -593,6 +598,8 @@
         //       Find where it's being set and undo it there.
         // TODO: Figure out how $this->state['submitterInPeopleTable'] and $this->state['subscriberInPeopleTable'] are being used and modify as appropriate.
         $this->state['people_relationship'] = array('Subscriber');
+        if (!isset($this->state['people_role'])) $this->state['people_role'] = array();             // 4/10/15 -- Example of BUG 168 FIX.
+        if (!isset($this->state['people_notifyOf'])) $this->state['people_notifyOf'] = array();     // 4/10/15 -- Example of BUG 168 FIX.
         //SSFDB::debugNextQuery();
         $result = SSFQuery::insertData('people', $this->state);
         if ($result !== false) {
@@ -610,7 +617,8 @@
     }
     
 /* TODO
-  BUG #166: 4/7/15 When the user deselects both calls and events checkboxes, the change is reported 
+  BUG #166: 4/7/15 - FIXED 4/10/15 but left comment here as background documentation for BUG #168.
+   When the user deselects both calls and events checkboxes, the change is reported 
    via email but not applied to the DB or shown to the user within the PersonDisplay. 
    'notifyOf' is treated in some places as a string and others as an array.
    I think that SSFQuery::updateDBFor() does not detect a new value for notifyOf and returns 0.
@@ -637,16 +645,12 @@
         if (($this->state['people_email'] == $currentValueArray['email']) || !$multiplePeopleExistInDatabase) {
           // The user did not change their email address in a harmful way  
           $this->setState('people_loginName', $this->state['people_email']);
-//        $this->DEBUGGER->becho('23 dbPersonWorkState[notifyOf] Before update', $this->dbPersonWorkState['notifyOf'], 1);
           // Next line is a HACK so that a selection of no notifications is treated properly as an empty set/array.
           // This should really be done in SSFQuery::updateDBFor() for all arrays that might come in as strings. 4/7/15
-//          $this->DEBUGGER->becho('22 this->state[people_notifyOf]', $this->state['people_notifyOf'], 1); // 4/7/15
-//          $this->DEBUGGER->belch('23 this->state[people_notifyOf]', $this->state['people_notifyOf'], 1); // 4/7/15
-//          $this->state['people_notifyOf'] = (isset($this->state['people_notifyOf']) && gettype($this->state['people_notifyOf']) == 'string') 
-//                                          ? explode(',', $this->state['people_notifyOf']) : array();            // explode or preg_split
+          if (!isset($this->state['people_notifyOf'])) $this->state['people_notifyOf'] = array();     // 4/10/15 -- Example of BUG 168 FIX.
+          if (!isset($this->state['people_role'])) $this->state['people_role'] = array();             // 4/10/15 -- Example of BUG 168 FIX.
+          $this->DEBUGGER->belch('23 this->state', $this->state, -1); // 4/10/15
           $changeCount = SSFQuery::updateDBFor('people', $currentValueArray, $this->state, 'personId', $personId);
-//        $this->DEBUGGER->becho('24 dbPersonWorkState[notifyOf] After update', $this->dbPersonWorkState['notifyOf'], 1);
-          $this->DEBUGGER->becho('people changeCount', $changeCount, -1); // SSFEntryForm::$debugChangeCount 4/5/15
           $this->state['people_personId'] = $personId;
           if ($changeCount > 0) SSFPhoneHome::sendPersonInfo($this->state, 1, $changeCount);
         } else { // The user changed their email to an email address belonging to another user.
@@ -834,7 +838,7 @@
       $workIdSelected = HTMLGen::displayWorkSelector('ssfEntryForm', $this->state['loginUserId'], $this->state, '-- select an entry to view and edit --'); 
       if ($workIdSelected !=  $this->state['workSelector']) {
         $this->state['workSelector'] = $workIdSelected;
-        initializeWorkDatabaseState();
+        $this->initializeWorkDatabaseState();
       }
       $this->DEBUGGER->becho('502 theForm->state[workSelector]', $this->state['workSelector'], -1);
       echo '              </div>' . PHP_EOL;
@@ -902,13 +906,14 @@
 
     // Generates HTML for the work detail.
     public function displayWorkDetail() {
+      $indent = '            ';
       if (self::$showFunctionMarkers) echo "<!-- BEGIN displayWorkDetail -->\r\n";
       if (!is_null($this->dbPersonWorkState)) {
         $workId = $this->dbPersonWorkState['workId'];
         $countryOfProductionDisplay = ((!is_null($this->dbPersonWorkState['countryOfProduction']) && ($this->dbPersonWorkState['countryOfProduction'] !== '')))
                                     ? (', ' . $this->dbPersonWorkState['countryOfProduction']) : '';
         // title, year, runtime
-        echo '<div class="datumValue"><span class="datumDescription">Title: </span>' . $this->dbPersonWorkState['title'] 
+        echo $indent . '<div class="datumValue"><span class="datumDescription">Title: </span>' . $this->dbPersonWorkState['title'] 
              . ' (' . $this->dbPersonWorkState['yearProduced'] . $countryOfProductionDisplay
              . ')<span class="datumDescription" style="margin-left:2em;">Running Time: </span>' 
              . HTMLGen::timeAsMinutesAndSeconds($this->dbPersonWorkState['runTime']) . '</div>' . PHP_EOL;
@@ -919,38 +924,38 @@
         if (isset($this->dbPersonWorkState['originalFormat']) && ($this->dbPersonWorkState['originalFormat'] != '')) 
           $formatDisplayString .= '<span class="datumDescription">. Originally recorded as </span>' . $this->dbPersonWorkState['originalFormat'] . '.';
         $formatDisplayString .= '</div>' . PHP_EOL;
-        echo $formatDisplayString;
+        echo $indent . $formatDisplayString;
         // display frame parameters: aspect ratio, anamorphic, & width & height (ABOVE)
 //        echo HTMLGen::getFrameParametersDisplayElement2($this->dbPersonWorkState, true);
         // vimeo publication info
-        echo '<div class="dodeco">';
+        echo $indent . '<div class="dodeco">';
         echo self::getSimpleDataWithDescriptionLine('Vimeo Info', HTMLGen::getVimeoInfoString($this->dbPersonWorkState) );
         echo '</div>' . PHP_EOL;        
         // work contributors
         $displayContributorsOnSeparateLines = true;
-        echo HTMLGen::getContributorDisplayLines($this->dbContributorsState, $displayContributorsOnSeparateLines);  // 4/5/15
+        echo $indent . HTMLGen::getContributorDisplayLines($this->dbContributorsState, $displayContributorsOnSeparateLines);  // 4/5/15
         // synopsis
-        echo '<div class="datumValue"><span class="datumDescription">Synopsis: </span>' . $this->dbPersonWorkState['synopsisOriginal'] . "</div>\r\n";
+        echo $indent . '<div class="datumValue"><span class="datumDescription">Synopsis: </span>' . $this->dbPersonWorkState['synopsisOriginal'] . "</div>\r\n";
         // web site
-        if ($this->dbPersonWorkState['webSite'] != '') echo '<div class="dodeco">' . HTMLGen::getWebSiteDisplayLine($this->dbPersonWorkState['webSite'], $this->dbPersonWorkState['webSitePertainsTo']) . '<div style="clear:both;"></div></div>' . PHP_EOL; 
+        if ($this->dbPersonWorkState['webSite'] != '') echo $indent . '<div class="dodeco">' . HTMLGen::getWebSiteDisplayLine($this->dbPersonWorkState['webSite'], $this->dbPersonWorkState['webSitePertainsTo']) . '<div style="clear:both;"></div></div>' . PHP_EOL; 
         // previously shown at
         if ($this->dbPersonWorkState['previouslyShownAt'] != '') 
-          echo '<div class="datumValue"><span class="datumDescription">Also shown at: </span>' . $this->dbPersonWorkState['previouslyShownAt'] . "</div>\r\n";
+          echo $indent . '<div class="datumValue"><span class="datumDescription">Also shown at: </span>' . $this->dbPersonWorkState['previouslyShownAt'] . "</div>\r\n";
         // photo location / photo URL // changed 3/24/14
         $photoURLIsSet = (isset($this->dbPersonWorkState['photoURL']) && $this->dbPersonWorkState['photoURL'] != '');
         $photosWebAddressDisplay = 'Not specified';
         if ($photoURLIsSet) {
           $photosWebAddressDisplay =  HTMLGen::getWebAddressDisplayString($this->dbPersonWorkState['photoURL']);
-          echo '<div class="datumValue"><span class="datumDescription">Screen Snapshots web address: </span>' . $photosWebAddressDisplay . "</div>\r\n";
+          echo $indent . '<div class="datumValue"><span class="datumDescription">Screen Snapshots web address: </span>' . $photosWebAddressDisplay . "</div>\r\n";
         }
         // photo credits
         if ($this->dbPersonWorkState['photoCredits'] != '')
-        echo '<div class="datumValue"><span class="datumDescription">Photos by: </span>' . $this->dbPersonWorkState['photoCredits'] . "</div>\r\n";
+        echo $indent . '<div class="datumValue"><span class="datumDescription">Photos by: </span>' . $this->dbPersonWorkState['photoCredits'] . "</div>\r\n";
         // payment info
         $pmtReceived = (isset($this->dbPersonWorkState['datePaid']) && ($this->dbPersonWorkState['datePaid'] != '') && ($this->dbPersonWorkState['datePaid'] != '0000-00-00'));
         if ($pmtReceived) { 
-          $pmtString = self::getPaymentInfoDisplayString($this->dbPersonWorkState);
-          echo self::getSimpleDataWithDescriptionLine('Payment Information', $pmtString);
+          $pmtString = HTMLGen::getPaymentInfoDisplayString($this->dbPersonWorkState);
+          echo $indent . self::getSimpleDataWithDescriptionLine('Payment Information', $pmtString);
         } else { // since the payment has not been received      
           $works_title = (isset($this->dbPersonWorkState['title'])) ? $this->dbPersonWorkState['title'] : '';
           $people_email = (isset($this->dbPersonWorkState['email'])) ? $this->dbPersonWorkState['email'] : '';
@@ -969,17 +974,17 @@
             . 'entryRequirementsWindow.focus();">Payment Information</a>';
 */
           $paymentInformation = self::getEntryRequirementsDisplayStringWithLink('Payment Information', '#payment');
-          echo '<div class="datumValue"><span class="datumDescription">' . $paymentInformation . ': </span>';
+          echo $indent . '<div class="datumValue"><span class="datumDescription">' . $paymentInformation . ': </span>';
           if ($this->dbPersonWorkState['howPaid'] == "paypal") 
-            echo '<a href="onlineEntryForm/paypal/index.php?' . $getVars . '"><img src="../images/logos/PayPal_mark_37x23.gif" ' .
-                 'alt="Pay now via PayPal" title="Pay now via PayPal" style="border:none;margin:0;padding:0;vertical-align:middle;"></a> ' .
-                 '(<a class="dodeco" href="onlineEntryForm/paypal/index.php?' . $getVars . '">pay now</a>)<br>';
+            echo '<a href="paypal/index.php?' . $getVars . '"><img src="images/logos/PayPal_mark_37x23.gif" ' .
+                 'alt="Pay now via PayPal" title="Pay now via PayPal" style="border:none;margin:0;padding:0;vertical-align:middle;width:37px;height:23px;"></a> ' .
+                 '(<a class="dodeco" href="paypal/index.php?' . $getVars . '">pay now</a>)<br>';
           else if ($this->dbPersonWorkState['howPaid'] == "check") echo "Pay via check or money order in US Dollars sent via post.<br>";
           else echo ucfirst($this->dbPersonWorkState['howPaid']);
-          echo "</div>\r\n";
+          echo $indent . "</div>\r\n";
         }      
         // release info
-        echo '<div class="datumValue"><span class="datumDescription highlightedTextColor">Release Information: </span>';
+        echo $indent . '<div class="datumValue"><span class="datumDescription highlightedTextColor">Release Information: </span>';
         if (!isset($this->dbPersonWorkState['permissionsAtSubmission']) || ($this->dbPersonWorkState['permissionsAtSubmission'] == '')) $releaseInfo = 'None given.';
         else {
           $releaseInfo = SSFRunTimeValues::getReleaseInfoStatementIntroString();
@@ -987,7 +992,7 @@
             $releaseInfo .= SSFRunTimeValues::getReleaseInfoStatementAllOKString(); 
           else $releaseInfo .= SSFRunTimeValues::getReleaseInfoStatementAskMeString();
         }
-        echo $releaseInfo . "</div>\r\n";
+        echo $indent . $releaseInfo . "</div>\r\n";
         // items for administrative completion
           // titleForSort, designatedId, dateMediaReceived, datePaid, amtPaid, howPaid, checkOrPaypalNumber, webSitePertainsTo, photoLocation, photoURL
       }

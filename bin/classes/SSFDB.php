@@ -7,13 +7,20 @@ class SSFDB {
   // TODO: Change from using MySQL to MySQLi 
   // This group of const vars should be private but PHP does not support private or protected const.
   // TODO: Get these values from ./bin/data/sanssouci.ini
+/*
   const url = 'mysql.sanssoucifest.org';
   const username = 'sanssouci';
   const pw = '4DAMcdfss';  // previously 'minniekitty', 'ssfdcmad4'
+*/
   
-  private static $schemaNamePaths = array('../bin/data/', './bin/data/', '../../bin/data/', './') ;
-  private static $schemaNameFile = 'emanamemchs.txt'; // TODO: Get this info from sanssouci.ini instead of emanamemchs.txt
-  private static $schemaName = null; // 'sanssoucitestbed'; // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  private static $url = '';        // SSFInit::getDbURL();
+  private static $username = '';   // SSFInit::dbusername();
+  private static $pw = '';         // SSFInit::getDbPW(); 
+  private static $schemaName = ''; // SSFInit::getDbSchemaName();
+
+//  private static $schemaNamePaths = array('../bin/data/', './bin/data/', '../../bin/data/', './') ;
+//  private static $schemaNameFile = 'emanamemchs.txt'; // TODO: Get this info from sanssouci.ini instead of emanamemchs.txt
+//  private static $schemaName = null; // 'sanssoucitestbed'; // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   private static $db = null; // the single instance
   
@@ -30,10 +37,12 @@ class SSFDB {
   private $queryResultArray = null;
   private $queryResultArrays = null;
   
-  public static function getSchemaName() {
+  public static function getSchemaNameX() {
     if (!isset(self::$schemaName) || (self::$schemaName === '')) self::setSchemaName();
     return self::$schemaName;
   }
+  
+  public static function getSchemaName() { return self::$schemaName; }
   
   // returns the conntected SSFdb object, SSFDB::getDB()
   public static function getDB() {
@@ -42,17 +51,6 @@ class SSFDB {
     }
     return self::$db;
   }
-
-/*
-  // returns the conntected SSFdb object, SSFDB::getDB()
-  public static function getDB() {
-    if (!(self::$db instanceof self)) { 
-      $tempDB = new self;
-      if ($tempDB->querySuccess) self::$db = $tempDB;
-    }
-    return self::$db;
-  }
-*/
 
 	// Return a php array from a query on the open database.
 	// May call as SSFDB::getDB()->getArrayFromQuery($queryString)
@@ -104,7 +102,7 @@ class SSFDB {
   public static function debugOff() { self::$debug = false; }
   public static function debugNextQuery() { self::$debugNextQuery = true; }
   
-  private static function setSchemaName() {
+  private static function setSchemaNameX() { // 4/11/15 no longer used
     $token = false;
     foreach (self::$schemaNamePaths as $schemaNamePath) {
       $fileHandle = @fopen($schemaNamePath . self::$schemaNameFile, 'r');
@@ -134,23 +132,31 @@ class SSFDB {
 
   private function connectNow() {
     $this->connected = false;
-    $this->link = mysql_connect(self::url, self::username, self::pw);
+    $this->link = mysql_connect(self::$url, self::$username, self::$pw);
     if(!is_resource($this->link)) {
-
       self::setErrorState('Could not connect to DB at: ' . self::url . '. ');
     } else { // $connectionSuccess
-      $selectDbSuccess = mysql_select_db(self::getSchemaName()); 
+//      $selectDbSuccess = mysql_select_db(self::getSchemaName()); 
+      $selectDbSuccess = mysql_select_db(self::$schemaName); 
       if (!$selectDbSuccess) {
-        self::setErrorState('Could not select DB named: ' . self::getSchemaName() . '. ');
+        self::setErrorState('Could not select DB named: ' . self::$schemaName . '. ');
       } else 
         $this->connected = true;
     }
     return $this->connected;
   }
 
+  private static function initializeFromFile() {
+    self::$url = SSFInit::getDbURL();
+    self::$username = SSFInit::getDbUsername();
+    self::$pw = SSFInit::getDbPW(); 
+    self::$schemaName = SSFInit::getDbSchemaName();
+  }
+  
   // Creates the SSFdb object and connects to the mySQL database
   private function __construct() {
-    self::setSchemaName();
+    self::initializeFromFile();
+//    self::setSchemaName();
     $this->link = null;
     $this->connected = false;
     $this->lastErrorText = null;

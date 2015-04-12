@@ -34,27 +34,41 @@
 
 <!--
   TODO
-    / Add Name title
-    / Add Title title
-    / FIX title run time to Running time
-    / make the text describe the input label better in
-      ERROR:
-      The password you entered does not match your Sign In Email Address.
-      If you simply forgot your password, leave it blank and Sign In again.
-      You'll receive more help after that.
-    / 2015 Entry Form: Bad link for Payment Information http://dev.sanssoucifest.org/onlineEntryForm/entryForm2015.php
-    / Stop collecting phoneFax
-    - Fix 3 occurances of <span style="color:#FFFF99;"> in callsForEntries.releaseInfoWidgetIntro
-    - Fix 3 occurances of <span style="color:#FFFF99;"> in HTMLGen
     - handle carriage returns in user input
-    - fix the way control is exchanged between the entry form and the requirements.
-    - Add NotifyOf to person display.
-    / Remove How you heard about us from person display
-    - Fix Paypal pages
+    - fix the way control is exchanged between the entry form and the requirements window.
 -->
 
+<!-- Special DIVs for JavaScript ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
+          <div id="dek"><script type="text/javascript">  initFlyoverPopup(); </script></div>
 
+<!-- Javascript Functions moved to dataEntry.js 4/6/15 ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
+
+          <div id="encloseEntireFormAreaDiv" class="entryFormSection" style="border:dashed 1px green;border:none;"> <!-- Optional debug border border:none; -->
+            <script type="text/javascript"> window.name='SSFEntryFormWindow'; </script>
+
+            <!-- From bolier plate -->
+            <article id="<?php echo $articleId; ?>">
+          
+              <style type="text/css" scoped>
+                .yearsAtVenue { font-weight: normal; color:<?php echo $tertiaryTextColor; ?>; }
+                .contentArea article section h2 { color:<?php echo $secondaryTextColor; ?>; }
+                .contentArea article h1 { color:<?php echo $primaryTextColor; ?>; }
+                .page { background-image: none; }
+                .page .highlightedWordColor { color: <?php echo $programHighlightColor; ?>; }
+                .page .highlightedTextColor { color: <?php echo $programHighlightColor; ?>; }
+                .page .entryFormSection .programPageTitleText { color: <?php echo $secondaryTextColor; ?>; }
+                .page .entryFormSubheading { color: <?php echo $quaternaryTextColor; ?>; }
+                .page .bodyText { font-size: 14px; line-height: 130%; }
+                .page .rowTitleTextWide { width:160px; }
+              </style>
+          
+              <h1><?php echo $contentTitle; ?></h1>
+
+<!-- begin FORM ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
+              <!-- TODO Generalize action filename. -->
+              <form class="ssfEntryForm" name="ssfEntryForm" id="ssfEntryForm" onSubmit="return preSubmitValidation();" action="<?php echo SSFEntryForm::$formActionFileName; ?>" method="post" style="border:2px dashed red;border:none;">  <!-- Optional debug border border:none; -->
 <?php
+
 // ++++ Initialization ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++
   $theForm = new SSFEntryForm();
 
@@ -111,8 +125,9 @@
       $theForm->DEBUGGER->becho('finalDeadlineHasPassed', (($finalDeadlineHasPassed) ? 'Final deadline passed' : 'Final deadline NOT passed.'), -1);
       $entryFeeAmount = (!$earlyDeadlineHasPassed) ? SSFRunTimeValues::getEarlyDeadlineFeeString() : SSFRunTimeValues::getFinalDeadlineFeeString();
 
+      $indent = '                ';
       // Value for workExists is set immediately below.
-      echo '<input type="hidden" id="workExists" name="workExists" value="">' . PHP_EOL; 
+      echo $indent . '<input type="hidden" id="workExists" name="workExists" value="">' . PHP_EOL; 
 
       if ($personIsSpecified) {
         $theForm->DEBUGGER->belch('611x $theForm->state', $theForm->state, -1);
@@ -121,59 +136,26 @@
           $theForm->dbPersonWorkState = SSFQuery::selectPersonFor($theForm->state['loginUserId']);
           $theForm->DEBUGGER->belch('611 dbPersonWorkState', $theForm->dbPersonWorkState, -1);
           $theForm->atLeastOneWorkExistsForThisCallAndPerson = SSFQuery::submitterHasWorksForThisCall($theForm->state['loginUserId']);
-          echo '<script type="text/javascript">document.getElementById("workExists").value = "' . $theForm->atLeastOneWorkExistsForThisCallAndPerson . '";</script>' . PHP_EOL;
+          echo $indent . '<script type="text/javascript">document.getElementById("workExists").value = "' . $theForm->atLeastOneWorkExistsForThisCallAndPerson . '";</script>' . PHP_EOL;
           $theForm->DEBUGGER->becho('201 theForm->atLeastOneWorkExistsForThisCallAndPerson', $theForm->atLeastOneWorkExistsForThisCallAndPerson, -1);
         }
       }
-
       // support for passing $dbPersonWorkState['email'] && $dbPersonWorkState['password'] & others to preSubmitValidation() - What a hack!
-      echo '<input type="hidden" id="dbEmail" name="dbEmail" value="' . (isset($theForm->dbPersonWorkState['email']) ? $theForm->dbPersonWorkState['email'] : '') . '">' . PHP_EOL; 
-      echo '<input type="hidden" id="dbPassword" name="dbPassword" value="' . (isset($theForm->dbPersonWorkState['password']) ? $theForm->dbPersonWorkState['password'] : '') . '">' . PHP_EOL; 
+      echo $indent . '<input type="hidden" id="dbEmail" name="dbEmail" value="' . (isset($theForm->dbPersonWorkState['email']) ? $theForm->dbPersonWorkState['email'] : '') . '">' . PHP_EOL; 
+      echo $indent . '<input type="hidden" id="dbPassword" name="dbPassword" value="' . (isset($theForm->dbPersonWorkState['password']) ? $theForm->dbPersonWorkState['password'] : '') . '">' . PHP_EOL; 
       // support for nickName & lastName & loginName
-      echo '<input type="hidden" id="dbFirstName" name="dbFirstName" value="' . (isset($theForm->dbPersonWorkState['nickName']) ? $theForm->dbPersonWorkState['nickName'] : '') . '">' . PHP_EOL; 
-      echo '<input type="hidden" id="dbLastName" name="dbLastName" value="' . (isset($theForm->dbPersonWorkState['lastName']) ? $theForm->dbPersonWorkState['lastName'] : '') . '">' . PHP_EOL; 
-      echo '<input type="hidden" id="dbLoginName" name="dbLoginName" value="' . (isset($theForm->dbPersonWorkState['loginName']) ? $theForm->dbPersonWorkState['loginName'] : '') . '">' . PHP_EOL; 
+      echo $indent . '<input type="hidden" id="dbFirstName" name="dbFirstName" value="' . (isset($theForm->dbPersonWorkState['nickName']) ? $theForm->dbPersonWorkState['nickName'] : '') . '">' . PHP_EOL; 
+      echo $indent . '<input type="hidden" id="dbLastName" name="dbLastName" value="' . (isset($theForm->dbPersonWorkState['lastName']) ? $theForm->dbPersonWorkState['lastName'] : '') . '">' . PHP_EOL; 
+      echo $indent . '<input type="hidden" id="dbLoginName" name="dbLoginName" value="' . (isset($theForm->dbPersonWorkState['loginName']) ? $theForm->dbPersonWorkState['loginName'] : '') . '">' . PHP_EOL; 
       // support for computed full name
-      echo '<input type="hidden" id="dbName" name="dbName" value="' . (isset($theForm->dbPersonWorkState['name']) ? $theForm->dbPersonWorkState['name'] : '') . '">' . PHP_EOL; 
+      echo $indent . '<input type="hidden" id="dbName" name="dbName" value="' . (isset($theForm->dbPersonWorkState['name']) ? $theForm->dbPersonWorkState['name'] : '') . '">' . PHP_EOL; 
 
 $theForm->DEBUGGER->belch('503. theForm->state', $theForm->state, -1);
 $theForm->DEBUGGER->becho('503. theForm->state["workSelector"]', $theForm->state['workSelector'], SSFEntryForm::$debugRefreshIssues);
 $theForm->DEBUGGER->belch('503. $dbPersonWorkState', $theForm->dbPersonWorkState, -1); // SSFEntryForm::$displayDataStructures 4/5/15
 $theForm->DEBUGGER->becho('503. personIsSpecified', $personIsSpecified, SSFEntryForm::$displayDataStructures);
 $theForm->DEBUGGER->becho('503. theForm->workIsSpecified()', $theForm->workIsSpecified(), SSFEntryForm::$displayDataStructures);
-
 ?>
-
-<!-- Special DIVs for JavaScript ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
-          <div id="dek"><script type="text/javascript">  initFlyoverPopup(); </script></div>
-          <script type="text/javascript"> window.name='SSFEntryFormWindow'; </script>
-
-<!-- Javascript Functions moved to dataEntry.js 4/6/15 ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
-
-          <div id="encloseEntireFormAreaDiv" class="entryFormSection" style="border:dashed 1px green;border:none;"> <!-- Optional debug border border:none; -->
-            <script type="text/javascript">window.name='EntryForm';</script>
-          <!-- From bolier plate -->
-            <article id="<?php echo $articleId; ?>">
-          
-              <style type="text/css" scoped>
-                .yearsAtVenue { font-weight: normal; color:<?php echo $tertiaryTextColor; ?>; }
-                .contentArea article section h2 { color:<?php echo $secondaryTextColor; ?>; }
-                .contentArea article h1 { color:<?php echo $primaryTextColor; ?>; }
-                .page { background-image: none; }
-                .page .highlightedWordColor { color: <?php echo $programHighlightColor; ?>; }
-                .page .highlightedTextColor { color: <?php echo $programHighlightColor; ?>; }
-                .page .entryFormSection .programPageTitleText { color: <?php echo $secondaryTextColor; ?>; }
-                .page .entryFormSubheading { color: <?php echo $quaternaryTextColor; ?>; }
-                .page .bodyText { font-size: 14px; line-height: 130%; }
-                .page .rowTitleTextWide { width:160px; }
-              </style>
-          
-              <h1><?php echo $contentTitle; ?></h1>
-
-<!-- begin FORM ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
-              <!-- TODO Generalize action filename. -->
-              <form class="ssfEntryForm" name="ssfEntryForm" id="ssfEntryForm" onSubmit="return preSubmitValidation();" action="<?php echo SSFEntryForm::$formActionFileName; ?>" method="post" style="border:2px dashed red;border:none;">  <!-- Optional debug border border:none; -->
-
 
 <!-- Begin loginSectionDiv ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
 <?php 
@@ -191,23 +173,22 @@ $theForm->DEBUGGER->becho('503. theForm->workIsSpecified()', $theForm->workIsSpe
   $theForm->DEBUGGER->becho('502x theForm->state[userLoginUnderway]', $theForm->state['userLoginUnderway'], -1);
   if (!$theForm->state['userLoginUnderway']) {
 //    echo '          <div class="programPageTitleText" style="float:none;">Entry Form, ' . $currentYearString . '</div>' . PHP_EOL; 
-    echo '                  <div id = "entryFormInstructionsDiv" class="bodyText" style="text-align:left;padding:6px 8px 0px 8px;">To';
-    echo ' make a submission, complete this form adhering';
+    echo '                  <div id = "entryFormInstructionsDiv" class="bodyText" style="text-align:left;padding:6px 8px 0px 8px;">To make a submission, complete this form adhering';
     // TODO Generalize Reqs Window
     echo ' to the ' . SSFEntryForm::getEntryRequirementsDisplayStringWithLink('Entry Requirements') . '. You may return later to print or edit this form by signing in again. ' ;
     echo (!$theForm->isDisplayingData()) ? ('Save your changes by clicking the ' 
                                             . (($theForm->isCreatingANewPerson() || $theForm->isCreatingANewWork()) ? "Submit" : "Save") . ' button.') : ''; 
-    echo (($theForm->isEditingAWork()) ? ' Note that payment and release information is at the very bottom of the form.' : '') . PHP_EOL;
+    echo (($theForm->isEditingAWork()) ? ' Note that payment and release information is at the very bottom of the form.' : '');
     if ($theForm->isCreatingANewWork() || $theForm->isEditingAWork()) {
-      echo ' Hover over or click any' . SSFHelp::getHTMLIconFor('help') . 'to get more information.' . PHP_EOL;
+      echo ' Hover over or click any' . SSFHelp::getHTMLIconFor('help') . 'to get more information.';
     }
-    echo '                  </div>' . PHP_EOL;
+    echo '</div>' . PHP_EOL;
   }
 ?>
-                <div id='editSectionsContainer' style='margin:0 auto 10px auto;padding:0 8px;border:dashed cyan 1px;border:none;'> <!-- Optional debug border border:none; -->
+                  <div id='editSectionsContainer' style='margin:0 auto 0px auto;padding:0 8px;border:dashed cyan 1px;border:none;'> <!-- Optional debug border border:none; -->
 
 <!-- Begin Data Display ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
-                  <div id="edDataDiv">
+                    <div id="edDataDiv">
 <?php        
   if ($theForm->isDisplayingData()) { 
     $theForm->displayPersonInformation($personIsSpecified);
@@ -215,7 +196,7 @@ $theForm->DEBUGGER->becho('503. theForm->workIsSpecified()', $theForm->workIsSpe
     $theForm->displayWorkInformation();
   }
 ?>
-                  </div> <!-- End edDataDiv -->
+                    </div> <!-- End edDataDiv -->
 <!-- End Data Display ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
 
 
@@ -228,7 +209,7 @@ $theForm->DEBUGGER->becho('503. theForm->workIsSpecified()', $theForm->workIsSpe
 ?>
 
 <!-- Begin Person Creation ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
-<?php if ($theForm->isCreatingANewPerson()) { $theForm->displayPersonCreationForm($theForm); }  ?> 
+<?php if ($theForm->isCreatingANewPerson()) { $theForm->displayPersonCreationForm(); }  ?> 
 <!-- End Person Creation ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
 
 <!-- Begin Person Edit ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
@@ -264,49 +245,49 @@ $theForm->DEBUGGER->becho('503. theForm->workIsSpecified()', $theForm->workIsSpe
 ?>
 <!-- End Work Edit ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
 
-          </div> <!-- editSectionsContainer -->
+                  </div> <!-- editSectionsContainer -->
 
 <!-- Thank You Display ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
 <?php
   if (($theForm->isDisplayingData() && $theForm->atLeastOneWorkExistsForThisCallAndPerson)) {
-//    echo '<div id="debug" style="border:1px red dashed;">' . PHP_EOL; 
+    echo '<div id="debug" style="border:1px red dashed;border:none;">' . PHP_EOL; 
     $theForm->displayThankYou();  
-//    echo '</div>' . PHP_EOL; 
+    echo '</div>' . PHP_EOL; 
   }
 ?> 
 <!-- End Thank You Display ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
 
-        </div> <!-- End entryFormSectionsDiv -->
+                </div> <!-- End entryFormSectionsDiv -->
         
 <!-- Hidden Inputs to cache state ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ ++++ -->
 
-        <input type="hidden" id="people_name" name="people_name" value="<?php echo isset($theForm->dbPersonWorkState['name']) ? $theForm->dbPersonWorkState['name'] : ''; ?>">
-        <input type="hidden" id="works_submitter" name="works_submitter" value="<?php echo isset($theForm->state['loginUserId']) ? $theForm->state['loginUserId'] : ''; ?>">
-        <input type="hidden" id="works_runTime" name="works_runTime" value="<?php echo isset($theForm->state['works_runTime']) ? $theForm->state['works_runTime'] : '00:00:00'; ?>">
-        <input type="hidden" id="works_titleForSort" name="works_titleForSort" value="<?php echo isset($theForm->state['works_titleForSort']) ? $theForm->state['works_titleForSort'] : ''; ?>">
-        <input type="hidden" id="works_amtPaid" name="works_amtPaid" value="<?php echo $entryFeeAmount;?>">
-        <input type="hidden" id="loginNameSaved" name="loginNameSaved" value="<?php echo isset($theForm->state['loginNameSaved']) ? $theForm->state['loginNameSaved'] : ''; ?>" > 
-        <input type="hidden" id="loginUserId" name="loginUserId" value="<?php echo $theForm->state['loginUserId']; ?>" > 
-        <input type="hidden" id="priorWorkSelection" name="priorWorkSelection" value="<?php echo $theForm->state['workSelector']?>">
-        <input type="hidden" id="entryId" name="entryId" value="<?php echo $theForm->state['entryId']; ?>" > 
-        <input type="hidden" id="passwordEntryRequired" name="passwordEntryRequired" value="<?php echo $theForm->state['passwordEntryRequired']; ?>" > 
-        <input type="hidden" id="userLoginUnderway" name="userLoginUnderway" value="<?php echo $theForm->state['userLoginUnderway']; ?>" > 
-        <input type="hidden" id="submitterInPeopleTable" name="submitterInPeopleTable" value="<?php echo $theForm->state['submitterInPeopleTable']; ?>" > 
-        <input type="hidden" id="subscriberInPeopleTable" name="subscriberInPeopleTable" value="<?php echo $theForm->state['subscriberInPeopleTable']; ?>" > 
-<!--        <?php // $theForm->DEBUGGER->belch("888 dbPersonWorkState", $theForm->dbPersonWorkState, -1); ?> -->
-        <input type="hidden" id="editingPersonId" name="editingPersonId" value="<?php echo (isset($theForm->dbPersonWorkState['personId']) ? $theForm->dbPersonWorkState['personId'] : 0); ?>">
-        <input type="hidden" id="editingWorkId" name="editingWorkId" value="<?php echo (isset($theForm->dbPersonWorkState['workId']) ? $theForm->dbPersonWorkState['workId'] : 0);?>">
-        <input type="hidden" id="maxContributorOrder" name="maxContributorOrder" value="<?php echo $theForm->state['maxContributorOrder']; ?>" > 
-        <input type="hidden" id="workLastModified" name="workLastModified" value="<?php echo $theForm->state['workLastModified']; ?>" >
-        <input type="hidden" id="personLoggedInLastModified" name="personLoggedInLastModified" value="<?php echo $theForm->state['personLoggedInLastModified']; ?>" >
-        <input type="hidden" id="changeCount" name="changeCount" value="<?php echo isset($theForm->state['changeCount']) ? $theForm->state['changeCount'] : 0; ?>">
-        <input type="hidden" id="personChangeCount" name="personChangeCount" value="<?php echo isset($theForm->state['personChangeCount']) ? $theForm->state['personChangeCount'] : 0; ?>">
-        <input type="hidden" id="entryChangeCount" name="entryChangeCount" value="<?php echo isset($theForm->state['entryChangeCount']) ? $theForm->state['entryChangeCount'] : 0; ?>">
-        <input type="hidden" id="hiddenInputSavingKey" name="hiddenInputSavingKey" value="">
-        <input type="hidden" id="okToCreateNewWork" name="okToCreateNewWork" value="<?php echo (($finalDeadlineHasPassed == 1) ? 0 : 1); ?>">
-        <!-- TODO: See selectorSubmitter notes in _SansSouciTODOs.txt. -->
-        <input type="hidden" id="selectorSubmitter" name="selectorSubmitter" value=""> 
-        
+                <input type="hidden" id="people_name" name="people_name" value="<?php echo isset($theForm->dbPersonWorkState['name']) ? $theForm->dbPersonWorkState['name'] : ''; ?>">
+                <input type="hidden" id="works_submitter" name="works_submitter" value="<?php echo isset($theForm->state['loginUserId']) ? $theForm->state['loginUserId'] : ''; ?>">
+                <input type="hidden" id="works_runTime" name="works_runTime" value="<?php echo isset($theForm->state['works_runTime']) ? $theForm->state['works_runTime'] : '00:00:00'; ?>">
+                <input type="hidden" id="works_titleForSort" name="works_titleForSort" value="<?php echo isset($theForm->state['works_titleForSort']) ? $theForm->state['works_titleForSort'] : ''; ?>">
+                <input type="hidden" id="works_amtPaid" name="works_amtPaid" value="<?php echo $entryFeeAmount;?>">
+                <input type="hidden" id="loginNameSaved" name="loginNameSaved" value="<?php echo isset($theForm->state['loginNameSaved']) ? $theForm->state['loginNameSaved'] : ''; ?>" > 
+                <input type="hidden" id="loginUserId" name="loginUserId" value="<?php echo $theForm->state['loginUserId']; ?>" > 
+                <input type="hidden" id="priorWorkSelection" name="priorWorkSelection" value="<?php echo $theForm->state['workSelector']?>">
+                <input type="hidden" id="entryId" name="entryId" value="<?php echo $theForm->state['entryId']; ?>" > 
+                <input type="hidden" id="passwordEntryRequired" name="passwordEntryRequired" value="<?php echo $theForm->state['passwordEntryRequired']; ?>" > 
+                <input type="hidden" id="userLoginUnderway" name="userLoginUnderway" value="<?php echo $theForm->state['userLoginUnderway']; ?>" > 
+                <input type="hidden" id="submitterInPeopleTable" name="submitterInPeopleTable" value="<?php echo $theForm->state['submitterInPeopleTable']; ?>" > 
+                <input type="hidden" id="subscriberInPeopleTable" name="subscriberInPeopleTable" value="<?php echo $theForm->state['subscriberInPeopleTable']; ?>" > 
+        <!--        <?php // $theForm->DEBUGGER->belch("888 dbPersonWorkState", $theForm->dbPersonWorkState, -1); ?> -->
+                <input type="hidden" id="editingPersonId" name="editingPersonId" value="<?php echo (isset($theForm->dbPersonWorkState['personId']) ? $theForm->dbPersonWorkState['personId'] : 0); ?>">
+                <input type="hidden" id="editingWorkId" name="editingWorkId" value="<?php echo (isset($theForm->dbPersonWorkState['workId']) ? $theForm->dbPersonWorkState['workId'] : 0);?>">
+                <input type="hidden" id="maxContributorOrder" name="maxContributorOrder" value="<?php echo $theForm->state['maxContributorOrder']; ?>" > 
+                <input type="hidden" id="workLastModified" name="workLastModified" value="<?php echo $theForm->state['workLastModified']; ?>" >
+                <input type="hidden" id="personLoggedInLastModified" name="personLoggedInLastModified" value="<?php echo $theForm->state['personLoggedInLastModified']; ?>" >
+                <input type="hidden" id="changeCount" name="changeCount" value="<?php echo isset($theForm->state['changeCount']) ? $theForm->state['changeCount'] : 0; ?>">
+                <input type="hidden" id="personChangeCount" name="personChangeCount" value="<?php echo isset($theForm->state['personChangeCount']) ? $theForm->state['personChangeCount'] : 0; ?>">
+                <input type="hidden" id="entryChangeCount" name="entryChangeCount" value="<?php echo isset($theForm->state['entryChangeCount']) ? $theForm->state['entryChangeCount'] : 0; ?>">
+                <input type="hidden" id="hiddenInputSavingKey" name="hiddenInputSavingKey" value="">
+                <input type="hidden" id="okToCreateNewWork" name="okToCreateNewWork" value="<?php echo (($finalDeadlineHasPassed == 1) ? 0 : 1); ?>">
+                <!-- TODO: See selectorSubmitter notes in _SansSouciTODOs.txt. -->
+                <input type="hidden" id="selectorSubmitter" name="selectorSubmitter" value=""> 
+
               </form>  <!-- End FORM -->
             </article>
           </div> <!-- END encloseEntireFormAreaDiv -->

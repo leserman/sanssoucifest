@@ -737,6 +737,11 @@ a:hover { color: #990000; text-decoration: underline; }
 
 .page input {
   vertical-align: middle;
+  padding: 1px 4px 0 4px;  /* added 4/11/15 */
+}
+
+.page textArea {
+  padding: 2px 4px 0 4px;  /* added 4/11/15 */
 }
 
 .ssfCheckbox {

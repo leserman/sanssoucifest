@@ -1,14 +1,10 @@
 <?php 
-  include_once '../bin/classes/SSFCodeBase.php'; 
-  include_once SSFCodeBase::autoloadClasses(__FILE__);
+  include_once $_SERVER['DOCUMENT_ROOT'] . '/bin/classes/SSFWebPageParts.php'; 
+
+  // Produce Top-of-Page boiler plate.
+  SSFWebPageParts::beginPage();
+
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>PayPal Listener</title>
-</head>
-<body>
 
 <?php
 /**

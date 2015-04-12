@@ -84,7 +84,7 @@
 <!-- Overview -->
             <section class="dodeco" id="overview" style="margin-top:0;">
               <h2 style="margin-top:10px;margin-bottom:7px;">Overview</h2>
-              <div class="bodyText"><p>The Sans Souci Festival of Dance Cinema invites submissions of 1) film and video works that integrate dance and cinematography and 2) mixed-media works that include both cinema and live performance. We encourage submissions from all artists regardless of credentials and affiliations. When choosing works we consider thoughtful forms and themes,  innovative approaches, and other <a href="#criteria">curatorial criteria</a>.</p></div>
+              <div class="bodyText"><p>The Sans Souci Festival of Dance Cinema invites submissions of 1) film and video works that integrate dance and cinematography and 2) mixed-media works that include both cinema and live performance. We encourage submissions from all artists regardless of credentials and affiliations. When choosing works we consider thoughtful forms and themes,  innovative approaches, and other <a href="danceCinemaCall2015.php/#criteria">curatorial criteria</a>.</p></div>
               <div id="imageAndCaption">
                 <div><?php echo $imageWithAnchor; ?></div>
                 <div class="bodyText" style="font-size:11px;margin:0px 0 30px 38px;padding-bottom:0;text-align:left;line-height:120%"><?php echo $imageCaption; ?></div>
