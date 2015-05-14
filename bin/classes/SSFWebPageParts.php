@@ -10,11 +10,10 @@ REQUEST_URI - The URI which was given in order to access this page; for instance
 */
 
   class SSFWebPageParts {
-    private static $hostName = 'http://dev.sanssoucifest.org/';
+    private static $hostName = 'http://sanssoucifest.org/';
     public static function getHostName() { return self::$hostName; }
 
-    private static $siteIsLive = false;
-        
+    private static $siteIsLive = true; // Set this to false to suppress robots for all pages.
 
     protected static $thisIsAProgramPage = false;    
 //    public static function thisIsAProgramPage($soItIs) { self::$thisIsAProgramPage = $soItIs; }
@@ -217,6 +216,8 @@ REQUEST_URI - The URI which was given in order to access this page; for instance
       $pageContent = '';
       $pageContent .= '<!-- BEGIN beginPageBody() -->' . PHP_EOL;
       $pageContent .= $indent . '<body>' . PHP_EOL;
+      $pageContent .= $indent . self::googleAnalyticsTracking() . PHP_EOL;
+      
       $pageContent .= $indent . '<div id="fb-root"></div>' . PHP_EOL; // See https://developers.facebook.com/docs/plugins/like-button
       $pageContent .= $indent . '  <script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0"; fjs.parentNode.insertBefore(js, fjs); }(document, "script", "facebook-jssdk"));</script>' . PHP_EOL;
       $pageContent .= $indent . '  <div class="page">' . PHP_EOL;
@@ -272,6 +273,21 @@ REQUEST_URI - The URI which was given in order to access this page; for instance
       $contentHeader .= $indent . '    </div>' . PHP_EOL;
       $contentHeader .= $indent . '<!-- END endContentHeader() -->' . PHP_EOL;
       return $contentHeader;
+    }
+    
+    private static function googleAnalyticsTracking() {
+      $indent = '    ';
+      $gatString = "";
+      $myfile = fopen(self::$hostName . "/bin/data/analyticstracking.php", "r");
+      if ($myfile) {
+        // Read lines until end-of-file
+        while(!feof($myfile)) {
+          $line = fgets($myfile);
+          if ($line != PHP_EOL) $gatString .= $indent . $line;
+        }
+        fclose($myfile);
+      }
+      return $gatString;
     }
     
   } // END class SSFWebPageParts

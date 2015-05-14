@@ -32,7 +32,8 @@
 //    alert('submitItsMe() value 1: ' + document.getElementById("itsMeSubmit").value);
     document.getElementById("itsMeSubmit").value="ItsMe";
 //    alert('submitItsMe() value 2: ' + document.getElementById("itsMeSubmit").value);
-    document.getElementById("ssfEntryForm").submit();
+    var element = document.getElementById("ssfEntryForm");
+    element.submit();
   }
   
   function resumeLogin() {

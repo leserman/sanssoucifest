@@ -19,19 +19,25 @@
   $articleId = SSFWebPageParts::getArticleId();
   $contentTitle = SSFWebPageParts::getContentTitleText();
   $eventId = SSFWebPageParts::getProgramPageEventId();
+  $venueName = SSFRunTimeValues::getVenueName($eventId); // 'Mima-Middlesbrough Institute of Modern Art'; // TODO get this from the event venue name in the DB
+  $eventDatesDescriptionShort = SSFRunTimeValues::getEventDatesDescriptionStringLong($eventId);
+  $venueLocation = SSFRunTimeValues::getVenueAddr1($eventId) . ' ' . SSFRunTimeValues::getVenueAddr2($eventId);
 
   echo SSFProgramPageParts::beginContentHeader();
-?>  
-      <div class="nodeco" style="margin-top:20px;margin-bottom:40px;">
-        <div style="margin-bottom:20px;">
-          <div id="oct" class="venueText primaryTextColor nodeco">Friday, September 19<span class="timeText">&nbsp;&bull;&nbsp;7:30 PM</span><br>
-            Lenfest Theater, 
-            <span class="locationLink nodeco"><a href="http://www.ursinus.edu/netcommunity/page.aspx?pid=330">Kaleidoscope Performing Arts Center</a></span> 
+?>
+  
+      <div style="margin-bottom:20px;">
+        <div>
+          <div class="floatLeft">
+            <div class="venueText primaryTextColor nodeco"><?php echo $eventDatesDescriptionShort; ?><span class="timeText"><!-- times go here --></span></div>
+            <div class="venueText nodeco"><a href="http://www.visitmima.com/"><?php echo $venueName; ?></a></div>
+            <div class="venueText" style="margin-top:-4px;"><span class="locationLink nodeco"><a href="http://www.visitmima.com/plan-your-visit/getting-here/"><?php echo $venueLocation; ?></a></span></div>
           </div>
-          <div class="venueText" style="margin-top:3px;"><a href="http://www.ursinus.edu/">Ursinus College</a>, <span class="minorInfo">Collegeville, PA</span></div>
-          <p><span class="venueText tertiaryTextColor">FREE </span>as a part of the <a href="http://news.ursinus.edu/2013/events/annual-fringe-festival-features-comedy-dance/"><span style="font-size:12pt;">Ursinus College Fringe Festival</span></a></p>
+          <div class="floatLeft"><img alt="" src="images/logos/mimaLogo.png" style="width:106px;height:50px;padding-top:5px;padding-left:30px;vertical-align:bottom"></div>
+          <div style="clear:both;"></div>
         </div>
       </div>
+      
 <?php
   echo SSFProgramPageParts::endContentHeader();
   SSFProgramPageParts::showWorks();

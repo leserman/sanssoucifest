@@ -89,7 +89,7 @@
     					    <ul style="margin-top:-2px;margin-bottom:4px;margin-left:15px;">
  
 <!--      					    <li>the <a href="onlineEntryForm/<?php echo $entryFormFilename; ?>">entry form</a> that you fill out online,</li> -->
-      					    <li>the <?php echo HTMLGen::getWindowLinkDisplayString('onlineEntryForm/' . $entryFormFilename, 'entry form', 'EntryForm'); ?> that you fill out online,</li>
+<!--      					    <li>the <?php echo HTMLGen::getWindowLinkDisplayString('onlineEntryForm/' . $entryFormFilename, 'entry form', 'EntryForm'); ?> that you fill out online,</li> -->
     						    <li>your video via Vimeo.com (see <a href="<?php echo $thisPage; ?>#media">Media</a> below),</li>
     							  <li>the appropriate entry fee (see <a href="<?php echo $thisPage; ?>#deadlines">Deadlines & Payment</a> below),</li>
     							  <li>screen-capture images (see <a href="<?php echo $thisPage; ?>#screenSnapshots">Screen Snapshots</a> below).</li>

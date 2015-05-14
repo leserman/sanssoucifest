@@ -47,13 +47,13 @@
     static public $anamorphicDebug = -1;
     static public $displayDataStructures = -1;  // 1 is ON. -1 is OFF. 4/7/15
     static public $debugChangeCount = -1; // 5/30/14 changed and changed back
-    static public $debugLoginName = -1;
-    static public $debugPeopleLoginName = -1;
+    static public $debugLoginName = -1;           // 4/28/15 - This is set to 1 in the debug 'dev' version
+    static public $debugPeopleLoginName = -1;     // 4/28/15 - This is set to 1 in the debug 'dev' version
     static public $debugPhpValidEmailAddress = -1;
     static public $debugRefreshIssues = -1;
-    static public $debugSignIn = -1;
+    static public $debugSignIn = -1;              // 4/28/15 - This is set to 1 in the debug 'dev' version
     static public $debugStateVariablesAtBottom = -1;
-    static public $debugStateVariablesAtTop = -1;
+    static public $debugStateVariablesAtTop = -1; // 4/28/15 - This is set to 1 in the debug 'dev' version
     static public $debugValidLogin = -1;
     private static $showFunctionMarkers = true;
 
@@ -350,6 +350,7 @@
                                            &&  !$this->isValidLogin($loginName, $subscriberDBState["loginName"], 
                                                         $loginPassword, $subscriberDBState['password'], 
                                                         $this->state['passwordEntryRequired']);
+//  $this->DEBUGGER->becho('37', 'setUpSubscriber() userLoginUnderway ' . $this->state['userLoginUnderway'], 1); // 4/12/15
       if (!$this->state['userLoginUnderway']) {
         $this->state['loginUserId'] = $subscriberDBState['personId'];
         $this->setState('people_loginName', $loginName);
@@ -396,10 +397,14 @@
       $this->DEBUGGER->becho('07 reallySigningIn', $reallySigningIn, self::$debugSignIn);
       $this->DEBUGGER->becho('07 theForm->state["itsMeSubmit"]', ((isset($this->state['itsMeSubmit'])) ? $this->state['itsMeSubmit'] : ''), self::$debugSignIn);
       $this->DEBUGGER->becho('07 theForm->itsMe()', $this->itsMe(), self::$debugSignIn);
+// TODO 4/28/15: Change the 2 lines above to be the 2 lines below.
+//      $this->DEBUGGER->becho('07 theForm->state["itsMeSubmit"]', ((isset($this->state['itsMeSubmit'])) ? $this->state['itsMeSubmit'] : 'NOT SET'), self::$debugSignIn);
+//      $this->DEBUGGER->becho('07 theForm->itsMe()', ($this->itsMe() !== 0) ? 'TRUE' : 'FALSE', self::$debugSignIn);
       return $reallySigningIn;
     }
-  
+
     // Sign In
+// For COMPARISON see oldVersionsOfSSFEntryFormSignIn.txt
     public function signIn() {
       $this->DEBUGGER->becho('08', 'Signing In with ' . $this->state['loginName'], self::$debugSignIn);
       $itsMeDBState = array();
@@ -418,10 +423,12 @@
           $this->DEBUGGER->becho('11', 'Signing In with ' . $this->state['loginName'], self::$debugSignIn);
           // Check to see if the Submitter has no loginName in the DB
           $submitterDBState = SSFQuery::selectPersonByAlternateKey('loginName', $this->state['loginName']);
-          if ($submitterDBState !== false) { // The Submitter loginName is in the DB.
+          if ($submitterDBState !== false) { 
+            // The Submitter loginName is in the DB.
             $this->DEBUGGER->becho('12', 'Signing In with ' . $this->state['loginName'], self::$debugSignIn);
             $this->setUpSubscriber($this->state['loginName'], $this->state['pwFromLogin'], $submitterDBState);
-          } else { // since the submitter is not in the DB as a loginName
+          } else { 
+            // since the submitter is not in the DB as a loginName
             $this->DEBUGGER->becho('13', 'Signing In with ' . $this->state['loginName'], self::$debugSignIn);
             $submitterDBState2 = SSFQuery::selectPersonByAlternateKey('email', $this->state['loginName'], $debugThis = false);
             if ($submitterDBState2 === false) { 
@@ -437,16 +444,43 @@
               // since the Submitter has an email address but no loginName in the db
               $this->DEBUGGER->becho('15', 'Signing In with ' . $this->state['loginName'], self::$debugSignIn);
               $this->DEBUGGER->belch('15 submitterDBState2', $submitterDBState2, self::$debugSignIn);
-              //$this->state['itsMeSubmit'] = 'ItsMe';
+              // The next line does this: $this->state['itsMeSubmit'] = 'ItsMe';
               $this->setTheItsMeWhatever('itsMeSubmit', 'ItsMe');
               $this->setTheItsMePersonId($submitterDBState2['personId']);
               $this->setTheItsMePersonPassword($submitterDBState2['password']);
               $this->setTheItsMePersonName($submitterDBState2['name']);
+/*     4/12/15 - I don't remeember why I added this feature which was a lot of effort. It's failing as of this date because
+                 submitItsMe() in dataEntry.js (used to be somewhere else) is not invoking submit() on the form (which
+                 appears to be passed in correctly. So, today I short circuit with the assumption that if the email
+                 address is listed in the database, then, this is indeed the same person, regardeless of loginName
+                 or password. Continued below.
               $this->openErrorMessage = "Although you have never logged in before,<br>we find we have your email address.<br>"
                                 . 'If you are ' . $submitterDBState2['nickName'] . ' ' . $submitterDBState2['lastName'] . ',<br>'
-                                . "click <a href='#' onclick='javascript:submitItsMe();'>YES, It's Me</a>."
+// TODO 4/28/15: Which is correct  for the 2 lines below - with or without 'return false;'?
+                                . "click <a href='#' onclick='javascript:submitItsMe();return false;'>YES, It's Me</a>."
+                                . "click <a href='#' onclick='javascript:submitItsMe();'>YES, It's Me</a>." 
                                 . "<br><br>If not, please login with a different login name / email address.<br><br>";
+*/
+        $itsMeDBState['personId'] = $submitterDBState2['personId'];
+        $itsMeDBState['password'] = $submitterDBState2['password'];
+        $itsMeDBState['name'] = $submitterDBState2['name'];
+        $itsMeDBState['loginName'] = $submitterDBState2['email'];  // 4/12/15
+        $itsMeDBState['password'] = '';                            // 4/12/15
+        $itsMeDBState['passwordEntryRequired'] = false;            // 4/12/15
+
+
+              $this->DEBUGGER->becho('12', 'Signing In with Email Address ' . $this->state['loginName'], self::$debugSignIn);
+/*     4/12/15 - Continued from above: However, the user should be treated as a new person so the person informatin with
+                 password gets completed.
+              $this->state['createNewPerson'] = 'Create New Person';
+              $this->creatingNewPerson = true;
+              $this->state['submitterInPeopleTable'] = 0;
+              $this->state['subscriberInPeopleTable'] = 1;
+              $this->state['passwordEntryRequired'] = true;
               $this->state['userLoginUnderway'] = 1;
+*/
+//              $this->state['userLoginUnderway'] = 1; // This gets immediately reset inside of setUpSubscriber
+              $this->setUpSubscriber($this->state['loginName'], $this->state['pwFromLogin'], $itsMeDBState); // line added 4/12/15 to sluff off the itsMe deal
             }
           }
         } else { // since this is not a valid user name

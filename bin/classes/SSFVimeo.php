@@ -302,13 +302,17 @@ class SSFVimeo
         $this->_cache_enabled = $type;
         if ($this->_cache_enabled == self::CACHE_FILE) {
             $this->_cache_dir = $path;
+SSFDebug::globalDebugger()->becho('SSFVimeo::enableCache() this->_cache_dir', $this->_cache_dir, -1);
             $files = scandir($this->_cache_dir);
-            foreach ($files as $file) {
-                $last_modified = filemtime($this->_cache_dir.'/'.$file);
-                if (substr($file, -6) == '.cache' && ($last_modified + $expire) < time()) {
-                    unlink($this->_cache_dir.'/'.$file);
+            if (is_array($files)) {             // line added about 4/23/15
+                foreach ($files as $file) {
+                    $last_modified = filemtime($this->_cache_dir.'/'.$file);
+                    if (substr($file, -6) == '.cache' && ($last_modified + $expire) < time()) {
+                        unlink($this->_cache_dir.'/'.$file);
+                    }
                 }
             }
+            else $this->_cache_enabled = false; // line added about 4/23/15
         }
         return false;
     }
@@ -567,7 +571,11 @@ class SSFVimeo
     // Create the object and enable caching
 //  $vimeo = new phpVimeo('CONSUMER_KEY', 'CONSUMER_SECRET');
     $vimeo = new SSFVimeo(self::VIMEO_CONSUMER_KEY, self::VIMEO_CONSUMER_SECRET);
-    $vimeo->enableCache(self::CACHE_FILE, SSFCodeBase::string(__FILE__) . 'vimeoCache/', 300);
+//SSFDebug::globalDebugger()->belch('SSFVimeo::establishVimeoConnection() __FILE__', __FILE__, 1);
+//SSFDebug::globalDebugger()->belch('SSFVimeo::establishVimeoConnection() SSFCodeBase-string(__FILE__)', SSFCodeBase::string(__FILE__), 1);
+//    $vimeo->enableCache(self::CACHE_FILE, SSFCodeBase::string(__FILE__) . 'vimeoCache/', 300); 
+//    $vimeo->enableCache(self::CACHE_FILE, SSFWebPageParts::getHostName() . 'bin/data/vimeoCache/', 300); // getHostName
+    $vimeo->enableCache(self::CACHE_FILE, '/home/hamelbloom/sanssoucifest.org/bin/data/vimeoCache/', 300); // TODO: replace this string with a computed path.   
     // Clear session (from vimeoTest.php. Probably not needed here.)
     if (isset($_GET['clear']) && $_GET['clear'] == 'all') { session_destroy(); session_start(); } 
     // Set up variables

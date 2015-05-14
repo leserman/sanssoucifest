@@ -49,7 +49,8 @@
       $htmlEmbed = '<a href="javascript:void(0)" onMouseOver="flyoverPopup(' . 
                     HTMLGen::simpleQuote($popupHelpString) . ', ' . HTMLGen::simpleQuote('#ad000b') . ')"' .
                     ' onMouseOut="killFlyoverPopup()" onClick="window.alert(' . HTMLGen::simpleQuote($alertHelpString) . ')">' .
-                    '<img src="images/helpIcon16.png" alt="HELP" ' .
+//                    '<img src="images/helpIcon16.png" alt="HELP" ' .
+                    '<img src="http://sanssoucifest.org/images/helpIcon16.png" alt="HELP" ' .  // TODO Make this a relative reference once everything is converted to HTML5
                     'style="' . $floatString . 'padding:0 8px;margin:-4px 0 0 0;border:none;text-align:center;position:relative;top:-1;' . // 4/5/15 Added margin top -4px
                     'vertical-align:middle;"></a>';
     }

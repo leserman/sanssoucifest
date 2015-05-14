@@ -69,12 +69,21 @@
               <p class="call tertiaryTextColor" style="margin-top:6px;"><b>Sans Souci Festival of Dance Cinema<br>invites submissions of<br>works that integrate dance and cinematography</b></p>
               <p class="call" style="font-size:15px;margin-top:-2px;">for exhibition in Boulder, Colorado, USA <br><!--<?php echo $eventDatesDescriptionStringLong;?>-->in September, October, and November, 2015.</p>
               <p class="call"><span style="font-size:15px;"><i>We encourage submissions from all artists<br>regardless of credentials and affiliations.</i></span></p>
-              <p class="call tertiaryTextColor"><b>Deadlines: <?php echo $earlyDeadlineString . ' and ' . $finalDeadlineString; ?></b></p>
+<!--              <p class="call tertiaryTextColor"><b>Deadlines: <?php echo $earlyDeadlineString . ' and ' . $finalDeadlineString; ?></b></p> -->
+              <p class="call tertiaryTextColor"><b>Submission Deadline: <?php echo $finalDeadlineString; ?></b></p>
               <p class="call dodeco" style="font-size:15px;"><a href="<?php echo $danceCinemaCallFilename;?>">Read more</a> and <a href="onlineEntryForm/<?php echo $entryFormFilename;?>">submit an entry</a>.</p>
 <!--              <div class="callForEntriesText"style="text-align:center;margin-top:0;padding-top:5;"><a href="danceCinemaCall2015.php">Read more</a></div> -->
 <!--              <div class="homeHeading1" style="margin-top:8px;margin-bottom:-4px;font-size:18px;">Call for Entries Closed on May XX, 2015</div> -->
 <!--              <div class="callForEntriesText topCenter" style="font-size:16px;"><i>Deadline this week: <?php echo $finalDeadlineString; ?></i></span></div> -->
 <!--              <div class="callForEntriesText topCenter" style="font-size:20x;"><i><b>Closed</b></i><br><span class="bodyTextLeadedOnBlack">(The deadline was May XX.)</div> -->
+            </section>
+
+<!-- Screendance Journal  -->
+            <section id='journal'>
+              <h2><span style="font-style: normal">Being a Video-Choreographer</span><br>International Journal of Screendance</h2>
+              <p class="centeredText">Ana Baer, our Artistic Co-Director, is published in current issue of The International Journal of Screendance, Vol. 5 (2015).</p>
+              <p class="centeredText">Ana shares her views on creating and curating Dance Video in this article entitled <a class="dodeco" href="http://screendancejournal.org/article/view/4446/3841#.VVPT9NpVhBf"><i>Being a Video-Choreographer: Describing the Multifaceted Role of a Choreographer Creating Screendance</i></a>, coauthored with Heike Salzer of Tees Dance Film Fest.</p>
+              <p class="centeredText"><img src="images/logos/TeesDanceFilmFestLogoPink.png" style="width:50px;height:50px;float:right;padding-top:3px;padding-left:8px;">The article is published in tandem with the <a class="dodeco" href="http://tdff.co.uk/">Tees Dance Film Fest</a> (UK, May 14, 2015) where many of the films cited in the article are screened. <a class="dodeco" href="programPages/programTeesUK2015.php">See the Sans Souci program.</a></p>
             </section>
 
 <!-- Welcome to our new look  -->

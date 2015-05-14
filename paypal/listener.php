@@ -27,8 +27,9 @@
  
 //  SSFQuery::debugOn();
   
-  const YOUR_EMAIL_ADDRESS = 'hiddenhamel@sanssoucifest.org';
-  const YOUR_PRIMARY_PAYPAL_EMAIL = 'hamelb@sanssoucifest.org';
+  $yourEmailAddress = SSFInit::getPpYourEmailAddr();
+  $yourPrimaryEmailAddress = SSFInit::getPpYourPrimaryEmailAddr();
+  $errorLogFilename = SSFInit::getPpErrorLogFilename();
 
 /*
 Since this script is executed on the back end between the PayPal server and this
@@ -40,7 +41,8 @@ sure your web server has permissions to write to that file. In a production
 environment it is better to have that log file outside of the web root.
 */
   ini_set('log_errors', true);
-  ini_set('error_log', dirname(__FILE__).'/ipn_errors.log');
+//  ini_set('error_log', dirname(__FILE__).'/ipn_errors.log');
+  ini_set('error_log', SSFInit::getPpErrorLogFilename());
 
  function prettyBelch($idString, $dataStructure) { 
     $prettyBelchString = "";
@@ -51,7 +53,7 @@ environment it is better to have that log file outside of the web root.
   $initReport = prettyBelch('SSF IPN Listener invoked ', (isset($_POST) && (count($_POST) > 0)) ? $_POST : 'NO POST');
 //  echo $initReport . PHP_EOL;
 
-  mail(YOUR_EMAIL_ADDRESS, 'SSF IPN Listener invoked', $initReport);
+  mail($yourEmailAddress, 'SSF IPN Listener invoked', $initReport);
 
 
   // instantiate the IpnListener class
@@ -167,8 +169,8 @@ was "INVALID".
 // echo prettyBelch('Checking for matching \'receiver_email\'.', $analyzer) . PHP_EOL;
 
     // 2. Make sure seller email matches your primary account email.
-    if ($analyzer->paypalIPNDataValue['receiver_email'] != YOUR_PRIMARY_PAYPAL_EMAIL) {
-        $errmsg .= "*** receiver_email (" . $analyzer->paypalIPNDataValue['receiver_email'] . ") does not match YOUR_PRIMARY_PAYPAL_EMAIL: " . YOUR_PRIMARY_PAYPAL_EMAIL . "." ;
+    if ($analyzer->paypalIPNDataValue['receiver_email'] != $yourPrimaryEmailAddress) {
+        $errmsg .= "*** receiver_email (" . $analyzer->paypalIPNDataValue['receiver_email'] . ") does not match $yourPrimaryEmailAddress: " . $yourPrimaryEmailAddress . "." ;
     }
 
 // echo prettyBelch('Checking for matching \'mc_gross\'.', $analyzer) . PHP_EOL;
@@ -201,7 +203,7 @@ was "INVALID".
         error_log('IPN Fraud Warning: ' . $errmsg); 
         $body = "IPN failed fraud checks: " . $errmsg . PHP_EOL  . PHP_EOL;  // TODO This is generating extra blank lines in the error log. ??
         $body .= $listener->getTextReport();
-        mail(YOUR_EMAIL_ADDRESS, 'IPN Fraud Warning', $body);
+        mail($yourEmailAddress, 'IPN Fraud Warning', $body);
         
     } else {
       // since there are no problems with the IPN message from PayPal, conditionally update the database
@@ -221,7 +223,7 @@ was "INVALID".
         $matchingWorkMessage = 'NO matching works found. ';
       }
       error_log('Verified IPN. ' . $matchingWorkMessage); 
-      mail(YOUR_EMAIL_ADDRESS, 'Verified PayPal IPN for ' . $analyzer->paypalIPNDataValue['txn_id'], 
+      mail($yourEmailAddress, 'Verified PayPal IPN for ' . $analyzer->paypalIPNDataValue['txn_id'], 
           'Verified IPN. ' . PHP_EOL . $skimmedText . PHP_EOL . $matchingWorkMessage . PHP_EOL . $listener->getTextReport());
     }
 
@@ -232,7 +234,7 @@ was "INVALID".
     invalid IPN.
     */
     error_log('Invalid IPN. See email for details. ' .  $skimmedText . '.'); 
-    mail(YOUR_EMAIL_ADDRESS, 'Invalid PayPal IPN for ' . $analyzer->paypalIPNDataValue['txn_id'], 
+    mail($yourEmailAddress, 'Invalid PayPal IPN for ' . $analyzer->paypalIPNDataValue['txn_id'], 
         'Invalid PayPal IPN.' . PHP_EOL . $skimmedText . PHP_EOL . $matchingWorkMessage . PHP_EOL . $listener->getTextReport());
   }
   
@@ -343,4 +345,3 @@ if (strcmp ($res, "VERIFIED") == 0) {
 
 </body>
 </html>
-

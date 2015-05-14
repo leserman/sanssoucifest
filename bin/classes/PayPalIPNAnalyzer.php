@@ -57,28 +57,29 @@ class PayPalIPNAnalyzer {
     $currentCallForEntries = SSFRunTimeValues::getInitialCallForEntriesId();
     $this->uniqueWorkFound = false;
     $this->priorQuery = '';
-    if ($this->paypalIPNDataValue['option_selection1_filmTitle'] != "") {
-      // Hack Alert: The query uses 'like' rather than '=' for title so that it will work when a title has an embedded "'" (single quote) or other special char.
-      $query = 'SELECT workId, title, callForEntries, datePaid, amtPaid, howPaid, checkOrPaypalNumber, '
-             .        'submitter, email, loginName, nickName, lastName, name, works.lastModifiedBy '
-             . 'FROM works JOIN people on submitter = personId '
-             . 'WHERE withdrawn=0 AND callForEntries = ' . $currentCallForEntries . ' '
-             .   'AND title like "%' . trim($this->paypalIPNDataValue['option_selection1_filmTitle'],'"') . '%" '
-             .   'AND (email = "' . $this->paypalIPNDataValue['payer_email'] . '" '
-             .     'OR email = "' . $this->paypalIPNDataValue['option_selection2_submitterEmail'] . '" '
-             .     'OR loginName = "' . $this->paypalIPNDataValue['payer_email'] . '" '
-             .     'OR loginName = "' . $this->paypalIPNDataValue['option_selection2_submitterEmail'] . '")';
-      $this->priorQuery = $query; // cache the query for possible error reporting later.
-//      SSFDB::debugNextQuery();
-      $matchingWorksArray = SSFDB::getDB()->getArrayFromQuery($query);
-      $this->uniqueWorkFound = (count($matchingWorksArray) == 1);
-      $this->multipleWorksMatch = (count($matchingWorksArray) > 1);
-      if ($this->uniqueWorkFound) {
-        $this->matchingWorkId = $matchingWorksArray[0]['workId'];
-        foreach($matchingWorksArray[0] as $key => $element) { $this->dbWorkDataValue[$key] = $element; }
-        // where the keys are expected to be workId, amtPaid, howPaid, datePaid, and paypalNumber.
-      }
+    $workingTitle = ($this->paypalIPNDataValue['option_selection1_filmTitle']) ? $this->paypalIPNDataValue['option_selection1_filmTitle'] 
+                                                                                : "NO_TITLE_WAS_PASSED_TO_PayPalIPNAnalyzer::foundMatchingWork().";
+    // Hack Alert: The query uses 'like' rather than '=' for title so that it will work when a title has an embedded "'" (single quote) or other special char.
+    $query = 'SELECT workId, title, callForEntries, datePaid, amtPaid, howPaid, checkOrPaypalNumber, '
+           .        'submitter, email, loginName, nickName, lastName, name, works.lastModifiedBy '
+           . 'FROM works JOIN people on submitter = personId '
+           . 'WHERE withdrawn=0 AND callForEntries = ' . $currentCallForEntries . ' '
+           .   'AND title like "%' . trim($workingTitle,'"') . '%" '
+           .   'AND (email = "' . $this->paypalIPNDataValue['payer_email'] . '" '
+           .     'OR email = "' . $this->paypalIPNDataValue['option_selection2_submitterEmail'] . '" '
+           .     'OR loginName = "' . $this->paypalIPNDataValue['payer_email'] . '" '
+           .     'OR loginName = "' . $this->paypalIPNDataValue['option_selection2_submitterEmail'] . '")';
+    $this->priorQuery = $query; // cache the query for possible error reporting later.
+//    SSFDB::debugNextQuery();
+    $matchingWorksArray = SSFDB::getDB()->getArrayFromQuery($query);
+    $this->uniqueWorkFound = (count($matchingWorksArray) == 1);
+    $this->multipleWorksMatch = (count($matchingWorksArray) > 1);
+    if ($this->uniqueWorkFound) {
+      $this->matchingWorkId = $matchingWorksArray[0]['workId'];
+      foreach($matchingWorksArray[0] as $key => $element) { $this->dbWorkDataValue[$key] = $element; }
+      // where the keys are expected to be workId, amtPaid, howPaid, datePaid, and paypalNumber.
     }
+
     return $this->uniqueWorkFound;
   }
 

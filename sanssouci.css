@@ -510,8 +510,12 @@ section h1 {
 
 /* COLORS added in 2015 */
 .copyrightColor { color: #5e6a18; }
-.ssfDebugEchoColor { color: #2c2ca6; }
-.ssfDebugTracebackColor { color: maroon; }
+.ssfDebugEchoColor { color: #15c0c0; } /* #2c2ca6 */
+.ssfDebugTracebackColor { color: #dd6d44; } /* maroon */
+
+.ssfDebug {
+  font-size: 13px;
+}
 
 .showDescriptionHeader {
   text-align: left;
@@ -1551,6 +1555,17 @@ div.programPageTitleText {
   height: 1px;
   width: 100%;
   text-align: center;
+}
+
+.instrumentationText {
+  color: cyan;
+  font-size: 13px;
+  text-align: left;
+  line-height: 1.1;
+}
+
+.highlighted.instrumentationText, .instrumentationText.highlighted, .instrumentationText .highlighted {
+  color:pink;
 }
 
 

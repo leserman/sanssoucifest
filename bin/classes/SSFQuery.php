@@ -35,7 +35,21 @@ class SSFQuery {
   public static function lastUpdateFields() { SSFDebug::globalDebugger()->becho('SSFQuery::lastUpdateFields', self::$lastUpdateFields, -1); return self::$lastUpdateFields; }
   public static function clearLastUpdateFields() { self::$lastUpdateFields = array(); SSFDebug::globalDebugger()->becho('SSFQuery::clearLastUpdateFields', self::$lastUpdateFields, -1); }
 //  public static function lastWorkContributorsUpdateFields() { return self::$lastWorkContributorsUpdateFields; }
- 
+
+  public static function nextDesignatedId() { // This does the same thing as nextDesId() in ssf.js
+    // Query to get the current max designatedId
+    // Compute the new designagtedId
+    $result = SSFDB::getDB()->getArrayFromQuery('SELECT MAX(designatedId) AS maxId FROM works');
+    $maxIdText = $result[0]['maxId'];
+    SSFDebug::globalDebugger()->becho('maxIdText', $maxIdText, -1);
+    $parts = explode('-', $maxIdText);
+    SSFDebug::globalDebugger()->belch('parts', $parts, -1);
+    $suffixValue = intval($parts[1]);
+    $newDesId = sprintf('%02d-%03d', $parts[0], ++$suffixValue);
+    SSFDebug::globalDebugger()->belch('newDesId', $newDesId, -1);
+    return $newDesId;
+  }
+
   private static function checkInit($callForEntries) { 
     if (!self::$curatorsAreInitialized || (self::$callForEntriesForWhichCuratorsAreInitialized != $callForEntries)) { self::initializeCuratorRowsFromDB($callForEntries); } 
   }
@@ -294,7 +308,7 @@ class SSFQuery {
     return self::selectSubmitterAndWorkFor($workId, $submitterWorkSelectString, $debug);
   }
   
-  // TODO Merge with selectAccRejWorkRow()
+  // TODO Merge with selectAccRejWorkRow() and selectSubmitterAndWorkWithDRCommsFor()
   public static function selectSubmitterAndWorkWithARCommsFor($workId, $debug=false) {
     $submitterWorkSelectString = 'SELECT ' 
        . 'personId, name, lastName, organization, email, city, stateProvRegion, country, workId, title, titleForSort, '
@@ -316,6 +330,30 @@ class SSFQuery {
 //       . "LEFT JOIN communications on communications.referencedWork=works.workId "   replaced 4/22/09
        . "LEFT JOIN communicationWork on communicationWork.work=works.workId "
        . "LEFT JOIN communications on communications.communicationId=communicationWork.communication  and communications.type='AcceptReject' "
+       . 'WHERE works.workId=' . $workId;
+    return self::selectSubmitterAndWorkFor($workId, $submitterWorkSelectString, $debug);
+  }
+  
+  // TODO Merge with selectSubmitterAndWorkWithARCommsFor()
+  // DRComms refers to communication with communications.type='DownloadRequest'
+  public static function selectSubmitterAndWorkWithDRCommsFor($workId, $debug=false) {
+    $submitterWorkSelectString = 'SELECT ' 
+       . 'personId, name, lastName, organization, email, city, stateProvRegion, country, notifyOf, recordType, '
+       . 'workId, title, titleForSort, '
+       . 'yearProduced, countryOfProduction, designatedId, runTime, webSite, accepted, rejected, acceptFor, submissionFormat, originalFormat, '
+       . 'synopsisOriginal, previouslyShownAt, includesLivePerformance, dateMediaReceived, dateMediaPostmarked, vimeoWebAddress, vimeoPassword, datePaid, '
+       . '(dateMediaReceived is not null and dateMediaReceived != "0000-00-00") AS mediaReceived, amtPaid, avg(score), vimeoWebAddress, vimeoPassword, '
+       . 'workNotes, submissionNotes, mediaNotes, projectionistNotes, callForEntries, synopsisEdit1, synopsisEdit2, webSitePertainsTo, ' 
+       . 'photoLocation, photoURL, photoCredits, invited, aspectRatio, anamorphic, frameWidthInPixels, frameHeightInPixels, '
+       . 'amtPaid, howPaid, checkOrPaypalNumber, permissionsAtSubmission, '
+       . 'communications.communicationId, communications.type, communications.sent, '
+       . "communications.dateSent, communications.sender, communications.contentText, "
+       . "communications.emailTo, communications.emailFrom, communications.emailSubject, "
+       . "contentLastModDate "
+       . "FROM ((works LEFT JOIN people on people.personId=works.submitter) "
+       . "LEFT JOIN curation on curation.entry=works.workId) "
+       . "LEFT JOIN communicationWork on communicationWork.work=works.workId "
+       . "LEFT JOIN communications on communications.communicationId=communicationWork.communication and communications.type='DownloadRequest' "
        . 'WHERE works.workId=' . $workId;
     return self::selectSubmitterAndWorkFor($workId, $submitterWorkSelectString, $debug);
   }

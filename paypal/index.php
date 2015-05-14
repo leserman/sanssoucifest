@@ -43,15 +43,22 @@
   if (isset($_GET['people_firstName'])) $personFirstName = $_GET['people_firstName'];
   if (isset($_GET['people_lastName'])) $personLastName = $_GET['people_lastName'];
 
+/*
   $suppressNameChange = (isset($workTitle) && ($workTitle != ''));
   if ($suppressNameChange) { 
-    $disableNameChange = ' disabled'; 
+    $disableNameChange = ' disabled';  // 4/13/15
+*/
+  $suppressEmailChange = (isset($personEmail) && ($personEmail != ''));
+  if ($suppressEmailChange) { 
+    $disableEmailChange = ' disabled'; 
     $nameEntryFieldStyle = 'style="color:black;background-color:#DDDDDD;"';
     } else {
-      $disableNameChange = ''; 
+//      $disableNameChange = ''; // 4/13/15
+      $disableEmailChange = ''; 
       $nameEntryFieldStyle = '';
     }
-  $suppressTitleChange = (isset($personEmail) && ($personEmail != ''));
+//  $suppressTitleChange = (isset($personEmail) && ($personEmail != ''));
+  $suppressTitleChange = (isset($workTitle) && ($workTitle != ''));
   if ($suppressTitleChange) { 
     $disableTitleChange = ' disabled'; 
     $titleEntryFieldStyle = 'style="color:black;background-color:#DDDDDD;"';
@@ -110,13 +117,38 @@
                   <tr><td colspan="2"><h1 style="width:100%;text-align:center;margin-left:auto;margin-right:auto;border:0px blue dashed;"><?php echo $contentTitle; ?></h1> </td></tr>
                     <tr>
                       <td class="bodyText" style="width:31%;text-align:right;vertical-align:middle;padding:20px 0 3px 0;">Film Title:&nbsp;</td>
+<!-- // 4/13/15
                       <td  style="width:69%;text-align:left;vertical-align:middle;padding:20px 0 3px 0;"><input class="paypalEntryField" <?php echo $titleEntryFieldStyle; ?> type="text" id="os0" name="os0" maxlength="250" value="<?php echo $workTitle . '"' . $disableTitleChange; ?>>
                         <script type="text/javascript">document.getElementById("os0").focus();</script>
+-->
+<?php    // 4/13/15
+  $indent = '                      ';
+  echo $indent . '<td  style="width:69%;text-align:left;vertical-align:middle;padding:20px 0 3px 0;"><input class="paypalEntryField" ' .  $titleEntryFieldStyle . ' type="text" maxlength="250" value="' . $workTitle . '"' . $disableTitleChange;
+  if (!$suppressTitleChange) {
+    echo ' id="os0" name="os0">' . PHP_EOL;
+    echo $indent . '<script type="text/javascript">document.getElementById("os0").focus();</script>' . PHP_EOL;
+} else {
+    echo '>'  . PHP_EOL;
+    echo '<input type="hidden" value="' . $workTitle . '" id="os0" name="os0">' . PHP_EOL; 
+}
+?>                    
                       </td>
                     </tr>
                     <tr>
                       <td class="bodyText" style="text-align:right;vertical-align:middle;padding:3px 0 3px 0;"><?php echo SSFHelp::getHTMLIconFor('paypalEmailNote') . ' '; ?>Login Name:&nbsp;</td>
-                      <td class="bodyText" style="text-align:left;vertical-align:middle;padding:3px 0 3px 0;"><input class="paypalEntryField" <?php echo $nameEntryFieldStyle; ?> type="text" id="os1" name="os1" maxlength="127" value="<?php echo $personEmail . '"' . $disableNameChange; ?>>
+<!-- // 4/13/15
+                <td class="bodyText" style="text-align:left;vertical-align:middle;padding:3px 0 3px 0;"><input class="paypalEntryField" <?php echo $nameEntryFieldStyle; ?> type="text" id="os1" name="os1" maxlength="127" value="<?php echo $personEmail . '"' . $disableNameChange; ?>>
+-->
+<?php // 4/13/15
+  $indent = '                      ';
+  echo $indent . '<td class="bodyText" style="text-align:left;vertical-align:middle;padding:3px 0 3px 0;"><input class="paypalEntryField" ' .  $nameEntryFieldStyle . ' type="text" maxlength="127" value="' . $personEmail . '"' . $disableEmailChange;
+  if (!$suppressEmailChange) {
+    echo ' id="os1" name="os1">' . PHP_EOL;
+} else {
+    echo '>'  . PHP_EOL;
+    echo '<input type="hidden" value="' . $personEmail . '" id="os1" name="os1">' . PHP_EOL; 
+}
+?>                    
                       </td>
                     </tr>
 <?php

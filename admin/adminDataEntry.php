@@ -502,20 +502,20 @@ echo "          </div>\r\n";
 
 <!-- State Initialization ------------------------------------------------------------- -->
 <?php 
+//SSFQuery::debugNextQuery();
           $databaseState = $dbContributorsState = array();
           $personDefined = (isset($personToBe)); 
           $personIsSpecified = (isset($personToBe) && ($personToBe != 0) && ($personToBe != ''));
           $personEditAvailable = ($personIsSpecified && HTMLGen::personIsInOptionList($personToBe));
           $workIsSpecified = (isset($editorState['workSelector']) && $editorState['workSelector'] != '' && ($editorState['workSelector'] != 0));
-//            && xxx.options[0] != '-- no works --' && xxx.options[0] != '-- no works --' && xxx != '-- select a work --');
           if ($workIsSpecified && $personDefined && !$editorState['creatingNewWork'] && ($editorState['orientationSelector'] == 'works')) {
             $adeDEBUGGER->becho('AA', '$workIsSpecified && $personDefined && ($editorState[orientationSelector] == works)', 0);
-            $databaseState = SSFQuery::selectSubmitterAndWorkNoCommsFor($editorState['workSelector']); 
+            $databaseState = SSFQuery::selectSubmitterAndWorkWithDRCommsFor($editorState['workSelector']); // Called SSFQuery::selectSubmitterAndWorkNoCommsFor prior to 5/12/15
             if (SSFQuery::success()) { $dbContributorsState = SSFQuery::selectContributorsFor($editorState['workSelector']); }
           } else if ($workIsSpecified && !$personIsSpecified && ($editorState['orientationSelector'] == 'works')) {
             $adeDEBUGGER->becho('BB', '$workIsSpecified && !$personIsSpecified && ($editorState[orientationSelector] == works', 0);
             //SSFDB::debugNextQuery();
-            $databaseState = SSFQuery::selectSubmitterAndWorkNoCommsFor($editorState['workSelector']); 
+            $databaseState = SSFQuery::selectSubmitterAndWorkWithDRCommsFor($editorState['workSelector']); // Called SSFQuery::selectSubmitterAndWorkNoCommsFor prior to 5/12/15
             if (SSFQuery::success()) {
               echo "<script type='text/javascript'>document.getElementById('personSelector').value = "
                    . $databaseState['submitter'] . ";document.adeSelectorsForm.submit();</script>";
@@ -550,10 +550,7 @@ echo "          </div>\r\n";
     echo '            <div style="clear:both;"><hr class="horizontalSeparatorFull"></div>' . "\r\n";
     echo '          </div>' . "\r\n";
     echo '          <div id = "ADEPersonDiv" style="text-align:left;">' . "\r\n";
-    if ($personIsSpecified) { 
-      $forAdmin = true; 
-      HTMLGen::displayPersonDetail($databaseState, $forAdmin); 
-    }
+    if ($personIsSpecified) SSFAdminForm::displayPersonDetail($databaseState); 
     echo '        </div> <!-- id = "ADEPersonDiv" -->' . "\r\n";
     echo '<!-- display Work Information -->' . "\r\n";
     if ($editorState['orientationSelector'] == 'works') {
@@ -579,7 +576,7 @@ echo "          </div>\r\n";
       echo "          <div id='ADEEntriesDiv' style='text-align:left;'>\r\n";
       //              echo "<br>\r\n workIsSpecified=" . $workIsSpecified . "  workId=" . $databaseState['workId'] . "<br>\r\n";
       //              echo "<br>\r\n dataArray="; print_r($databaseState) . "<br>\r\n";
-                    if ($workIsSpecified) HTMLGen::displayWorkDetailForAdmin($databaseState, $dbContributorsState);
+                    if ($workIsSpecified) SSFAdminForm::displayWorkDetail($databaseState, $dbContributorsState);
       echo "          </div> <!-- id=ADEEntriesDiv -->\r\n";
     }
     echo '        </div> <!-- id = "ADEDataDiv" -->' . "\r\n";

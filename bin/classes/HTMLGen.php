@@ -11,6 +11,7 @@ class HTMLGen {
   public static function vimeoFrameWidthInPixels() { return self::$vimeoFrameWidthInPixels; }
   public static function vimeoFrameHeightInPixels() { return self::$vimeoFrameHeightInPixels; }
   public static function vimeoInfo() { return self::$vimeoInfo; }
+  public static function setVimeoInfo($info) { self::$vimeoInfo = $info; }
 
   public static function setCaller($caller) { self::$caller = $caller; } // values 'user' and 'admin' are recognized
   
@@ -1398,24 +1399,25 @@ public static function submitterIsSelected($selectedPersonId) {
     return $workIdSelected;
   }
 
-  // This function supports entrySummaryLineDisplay $withEmail.
-//  public static function emailWidgetId($id) { return 'emailWidget-' . $id; } UNUSED 7/4/11
-
-  public static function urlExists($urlString) {
+/* prior to 5/10/15
+  public static function urlExistsX($urlString) {
+//    $debugMe = (($urlString == '') ? -1 : 1);
+    $debugMe = -1;
+    HTMLGen::debugger()->bechoTrace('HTMLGen::urlExists() urlString', $urlString, $debugMe);
     $urlExists = false;
-    if ((stripos($urlString, 'http://') !==0 ) && (stripos($urlString, 'https://') !==0 )) $urlString = 'http://' . $urlString;
+    if ((stripos($urlString, 'http://') !== 0) && (stripos($urlString, 'https://') !== 0)) $urlString = 'http://' . $urlString;
     if (!filter_var($urlString, FILTER_VALIDATE_URL)) { // this is a malformed URL
-      HTMLGen::debugger()->becho('HTMLGen::urlExists', 'urlString: ' . $urlString, -1);
+      HTMLGen::debugger()->becho('HTMLGen::urlExists() urlString', $urlString, $debugMe);
     } else { // test the existance of the well formed URL
       $file_headers = @get_headers($urlString);
-      HTMLGen::debugger()->belch('HTMLGen::urlExists', 'file_headers: ' . $file_headers, -1);
-      HTMLGen::debugger()->becho('HTMLGen::urlExists', 'file_headers[0]: ' . $file_headers[0], -1);
+      HTMLGen::debugger()->belch('HTMLGen::urlExists() file_headers', $file_headers, $debugMe);
+      HTMLGen::debugger()->becho('HTMLGen::urlExists() file_headers[0]', $file_headers[0], $debugMe);
       if(isset($file_headers) && ($file_headers[0] != '') && ($file_headers[0]!= 'HTTP/1.1 404 Not Found')) $urlExists = true;
     }
     return $urlExists;
   }
   
-  public static function stillImagesDownloaded($photoLocation) {
+  public static function stillImagesDownloadedX($photoLocation) {
 //    HTMLGen::debugger()->becho('HTMLGen::stillImagesAvailable', 'photoLocation: ' . $photoLocation, -1);
     $uppercasePhotoLocation = strtoupper($photoLocation);
     $keywordsInPhotoLocation = array('CD', 'PRINT', 'URL', 'WEB', 'FILED', 'EMAIL', 'E-MAIL');
@@ -1429,22 +1431,81 @@ public static function submitterIsSelected($selectedPersonId) {
     return $stillImagesDownloaded;
   }
 
-  public static function stillImagesAvailable($photoLocation, $photoURL='') {
+  public static function stillImagesAvailableX($photoLocation, $photoURL='') {
+    $stillImagesAvailable = false;
     if (HTMLGen::stillImagesDownloaded($photoLocation)) {
       $stillImagesAvailable = true;
     } else {
-//      HTMLGen::debugger()->becho('HTMLGen::stillImagesAvailable', 'photoURL: ' . $photoURL, -1);
-      $stillImagesAvailable = (isset($photoURL) && ($photoURL != '') && HTMLGen::urlExists($photoURL));
-//      HTMLGen::debugger()->becho('HTMLGen::stillImagesAvailable', 'urlExists: ' . ($urlExists ? 'Y' : 'N'), -1);
+      HTMLGen::debugger()->becho('HTMLGen::stillImagesAvailable() photoURL', $photoURL, -1);  // changed to 1 and changed back to -1 on 4/27/15
+      $urlExists = HTMLGen::urlExists($photoURL);
+      $stillImagesAvailable = (isset($photoURL) && ($photoURL != '') && $urlExists);
+      HTMLGen::debugger()->becho('HTMLGen::stillImagesAvailable() urlExists', ($urlExists ? 'Y' : 'N'), -1);  // changed to 1 and changed back to -1 on 4/27/15
     }
     return $stillImagesAvailable;
   }
   
+*/
+
+  private static function isGoodURL($url) {
+    // from http://stackoverflow.com/questions/12884068/how-to-make-sure-sure-that-a-string-contains-a-valid-well-formed-url
+//    $regex = "((https?|ftp)\:\/\/)?"; // SCHEME 
+    $regex = "((https?)\:\/\/)?"; // SCHEME 
+    $regex .= "([a-z0-9+!*(),;?&=\$_.-]+(\:[a-z0-9+!*(),;?&=\$_.-]+)?@)?"; // User and Pass 
+    $regex .= "([a-z0-9-.]*)\.([a-z]{2,3})"; // Host or IP 
+    $regex .= "(\:[0-9]{2,5})?"; // Port 
+    $regex .= "(\/([a-z0-9+\$_-]\.?)+)*\/?"; // Path 
+    $regex .= "(\?[a-z+&\$_.-][a-z0-9;:@&%=+\/\$_.-]*)?"; // GET Query 
+    $regex .= "(#[a-z_.-][a-z0-9+\$_.-]*)?"; // Anchor 
+    $goodURL = (preg_match("/^$regex$/", $url));
+    return $goodURL;
+  }
+    
+  public static function urlExists($urlString) {
+    // 5/10/15 Notes:
+    // Calling the php function @get_headers($urlString) is much too slow.
+    // cURL solutions from A. and B. below are better but still too slow.
+    // A. http://stackoverflow.com/questions/6588241/how-to-speed-up-class-that-checks-links-in-html
+    // B. http://stackoverflow.com/questions/6087222/php-get-headers-alternative
+    // The regex solution in self::isGoodURL() is fast and seems to be adequate.
+    $urlExists = false;
+    if (isset($urlString) && ($urlString != '')) {
+      HTMLGen::debugger()->becho('HTMLGen::urlExists() urlString', $urlString, -1);
+      if ((stripos($urlString, 'http://') !== 0) && (stripos($urlString, 'https://') !== 0)) $urlString = 'http://' . $urlString;
+      if (filter_var($urlString, FILTER_VALIDATE_URL)) { // this is a well formed URL by this weak test
+        $urlExists = self::isGoodURL($urlString);
+      }
+    }
+    return $urlExists;
+  }
+  
+  public static function stillImagesDownloaded($photoLocation) {
+    $uppercasePhotoLocation = strtoupper($photoLocation);
+    $keywordsInPhotoLocation = array('CD', 'PRINT', 'URL', 'WEB', 'FILED', 'EMAIL', 'E-MAIL', 'DOWNLOADED');
+    $stillImagesDownloaded = false;
+    foreach ($keywordsInPhotoLocation as $keyword) {
+      if (stripos($uppercasePhotoLocation, $keyword) !== false) {
+        $stillImagesDownloaded = true;
+        break;
+      }
+    }
+    return $stillImagesDownloaded;
+  }
+
+  public static function stillImagesAvailable($photoLocation, $photoURL='') {
+    $stillImagesAvailable = false;
+    if (HTMLGen::stillImagesDownloaded($photoLocation)) {
+      $stillImagesAvailable = true;
+    } else {
+      HTMLGen::debugger()->becho('HTMLGen::stillImagesAvailable() photoURL', $photoURL, -1);
+      $urlExists = (isset($photoURL) && ($photoURL != '')) ? HTMLGen::urlExists($photoURL) : false;
+      $stillImagesAvailable = (isset($photoURL) && ($photoURL != '') && $urlExists);
+      HTMLGen::debugger()->becho('HTMLGen::stillImagesAvailable() urlExists', ($urlExists ? 'Y' : 'N'), -1);
+    }
+    return $stillImagesAvailable;
+  }
+
   public static function stillImagesNeeded($photoLocation, $photoURL='') {
     $stillImagesNeeded = !self::stillImagesAvailable($photoLocation, $photoURL);
-//    $stillImagesNeeded = (!isset($photoLocation) || $photoLocation=="" || (stristr($photoLocation, "NONE") !== false));
-//    if (!$stillImagesNeeded) $stillImagesNeeded == (stripos($photoLocation, 'CD')===false);
-//    if (!$stillImagesNeeded) $stillImagesNeeded == (stripos($photoLocation, 'print')===false);
     return $stillImagesNeeded;
   }
   
@@ -1576,8 +1637,8 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     return $optionText;
   }
   
-  // Generates HTML for person detail.
-  public static function displayPersonDetail($personArray, $forAdmin=true) {
+  // Generates HTML for person detail. // TODO: Delete this function.
+  public static function displayPersonDetailX($personArray, $forAdmin=true) {
     $alwaysDisplay = false;
     $indent = '                      ';
     if (self::$showFunctionMarkers) echo "<!-- BEGIN displayPersonDetail " . (($forAdmin) ? "ForAdmin" : "") . " -->" . PHP_EOL;
@@ -1618,7 +1679,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
       } else echo '</div>' . PHP_EOL;
       // organization
       if ($alwaysDisplay || $organizationExists) {
-        echo $indent . '' . self::getSimpleDataWithDescriptionLine('Organization', $personArray['organization']); // // TODO 11/17/14 USE self::htmlEncode() HERE?
+        echo $indent . '<div>' . self::getSimpleDataWithDescriptionLine('Organization', $personArray['organization']) . '</div>' . PHP_EOL; // // TODO 11/17/14 USE self::htmlEncode() HERE?
       }
       // address
       $addressSegmentSeparator = (($forAdmin || !$forAdmin) ? " &bull; " : "<br>" . PHP_EOL); // TODO The condition on this line is always true.
@@ -1635,7 +1696,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
       if ($cityLineOutputExists && $countryExists) $valueString .= $addressSegmentSeparator;
       if ($countryExists) $valueString .= $personArray['country'];
       //echo $indent . "</div>" . PHP_EOL;
-      echo $indent . '' . self::getSimpleDataWithDescriptionLine($addressDescription, $valueString); 
+      echo $indent . '<div>' . self::getSimpleDataWithDescriptionLine($addressDescription, $valueString) . '</div>' . PHP_EOL; 
       // telephones
 //      $valueString = "<div class='datumDescription floatLeft' style='padding-bottom:0;padding-top:3px;'>Telephones:" . PHP_EOL; // 4/2/15 added padding-top; 4/6/15 removed </div>
       $valueString = "<div class='datumValue floatLeft' style='padding-top:3px;padding-left:0;'>"; // 4/2/15 added padding-top; 4/6/15 removed </div>
@@ -1655,14 +1716,15 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
 //      echo $indent . '    ' . self::getSimpleDataWithDescriptionLine('', $valueString); 
       echo $indent . '' . $valueString; 
       echo $indent . "<div style='clear:both;'></div>" . PHP_EOL;
+//      echo $indent . '<br>' . PHP_EOL;
       // email
       $emailString = str_replace(array('<', '>'), '', $personArray['email']);
       $valueString = (($forAdmin && $personArray['email'] == '') ? '<span style="color:rgb(223,116,22);">No email address provided.</span>' 
                                                                  : self::getHTMLAnchoredEmailStringFor($personArray['name'], $emailString));
-      echo $indent . self::getSimpleDataWithDescriptionLine('Email', $valueString); 
+      echo $indent . '<div>' . self::getSimpleDataWithDescriptionLine('Email', $valueString) . '</div>' . PHP_EOL; 
       // how heard about us
       if ($alwaysDisplay || ((isset($personArray['howHeardAboutUs']) && ($personArray['howHeardAboutUs'] != '') && $forAdmin))) {
-        echo $indent . self::getSimpleDataWithDescriptionLine('How you heard about us', $personArray['howHeardAboutUs']); 
+        echo $indent . '<div>' . self::getSimpleDataWithDescriptionLine('How you heard about us', $personArray['howHeardAboutUs']) . '</div>' . PHP_EOL; 
       }
 /*
       if (!$forAdmin) {
@@ -1686,22 +1748,22 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
         // relationship(s)
         if ($alwaysDisplay || (isset($personArray['relationship']) && ($personArray['relationship'] != ''))) { 
           $valueString = str_replace(',', ", ", $personArray['relationship']);
-          echo self::getSimpleDataWithDescriptionLine('Relationship(s)', $valueString); 
+          echo  $indent . '<div>' . self::getSimpleDataWithDescriptionLine('Relationship(s)', $valueString) . '</div>' . PHP_EOL; 
         }
         // role(s)
         if ($alwaysDisplay || (isset($personArray['role']) && ($personArray['role'] != ''))) {
           $valueString = str_replace(',', ", ", $personArray['role']);
-          echo self::getSimpleDataWithDescriptionLine('Role(s)', $valueString); 
+          echo  $indent . '<div>' . self::getSimpleDataWithDescriptionLine('Role(s)', $valueString) . '<div>' . PHP_EOL; 
         }
         // administrative notes
         if ($alwaysDisplay || (isset($personArray['notes']) && ($personArray['notes'] != ''))) {
           $valueString = str_replace(',', ", ", $personArray['notes']);
-          echo self::getSimpleDataWithDescriptionLine('Administrative Note(s)', $valueString); 
+          echo  $indent . '<div>' . self::getSimpleDataWithDescriptionLine('Administrative Note(s)', $valueString) . '<div>' . PHP_EOL; 
         }
         // web sites
         if ($alwaysDisplay || (isset($personArray['webSites']) && ($personArray['webSites'] != ''))) {
           $valueString = self::getHTMLAnchorTaggedStringFor($personArray['webSites']);
-          echo self::getSimpleDataWithDescriptionLine('Web Site(s)', $valueString); 
+          echo  $indent . '<div>' . self::getSimpleDataWithDescriptionLine('Web Site(s)', $valueString) . '<div>' . PHP_EOL; 
         }
       }
     }
@@ -1769,6 +1831,161 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     return $truncatedCamelCase;
   }
   
+  private static function seemsLikeUTF8($str) {
+    // Based on seems_utf8() from http://stackoverflow.com/questions/3635511/remove-diacritics-from-a-string from WorkPress
+    $length = strlen($str);
+    for ($i=0; $i < $length; $i++) {
+        $c = ord($str[$i]);
+        if ($c < 0x80) $n = 0; # 0bbbbbbb
+        elseif (($c & 0xE0) == 0xC0) $n=1; # 110bbbbb
+        elseif (($c & 0xF0) == 0xE0) $n=2; # 1110bbbb
+        elseif (($c & 0xF8) == 0xF0) $n=3; # 11110bbb
+        elseif (($c & 0xFC) == 0xF8) $n=4; # 111110bb
+        elseif (($c & 0xFE) == 0xFC) $n=5; # 1111110b
+        else return false; # Does not match any model
+        for ($j=0; $j<$n; $j++) { # n bytes matching 10bbbbbb follow ?
+            if ((++$i == $length) || ((ord($str[$i]) & 0xC0) != 0x80))
+                return false;
+        }
+    }
+    return true;
+}
+
+  /**
+   * Converts all accent characters to ASCII characters.
+   * 
+   * From http://stackoverflow.com/questions/3635511/remove-diacritics-from-a-string from WorkPress
+   *
+   * If there are no accent characters, then the string given is just returned.
+   *
+   * @param string $string Text that might have accent characters
+   * @return string Filtered string with replaced "nice" characters.
+   */
+  public static function remove_accents($string) {
+  if ( !preg_match('/[\x80-\xff]/', $string) )
+      return $string;
+  if (self::seemsLikeUTF8($string)) {
+      $chars = array(
+      // Decompositions for Latin-1 Supplement
+      chr(195).chr(128) => 'A', chr(195).chr(129) => 'A',
+      chr(195).chr(130) => 'A', chr(195).chr(131) => 'A',
+      chr(195).chr(132) => 'A', chr(195).chr(133) => 'A',
+      chr(195).chr(135) => 'C', chr(195).chr(136) => 'E',
+      chr(195).chr(137) => 'E', chr(195).chr(138) => 'E',
+      chr(195).chr(139) => 'E', chr(195).chr(140) => 'I',
+      chr(195).chr(141) => 'I', chr(195).chr(142) => 'I',
+      chr(195).chr(143) => 'I', chr(195).chr(145) => 'N',
+      chr(195).chr(146) => 'O', chr(195).chr(147) => 'O',
+      chr(195).chr(148) => 'O', chr(195).chr(149) => 'O',
+      chr(195).chr(150) => 'O', chr(195).chr(153) => 'U',
+      chr(195).chr(154) => 'U', chr(195).chr(155) => 'U',
+      chr(195).chr(156) => 'U', chr(195).chr(157) => 'Y',
+      chr(195).chr(159) => 's', chr(195).chr(160) => 'a',
+      chr(195).chr(161) => 'a', chr(195).chr(162) => 'a',
+      chr(195).chr(163) => 'a', chr(195).chr(164) => 'a',
+      chr(195).chr(165) => 'a', chr(195).chr(167) => 'c',
+      chr(195).chr(168) => 'e', chr(195).chr(169) => 'e',
+      chr(195).chr(170) => 'e', chr(195).chr(171) => 'e',
+      chr(195).chr(172) => 'i', chr(195).chr(173) => 'i',
+      chr(195).chr(174) => 'i', chr(195).chr(175) => 'i',
+      chr(195).chr(177) => 'n', chr(195).chr(178) => 'o',
+      chr(195).chr(179) => 'o', chr(195).chr(180) => 'o',
+      chr(195).chr(181) => 'o', chr(195).chr(182) => 'o',
+      chr(195).chr(182) => 'o', chr(195).chr(185) => 'u',
+      chr(195).chr(186) => 'u', chr(195).chr(187) => 'u',
+      chr(195).chr(188) => 'u', chr(195).chr(189) => 'y',
+      chr(195).chr(191) => 'y',
+      // Decompositions for Latin Extended-A
+      chr(196).chr(128) => 'A', chr(196).chr(129) => 'a',
+      chr(196).chr(130) => 'A', chr(196).chr(131) => 'a',
+      chr(196).chr(132) => 'A', chr(196).chr(133) => 'a',
+      chr(196).chr(134) => 'C', chr(196).chr(135) => 'c',
+      chr(196).chr(136) => 'C', chr(196).chr(137) => 'c',
+      chr(196).chr(138) => 'C', chr(196).chr(139) => 'c',
+      chr(196).chr(140) => 'C', chr(196).chr(141) => 'c',
+      chr(196).chr(142) => 'D', chr(196).chr(143) => 'd',
+      chr(196).chr(144) => 'D', chr(196).chr(145) => 'd',
+      chr(196).chr(146) => 'E', chr(196).chr(147) => 'e',
+      chr(196).chr(148) => 'E', chr(196).chr(149) => 'e',
+      chr(196).chr(150) => 'E', chr(196).chr(151) => 'e',
+      chr(196).chr(152) => 'E', chr(196).chr(153) => 'e',
+      chr(196).chr(154) => 'E', chr(196).chr(155) => 'e',
+      chr(196).chr(156) => 'G', chr(196).chr(157) => 'g',
+      chr(196).chr(158) => 'G', chr(196).chr(159) => 'g',
+      chr(196).chr(160) => 'G', chr(196).chr(161) => 'g',
+      chr(196).chr(162) => 'G', chr(196).chr(163) => 'g',
+      chr(196).chr(164) => 'H', chr(196).chr(165) => 'h',
+      chr(196).chr(166) => 'H', chr(196).chr(167) => 'h',
+      chr(196).chr(168) => 'I', chr(196).chr(169) => 'i',
+      chr(196).chr(170) => 'I', chr(196).chr(171) => 'i',
+      chr(196).chr(172) => 'I', chr(196).chr(173) => 'i',
+      chr(196).chr(174) => 'I', chr(196).chr(175) => 'i',
+      chr(196).chr(176) => 'I', chr(196).chr(177) => 'i',
+      chr(196).chr(178) => 'IJ',chr(196).chr(179) => 'ij',
+      chr(196).chr(180) => 'J', chr(196).chr(181) => 'j',
+      chr(196).chr(182) => 'K', chr(196).chr(183) => 'k',
+      chr(196).chr(184) => 'k', chr(196).chr(185) => 'L',
+      chr(196).chr(186) => 'l', chr(196).chr(187) => 'L',
+      chr(196).chr(188) => 'l', chr(196).chr(189) => 'L',
+      chr(196).chr(190) => 'l', chr(196).chr(191) => 'L',
+      chr(197).chr(128) => 'l', chr(197).chr(129) => 'L',
+      chr(197).chr(130) => 'l', chr(197).chr(131) => 'N',
+      chr(197).chr(132) => 'n', chr(197).chr(133) => 'N',
+      chr(197).chr(134) => 'n', chr(197).chr(135) => 'N',
+      chr(197).chr(136) => 'n', chr(197).chr(137) => 'N',
+      chr(197).chr(138) => 'n', chr(197).chr(139) => 'N',
+      chr(197).chr(140) => 'O', chr(197).chr(141) => 'o',
+      chr(197).chr(142) => 'O', chr(197).chr(143) => 'o',
+      chr(197).chr(144) => 'O', chr(197).chr(145) => 'o',
+      chr(197).chr(146) => 'OE',chr(197).chr(147) => 'oe',
+      chr(197).chr(148) => 'R',chr(197).chr(149) => 'r',
+      chr(197).chr(150) => 'R',chr(197).chr(151) => 'r',
+      chr(197).chr(152) => 'R',chr(197).chr(153) => 'r',
+      chr(197).chr(154) => 'S',chr(197).chr(155) => 's',
+      chr(197).chr(156) => 'S',chr(197).chr(157) => 's',
+      chr(197).chr(158) => 'S',chr(197).chr(159) => 's',
+      chr(197).chr(160) => 'S', chr(197).chr(161) => 's',
+      chr(197).chr(162) => 'T', chr(197).chr(163) => 't',
+      chr(197).chr(164) => 'T', chr(197).chr(165) => 't',
+      chr(197).chr(166) => 'T', chr(197).chr(167) => 't',
+      chr(197).chr(168) => 'U', chr(197).chr(169) => 'u',
+      chr(197).chr(170) => 'U', chr(197).chr(171) => 'u',
+      chr(197).chr(172) => 'U', chr(197).chr(173) => 'u',
+      chr(197).chr(174) => 'U', chr(197).chr(175) => 'u',
+      chr(197).chr(176) => 'U', chr(197).chr(177) => 'u',
+      chr(197).chr(178) => 'U', chr(197).chr(179) => 'u',
+      chr(197).chr(180) => 'W', chr(197).chr(181) => 'w',
+      chr(197).chr(182) => 'Y', chr(197).chr(183) => 'y',
+      chr(197).chr(184) => 'Y', chr(197).chr(185) => 'Z',
+      chr(197).chr(186) => 'z', chr(197).chr(187) => 'Z',
+      chr(197).chr(188) => 'z', chr(197).chr(189) => 'Z',
+      chr(197).chr(190) => 'z', chr(197).chr(191) => 's',
+      // Euro Sign
+      chr(226).chr(130).chr(172) => 'E',
+      // GBP (Pound) Sign
+      chr(194).chr(163) => '');
+      $string = strtr($string, $chars);
+    } else {
+      // Assume ISO-8859-1 if not UTF-8
+      $chars['in'] = chr(128).chr(131).chr(138).chr(142).chr(154).chr(158)
+                   .chr(159).chr(162).chr(165).chr(181).chr(192).chr(193).chr(194)
+                    .chr(195).chr(196).chr(197).chr(199).chr(200).chr(201).chr(202)
+                    .chr(203).chr(204).chr(205).chr(206).chr(207).chr(209).chr(210)
+                    .chr(211).chr(212).chr(213).chr(214).chr(216).chr(217).chr(218)
+                    .chr(219).chr(220).chr(221).chr(224).chr(225).chr(226).chr(227)
+                    .chr(228).chr(229).chr(231).chr(232).chr(233).chr(234).chr(235)
+                    .chr(236).chr(237).chr(238).chr(239).chr(241).chr(242).chr(243)
+                    .chr(244).chr(245).chr(246).chr(248).chr(249).chr(250).chr(251)
+                    .chr(252).chr(253).chr(255);
+      $chars['out'] = "EfSZszYcYuAAAAAACEEEEIIIINOOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyy";
+      $string = strtr($string, $chars['in'], $chars['out']);
+      $double_chars['in'] = array(chr(140), chr(156), chr(198), chr(208), chr(222), chr(223), chr(230), chr(240), chr(254));
+      $double_chars['out'] = array('OE', 'oe', 'AE', 'DH', 'TH', 'ss', 'ae', 'dh', 'th');
+      $string = str_replace($double_chars['in'], $double_chars['out'], $string);
+    }
+    return $string;
+  }
+
   // Returns a filename like "10-22-BinaryForm-ChirstinnWhyte" eliminating diacrticcals and special characters.
   // These filenames are to be used for videos, e.g., 10-22-BinaryForm-ChirstinnWhyte.vob or 10-22-BinaryForm-ChirstinnWhyte.mov,
   // image files, e.g., 10-22-BinaryForm-ChirstinnWhyte.jpg, and folder names.
@@ -1781,11 +1998,12 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     // We remove any & in the $submitterName even though we can't do this for the title of the film (see NOTE below).
     $namePartWithoutAmpersand = str_replace("&", "+", $namePart); // added this line 8/23/11
     $baseString = $idPart . '-' . $titlePart . '-' . $namePartWithoutAmpersand; 
+    $baseString = self::remove_accents($baseString);  // Added 5/11/15
     self::debugger()->becho('baseString', $baseString, -1);
     // NOTE: We cannot remove '&' or '#' or ';' or chr(<anything>) because that wrecks the HTML codes such as "&#8594;", a rightwards arrow.
     //       Instead of using chr(), use the HTML code. E.g., use '&#8230;' instead of chr(8230) to eliminate the elipsis.
     //       We really should remove '#' but we can't because that wrecks the HTML code.
-    $alsoRemove = array('\\', '/', '.', ',', '*', '?', '(', ')', ':', '[', ']', '<', '>', '{', '}', '|', '&#8230;'); // chr(8230) is the elipsis
+    $alsoRemove = array("'", '\\', '/', '.', ',', '*', '?', '(', ')', ':', '[', ']', '<', '>', '{', '}', '|', '&#8230;'); // chr(8230) is the elipsis
     $filenameString = str_replace($alsoRemove, '', $baseString);
     self::debugger()->becho('filenameString', $filenameString, -1);
     $phpInputEncoding = iconv_get_encoding('input_encoding');
@@ -1795,8 +2013,8 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     $encodedFilename = htmlentities($filenameString, ENT_COMPAT, $phpInputEncoding);
 //    $encodedFilename = self::htmlEncode($filenameString); // TODO 11/17/14 USE self::htmlEncode() HERE?
     self::debugger()->belch('entities', $encodedFilename, -1);
-    $filenameStringSansDiacrits = preg_replace('~&([a-z]{1,2})(acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', 
-                                               '$1', $encodedFilename);
+//    $filenameStringSansDiacrits = preg_replace('~&([a-z]{1,2})(acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', $encodedFilename);
+    $filenameStringSansDiacrits = str_replace($alsoRemove, '', $encodedFilename);  // 5/11/15
     self::debugger()->belch('filenameStringSansDiacrits', $filenameStringSansDiacrits, -1);
     // We would like to remove & and # but it doesn't include UTF-8 chars (such as right arrow rarr) if we do that.
     //    $lastlyRemove = array('&', '#'); 
@@ -1809,7 +2027,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
   // will generate an email to the submitter requesting that the video be made downloadable from Vimeo.
   public static function getVimeoDownloadUnavailableEmailLink($workArray) {
     $downloadUnavailableEmailLink = '';
-    $downloadUnavailableMessageDisplay = 'Send download-permission email request.';
+    $downloadUnavailableMessageDisplay = 'Request download permission.';
     $workTitle = urlencode(str_replace(' ', '%20', $workArray['title']));
     $workTitle = str_replace('+', '%20', urlencode($workArray['title']));
     $downloadUnavailableMessageSubject = str_replace(' ', '%20', 'Permission needed to download %22' . $workTitle . '%22');
@@ -1823,97 +2041,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     $downloadUnavailableEmailLink = ' <a href= "' . $downloadUnavailableMessageHREF . '"><span class="orangishHighlightDisplayColor">' . $downloadUnavailableMessageDisplay . '</span></a>';
     return $downloadUnavailableEmailLink;
   }
-  
-  // Generates HTML for the work detail. Parameter $workArray must contain workId.
-  public static function displayWorkDetailForAdmin($workArray, $contributorsArray, $forAdmin=true) {
-    $alwaysDisplay = (($forAdmin) ? false : true);
-    if (self::$showFunctionMarkers) echo "<!-- BEGIN displayWorkDetailForAdmin -->\r\n";
-    if (!is_null($workArray)) {
-      $workId = $workArray['workId'];
-      // title, year, runtime, accepted/rejected, titleForSort
-      $acceptRejectString = '';
-      if ($workArray['callForEntries'] <= 13) // Has Been Curated // TODO get the callForEntries threshold from the DB. Last modified 7/18/13.
-        $acceptRejectString = " <span class='datumValue' style='font-size:14px;'>" . HTMLGen::acceptanceDisplay($workId, $workArray['accepted'], $workArray['rejected'], $workArray['acceptFor']) . "</span>"; 
-      $titleForSortString = ((isset($workArray['titleForSort']) && ($workArray['titleForSort'] != ''))
-                          ? '[' . $workArray['titleForSort'] . ']' : '[no title for sort]');
-      $countryOfProductionDisplay = ((!is_null($workArray['countryOfProduction']) && ($workArray['countryOfProduction'] !== '')))
-                                  ? (', ' . $workArray['countryOfProduction']) : '';
-      echo "<div>\r\n" 
-           . '<div class="datumValue floatLeft">' . $workArray['title'] . ' (' . $workArray['yearProduced'] . $countryOfProductionDisplay
-           . ') ' . $acceptRejectString . '<span class="datumDescription" style="margin-left:2em;">Running Time: </span>' 
-           . self::timeAsMinutesAndSeconds($workArray['runTime'])
-           . (($workArray['includesLivePerformance'] == 1) ? "<span class='liveDisplayText'>  LIVE</span>" : "")
-           . (($workArray['invited'] == 1) ? "<span class='liveDisplayText'>  INVITED</span>" : "") . '</div>' . PHP_EOL
-           . '<div class="datumValue floatRight" style="padding-right:4px;">' . $titleForSortString . '</div>' . PHP_EOL
-           . '<div style="clear:both;"></div>' . "\r\n</div>\r\n";
-      // media received & computed filename
-      $computedFileName = (isset($workArray['filename']) && ($workArray['filename'] != '') && (strripos($workArray['filename'], 'YY-XXX') === false)) 
-                        ? $workArray['filename']
-                        : self::computedFileNameForWork($workArray['designatedId'], $workArray['titleForSort'], $workArray['name']);
-      echo "<div>\r\n<div class='floatLeft'>\r\n" . self::getMediaReceivedDisplayElement($workArray['dateMediaReceived'], $workArray['dateMediaPostmarked']) . "</div>\r\n" .
-           "<div class='datumValue floatRight' style='padding-right:4px;'>\r\n[" . $computedFileName . "]</div>" 
-                       . "\r\n<div style='clear:both;'></div>\r\n</div>\r\n";
-      // submission & original formats
-      echo self::getMediaFormatsDisplayLine($workArray['submissionFormat'], $workArray['originalFormat']);
-      // vimeo publication info
-      $downloadUnavailableEmailLink = '';
-      $vimeoWebAddress = (isset($workArray['vimeoWebAddress'])) ? $workArray['vimeoWebAddress'] : '';
-      $vimeoPassword = (isset($workArray['vimeoPassword'])) ? $workArray['vimeoPassword'] : '';
-      self::$vimeoInfo = new SSFVimeoVideoInfo($vimeoWebAddress, $vimeoPassword, $showBasicDiagnostics=-1);
-      $vimeoInfoDisplayString = self::$vimeoInfo->getInfoString($includeDiagnostics=false);
-      if (self::$vimeoInfo->webAddressIsForVimeo() && !self::mediaHasBeenReceived($workArray)) $downloadUnavailableEmailLink = self::getVimeoDownloadUnavailableEmailLink($workArray);
-      echo self::getSimpleDataWithDescriptionLine('Vimeo Info', $vimeoInfoDisplayString . $downloadUnavailableEmailLink);
-      // Aspect ratio & frame size
-      echo self::getSimpleDataWithDescriptionLine('Frame', self::getFrameParametersDisplayElement2($workArray));
-      // work contributors
-      $displayContributorsOnSeparateLines = true;
-      self::debugger()->belch('contributorsArray in HTMLGen::displayWorkDetailForAdmin()', '$contributorsArray', -1);
-      echo self::getContributorDisplayLines($contributorsArray, $displayContributorsOnSeparateLines);
-      // synopsis
-      echo self::getSimpleDataWithDescriptionLine('Synopsis', self::getSynopsisFrom($workArray));
-      // web site
-      if ($alwaysDisplay || $workArray['webSite'] != '') echo self::getWebSiteDisplayLine($workArray['webSite'], $workArray['webSitePertainsTo']);
-      // previously shown at
-      if ($alwaysDisplay || $workArray['previouslyShownAt'] != '') 
-        echo self::getSimpleDataWithDescriptionLine('Also shown at', $workArray['previouslyShownAt']);
-      // photo credits
-      if ($alwaysDisplay || $workArray['photoCredits'] != '')
-        echo self::getSimpleDataWithDescriptionLine('Photos by', $workArray['photoCredits']);
-      // photo URL
-//      $photoURLString = ($workArray['photoURL'] != '') ? self::getWebAddressDisplayString($workArray['photoURL'])
-//                                                                 : '<span class="orangishHighlightDisplayColor">unknown</span>';
-//      echo self::getSimpleDataWithDescriptionLine('Photo URL', $photoURLString);
-      // photo location
-//      $photoLocationString = ($workArray['photoLocation'] != '') ? $workArray['photoLocation']
-//                                                                 : '<span class="orangishHighlightDisplayColor">unknown</span>';
-//      echo self::getSimpleDataWithDescriptionLine('Photo location', $photoLocationString);
-
-
-      // photo location
-      $photoLocationString = ($workArray['photoURL'] != '') ? self::getWebAddressDisplayString($workArray['photoURL'])
-                                                                 : (($workArray['photoLocation'] != '') ? $workArray['photoLocation']
-                                                                 : '<span class="orangishHighlightDisplayColor">unknown</span>');
-      echo self::getSimpleDataWithDescriptionLine('Still Image Location', $photoLocationString);
-
-
-      // payment info
-      $pmtString = self::getPaymentInfoDisplayString($workArray);
-      echo self::getSimpleDataWithDescriptionLine('Payment Information', $pmtString);
-      // release info
-      echo self::getSimpleDataWithDescriptionLine('Release Information', $workArray['permissionsAtSubmission']);
-      // notes
-      if (isset($workArray['submissionNotes']) && $workArray['submissionNotes'] !== '')
-        echo self::getSimpleDataWithDescriptionLine('Submission Notes', $workArray['submissionNotes']);
-      if (isset($workArray['workNotes']) && $workArray['workNotes'] !== '')
-        echo self::getSimpleDataWithDescriptionLine('Work Notes', $workArray['workNotes']);
-      if (isset($workArray['mediaNotes']) && $workArray['mediaNotes'] !== '')
-        echo self::getSimpleDataWithDescriptionLine('Media Notes', $workArray['mediaNotes']);
-      if (isset($workArray['projectionistNotes']) && $workArray['projectionistNotes'] !== '')
-        echo self::getSimpleDataWithDescriptionLine('Projectionist Notes', $workArray['projectionistNotes']);
-    }
-    if (self::$showFunctionMarkers) echo "<!-- END displayWorkDetailForAdmin -->\r\n";
-  }
-  
+    
   // Returns true if there is a valid date in the dateMediaReceived column.
   public static function mediaHasBeenReceived($workArray) {
     return (isset($workArray['dateMediaReceived']) && self::mediaReceived($workArray['dateMediaReceived']));
@@ -1932,11 +2060,11 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
                         . 'NOT</span> received/checked-in.</div>';
       } else {
         $displayString .= self::getSimpleDataWithDescriptionElement('Media posted', $dateMediaPostmarked 
-                                                  . '; <span class="orangishHighlightDisplayColor">Not yet picked up/downloaded</span>');
+                                                  . '; <span class="orangishHighlightDisplayColor">Not yet downloaded</span>');
       }
     } else {
       $displayString .= self::getSimpleDataWithDescriptionElement('Media posted', $dateMediaPostmarked);
-      $displayString .= self::getSimpleDataWithDescriptionElement('; picked up/downloaded', $dateMediaReceived);
+      $displayString .= self::getSimpleDataWithDescriptionElement('; downloaded', $dateMediaReceived);
     }
     return $displayString;
   }
@@ -1956,7 +2084,8 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
   public static function getContributorDisplayLines($contributorsArray, $displayContributorsOnSeparateLines=false) {
     $displayString = '';
     $displayString .= '<!-- display Contributor Information -->' . PHP_EOL;
-    $separator1 = (($displayContributorsOnSeparateLines) ? '<br>' : ' ');
+//    $separator1 = (($displayContributorsOnSeparateLines) ? '<br>' : ' '); // 4/28/15
+    $separator1 = '';
     $displayString .= '<div class="datumValue" style="width:98%;padding-top:1px;padding-bottom:6px;">' . PHP_EOL
                    . '  <div class="datumDescription floatLeft" style="padding-top:2px;">Credits: ' // 4/2/15 added padding-top
                    . $separator1 . '</div>' . PHP_EOL;
@@ -1984,7 +2113,7 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
       }
     }
     if ($contributorsDisplayed == 0) 
-      $displayString .= "<div class='datumValue floatLeft' style='padding-bottom:0;'>&nbsp;No contributors are listed.</div>"; // 2/1/09
+      $displayString .= "<div class='datumValue floatLeft' style='padding-bottom:0;'>&nbsp;None listed.</div>"; // 2/1/09
     $displayString .= "  <div style='clear:both;'></div>\r\n</div>\r\n";
     return $displayString;
   }
@@ -2207,106 +2336,6 @@ HTMLGen::debugger()->becho('HTMLGen::getSelectedOptionValue', 'optionKey:' . $op
     return $vimeoVideoInfo;
   }
 
-  // TODO Move this to SSFEntryForm. 4/3/15
-  // Generates HTML for the work detail. Parameter $workArray must contain workId.
-  public static function displayWorkDetailX($workArray, $contributorsArray) {
-    if (self::$showFunctionMarkers) echo "<!-- BEGIN displayWorkDetail -->\r\n";
-    if (!is_null($workArray)) {
-      $workId = $workArray['workId'];
-      $countryOfProductionDisplay = ((!is_null($workArray['countryOfProduction']) && ($workArray['countryOfProduction'] !== '')))
-                                  ? (', ' . $workArray['countryOfProduction']) : '';
-      // title, year, runtime
-      echo '<div class="datumValue">' . $workArray['title'] . ' (' . $workArray['yearProduced'] . $countryOfProductionDisplay
-           . ')<span class="datumDescription" style="margin-left:2em;">Running Time: </span>' 
-           . self::timeAsMinutesAndSeconds($workArray['runTime']) . '</div>' . PHP_EOL;
-      // submission & original formats & frame parameters: aspect ratio, anamorphic, & width & height
-      // Modified 3/22/14
-      $formatDisplayString = '<div class="datumValue" style="padding-top:2px;">'
-                           . '<span class="datumDescription">Submitted as: </span>' 
-                           . $workArray['submissionFormat'];
-      if (isset($workArray['originalFormat']) && ($workArray['originalFormat'] != '')) 
-        $formatDisplayString .= '<span class="datumDescription">. Originally recorded as </span>' . $workArray['originalFormat'] . '.';
-      $formatDisplayString .= '</div>' . PHP_EOL;
-      echo $formatDisplayString;
-//      echo PHP_EOL;
-      // display frame parameters: aspect ratio, anamorphic, & width & height (ABOVE)
-//      echo self::getFrameParametersDisplayElement2($workArray, true);
-      // vimeo publication info
-      echo self::getSimpleDataWithDescriptionLine('Vimeo Info', self::getVimeoInfoString($workArray) );
-      // work contributors
-      echo '<!-- display Contributor Information -->' . PHP_EOL;
-      $displayContributorsOnSeparateLines = true;
-//      echo self::getAllContributorDisplayLines($contributorsArray, $displayContributorsOnSeparateLines);
-      echo self::getContributorDisplayLines($contributorsArray, $displayContributorsOnSeparateLines);
-      // synopsis
-      echo '<div class="datumValue"><span class="datumDescription">Synopsis: </span>' . $workArray['synopsisOriginal'] . "</div>\r\n";
-      // web site
-      if ($workArray['webSite'] != '') echo self::getWebSiteDisplayLine($workArray['webSite'], $workArray['webSitePertainsTo']);
-      // previously shown at
-      if ($workArray['previouslyShownAt'] != '') 
-        echo '<div class="datumValue"><span class="datumDescription">Also shown at: </span>' . $workArray['previouslyShownAt'] . "</div>\r\n";
-      // photo location / photo URL // changed 3/24/14
-      $photoURLIsSet = (isset($workArray['photoURL']) && $workArray['photoURL'] != '');
-      $photosWebAddressDisplay = 'Not specified';
-      if ($photoURLIsSet) {
-        $photosWebAddressDisplay =  self::getWebAddressDisplayString($workArray['photoURL']);
-        echo '<div class="datumValue"><span class="datumDescription">Screen Snapshots web address: </span>' . $photosWebAddressDisplay . "</div>\r\n";
-      }
-      // photo credits
-      if ($workArray['photoCredits'] != '')
-      echo '<div class="datumValue"><span class="datumDescription">Photos by: </span>' . $workArray['photoCredits'] . "</div>\r\n";
-      // payment info
-      $pmtReceived = (isset($workArray['datePaid']) && ($workArray['datePaid'] != '') && ($workArray['datePaid'] != '0000-00-00'));
-      if ($pmtReceived) { 
-        $pmtString = self::getPaymentInfoDisplayString($workArray);
-        echo self::getSimpleDataWithDescriptionLine('Payment Information', $pmtString);
-      } else { // since the payment has not been received      
-        $works_title = (isset($workArray['title'])) ? $workArray['title'] : '';
-        $people_email = (isset($workArray['email'])) ? $workArray['email'] : '';
-        $people_firstName = (isset($workArray['nickName'])) ? $workArray['nickName'] : '';
-        $people_lastName = (isset($workArray['lastName'])) ? $workArray['lastName'] : '';
-//        $getVars = "works_title='" . $works_title . "'&amp;people_email='" . $people_email
-//                 . "'&amp;people_firstName='" . $people_firstName . "'&amp;people_lastName='" . $people_lastName . "'";
-        // 5/11/14 omitted addition of single quotes around the parameter value strings.
-        $getVars = "works_title=" . $works_title . "&amp;people_email=" . $people_email
-                 . "&amp;people_firstName=" . $people_firstName . "&amp;people_lastName=" . $people_lastName . "";  
-
-        $entryRequirementsInWindowFilename = 'entryRequirementsInWindow' . SSFRunTimeValues::getCurrentYearString() . '.php';
-        $PaymentInformation
-          = '<a class="dodeco" href="javascript:void(0)" onClick="entryRequirementsWindow=window.open(\'' . $entryRequirementsInWindowFilename . '#deadlines\','  
-          . '\'EntryRequirementsWindow\',\'directories=no,status=no,menubar=no,resizable=yes,scrollbars=yes,toolbar=no,top=50,width=650,height=640\',false);'
-          . 'entryRequirementsWindow.focus();">Payment Information</a>';
-
-        echo '<div class="datumValue"><span class="datumDescription">' . $PaymentInformation . ': </span>';
-        if ($workArray['howPaid'] == "paypal") 
-          echo '<a href="paypal/index.php?' . $getVars . '"><img src="images/logos/PayPal_mark_37x23.gif" ' .
-               'alt="Pay now via PayPal" title="Pay now via PayPal" style="border:none;margin:0;padding:0;vertical-align:middle;"></a> ' .
-               '(<a class="dodeco" href="paypal/index.php?' . $getVars . '">pay now</a>)<br>';
-        else if ($workArray['howPaid'] == "check") echo "Pay via check or money order in US Dollars sent via post.<br>";
-        else echo ucfirst($workArray['howPaid']);
-        echo "</div>\r\n";
-      }      
-      // release info
-      echo '<div class="datumValue"><span class="datumDescription highlightedTextColor">Release Information: </span>';
-      if (!isset($workArray['permissionsAtSubmission']) || ($workArray['permissionsAtSubmission'] == '')) $releaseInfo = 'None given.';
-      else {
-//        $releaseInfo = "You have certified that you hold all necessary rights for the submission of this entry and that you give Sans Souci "
-//                     . "Festival permission for screening this submission at the Festival Event in Boulder, Colorado USA on September 10 &amp; 11, 2010";
-        $releaseInfo = SSFRunTimeValues::getReleaseInfoStatementIntroString();
-//        if ($workArray['permissionsAtSubmission'] == "allOK2010")                                   // << TODO This should not be hard-coded ^^
-        if ($workArray['permissionsAtSubmission'] == SSFRunTimeValues::getPermissionAllOKString($workArray['callForEntries']))
-//          $releaseInfo .= " and also at all tours associated with the 2010-2011 Season in the US and elsewhere."; 
-          $releaseInfo .= SSFRunTimeValues::getReleaseInfoStatementAllOKString(); 
-//        else $releaseInfo .= ". As we make such arrangements, we may invite your work to each subsequent tour/venue separately so that you can respond to each individually.";
-        else $releaseInfo .= SSFRunTimeValues::getReleaseInfoStatementAskMeString();
-      }
-      echo $releaseInfo . "</div>\r\n";
-      // items for administrative completion
-        // titleForSort, designatedId, dateMediaReceived, datePaid, amtPaid, howPaid, checkOrPaypalNumber, webSitePertainsTo, photoLocation, photoURL
-    }
-    if (self::$showFunctionMarkers) echo "<!-- END displayWorkDetail -->\r\n";
-  }
-  
   public static function getTheWorkRows($works, $displayQuickNotes, $withEmailInfo=false) {
     // Display the list of works.
     $titleStyleString = "line-height:14px;padding-bottom:2px;border-bottom:1px #999 solid;background-color:#5a2940;vertical-align:top;";
@@ -2693,7 +2722,7 @@ class SSFQuickNoteX { // Apparently unused as of 4/11/15
       $htmlEmbed = '<a href="javascript:void(0)" onMouseOver="flyoverPopup(' . 
                     $text . ', ' . HTMLGen::simpleQuote('#ad000b') . ')"' .
                     ' onMouseOut="killFlyoverPopup()" onClick="window.alert(' . $text . ')">' .
-                    '<img src="images/helpIcon16.png" alt="HELP" ' .
+                    '<img src="http://sanssoucifest.org/images/helpIcon16.png" alt="HELP" ' .  // TODO Make this a relative reference once everything is converted to HTML5
                     'style="' . $floatString . 'padding:0px 8px;margin:0px 0px;border:none;text-align:center;position:relative;top:-1;' .
                     'vertical-align:middle;"></a>';
     }

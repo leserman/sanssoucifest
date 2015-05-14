@@ -46,7 +46,7 @@ class SSFCodeBase {
     if (self::$debug) { echo 'filePathArray '; print_r($filePathArray);  echo "<br>\r\n"; }
     $loopIndex = 0;
     foreach (array_reverse($filePathArray) as $element) { 
-      if (($element == 'sanssoucifest.org') || ($element == 'dev.sanssoucifest.org')) { 
+      if (($element == 'sanssoucifest.org') || ($element == 'dev.sanssoucifest.org') || ($element == 'old.sanssoucifest.org')) { 
         if (self::$debug) { echo 'loopIndex '; print_r($loopIndex);  echo "<br>\r\n"; } 
         break; 
       } else {

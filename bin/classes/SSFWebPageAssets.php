@@ -64,11 +64,9 @@ class SSFWebPageAssets {
 //    $navBarString .= self::$indent . '<div class="narBarArchiveSection">' . PHP_EOL;
     $navBarString .= self::$indent . '<div class="navBarArchiveSection">' . PHP_EOL;
 
-/*
     $navBarString .= self::$indent . '  <div><div class="navBarTitle1" style="color:#e49548;">Current Events</div> <!--  style="color:#FFACAC;" -->' . PHP_EOL;
-    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programRoxy2014-12.php">The Roxy</a></div>' . PHP_EOL;
+    $navBarString .= self::$indent . '    <div class="navBarTight"><a target="_top" href="./programPages/programTeesUK2015.php">Tees, UK</a></div>' . PHP_EOL;
     $navBarString .= self::$indent . '  </div>' . PHP_EOL;
-*/
 
     $navBarString .= self::$indent . '  <div><div class="navBarTitle2" style="color:#e49548;">Recent Events</div> <!--  style="color:#FFACAC;" -->' . PHP_EOL;
 //    $navBarString .= self::$indent . '    <div class="bodyTextOnBlack navBarTight" style="font-size:13px;padding-bottom:1px;">Boulder 2014</a></div>' . PHP_EOL;

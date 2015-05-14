@@ -11,6 +11,10 @@ class SSFInit {
   public static function getDbPW()         { if (self::initialized()) return self::$iniData['database']['dbpw']; else return $failureNotice; }
   public static function getDbSchemaName() { if (self::initialized()) return self::$iniData['database']['dbschemaname']; else return $failureNotice; }
   public static function getDbURL()        { if (self::initialized()) return self::$iniData['database']['dburl']; else return $failureNotice; }
+  
+  public static function getPpYourEmailAddr()         { if (self::initialized()) return self::$iniData['paypal']['ppYourEmailAddr']; else return $failureNotice; }
+  public static function getPpYourPrimaryEmailAddr()  { if (self::initialized()) return self::$iniData['paypal']['ppYourPrimaryEmailAddr']; else return $failureNotice; }
+  public static function getPpErrorLogFilename()  { if (self::initialized()) return self::$iniData['paypal']['ppErrorLogFilename']; else return $failureNotice; }
 
   private static function initialized() {
     if (is_null(self::$iniData)) {

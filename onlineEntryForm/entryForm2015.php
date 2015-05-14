@@ -19,7 +19,8 @@
   $eventDatesDescriptionStringLong = SSFRunTimeValues::getEventDatesDescriptionStringLong($associatedEventId);
 
   SSFEntryForm::$entryRequirementsInWindowFilename = 'onlineEntryForm/entryRequirementsInWindow' . $currentYearString . '.php';
-  SSFEntryForm::$formActionFileName = "onlineEntryForm/entryForm" . $currentYearString . ".php";
+  // TODO on next line 4/28/15: replace 'http://sanssoucifest.org/' with SSFWebPageParts::getHostName()
+  SSFEntryForm::$formActionFileName = "http://sanssoucifest.org/onlineEntryForm/entryForm" . $currentYearString . ".php"; 
   SSFEntryForm::$danceCinemaCallFilename = 'danceCinemaCall' . $currentYearString . '.php';
   $listManagementEmailAddress = SSFRunTimeValues::getListManagementEmailAddress();
  
